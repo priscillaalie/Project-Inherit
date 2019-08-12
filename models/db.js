@@ -7,8 +7,6 @@ const mongoose =  require('mongoose');
 const dbURI =
     "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true&w=majority";
 
-
-
 const options = {
     useNewUrlParser: true,
     dbName: "ProjectInheritDB"

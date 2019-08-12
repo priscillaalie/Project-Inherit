@@ -41,4 +41,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+// setting port
+const PORT = process.env.PORT || 3000;
+// app loading on server
+app.listen(PORT, function(){
+  console.log(`Express listening on port ${PORT}`);
+});
+
 module.exports = app;
