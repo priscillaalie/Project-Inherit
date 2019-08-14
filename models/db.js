@@ -1,11 +1,8 @@
 const mongoose =  require('mongoose');
 
-
-
-
 //copy from CONNECT (MongoDB Atlas)
 const dbURI =
-    "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true&w=majority";
+    "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
 
 const options = {
     useNewUrlParser: true,
@@ -14,11 +11,11 @@ const options = {
 
 mongoose.connect(dbURI, options).then(
     () => {
-        console.log("Database connection established!");
+        console.log("Database Connection Established!");
     },
     err => {
         console.log("Error connecting Database instance due to: ", err);
     }
 );
 
-// require('./users.js');
+require('./user.js');
