@@ -8,7 +8,7 @@ Project Inherit is a web application that will keep track of family artefacts to
 
 1. Sign Up/Login
 
-  New users can create an account, whilst existing ones will be able to sign in with their credentials. If a family has not been created yet, users will be able to create a group for their family and add/invite members.
+    New users can create an account, whilst existing ones will be able to sign in with their credentials. If a family has not been created yet, users will be able to create a group for their family and add/invite members.
 
 
 
