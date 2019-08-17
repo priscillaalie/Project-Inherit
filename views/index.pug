@@ -5,7 +5,7 @@ block css
     include ../public/stylesheets/index.css
 
 block content
-  nav.navbar.navbar-expand-lg.navbar-light.navbar-colour
+  nav.navbar.navbar-expand-lg.navbar-light.white-bg
     a.navbar-brand(href="/")
       img(src='https://i.ibb.co/cLht1v4/logo.png', width='200')
     button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarTogglerDemo03' aria-controls='navbarTogglerDemo03' aria-expanded='false' aria-label='Toggle navigation')
@@ -24,19 +24,28 @@ block content
 
 
   .jumbotron.jumbotron-fluid.greenery
-    .col
-    .col-xs-12.col-sm-10.col-lg-8.col-8.container.white
-      br
-      h2 The easiest way to
-      h2 keep up with the family
-      p.lead
-        | Track relatives and family antiques. Get back to your roots
-      p.lead
-        a.btn.btn-primary.btn-md(href="#" role="button") Sign up now
-    .col
-    br
-    br
-    br
+
+    .container
+      .row
+
+
+        .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white-transparent
+          br
+
+          h2 The easiest way to
+          h2 keep up with the family
+          br
+          h6.grey
+            | Track relatives and family antiques. Get back to your roots
+          br
+          p
+            a.btn.btn-outline-success.btn-md(href="#" role="button") Sign up now
+          br
+
+
+        .col.col-lg-3.col-xl-3
+
+
 
 
 
