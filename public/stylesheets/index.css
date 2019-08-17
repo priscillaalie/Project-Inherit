@@ -9,3 +9,17 @@
 .navbar-colour {
     background-color: white;
 }
+
+.white {
+    background-color: white;
+
+}
+
+.greenery {
+    background: url("https://images.unsplash.com/photo-1519567770579-c2fc5436bcf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
