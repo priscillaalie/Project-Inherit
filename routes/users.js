@@ -6,6 +6,7 @@ const UserController = require('../controllers/userController');
 
 
 /* GET users listing. */
+/*
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
@@ -17,6 +18,8 @@ router.get('/login', controller.fetchLogin);
 // create user
 router.post('/users', UserController.createUser)
 
+
+*/
 
 
 
