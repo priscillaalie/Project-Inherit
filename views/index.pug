@@ -1,5 +1,30 @@
 extends layout
 
+block css
+  style
+    include ../public/stylesheets/index.css
 block content
-  h1= title
-  p Welcome to #{title}
+  nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarTogglerDemo03' aria-controls='navbarTogglerDemo03' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarTogglerDemo03.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+        li.nav-item.active
+          a.nav-link(href='#')
+            | Inherit
+            span.sr-only (current)
+      ul.nav.navbar-nav.navbar-right
+        li.nav-item
+          a.nav-link(href='#') About us
+        li.nav-item
+          a.nav-link(href = '#') Log in
+
+  .jumbotron.jumbotron-fluid
+    .container
+      h2 The easiest way to
+      h2 keep up with the family
+      p.lead
+        | Track relatives and family antiques. Get back to your roots
+      p.lead
+        a.btn.btn-primary.btn-md(href="#" role="button") Sign up now
+
