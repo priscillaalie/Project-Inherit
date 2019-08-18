@@ -27,6 +27,7 @@
 .white-transparent {
     background-color: white;
     opacity: 0.7;
+    word-wrap: break-word;
 }
 
 #whitebgtext {
@@ -34,6 +35,12 @@
 }
 
 .grey {
-    color: dimgrey;
+    color: #262626;
 
 }
+
+.green {
+    color: #004d00;
+}
+
+
