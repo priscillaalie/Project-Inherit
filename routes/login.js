@@ -13,4 +13,11 @@ router.get('/login', function(req, res, next) {
 
 //router.get('/login', controllers.fetchLogin);
 
+//router.get('/', controllers.fetchIndex);
+
+
+//router.get('/login', controllers.fetchLogin);
+
 module.exports = router;
+
+

@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
 //router.get('/', controllers.fetchIndex);
 
 
-//router.get('/login', controllers.fetchLogin);
+router.get('/login', controllers.fetchLogin);
+router.get('/signup', controllers.fetchSignup);
 
 module.exports = router;

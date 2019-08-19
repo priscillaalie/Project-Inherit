@@ -1,5 +1,6 @@
 body {
-  padding: 50px;
+  padding-right: 30px;
+  padding-left: 30px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -12,6 +13,22 @@ h2 {
   background-color: white;
 }
 
-.Lato {
+.Noto {
   font-family: 'Noto Sans JP', sans-serif;
+}
+
+
+@font-face {
+  font-family: "handwrite";
+  src: url("../webfontkit-20190819-002319");
+  src: url("../webfontkit-20190819-002319/atmosphere-regular-webfont.woff") format("woff");
+
+}
+
+.handwrite {
+  font-family: 'handwrite', Arial, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 50px;
+  color: #666666;
 }
