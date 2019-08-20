@@ -2,6 +2,44 @@ doctype html
 html
   head
     title= title
+    block css
+    link(href="https://fonts.googleapis.com/css?family=Open+Sans:800&display=swap" rel="stylesheet")
+    link(rel="stylesheet",href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    link(rel='icon', type='image/png', href='https://i.ibb.co/bHJdZX2/output-onlinepngtools-3.png')
+    // https://i.ibb.co/dGxmkRz/output-onlinepngtools-2.png
+    //<a href="https://imgbb.com/"><img src="https://i.ibb.co/bHJdZX2/output-onlinepngtools-3.png" alt="output-onlinepngtools-3" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'>upload picture site</a><br />
+
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js")
+
+    script(src='https://unpkg.com/react@16.4.1/umd/react.production.min.js')
+    script(src='https://unpkg.com/react-dom@16.4.1/umd/react-dom.production.min.js')
+
+
+    style.
+      @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:700&display=swap');
+
+
+
   body
+    block navbar
+      nav.navbar.navbar-expand-lg.navbar-light.white-bg
+        a.navbar-brand(href="/")
+          img(src='https://i.ibb.co/cLht1v4/logo.png', width='200')
+        button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarTogglerDemo03' aria-controls='navbarTogglerDemo03' aria-expanded='false' aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarTogglerDemo03.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+            li.nav-item.active
+              a.nav-brand(href='#')
+
+          ul.nav.navbar-nav.navbar-right
+            li.nav-item
+              a.nav-link(href='#') About us
+            li.nav-item
+              a.nav-link(href = '/login') Log in
+
+
     block content
