@@ -34,7 +34,6 @@ block content
                             .valid-feedback
                                 | Looks good!
                     br
-
                     .form-row
                         .col
                             label(for='validationCustomEmail') Email
@@ -44,14 +43,18 @@ block content
                                 .invalid-feedback
                                     | Please choose a username.
                     br
-
                     .form-row
                         .col
                             label(for='inputPassword5') Password
                             input#inputPassword5.form-control(type='password' aria-describedby='passwordHelpBlock')
                             small#passwordHelpBlock.form-text.text-muted
                                 | Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-                    br
+                    .form-row
+                        .col
+                            input#pw2(type='password', onkeyup="checkPasswords();",
+                                placeholder='Retype Password*' name='confirmPassword',
+                                autocomplete='new-password', required)
+\                    br
 
                     .form-group
                         .form-check
@@ -66,19 +69,8 @@ block content
 
                 .text-center.mb-3
                     button.btn.blue-gradient.btn-block.btn-rounded.z-depth-1a(type='button') Sign in
-                |
-
-
-
 
                 br
-
-
-
-
-
-
-
 
     script.
         // Example starter JavaScript for disabling form submissions if there are invalid fields
