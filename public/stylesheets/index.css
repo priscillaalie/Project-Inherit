@@ -1,14 +1,5 @@
 
-.slidezone {
-    background-image: url(https://unsplash.com/photos/s-vhziQHngM);
-    background-position: 0% 50%;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
-
-
-.greenery {
+.item1 {
     background: url("https://images.unsplash.com/photo-1519567770579-c2fc5436bcf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), no-repeat center center fixed;
     background-size: cover;
     -webkit-background-size: cover;
@@ -17,30 +8,52 @@
     background-size: cover;
 }
 
-.thick {
-
-    border: none;
-    border-bottom: 1px white;
-
+.item2 {
+    background: url("https://images.unsplash.com/reserve/zU6fwmDaSVWZdCXcZfot_IMG_3838.JPG?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"), no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
+
+.item3 {
+    background: url("https://images.unsplash.com/photo-1563729305006-0e477dac5e71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"), no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
 
 .white-transparent {
     background-color: white;
     opacity: 0.7;
     word-wrap: break-word;
+    padding: 30px 30px 30px 30px
 }
 
-#whitebgtext {
-    background-color: white;
+
+.carousel-item {
+    height: 500px;
+    vertical-align: middle;
 }
 
-.grey {
-    color: #262626;
+@font-face {
+    font-family: "handwrite";
+    src: url("../webfontkit-20190819-002319");
+    src: url("../webfontkit-20190819-002319/atmosphere-regular-webfont.woff") format("woff");
 
 }
 
-.green {
-    color: #004d00;
+.handwrite {
+    font-family: 'handwrite', Arial, sans-serif;
+    font-weight: normal;
+    color: white;
+    font-size: 100px;
 }
+
 
 

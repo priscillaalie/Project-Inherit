@@ -8,35 +8,54 @@ block css
 
 block content
 
-  p hello
-  br
-  br
-  br
-  p hey
+    #carouselIndicators.carousel.slide(data-ride = "carousel")
+        ol.carousel-indicators
+            li.active(data-target = "#carouselIndicators" data-slide-to = "0")
+            li(data-target = "#carouselIndicators" data-slide-to = "1")
+            li(data-target = "#carouselIndicators" data-slide-to = "2")
+        .carousel-inner(role = "listbox")
+            .carousel-item.active.item1.text-center
+                .row.h-50
+                    .col
+                    .col.my-auto
+                        #title.handwrite
+                    .col
+                .row.h-25
+                    .col.white-transparent
+                        h1 The easiest way to keep up with the family
+                        h3 Track relatives and family antiques/treasures. Get back to your roots.
+                        br
+                        a#signupbtn.btn.btn-outline-dark.btn-lg(href = "#signup") Get Started
+            .carousel-item.item2.text-center
+                .row.h-30
+                    .col
+                        h1 hello
+                .row.h-40
+                    .col
+                        h1 Share memories and events with family
+                .row.h-30
+                    .col
+                        h1 hello
+            .carousel-item.item3
+                h1 hello
+        a.left.carousel-control(href='#carouselIndicators' role='button' data-slide='prev')
+            span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+            span.sr-only Previous
+        a.right.carousel-control(href='#carouselIndicators' role='button' data-slide='next')
+            span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+            span.sr-only Next
 
-  //.jumbotron.jumbotron-fluid.greenery.Noto
 
-    .container
-      .row
+    script.
+        window.onload = typeWriter;
+        var i = 0;
+        function typeWriter() {
 
-
-        .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white-transparent
-          br
-
-          h2.grey.Lato The easiest way to keep up with the family
-          br
-          h6.green
-            | Track relatives and family antiques/treasures. Get back to your roots
-          br
-          p
-            a.btn.btn-outline-success.btn-md(href="/signup" role="button") Sign up now
-          br
-
-
-        .col.col-lg-3.col-xl-3
-
-
-
-
-
-
+            var txt = 'Inherit';
+            var speed = 100;
+            if (i < txt.length) {
+                document.getElementById("title").innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        };
