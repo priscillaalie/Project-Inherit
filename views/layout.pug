@@ -17,30 +17,37 @@ html
     script(src='https://unpkg.com/react@16.4.1/umd/react.production.min.js')
     script(src='https://unpkg.com/react-dom@16.4.1/umd/react-dom.production.min.js')
 
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js")
+    script(src="https://use.fontawesome.com/releases/v5.0.8/js/all.js")
+    link(href="style.css" rel="stylesheet")
+    link(rel="stylesheet" href="https://m.w3newbie.com/you-tube.css")
+
 
     style.
       @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:700&display=swap');
       @import url('https://fonts.googleapis.com/css?family=Assistant:700|EB+Garamond&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Beth+Ellen&display=swap');
 
+
+  header
+
+    nav.navbar.navbar-expand-md.navbar-light.bg-light.fixed-top
+      a.navbar-brand(href = '/').Beth-Ellen Inherit
+      button.navbar-toggler(type = "button" data-toggle = "collapse" data-target = "#navbarResponsive")
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse#navbarResponsive
+        ul.navbar-nav.ml-auto
+          li.nav-item
+            a.nav-link(href = "#aboutus") About Us
+          li.nav-item
+            a.nav-link(href = "#login") Log in
 
 
   body
-    block navbar
-      nav.navbar.navbar-expand-lg.navbar-light.white-bg
-        a.navbar-brand(href="/")
-          img(src='https://i.ibb.co/cLht1v4/logo.png', width='200')
-        button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarTogglerDemo03' aria-controls='navbarTogglerDemo03' aria-expanded='false' aria-label='Toggle navigation')
-          span.navbar-toggler-icon
-        #navbarTogglerDemo03.collapse.navbar-collapse
-          ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-            li.nav-item.active
-              a.nav-brand(href='#')
-
-          ul.nav.navbar-nav.navbar-right
-            li.nav-item
-              a.nav-link(href='#') About us
-            li.nav-item
-              a.nav-link(href = '/login') Log in
 
 
     block content
