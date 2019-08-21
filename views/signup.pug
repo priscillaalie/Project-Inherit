@@ -9,7 +9,7 @@ block content
     .container(style={'background': 'url(https://images.unsplash.com/photo-1489644484856-f3ddc0adc923?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80) no-repeat center center fixed;', 'background-size': 'cover;'})
         .row
             .col-cs-12.col-sm-12.white.text-center
-                h2 Signup
+                h2.handwrite Signup
                 br
         .row
             .col
@@ -19,14 +19,6 @@ block content
             .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
                 br
                 form.needs-validation(novalidate='')
-                    .form-group
-                        label(for='exampleInputEmail1') Email address
-                        input#exampleInputEmail1.form-control(type='email' aria-describedby='emailHelp' placeholder='Enter email')
-                        small#emailHelp.form-text.text-muted We&apos;ll never share your email with anyone else.
-                    .form-group
-                        label(for='exampleInputPassword1') Password
-                        input#exampleInputPassword1.form-control(type='password' placeholder='Password')
-
                     .form-row
                         .col
                             label(for='validationCustom01') Name
@@ -36,10 +28,10 @@ block content
                     br
                     .form-row
                         .col
-                            label(for='validationCustomEmail') Email
+                            label(for='validationCustomUsername') Email
                             .input-group
 
-                                input#validationCustomEmail.form-control(type='text' placeholder='example@email.com' aria-describedby='inputGroupPrepend' required='')
+                                input#validationCustomUsername.form-control(type='text' placeholder='example@email.com' aria-describedby='inputGroupPrepend' required='')
                                 .invalid-feedback
                                     | Please choose a username.
                     br
