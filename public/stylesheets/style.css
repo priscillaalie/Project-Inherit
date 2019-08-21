@@ -1,7 +1,8 @@
 body {
   padding-right: 30px;
   padding-left: 30px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'EB Garamond', sans-serif;
+  font: 18px;
 }
 
 h2 {

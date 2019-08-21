@@ -19,6 +19,14 @@ block content
             .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
                 br
                 form.needs-validation(novalidate='')
+                    .form-group
+                        label(for='exampleInputEmail1') Email address
+                        input#exampleInputEmail1.form-control(type='email' aria-describedby='emailHelp' placeholder='Enter email')
+                        small#emailHelp.form-text.text-muted We&apos;ll never share your email with anyone else.
+                    .form-group
+                        label(for='exampleInputPassword1') Password
+                        input#exampleInputPassword1.form-control(type='password' placeholder='Password')
+
                     .form-row
                         .col
                             label(for='validationCustom01') Name
@@ -29,10 +37,10 @@ block content
 
                     .form-row
                         .col
-                            label(for='validationCustomUsername') Email
+                            label(for='validationCustomEmail') Email
                             .input-group
 
-                                input#validationCustomUsername.form-control(type='text' placeholder='example@email.com' aria-describedby='inputGroupPrepend' required='')
+                                input#validationCustomEmail.form-control(type='text' placeholder='example@email.com' aria-describedby='inputGroupPrepend' required='')
                                 .invalid-feedback
                                     | Please choose a username.
                     br
