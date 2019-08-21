@@ -18,11 +18,11 @@ block content
 
             .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
                 br
-                form.needs-validation(novalidate='')
+                form(method='POST' action = '/add').needs-validation(novalidate='')
                     .form-row
                         .col
                             label(for='validationCustom01') Name
-                            input#validationCustom01.form-control(type='text' placeholder='John Doe' value='' required='')
+                            input#validationCustom01.form-control(type='text' name = 'name' placeholder='John Doe' value='' required='')
                             .valid-feedback
                                 | Looks good!
                     br
@@ -31,14 +31,14 @@ block content
                             label(for='validationCustomUsername') Email
                             .input-group
 
-                                input#validationCustomUsername.form-control(type='text' placeholder='example@email.com' aria-describedby='inputGroupPrepend' required='')
+                                input#validationCustomUsername.form-control(type='text' name = 'email' placeholder='example@email.com' aria-describedby='inputGroupPrepend' required='')
                                 .invalid-feedback
                                     | Please choose a username.
                     br
                     .form-row
                         .col
                             label(for='inputPassword5') Password
-                            input#inputPassword5.form-control(type='password' aria-describedby='passwordHelpBlock')
+                            input#inputPassword5.form-control(type='password' name = 'password' aria-describedby='passwordHelpBlock')
                             small#passwordHelpBlock.form-text.text-muted
                                 | Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                     .form-row
@@ -46,7 +46,7 @@ block content
                             input#pw2(type='password', onkeyup="checkPasswords();",
                                 placeholder='Retype Password*' name='confirmPassword',
                                 autocomplete='new-password', required)
-\                    br
+                    br
 
                     .form-group
                         .form-check
