@@ -2,6 +2,7 @@ body {
   padding-right: 30px;
   padding-left: 30px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
 }
 
 h2 {
@@ -17,18 +18,19 @@ h2 {
   font-family: 'Noto Sans JP', sans-serif;
 }
 
+.Beth-Ellen {
+  font-family: 'Beth Ellen', cursive;
+  font-size: 40px;
+}
+
 
 @font-face {
   font-family: "handwrite";
   src: url("../webfontkit-20190819-002319");
   src: url("../webfontkit-20190819-002319/atmosphere-regular-webfont.woff") format("woff");
-
 }
 
-.handwrite {
-  font-family: 'handwrite', Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 50px;
-  color: #666666;
-}
+/*-- Navbar --
+
+
+
