@@ -22,8 +22,8 @@ var Signup = function (req,res) {
 };
 
 var AddUser = function (req,res) {
-	var myData = new User(req.body);
-	myData.save()
+	var data = new User(req.body);
+	data.save()
 		.then(item => {
 			res.send("User added to database!");
 			console.log(req.body);
