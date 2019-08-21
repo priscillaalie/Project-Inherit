@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser');
+var app = express()
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const controllers = require('../controllers/controllers.js');
 
@@ -13,6 +17,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/login', controllers.fetchLogin);
 router.get('/signup', controllers.fetchSignup);
-router.post('/login', controllers.fetchLogin);
+router.post('/add', controllers.addUser);
 
 module.exports = router;
