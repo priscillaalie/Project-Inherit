@@ -1,3 +1,8 @@
+/** CAROUSEL **/
+.carousel-item {
+    height: 500px;
+    vertical-align: middle;
+}
 
 .item1 {
     background: url("https://images.unsplash.com/photo-1519567770579-c2fc5436bcf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), no-repeat center center fixed;
@@ -9,7 +14,7 @@
 }
 
 .item2 {
-    background: url("https://images.unsplash.com/reserve/zU6fwmDaSVWZdCXcZfot_IMG_3838.JPG?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"), no-repeat center center fixed;
+    background: url("https://images.unsplash.com/photo-1508873881324-c92a3fc536ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"), no-repeat center center fixed;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -18,27 +23,15 @@
 }
 
 .item3 {
-    background: url("https://images.unsplash.com/photo-1563729305006-0e477dac5e71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"), no-repeat center center fixed;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background-image: linear-gradient(to top,lightskyblue 0%, deepskyblue 1%, lightskyblue 100%);
 }
-
-
+/** ITEM 1 **/
 
 .white-transparent {
     background-color: white;
     opacity: 0.7;
     word-wrap: break-word;
-    padding: 30px 30px 30px 30px
-}
-
-
-.carousel-item {
-    height: 500px;
-    vertical-align: middle;
+    padding: 30px 30px 30px 30px;
 }
 
 @font-face {
@@ -55,5 +48,51 @@
     font-size: 100px;
 }
 
+/** ITEM 2 **/
+.sp{
+    padding-top: 50px;
+    padding-bottom: 40px;
+}
+
+.icon {
+    width: 70% !important;
+    height: 70% !important;
+}
+
+.caption {
+    color: white;
+}
+
+/** ANIMATIONS **/
+
+.fade-in {
+    animation: fadeIn ease 1.5s;
+    -webkit-animation: fadeIn ease 1.5s;
+    -moz-animation: fadeIn ease 1.5s;
+    -o-animation: fadeIn ease 1.5s;
+    -ms-animation: fadeIn ease 1.5s;
+}
+
+
+@keyframes fadeIn{
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+
+/** ITEM 3 **/
 
 
