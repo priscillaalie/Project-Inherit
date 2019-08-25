@@ -9,7 +9,7 @@ block content
 
         .container.leaves(style={'background': 'url(https://images.unsplash.com/photo-1496776574435-bf184935f729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80) no-repeat center center fixed;', 'background-size': 'cover;'})
             .row
-                .col-cs-12.col-sm-12.white.text-center
+                .col.white.text-center
                     h2 Login
 
 
@@ -17,7 +17,6 @@ block content
 
             .row
                 .col
-                    //img(src='https://images.unsplash.com/photo-1496776574435-bf184935f729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80', style='width:100%;')
 
 
                 .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
@@ -35,32 +34,17 @@ block content
                             label.form-check-label(for='exampleCheck1') Check me out
 
                         br
-                        button.btn.btn-primary(type='submit') Login
+                        .container.text-center
+                            button.btn.btn-primary(type='submit') Login
 
+                    br
+                    br
+                    br
                     br
 
 
-                    .md-form
-                        input#Form-email1.form-control(type='text')
-                        |
-                        label(for='Form-email1') Your email
-                    |
-                    .md-form.pb-3
-                        input#Form-pass1.form-control(type='password')
-                        |
-                        label(for='Form-pass1') Your password
-                        |
-                        p.font-small.blue-text.d-flex.justify-content-end
-                            | Forgot
-                            a.blue-text.ml-1(href='#')
-                                | Password?
 
-                    |
-                    .text-center.mb-3
-                        button.btn.blue-gradient.btn-block.btn-rounded.z-depth-1a(type='button') Sign in
-                    |
 
-                    br
 
 
 
