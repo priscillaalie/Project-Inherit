@@ -14,8 +14,9 @@ router.get('/login', function(req, res, next) {
 //router.get('/login', controllers.fetchLogin);
 
 //router.get('/', controllers.fetchIndex);
-
-
+router.post('/login', function(req, res, next) {
+    res.render('login', { title: 'Project Inherit' });
+});
 //router.get('/login', controllers.fetchLogin);
 
 module.exports = router;
