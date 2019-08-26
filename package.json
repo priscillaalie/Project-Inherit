@@ -1,13 +1,22 @@
 {
   "name": "project-inherit",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/priscillaalie/Project-Inherit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/priscillaalie/Project-Inherit/issues"
+  },
+  "homepage": "https://github.com/priscillaalie/Project-Inherit#readme",
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
