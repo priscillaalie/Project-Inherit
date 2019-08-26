@@ -22,7 +22,7 @@ var fetchProfile = function (req,res) {
     res.render('profile.pug', {title: 'Signup'});
 };
 
-var AddUser = function (req,res) {
+var addUser = function (req,res) {
 	var data = new User(req.body);
 	data.save()
 		.then(item => {
@@ -41,6 +41,6 @@ module.exports = {
     fetchLogin,
     fetchSignup,
     fetchProfile,
-    AddUser
+    addUser
 }
 
