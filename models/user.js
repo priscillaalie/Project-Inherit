@@ -23,8 +23,8 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true,
         hash: String,
-    }
-
+    },
+    photo: String
 
 }, {timestamps: true});
 

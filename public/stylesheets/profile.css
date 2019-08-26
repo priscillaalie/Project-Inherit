@@ -1,0 +1,16 @@
+
+
+#profile{
+    background-color: pink;
+    height: 16vw;
+    width:16vw;
+    border-radius: 50%;
+}
+
+button:hover {
+    background-color: whitesmoke;
+}
+
+button {
+    width: 14vw;
+}

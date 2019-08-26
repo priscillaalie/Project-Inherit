@@ -1,0 +1,26 @@
+extends layout
+
+block css
+    style
+        include ../public/stylesheets/profile.css
+block content
+
+    div.jumbotron.header
+        .row.d-flex.justify-content-center
+            img#profile(alt = "Profile photo")
+        .row
+            .col.col-md-8.col-lg-8.col-xl-8
+                br
+            .col-md-2.col-lg-2.col-xl-2
+                //if statement if the user is already friends with the person
+                button.btn.btn-outline-dark Add to tree
+            .col-md-2.col-lg-2.col-xl-2
+                button.btn.btn-outline-dark Message
+        .row
+            .col-4
+                button.btn Posts
+            .col-4
+                button.btn Antiques
+            .col-4
+                button.btn Relationships
+
