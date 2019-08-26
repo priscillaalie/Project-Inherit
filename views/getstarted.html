@@ -19,4 +19,42 @@
       li.nav-item
         a.nav-link(href = '/login') Log in
 
---></body></html>
+--></body></html><style>#preview {
+    background-color: whitesmoke;
+    max-width: 30vw;
+    max-height:50vw;
+    min-width: 30vw;
+    min-height: 30vw;
+    border-radius: 10px;
+    border: 10px solid dimgrey;
+
+}
+
+#nextbtn{
+    margin-top: 13vw;
+    width: 30vw;
+    display: none;
+}
+
+#message{
+    display: none;
+    font-weight: bold;
+}
+</style><h1>Let's get started</h1><h3>Set up for profile so your family members can find you</h3><div class="jumbotron fade-in"><div class="row"><div class="col"><img id="preview"></div><div class="col"><p>Upload a profile picture</p><div class="row"><div class="col"><input type="file" onchange="previewFile()"><div class="row"><p id="message">Looking good!</p></div></div><!--i want an ajax function here for the user to then search friends--></div><div class="row"><div class="col"><a href="/profile/:id"><button class="btn btn-outline page-button" id="nextbtn" type="submit">Next</button></a></div></div></div></div></div><script>function previewFile() {
+    var preview = document.querySelector('img');
+    var file = document.querySelector('input[type=file]').files[0];
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function (e) {
+        preview.src = reader.result.toString();
+        document.getElementById('b64').value = e.target.result;
+    }, false);
+
+    if (file) {
+        reader.readAsDataURL(file);
+        document.getElementById('message').style.display = 'block';
+        document.getElementById('nextbtn').style.display = 'block';
+
+
+    }
+}</script>

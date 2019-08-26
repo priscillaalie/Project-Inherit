@@ -9,16 +9,17 @@ var  showIndex = function(req,res) {
     res.render('index', results);
 };
 
-module.exports = {
-    showIndex
-};
 
-var Login = function (req,res) {
+var fetchLogin = function (req,res) {
     res.render('login.pug', {title: 'Login'});
 };
 
-var Signup = function (req,res) {
+var fetchSignup = function (req,res) {
     res.render('signup.pug', {title: 'Signup'});
+};
+
+var fetchProfile = function (req,res) {
+    res.render('profile.pug', {title: 'Signup'});
 };
 
 var AddUser = function (req,res) {
@@ -34,6 +35,12 @@ var AddUser = function (req,res) {
 		});
 }
 
-module.exports.fetchLogin = Login;
-module.exports.fetchSignup = Signup;
-module.exports.addUser = AddUser;
+
+module.exports = {
+    showIndex,
+    fetchLogin,
+    fetchSignup,
+    fetchProfile,
+    AddUser
+}
+
