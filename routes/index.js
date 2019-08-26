@@ -1,5 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser');
+var app = express()
+var user = require('../models/user.js');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const controllers = require('../controllers/controllers.js');
 
@@ -13,5 +18,10 @@ router.get('/', function(req, res, next) {
 
 router.get('/login', controllers.fetchLogin);
 router.get('/signup', controllers.fetchSignup);
+router.get('/profile', controllers.fetchProfile);
+router.get('/getstarted',controllers.fetchIntro);
+
+router.post('/signup', controllers.createUser);
+
 
 module.exports = router;
