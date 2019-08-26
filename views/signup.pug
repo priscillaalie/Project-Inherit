@@ -9,7 +9,7 @@ block content
     .container(style={'background': 'url(https://images.unsplash.com/photo-1489644484856-f3ddc0adc923?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80) no-repeat center center fixed;', 'background-size': 'cover;'})
         .row
             .col-cs-12.col-sm-12.white.text-center
-                h2.handwrite Signup
+                h2.font-weight-bold Signup
                 br
         .row
             .col
@@ -21,9 +21,15 @@ block content
                     form(method='POST' action='./signup')
 
                         div.form-row
-                            label(for='fname') Name
+                            label(for='fname') First Name
                             input#fname.form-control(type='text', placeholder='Name*' name='fname', required)
                         br
+
+                        div.form-row
+                            label(for='lname') Family Name
+                            input#lname.form-control(type='text', placeholder='Name*' name='lname', required)
+                        br
+
                         div.form-row
                             label(for='email') Email
                             input#email.form-control(type='email', placeholder='Email Address*' name='email', required)
@@ -81,7 +87,7 @@ block content
                         br
                         .container.text-center
 
-                            button.btn.btn-primary.page-button#submit(type='submit') Submit form
+                            button.btn.btn-primary.page-button#submit(type='submit') Sign Up
 
                         //button#submit.pagebutton(type='submit') SIGN UP
 
