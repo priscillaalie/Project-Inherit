@@ -36,13 +36,29 @@ html
       div.collapse.navbar-collapse#navbarResponsive
         ul.navbar-nav.ml-auto
           li.nav-item
-            a.nav-link(href = "#aboutus") About Us
+            a.nav-link(href = "/about") About Us
           li.nav-item
-            a.nav-link(href = "/login") Log in
+            a.nav-link(href = "/login", id = "loginnav") Log in
+            //a.nav-link(href='/account', id = "accountnav") Account
+
+
+
+
+    script.
+      startApp();
+    script.
+      window.onload = login_test;
+      function login_test() {
+        if (sessionStorage.getItem("status") == "login") {
+          document.getElementById("accountnav").style.display = "block";
+          document.getElementById("loginnav").style.display = "none";
+          document.getElementById("accountnav").innerHTML = sessionStorage.getItem("username");
+          document.getElementById("accountnav").href = "/account/" + sessionStorage.getItem(("userid"));
+        }
+      }
 
 
   body
 
-
-
     block content
+

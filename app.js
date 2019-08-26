@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,6 +17,11 @@ const pug = require('pug');
 app.use(express.static('public' + '/'));
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'pug');
+
+// body Parser middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 app.use(logger('dev'));
 app.use(express.json());

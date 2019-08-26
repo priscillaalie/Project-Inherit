@@ -42,6 +42,68 @@ var addUser = function (req,res) {
 		});
 }
 
+var sendEmail = function(req,res) {
+
+
+    rand=Math.floor((Math.random() * 100) + 54);
+    host=req.get('host');
+    link="http://"+req.get('host')+"/verify?id="+rand;
+    mailOptions={
+        to : req.query.to,
+        subject : "Please confirm your Email account",
+        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+    }
+    console.log(mailOptions);
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        if(error){
+            console.log(error);
+            res.end("error");
+        }else{
+            console.log("Message sent: " + response.message);
+            res.end("sent");
+        }
+    });
+
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        host: 'mail.google.com',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: 'projectinherit28@gmail.com', // generated ethereal user
+            pass: 'iwant2commit' // generated ethereal password
+        },
+        tls: {
+            rejectUnauthorized:false
+        }
+    });
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+        from: '"Project Inherit" <projectinherit28@gmail.com>', // sender address
+        to: req.body.email, // list of receivers
+        subject: 'Confirm your Inherit Account', // Subject line
+        text: 'Hello world?', // plain text body
+        html: '<b>Hello world?</b>' // html body
+    });
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+        // Preview only available when sending through an Ethereal account
+        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+        // Preview URL:
+        res.render("signup", msg: 'Signup successful check email for confirmation')
+    });
+
+
+};
+
+
 var createUser = function(req,res){
     if (req.body.password.length < 8){
         var message = "Password must be more than 7 characters";

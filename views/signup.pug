@@ -18,9 +18,162 @@ block content
 
             .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
                 div.container-fluid.formzone
-                    form(method='POST' action='./signup')
+                    form(method='POST' action='send')
+
+                        {{msg}}
 
 
+                        div.form-group
+                            .row
+                                .col.col-lg-6.col-xl-6
+                                    label(for='fname') First Name
+                                    input#fname.form-control(type='text', placeholder='First Name*' name='fname', required)
+                                .col-lg-6.col-xl-6
+                                    label(for = 'lname') Surname
+                                    input#lname.form-control(type='text', placeholder='Surname*' name='lname', required)
+
+                        br
+                        div.form-group
+                            .row
+                                .col
+                                    label(for='email') Email
+                                    input#email.form-control(type='email', placeholder='Email Address*' name='email', required)
+
+                        br
+
+                        div.form-group
+                            .row
+                                .col.col-lg-6.col-xl-6
+                                    label(for='email') Date of Birth
+                                    input.form-control#dob(type='date', placeholder='22/07/2018' name='dob', max='2001-01-01', min='1930-01-01', required)
+                                .col-lg-6.col-xl-6
+                                    label(for = 'phone') Phone Number
+                                    input.form-control#phone(type='text', placeholder='Phone Number', name='phone')
+                        br
+
+                        div.form-group
+                            .row
+                                .col
+                                    label(for='pw') Password
+                                    input#pw.form-control(type='password', onkeyup="checkPasswords();",
+                                        placeholder='Password*' name='password', required)
+                        br
+                        div.form-group
+                            .row
+                                .col
+                                    label(for='pw2') Confirm Password
+                                    input#pw2.form-control(type='password', onkeyup="checkPasswords();",placeholder='Retype Password*' name='confirmPassword',
+                                        autocomplete='new-password', required)
+                        br
+                        .row
+                            .col
+                                p#pw_message(style="display: none; color: red; font-weight: bold;") Passwords do not match.
+
+                        br
+                        .form-group
+                            .row
+                                .col
+                                    .form-check
+                                        input#invalidCheck.form-check-input(type='checkbox' value='' required='')
+                                        label.form-check-label(for='invalidCheck')
+                                            | Agree to terms and conditions
+                                        .invalid-feedback
+                                            | You must agree before submitting.
+                        br
+                        .container.text-center
+
+
+                            button.btn.btn-primary.page-button#submit(type='submit' data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order" data-toggle='modal' data-target='#myModal') Sign Up
+
+
+
+
+                            // Modal Success Popup
+                            //#myModal.modal.fade.success-popup(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
+                                .modal-dialog.modal-sm(role='document')
+                                    .modal-content
+                                        .modal-header
+                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                span(aria-hidden='true') &times;
+                                            h4#myModalLabel.modal-title Thank You !
+                                        .modal-body.text-center
+                                            img(src='http://osmhotels.com//assets/check-true.jpg')
+                                            p.lead Contact form successfully submitted. Thank you, We will get back to you soon!
+                                            a.rd_more.btn.btn-default(href='index.php') Go to Home
+
+
+                        //button#submit.pagebutton(type='submit') SIGN UP
+
+
+                        //form.needs-validation(novalidate='')
+
+                            div.container-fluid.formzone
+                                form(method='POST' action='./signup')
+                                    div.form-group
+                                        input#fname(type='text', placeholder='First name*' name='fname', required)
+                                        input#lname(type='text', placeholder='Last name*' name='lname', required)
+
+                                    div.form-group
+                                        p.font-weight-bold Date of Birth
+                                        input#dob(type='date', placeholder='22/07/2018' name='dob', max='2001-01-01', min='1930-01-01', required)
+                                    div.form-group
+                                        input#address(type='text', placeholder='Address*' name='address',
+                                            pattern="[a-zA-Z0-9, ]+", title="Only alphanumeric characters", required)
+                                    div.form-group
+                                        select#state(type='text', placeholder='State*' name='state', required)
+                                            option NSW
+                                            option QLD
+                                            option SA
+                                            option TAS
+                                            option VIC
+                                            option WA
+                                        input#zip(type='text', placeholder='Zip Code*' name='zip', maxlength='4', required)
+                                        select#country(type='text', placeholder='Country*' name='country', required)
+                                            option Australia
+                                    div.form-group
+                                        input#phone(type='text', placeholder='Phone Number', name='phone')
+                                    div.form-group
+                                        input#email(type='email', placeholder='Email Address*' name='email', required)
+                                    div.form-group
+                                        input#pw(type='password', onkeyup="checkPasswords();",
+                                            placeholder='Password*' name='password', required)
+                                    div.form-group
+                                        input#pw2(type='password', onkeyup="checkPasswords();",
+                                            placeholder='Retype Password*' name='confirmPassword',
+                                            autocomplete='new-password', required)
+                                    p#pw_message(style="display: none; color: red; font-weight: bold;") Passwords do not match.
+
+
+
+
+                        //.form-row
+                            .col
+                                label(for='inputPassword5') Password
+                                input#inputPassword5.form-control(type='password' aria-describedby='passwordHelpBlock')
+                                small#passwordHelpBlock.form-text.text-muted
+                                    | Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                        br
+
+                        //.form-row
+                            .col
+                                label(for='inputPassword5') Password
+                                input#pw.form-control(type='password', onkeyup="checkPasswords();",
+                                    placeholder='Password*' name='password', required)
+                                small#passwordHelpBlock.form-text.text-muted
+                                    | Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+
+
+
+
+
+        script.
+            $('.btn').on('click', function () {
+                var $this = $(this);
+                $this.button('loading');
+                setTimeout(function () {
+                    $this.button('reset');
+                }, 8000);
+            });
 
 
 
