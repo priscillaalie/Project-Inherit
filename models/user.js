@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var crypto = require('crypto');
 
+const controllers = require('../controllers/controllers.js');
+
 // defining user schema
 var userSchema = new mongoose.Schema({
 
@@ -44,10 +46,23 @@ userSchema.methods.validPassword = function(password) {
 
 
 const User = mongoose.model('User', userSchema);
+
+
 var checkUser = function(req,res) {
+    // check if user exists
     User.countDocuments({'email': req.body.email}, function (err, count){ 
     if(count>0){
         console.log("user exists");
+        User.findOne({'email':req.body.email}, function (error, person) {
+            if (err) console.log(err);
+            if (req.body.password != person.password) {
+                res.send("Incorrect Password");
+            } else {
+                res.render('profile.pug', {title: 'Signup'});
+                //controllers.fetchLogin;
+            }
+            console.log(person.password);
+        });
     } else {
         console.log("user does not exist");
     }

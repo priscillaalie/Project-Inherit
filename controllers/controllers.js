@@ -35,6 +35,10 @@ var addUser = function (req,res) {
 		});
 }
 
+// Connect to the db
+const dbURI =
+    "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
+
 
 module.exports = {
     showIndex,
