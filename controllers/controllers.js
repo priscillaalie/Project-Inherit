@@ -44,26 +44,6 @@ var addUser = function (req,res) {
 
 var sendEmail = function(req,res) {
 
-
-    rand=Math.floor((Math.random() * 100) + 54);
-    host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+rand;
-    mailOptions={
-        to : req.query.to,
-        subject : "Please confirm your Email account",
-        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-    }
-    console.log(mailOptions);
-    smtpTransport.sendMail(mailOptions, function(error, response){
-        if(error){
-            console.log(error);
-            res.end("error");
-        }else{
-            console.log("Message sent: " + response.message);
-            res.end("sent");
-        }
-    });
-
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         host: 'mail.google.com',
@@ -79,12 +59,22 @@ var sendEmail = function(req,res) {
     });
 
     // send mail with defined transport object
+
+    mailOptions={
+        to : req.query.to,
+        subject : "Please confirm your Email account",
+    }
+    console.log(mailOptions);
+
     let info = await transporter.sendMail({
+        rand=Math.floor((Math.random() * 100) + 54);
+        host=req.get('host');
+        link="http://"+req.get('host')+"/verify?id="+rand;
         from: '"Project Inherit" <projectinherit28@gmail.com>', // sender address
         to: req.body.email, // list of receivers
         subject: 'Confirm your Inherit Account', // Subject line
         text: 'Hello world?', // plain text body
-        html: '<b>Hello world?</b>' // html body
+        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
     });
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -100,7 +90,29 @@ var sendEmail = function(req,res) {
         res.render("signup", msg: 'Signup successful check email for confirmation')
     });
 
+};
 
+
+var verifyEmail = function(req,res){
+    console.log(req.protocol+":/"+req.get('host'));
+    if((req.protocol+"://"+req.get('host'))==("http://"+host))
+    {
+        console.log("Domain is matched. Information is from Authentic email");
+        if(req.query.id==rand)
+        {
+            console.log("email is verified");
+            res.end("<h1>Email "+mailOptions.to+" is been Successfully verified");
+        }
+        else
+        {
+            console.log("email is not verified");
+            res.end("<h1>Bad Request</h1>");
+        }
+    }
+    else
+    {
+        res.end("<h1>Request is from unknown source");
+    }
 };
 
 
@@ -160,6 +172,8 @@ module.exports = {
     fetchProfile,
     fetchIntro,
     addUser,
+    sendEmail,
+    verifyEmail,
     createUser
 }
 

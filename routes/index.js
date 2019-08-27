@@ -20,6 +20,8 @@ router.get('/profile', controllers.fetchProfile);
 router.get('/getstarted',controllers.fetchIntro);
 
 router.post('/signup', controllers.createUser);
+router.get('/send', controllers.sendEmail);
+router.get('/verify', controllers.verifyEmail);
 
 
 module.exports = router;
