@@ -3,6 +3,7 @@ include layout.pug
 block css
     style
         include ../public/stylesheets/getstarted.css
+
 block content
     h1 Let's get started
     h3 Set up for profile so your family members can find you
@@ -41,8 +42,6 @@ block content
                 reader.readAsDataURL(file);
                 document.getElementById('message').style.display = 'block';
                 document.getElementById('nextbtn').style.display = 'block';
-
-
             }
         }
 

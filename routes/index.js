@@ -19,9 +19,9 @@ router.get('/signup', controllers.fetchSignup);
 router.get('/profile', controllers.fetchProfile);
 router.get('/getstarted',controllers.fetchIntro);
 
-router.post('/signup', controllers.createUser);
-router.get('/send', controllers.sendEmail);
-router.get('/verify', controllers.verifyEmail);
+router.post('/signup', controllers.createUser, controllers.emailSend);
+//router.post('/signup', controllers.emailSend);
+router.get('/verify', controllers.emailVerify);
 
 
 module.exports = router;

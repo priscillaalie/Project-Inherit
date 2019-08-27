@@ -1,0 +1,55 @@
+extends layout
+
+block css
+    style
+        include ../public/stylesheets/login.css
+
+
+block content
+
+    .container.leaves(style={'background': 'url(https://images.unsplash.com/photo-1496776574435-bf184935f729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80) no-repeat center center fixed;', 'background-size': 'cover;'})
+        .row
+            .col-xs-12.col-sm-12.white.text-center
+                h2.font-weight-bold Send It
+                p
+                    | Don't have an account?
+                    a(href='/signup')  Sign Up!
+
+        .row
+            .col
+
+
+            .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
+                br
+                form(method='POST' action = '/login')
+                    .form-group
+                        label(for='exampleInputEmail1') Email address
+                        input#exampleInputEmail1.form-control(type='email' name='email' aria-describedby='emailHelp' placeholder='Enter email')
+                        small#emailHelp.form-text.text-muted We&apos;ll never share your email with anyone else.
+                    .form-group
+                        label(for='exampleInputPassword1') Password
+                        input#exampleInputPassword1.form-control(type='password' name='password' placeholder='Password')
+                    .form-check
+                        input#exampleCheck1.form-check-input(type='checkbox')
+                        label.form-check-label(for='exampleCheck1') Check me out
+
+                    br
+                    .container.text-center
+                        button.btn.btn-primary(type='submit') Login
+
+                br
+                br
+                br
+                br
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const utils = require('./utils.js');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
+const nodemailer = require('nodemailer');
 
 
 const bcrypt = require('bcrypt');
@@ -27,7 +28,7 @@ var fetchProfile = function (req,res) {
 
 var fetchIntro = function(req,res) {
     res.render('getstarted.pug',{title: 'Get Started'})
-}
+};
 
 var addUser = function (req,res) {
 	var data = new User(req.body);
@@ -40,81 +41,67 @@ var addUser = function (req,res) {
 			res.status(400).send("Unable to add to database");
 			console.log(err);
 		});
-}
+};
 
-var sendEmail = function(req,res) {
 
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        host: 'mail.google.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: 'projectinherit28@gmail.com', // generated ethereal user
-            pass: 'iwant2commit' // generated ethereal password
-        },
-        tls: {
-            rejectUnauthorized:false
-        }
-    });
+var smtpTransport = nodemailer.createTransport({
+    host: 'mail.google.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'projectinherit28@gmail.com', // generated ethereal user
+        pass: 'iwant2commit' // generated ethereal password
+    },
+    tls: {
+        rejectUnauthorized:false
+    }
+});
 
-    // send mail with defined transport object
 
+var rand,mailOptions,host,link;
+
+var emailSend =function(req,res){
+    rand=Math.floor((Math.random() * 100) + 54);
+    host=req.get('host');
+    link="http://"+req.get('host')+"/verify?id="+rand;
     mailOptions={
         to : req.query.to,
         subject : "Please confirm your Email account",
+        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
     }
     console.log(mailOptions);
-
-    let info = await transporter.sendMail({
-        rand=Math.floor((Math.random() * 100) + 54);
-        host=req.get('host');
-        link="http://"+req.get('host')+"/verify?id="+rand;
-        from: '"Project Inherit" <projectinherit28@gmail.com>', // sender address
-        to: req.body.email, // list of receivers
-        subject: 'Confirm your Inherit Account', // Subject line
-        text: 'Hello world?', // plain text body
-        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-    });
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
+    smtpTransport.sendMail(mailOptions, function(error, response){
+        if(error){
+            console.log(error);
+            res.end("error");
+        }else{
+            console.log("Message sent: " + response.message);
+            var results = {title: 'Inherit', error: message};
+            res.render('send', results);
+            res.end("sent");
         }
-        console.log('Message sent: %s', info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-        // Preview only available when sending through an Ethereal account
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-        // Preview URL:
-        res.render("signup", msg: 'Signup successful check email for confirmation')
     });
 
 };
 
-
-var verifyEmail = function(req,res){
+var emailVerify = function(req,res){
     console.log(req.protocol+":/"+req.get('host'));
-    if((req.protocol+"://"+req.get('host'))==("http://"+host))
-    {
+    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
         console.log("Domain is matched. Information is from Authentic email");
-        if(req.query.id==rand)
-        {
+        if(req.query.id==rand){
             console.log("email is verified");
+            var results = {title: 'Inherit', error: message};
+            res.render('verify', results);
+
             res.end("<h1>Email "+mailOptions.to+" is been Successfully verified");
-        }
-        else
-        {
+        }else{
             console.log("email is not verified");
             res.end("<h1>Bad Request</h1>");
         }
-    }
-    else
-    {
+    }else{
         res.end("<h1>Request is from unknown source");
     }
 };
-
 
 var createUser = function(req,res){
     if (req.body.password.length < 8){
@@ -172,8 +159,10 @@ module.exports = {
     fetchProfile,
     fetchIntro,
     addUser,
-    sendEmail,
-    verifyEmail,
+    //sendEmail,
+    //verifyEmail,
+    emailSend,
+    emailVerify,
     createUser
 }
 
