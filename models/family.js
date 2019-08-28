@@ -8,7 +8,8 @@ var familySchema = new mongoose.Schema({
     },
     "artifacts": Array,
     "members": Array,
-    "photo": String,
+    "description": String,
+    "familyphoto": String,
 });
 
 const Family = mongoose.model('Family', familySchema);

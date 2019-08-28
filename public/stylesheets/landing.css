@@ -1,0 +1,14 @@
+#backgroundwelcome {
+    background: url(https://images.pexels.com/photos/2832045/pexels-photo-2832045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center fixed;
+    background-size: cover;
+    background-position: fixed;
+    border-radius: 10px;
+    border-color: white;
+    font-family: "Lato", sans-serif;
+}
+
+.textbackground {
+    color: darkgreen;
+    font-size: 20px;
+
+}
