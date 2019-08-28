@@ -19,3 +19,4 @@ mongoose.connect(dbURI, options).then(
 );
 
 require('./user.js');
+require('./family');
