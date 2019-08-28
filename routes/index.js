@@ -18,6 +18,8 @@ router.get('/login', controllers.fetchLogin);
 router.get('/signup', controllers.fetchSignup);
 router.get('/profile', controllers.fetchProfile);
 router.get('/getstarted',controllers.fetchIntro);
+router.get('/landing', controllers.fetchLanding);
+router.get('/family', controllers.fetchFamily);
 
 router.post('/signup', controllers.createUser, controllers.emailSend);
 //router.post('/signup', controllers.emailSend);

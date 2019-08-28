@@ -2,7 +2,7 @@ extends layout
 
 block css
     style
-        include ../public/stylesheets/landing.css
+        include ../public/stylesheets/family.css
 
 
 
@@ -26,6 +26,12 @@ block content
                 .col.vertical-menu
                     a(href='#', style="color:#666666;") Home
                     br
+                    a(href='/events',style="color:#666666;") Members
+                    br
+                    a(href='/events',style="color:#666666;") Timeline
+                    br
+                    a(href='/events',style="color:#666666;") Artefacts
+                    br
                     a(href='/events',style="color:#666666;") Events
                     br
                     a(href='/settings',style="color:#666666;") Settings
@@ -38,8 +44,10 @@ block content
                     .col-xs-12.col-sm-12#backgroundwelcome
                         br
                         br
-                        h3.text-center.white-transparent#welcometext
-                            span Welcome {user}
+
+                        button.collapsible Open Collapsible
+                        .content
+                            p Lorem ipsum...
                         br
                         br
                 .row
@@ -96,5 +104,21 @@ block content
                     document.getElementById('message').style.display = 'block';
                     document.getElementById('nextbtn').style.display = 'block';
                 }
+            }
+
+        script.
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.display === "block") {
+                        content.style.display = "none";
+                    } else {
+                        content.style.display = "block";
+                    }
+                });
             }
 

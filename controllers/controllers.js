@@ -30,6 +30,14 @@ var fetchIntro = function(req,res) {
     res.render('getstarted.pug',{title: 'Get Started'})
 };
 
+var fetchLanding = function(req,res) {
+    res.render('landing.pug', {title: 'Welcome Back'})
+};
+
+var fetchFamily = function(req,res) {
+    res.render('family.pug', {title: 'Family Page'})
+};
+
 var addUser = function (req,res) {
 	var data = new User(req.body);
 	data.save()
@@ -161,6 +169,8 @@ module.exports = {
     addUser,
     //sendEmail,
     //verifyEmail,
+    fetchLanding,
+    fetchFamily,
     emailSend,
     emailVerify,
     createUser
