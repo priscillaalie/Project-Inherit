@@ -5,13 +5,13 @@ block css
         include ../public/stylesheets/landing.css
 
 
+
 block content
     .container-fluid.fill-height
         .row
 
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;',
-                'border-right': '2px solid whitesmoke;'
+                'background-color': 'white;'
             })
                 nav#sidebar.fixed-left
 
@@ -19,21 +19,21 @@ block content
                     .sidebar-header
                         br
                         h5
-                            a(href='#', style="color:DimGray;") Your Account
+                            a(href='/landing', style="color:DimGray;") Your Account
                         hr.my-4
 
 
                 .col.vertical-menu
-                    a(href='#', style="color:darkgreen;") Home
+                    a(href='#', style="color:#666666;") Home
                     br
                     br
-                    a(href='/savedrecipes',style="color:darkgreen;") Saved Recipes
+                    a(href='/events',style="color:#666666;") Events
                     br
                     br
-                    a(href='/ingredients',style="color:darkgreen;") Ingredient List
+                    a(href='/settings',style="color:#666666;") Settings
                     br
                     br
-                    a(href='/logout',style="color:darkgreen;") Log Out
+                    a(href='/logout',style="color:#666666;") Log Out
                     br
                     br
             .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
@@ -41,10 +41,8 @@ block content
                     .col-xs-12.col-sm-12#backgroundwelcome
                         br
                         br
-                        br
-                        h3.text-center#welcometext(style="color: darkgreen;")
+                        h3.text-center.white-transparent#welcometext
                             span Welcome {user}
-                        br
                         br
                         br
                 .row
@@ -53,11 +51,6 @@ block content
 
                         #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                             form(method='POST' action='/family')
-
-                                div.form-group
-                                    .row
-                                        .col
-
 
 
                             .modal-dialog(role='document')
@@ -75,12 +68,36 @@ block content
                                             .input-group
                                                 textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
                                         .md-form.mb-5
-                                            p Upload Image
+                                            p.font-weight-bold Upload Image (optional)
+                                            img#preview(src=file)
+                                            input#pad( type='file' onchange='previewFile()' name = 'photoinput')
+                                            p#message Looking good!
+
                                     .modal-footer.d-flex.justify-content-center
                                         button.btn.btn-primary(type='submit') Create Family
+                        br
                         .text-center
 
                             a.btn.btn-default.btn-rounded.mb-4(href='' data-toggle='modal' data-target='#modalRegisterForm')
-                                | Launch
-                                | Modal Register Form
+                                | Create Family Group
+
+
+
+        script.
+            function previewFile() {
+                var preview = document.querySelector('img');
+                var file = document.querySelector('input[type=file]').files[0];
+                var reader = new FileReader();
+
+                reader.addEventListener("load", function (e) {
+                    preview.src = reader.result.toString();
+                    document.getElementById('b64').value = e.target.result;
+                }, false);
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                    document.getElementById('message').style.display = 'block';
+                    document.getElementById('nextbtn').style.display = 'block';
+                }
+            }
 

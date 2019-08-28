@@ -2,13 +2,37 @@
     background: url(https://images.pexels.com/photos/2832045/pexels-photo-2832045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center fixed;
     background-size: cover;
     background-position: fixed;
-    border-radius: 10px;
+    padding: 0px 0px 0px 0px;
     border-color: white;
     font-family: "Lato", sans-serif;
 }
 
 .textbackground {
-    color: darkgreen;
+    color: whitesmoke;
     font-size: 20px;
 
 }
+
+#preview {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:20vw;
+    min-width: 5vw;
+    min-height: 5vw;
+    border-radius: 3px;
+    border: 3px solid dimgrey;
+
+}
+
+.white-transparent {
+    background-color: white;
+    opacity: 0.7;
+    word-wrap: break-word;
+    padding: 20px 0px 20px 0px;
+}
+
+#pad {
+    padding-left: 30px;
+}
+
+
