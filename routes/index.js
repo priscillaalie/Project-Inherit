@@ -19,8 +19,9 @@ router.get('/', function(req, res, next) {
 router.get('/login', controllers.fetchLogin);
 router.get('/signup', controllers.fetchSignup);
 router.get('/profile', controllers.fetchProfile);
+router.get('/getstarted', controllers.fetchIntro);
 
-router.post('/add', controllers.addUser);
-router.post('/login', user.checkUser);
+router.post('/signup', controllers.createUser);
+router.post('/login', controllers.checkUser);
 
 module.exports = router;
