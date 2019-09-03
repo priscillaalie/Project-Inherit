@@ -14,8 +14,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Project Inherit' });
 });
 
-//router.get('/', controllers.fetchIndex);
-
 
 router.get('/login', controllers.fetchLogin);
 router.get('/signup', controllers.fetchSignup);
@@ -25,6 +23,10 @@ router.get('/home', controllers.fetchHomepage);
 
 router.post('/signup', controllers.createUser);
 router.post('/login', controllers.checkUser);
+router.get("/logout", function(req, res){
+  res.cookie('sessionId', '');
+  res.redirect('/');
+});
 
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
