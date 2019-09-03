@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
+const Group = require('../models/familygroups');
 const utils = require('./utils.js');
 var express = require('express');
 var app = express();
@@ -24,25 +25,33 @@ var fetchSignup = function (req,res) {
 };
 
 var fetchProfile = function (req,res) {
-    res.render('profile.pug', {title: 'Signup'});
+    res.render('profile.pug', {title: 'Profile'});
 };
 
 var fetchIntro = function(req,res) {
     res.render('getstarted.pug',{title: 'Get Started'})
 };
 
-var addUser = function (req,res) {
-	var data = new User(req.body);
-	data.save()
-		.then(item => {
-			res.send("User added to database!");
-			console.log(req.body);
-		})
-		.catch(err => {
-			res.status(400).send("Unable to add to database");
-			console.log(err);
-		});
-}
+var fetchHomepage = function(req, res) {
+    //find all categories
+    Group.find(function(err,familygroups){
+        if(!err){
+            if (req.cookies.sessionId){
+                User.findOne({sessionId:req.cookies.sessionId},function(err,user){
+                    var results = {title: 'Inherit', 'familygroups': familygroups,
+                        session: req.cookies.sessionId, name: user.fname};
+                    res.render('homepage.pug', results);
+                })
+            } else {
+                var results = {title: 'Inherit'};
+                res.render('homepage.pug', results);
+            }
+
+        }else{
+            res.sendStatus(404);
+        }
+    }).sort({"created":-1});
+};
 
 var createUser = function(req,res){
     if (req.body.password.length < 8){
@@ -92,24 +101,36 @@ var createUser = function(req,res){
     }
 };
 
-var checkUser = function(req,res) {
-    // check if user exists
-    User.countDocuments({'email': req.body.email}, function (err, count){ 
-    if(count>0){
-        //let hash = bcrypt.hash(req.body.password, saltRounds);
-        User.findOne({'email':req.body.email}, function (error, person) {
-            if (err) console.log(err);
-            if (bcrypt.compareSync(person.password, req.body.password)) {
-                res.send("Incorrect Password");
+var checkUser = function(req, res) {
+    password = req.body.password
+    User.find({'email': req.body.email},function(err,user){
+        if(!err){
+            if (user.length != 1) {
+                var message = "Incorrect email or password. Please try again.";
+                var results = {title: 'Inherit', error: message}
+                res.render('login.pug', results);
             } else {
-                fetchProfile(req, res);
+                bcrypt.compare(password, user[0].password, function (err, same){
+                    if (same) {
+                        let sidrequest = utils.generate_unique_sid();
+                        sidrequest.then(function (sid) {
+                            user[0].sessionId = sid;
+                            user[0].save();
+                            res.cookie("sessionId", sid).redirect("/home");
+                        });
+                    } else {
+                        var message = "Incorrect email or password. Please try again.";
+                        var results = {title: 'Inherit', error: message}
+                        res.render('login.pug', results);
+                    }
+                });
             }
-        });
-    } else {
-        console.log("user does not exist");
-    }
-}); 
-}
+        }else{
+            // Redirect back to login with server error bubble
+            res.sendStatus(500);
+        }
+    });
+};
 
 // Connect to the db
 const dbURI =
@@ -122,7 +143,7 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
-    addUser,
+    fetchHomepage,
     checkUser,
     createUser
 }
