@@ -21,6 +21,9 @@ router.get('/signup', controllers.fetchSignup);
 router.get('/profile', controllers.fetchProfile);
 router.get('/getstarted', controllers.fetchIntro);
 
+router.get('/send', controllers.send);
+router.get('/verify', controllers.verify);
+
 router.post('/signup', controllers.createUser);
 router.post('/login', controllers.checkUser);
 

@@ -4,6 +4,7 @@ const User = require('../models/user');
 const utils = require('./utils.js');
 var express = require('express');
 var app = express();
+var nodemailer = require("nodemailer");
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -31,19 +32,6 @@ var fetchIntro = function(req,res) {
     res.render('getstarted.pug',{title: 'Get Started'})
 };
 
-var addUser = function (req,res) {
-	var data = new User(req.body);
-	data.save()
-		.then(item => {
-			res.send("User added to database!");
-			console.log(req.body);
-		})
-		.catch(err => {
-			res.status(400).send("Unable to add to database");
-			console.log(err);
-		});
-}
-
 var createUser = function(req,res){
     if (req.body.password.length < 8){
         var message = "Password must be more than 7 characters";
@@ -60,7 +48,8 @@ var createUser = function(req,res){
                 "birthday":req.body.birthday,
                 "photo":req.body.photo,
                 "phone":req.body.phone,
-                "password":hash
+                "password":hash,
+                "verified":false
             });
             // Check if the email already exists
             User.find({email: req.body.email}, function(err, users){
@@ -77,6 +66,7 @@ var createUser = function(req,res){
                             if(!err){
                                 //if there are no errors, show the new user
                                 fetchIntro(req,res)
+                                send(req,res);
                                 console.log("user added to database");
                             }else{
                                 res.sendStatus(400);
@@ -98,7 +88,7 @@ var checkUser = function(req,res) {
     if(count>0){
         //let hash = bcrypt.hash(req.body.password, saltRounds);
         User.findOne({'email':req.body.email}, function (error, person) {
-            if (err) console.log(err);
+            if (error) console.log(error);
             if (bcrypt.compareSync(person.password, req.body.password)) {
                 res.send("Incorrect Password");
             } else {
@@ -111,10 +101,61 @@ var checkUser = function(req,res) {
 }); 
 }
 
-// Connect to the db
-const dbURI =
-    "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
 
+var smtpTransport = nodemailer.createTransport({
+	service: "Gmail",
+	auth: {
+		user: "projectinherit28@gmail.com",
+		pass: "iwant2commit"
+	}
+})
+var rand, mailOptions, host, link;
+
+var send = function(req,res) {
+    rand=Math.floor((Math.random() * 100) + 54);
+    host=req.get('host');
+    link="http://"+req.get('host')+"/verify?id="+rand;
+    mailOptions={
+        to : req.body.email,
+        subject : "Please confirm your email account",
+        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
+    }
+    console.log(mailOptions);
+    smtpTransport.sendMail(mailOptions, function(error, response){
+    if(error){
+        console.log(error);
+    }else{
+        console.log("Email sent to " + req.body.email);
+        }
+});
+};
+
+var verify = function(req, res) {
+	console.log(req.protocol+":/"+req.get('host'));
+	if((req.protocol+"://"+req.get('host'))==("http://"+host))
+	{
+	    console.log("Domain is matched. Information is from Authentic email");
+	    if(req.query.id==rand)
+	    {
+	        console.log("email is verified");
+	        res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
+	        // change verified to true
+	        User.findOne({'email':req.body.email}, function (error, person) {
+	            if (error) console.log(error);
+	            person.verified = true;
+	        })
+	    }
+	    else
+	    {
+	        console.log("email is not verified");
+	        res.end("<h1>Bad Request</h1>");
+	    }
+	}
+	else
+	{
+	    res.end("<h1>Request is from unknown source");
+	};
+};
 
 module.exports = {
     showIndex,
@@ -122,8 +163,9 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
-    addUser,
     checkUser,
+    send,
+    verify,
     createUser
 }
 
