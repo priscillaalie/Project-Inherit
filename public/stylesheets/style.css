@@ -1,13 +1,11 @@
 body {
   margin: 30px 30px 0px 30px;
-  padding: 50px 30px 0px 30px;
-  font-family: 'EB Garamond', sans-serif;
-
+  padding: 70px 30px 0px 30px;
+  font-family: 'Palatino', sans-serif;
 }
 
 h2 {
-  color: #000046;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Merriweather', sans-serif;
 }
 
 .white-bg {
@@ -15,14 +13,14 @@ h2 {
 }
 
 #navtop {
-  background-color: white;
-  margin: 0px 20px 0px 20px;
-
+  background-color: whitesmoke;
+  padding: 0px 30px 0px 30px;
 }
 
 .Noto {
   font-family: 'Noto Sans JP', sans-serif;
 }
+
 
 
 @font-face {
@@ -40,113 +38,29 @@ h2 {
   color: #666666;
 }
 
-
-/*
-####################################################
-M E D I A  Q U E R I E S
-####################################################
-*/
-
-/*
-::::::::::::::::::::::::::::::::::::::::::::::::::::
-Bootstrap 4 breakpoints
-*/
-/* Small devices (landscape phones, 544px and up) */
-@media (max-width: 600px) {
-  .class-name {font-size: 16px;}
-
-  h1 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 18px;
-  }
-  h2 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 15x;
-  }
-
-  h3 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 12px;
-  }
-
-  h4 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 14px;
-  }
-
-  p {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 12px;
-  }
+.headergrey {
+  font-color: #666666;
+  color: #666666;
 }
 
-
-
-
-/* Medium devices (tablets, 768px and up) */
-@media (max-width: 991px) {
-  .class-name {font-size: 30px;}
-
-  h1 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 15px;
-  }
-  h2 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 22x;
-  }
-
-  h3 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 20px;
-  }
-
-  h4 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 14px;
-  }
-
-  p {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 14px;
-  }
-
+a {
+  color: #666666;
 }
 
-/* Large devices (desktops, 992px and up) */
-@media (max-width: 1199px) {
-  .class-name {
-    font-size: 40px;
-  }
-  h1 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 30px;
-  }
-  h2 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 28x;
-  }
-
-
-  h3 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 26px;
-  }
-
-  h4 {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 20px;
-  }
-
-  p {
-    font-family: 'EB Garamond', sans-serif;
-    font-size: 18px;
-  }
+/* Grow */
+.hvr-grow {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  transition-duration: 0.3s;
+  transition-property: transform;
 }
 
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-  .class-name {font-size: 48px;}
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+  transform: scale(1.1);
 }
-
-/*
