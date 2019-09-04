@@ -37,9 +37,9 @@ var fetchHomepage = function(req, res) {
     Group.find(function(err,familygroups){
         if(!err){
             if (req.cookies.sessionId){
-                User.findOne({sessionId:req.cookies.sessionId},function(err,user){
+                User.findOne({'sessionId':req.cookies.sessionId},function(err,user){
                     var results = {title: 'Inherit', 'familygroups': familygroups,
-                        session: req.cookies.sessionId, name: user.fname};
+                        'session': req.cookies.sessionId, 'name': user.fname};
                     res.render('homepage.pug', results);
                 })
             } else {
