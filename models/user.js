@@ -25,7 +25,8 @@ var userSchema = new mongoose.Schema({
     "phone": Number,
     "password": String,
     "sessionId": String,
-    "artifacts": Array
+    "artifacts": Array,
+    "verified": Boolean
 });
 
 userSchema.plugin(uniqueValidator, {message: 'is already taken.'});
