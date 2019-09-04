@@ -124,9 +124,7 @@ var send = function(req,res) {
     smtpTransport.sendMail(mailOptions, function(error, response){
     if(error){
         console.log(error);
-    }else{
-        console.log("Email sent to " + req.body.email);
-        }
+    }
 });
 };
 
@@ -140,9 +138,11 @@ var verify = function(req, res) {
 	        console.log("email is verified");
 	        res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
 	        // change verified to true
-	        User.findOne({'email':req.body.email}, function (error, person) {
+	        User.findOne({'email':mailOptions.to}, function (error, person) {
 	            if (error) console.log(error);
+	            console.log(mailOptions.to);
 	            person.verified = true;
+	            person.save();
 	        })
 	    }
 	    else
