@@ -1,3 +1,4 @@
+
 /*
 ####################################################
 M E D I A  Q U E R I E S
@@ -17,6 +18,7 @@ Bootstrap 4 breakpoints
     h2 {
         font-family: 'EB Garamond', sans-serif;
         font-size: 15px;
+
     }
 
     h3 {
@@ -60,10 +62,33 @@ Bootstrap 4 breakpoints
         font-family: 'EB Garamond', sans-serif;
         font-size: 12px;
     }
+
 }
 
+/* Large devices (desktops, 992px and up) */
+@media (max-width: 1199px) {
+    .class-name {
+        font-size: 40px;
+    }
+    h1 {
+        font-family: 'EB Garamond', sans-serif;
+        font-size: 30px;
+    }
+    h2 {
+        font-family: 'EB Garamond', sans-serif;
+        font-size: 28x;
+    }
 
 
+    h3 {
+        font-family: 'EB Garamond', sans-serif;
+        font-size: 26px;
+    }
+
+    h4 {
+        font-family: 'EB Garamond', sans-serif;
+        font-size: 20px;
+    }
 
 /* Medium devices (tablets, 768px and up) */
 @media (max-width: 991px) {

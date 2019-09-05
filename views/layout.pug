@@ -36,6 +36,7 @@ html
 
       div.collapse.navbar-collapse#navbarResponsive
         ul.navbar-nav.ml-auto
+
           if (session)
             li.nav-item
               a.nav-link(href = "/profile") Profile
@@ -46,6 +47,13 @@ html
               a.nav-link(href = "/login") Log in
 
 
+
   body
 
     block content
+
+    block footer
+      br
+      hr
+      p.text-center Copyright (c) Project Inherit
+

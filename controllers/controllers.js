@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const utils = require('./utils.js');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
 const Group = require('../models/familygroups');
@@ -9,6 +10,7 @@ var nodemailer = require("nodemailer");
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
 
 
 var  showIndex = function(req,res) {
@@ -33,6 +35,7 @@ var fetchIntro = function(req,res) {
     res.render('getstarted.pug',{title: 'Get Started'})
 };
 
+
 var fetchHomepage = function(req, res) {
     //find all categories
     Group.find(function(err,familygroups){
@@ -52,6 +55,7 @@ var fetchHomepage = function(req, res) {
             res.sendStatus(404);
         }
     }).sort({"created":-1});
+
 };
 
 
@@ -199,10 +203,12 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
+
     fetchHomepage,
     checkUser,
     send,
     verify,
+
     createUser
 }
 

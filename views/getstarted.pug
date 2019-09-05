@@ -3,26 +3,28 @@ include layout.pug
 block css
     style
         include ../public/stylesheets/getstarted.css
+
 block content
     h1 Let's get started
     h3 Set up for profile so your family members can find you
     .jumbotron.fade-in
-        .row
-            .col
-                img#preview(src=file)
-            .col
-                p Upload a profile picture
-                .row
-                    .col
-                        input( type='file' onchange='previewFile()')
-                        .row
-                            p#message Looking good!
+        form(method='POST' action='./getstarted')
+            .row
+                .col
+                    img#preview(src=file)
+                .col
+                    p Upload a profile picture
+                    .row
+                        .col
+                            input( type='file' onchange='previewFile()' name = 'photoinput')
+                            .row
+                                p#message Looking good!
 
-                    //i want an ajax function here for the user to then search friends
-                .row
-                    .col
-                        a(href = '/profile/:id')
-                            button.btn.btn-outline.page-button#nextbtn(type='submit') Next
+                        //i want an ajax function here for the user to then search friends
+                    .row
+                        .col
+                            a(href = '/profile/:id')
+                                button.btn.btn-outline.page-button#nextbtn(type='submit') Next
 
 
     script.
@@ -40,8 +42,6 @@ block content
                 reader.readAsDataURL(file);
                 document.getElementById('message').style.display = 'block';
                 document.getElementById('nextbtn').style.display = 'block';
-
-
             }
         }
 

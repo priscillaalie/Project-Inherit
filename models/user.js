@@ -25,8 +25,10 @@ var userSchema = new mongoose.Schema({
     "phone": Number,
     "password": String,
     "sessionId": String,
+
     "artifacts": Array,
     "verified": Boolean
+
 });
 
 userSchema.plugin(uniqueValidator, {message: 'is already taken.'});
@@ -47,4 +49,6 @@ userSchema.methods.validPassword = function(password) {
 const User = mongoose.model('User', userSchema);
 
 
+
 module.exports = User;
+
