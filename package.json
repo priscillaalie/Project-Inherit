@@ -1,14 +1,31 @@
+
 {
   "name": "project-inherit",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node Project-Inherit/app.js"
+  "version": "1.0.0",
+  "engines": {
+    "node": "11.12.0"
   },
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/priscillaalie/Project-Inherit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/priscillaalie/Project-Inherit/issues"
+  },
+  "homepage": "https://github.com/priscillaalie/Project-Inherit#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
+    "darwin": "0.0.5",
     "debug": "~2.6.9",
     "expo-cli": "^3.0.9",
     "express": "^4.16.4",
@@ -17,6 +34,7 @@
     "mongoose": "^5.6.9",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "~1.9.1",
+    "nodemailer": "^6.3.0",
     "nodemon": "^1.19.1",
     "pug": "2.0.0-beta11",
     "react-animations": "^1.0.0",
