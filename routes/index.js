@@ -20,6 +20,7 @@ router.get('/signup', controllers.fetchSignup);
 router.get('/profile', controllers.fetchProfile);
 router.get('/getstarted', controllers.fetchIntro);
 router.get('/home', controllers.fetchHomepage);
+router.get('/settings',controllers.fetchSettings);
 
 router.post('/signup', controllers.createUser);
 router.post('/login', controllers.checkUser);

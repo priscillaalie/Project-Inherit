@@ -50,7 +50,6 @@ block content
                             .card(style='width: 15rem; height: 15rem;')
                                 #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                     form(method='POST' action='/create')
-                                    .modal-dialog(role='document')
                                         .modal-content
                                             .modal-header.text-center
                                                 h4.modal-title.w-100.font-weight-bold Create a Family
@@ -71,7 +70,6 @@ block content
                                                     p#message Looking good!
 
                                             .modal-footer.d-flex.justify-content-center
-                                                a(href = '/home')
                                                     button.btn.btn-primary(type='submit') Create Family
 
                                 br
