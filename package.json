@@ -24,6 +24,7 @@
     "bcrypt": "^3.0.6",
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
+    "darwin": "0.0.5",
     "debug": "~2.6.9",
     "expo-cli": "^3.0.9",
     "express": "^4.16.4",
