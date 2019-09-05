@@ -1,159 +1,174 @@
 
-/*
-####################################################
-M E D I A  Q U E R I E S
-####################################################
-*/
 
-/*
-::::::::::::::::::::::::::::::::::::::::::::::::::::
-Bootstrap 4 breakpoints
-*/
-/* Small devices (landscape phones, 544px and up) */
-@media (max-width: 500px) {
+
+
+
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+    /* Styles */
     h1 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 18px;
-    }
-    h2 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 15px;
-
-    }
-
-    h3 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 12px;
-    }
-
-    h4 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 14px;
-    }
-
-    p {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 12px;
-    }
-}
-
-
-@media (max-width: 600px) {
-    h1 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 18px;
-    }
-    h2 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 15x;
-    }
-
-    h3 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 12px;
-    }
-
-    h4 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 14px;
-    }
-
-    p {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 12px;
-    }
-
-}
-
-/* Large devices (desktops, 992px and up) */
-@media (max-width: 1199px) {
-    .class-name {
-        font-size: 40px;
-    }
-    h1 {
-        font-family: 'EB Garamond', sans-serif;
         font-size: 30px;
-    }
-    h2 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 28x;
+
     }
 
+    h2 {
+        font-size: 17px;
+
+    }
 
     h3 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 26px;
-    }
-
-    h4 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 20px;
-    }
-
-/* Medium devices (tablets, 768px and up) */
-@media (max-width: 991px) {
-    .class-name {font-size: 30px;}
-
-    h1 {
-        font-family: 'EB Garamond', sans-serif;
         font-size: 15px;
     }
-    h2 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 22x;
-    }
-
-    h3 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 20px;
-    }
-
-    h4 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 14px;
-    }
 
     p {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 14px;
+        font-size: 12px;
     }
-
 }
 
-/* Large devices (desktops, 992px and up) */
-@media (max-width: 1199px) {
-    .class-name {
-        font-size: 40px;
-    }
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (min-width : 321px) {
+    /* Styles */
     h1 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 30px;
-    }
-    h2 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 28x;
+        font-size: 20px;
+
     }
 
+    h2 {
+        font-size: 17px;
+
+    }
 
     h3 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 26px;
-    }
-
-    h4 {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 20px;
+        font-size: 15px;
     }
 
     p {
-        font-family: 'EB Garamond', sans-serif;
-        font-size: 18px;
+        font-size: 12px;
     }
 }
 
-/* Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-    .class-name {font-size: 48px;}
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+    /* Styles */
+    h1 {
+        font-size: 20px;
+
+    }
+
+    h2 {
+        font-size: 17px;
+
+    }
+
+    h3 {
+        font-size: 15px;
+    }
+
+    p {
+        font-size: 12px;
+    }
 }
 
-/*
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    p {
+        font-size: 1.5vmax;
+    }
+
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    p {
+        font-size: 1.5vmax;
+    }
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    p {
+        font-size: 1.5vmax;
+    }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    p {
+        font-size: 1.5vmax;
+    }
+}
+

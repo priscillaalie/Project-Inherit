@@ -3,6 +3,7 @@ extends layout
 block css
   style
     include ../public/stylesheets/index.css
+    include ../public/stylesheets/font.css
 
 
 
@@ -17,7 +18,7 @@ block content
             .carousel-item.active.item1.text-center.fade-in
                 .row
                     .col
-                    .col.my-auto
+                    .col.my-auto.text-center
                         #title.handwrite
                     .col
                 .row
@@ -31,16 +32,16 @@ block content
                     .col
                         h1(style = "color: white;") Share memories and events with family
                 .row.h-90
-                    .col
+                    .col-xs-6.col-sm-3.col-md-3.col-lg-3
                         img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/69/69366.svg", height = "100px;")
                         h3.caption Photo
-                    .col
+                    .col-xs-6.col-sm-3.col-md-3.col-lg-3
                         img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181538.svg", height = "100px;")
                         h3.caption Video
-                    .col
+                    .col-xs-6.col-sm-3.col-md-3.col-lg-3
                         img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181531.svg", height = "100px;")
                         h3.caption Link
-                    .col
+                    .col-xs-6.col-sm-3.col-md-3.col-lg-3
                         img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181540.svg", height = "100px;")
                         h3.caption Text
             .carousel-item.item3.fade-in
