@@ -80,6 +80,14 @@ block content
 
                             button.btn.btn-primary.page-button#submit(type='submit' data-loading-text=`<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order` data-toggle='modal' data-target='#myModal') Sign Up
 
+        script.
+            $('.btn').on('click', function () {
+                var $this = $(this);
+                $this.button('loading');
+                setTimeout(function () {
+                    $this.button('reset');
+                }, 8000);
+            });
 
                             // Modal Success Popup
                             //#myModal.modal.fade.success-popup(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
@@ -95,20 +103,7 @@ block content
                                             a.rd_more.btn.btn-default(href='index.php') Go to Home
 
 
-                        //button#submit.pagebutton(type='submit') SIGN UP
-
         script.
-            $('.btn').on('click', function () {
-                var $this = $(this);
-                $this.button('loading');
-                setTimeout(function () {
-                    $this.button('reset');
-                }, 8000);
-            });
-
-
-        script.
-            // Example starter JavaScript for disabling form submissions if there are invalid fields
             (function () {
                 'use strict';
                 window.addEventListener('load', function () {
@@ -144,8 +139,7 @@ block content
                     document.getElementById('email').value = "#{email}";
                     document.getElementById('fname').value = "#{fname}";
                     document.getElementById('lname').value = "#{lname}";
-                    document.getElementById('address').value = "#{address}";
+
                     document.getElementById('phone').value = "#{phone}";
-                    document.getElementById('state').value = "#{state}";
-                    document.getElementById('zip').value = "#{zip}";
+
                 }

@@ -5,7 +5,9 @@ body {
 }
 
 h2 {
-  font-family: 'Georgia', sans-serif;
+
+  font-family: 'Merriweather', sans-serif;
+
 }
 
 .white-bg {
@@ -41,6 +43,7 @@ h2 {
 .headergrey {
   font-color: #666666;
   color: #666666;
+
 }
 
 a {

@@ -1,0 +1,77 @@
+#backgroundwelcome {
+    background-image: url(https://images.pexels.com/photos/2832045/pexels-photo-2832045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center fixed;
+    background-size: cover;
+    padding: 0px 0px 2vw 0px;
+    border-color: white;
+    font-family: "Lato", sans-serif;
+}
+
+.textbackground {
+    color: whitesmoke;
+    font-size: 20px;
+
+}
+
+#preview {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:20vw;
+    min-width: 5vw;
+    min-height: 5vw;
+    border-radius: 3px;
+    border: 3px solid dimgrey;
+
+}
+
+.white-transparent {
+    background-color: white;
+    opacity: 0.7;
+    word-wrap: break-word;
+    padding: 20px 0px 20px 0px;
+}
+
+#pad {
+    padding-left: 30px;
+}
+
+#message{
+    display: none;
+    font-weight: bold;
+}
+
+nav {
+    background-color: lightgrey;
+    padding-left: 2vw;
+    border-radius: 3px;
+}
+
+.vertical-menu{
+    min-height: 40vw;
+}
+
+.uploadzone{
+    min-height: 20vw;
+}
+
+#post{
+    height:10vw;
+    width: 100%;
+    padding: 20px 15px 15px 15px;
+}
+
+#submit {
+    width:6vw;
+}
+
+.textboxdesign{
+    background-color: darkseagreen;
+    padding-top: 10px;
+    padding-bottom: 4vw;
+    border-radius: 3px;
+}
+
+.addfamily {
+    padding-top: 30%;
+    width: 15rem;
+    height: 15rem;
+}

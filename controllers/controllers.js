@@ -2,11 +2,16 @@ const mongoose = require('mongoose');
 const utils = require('./utils.js');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
-const nodemailer = require('nodemailer');
-
+const Group = require('../models/familygroups');
+const utils = require('./utils.js');
+var express = require('express');
+var app = express();
+var nodemailer = require("nodemailer");
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
+
 
 var  showIndex = function(req,res) {
     var results = {title: 'Inherit', error: " "};
@@ -30,86 +35,29 @@ var fetchIntro = function(req,res) {
     res.render('getstarted.pug',{title: 'Get Started'})
 };
 
-var fetchLanding = function(req,res) {
-    res.render('landing.pug', {title: 'Welcome Back'})
-};
 
-var fetchFamily = function(req,res) {
-    res.render('family.pug', {title: 'Family Page'})
-};
+var fetchHomepage = function(req, res) {
+    //find all categories
+    Group.find(function(err,familygroups){
+        if(!err){
+            if (req.cookies.sessionId){
+                User.findOne({'sessionId':req.cookies.sessionId},function(err,user){
+                    var results = {title: 'Inherit', 'familygroups': familygroups,
+                        'session': req.cookies.sessionId, 'name': user.fname};
+                    res.render('homepage.pug', results);
+                })
+            } else {
+                var results = {title: 'Inherit'};
+                res.render('homepage.pug', results);
+            }
 
-var addUser = function (req,res) {
-	var data = new User(req.body);
-	data.save()
-		.then(item => {
-			res.send("User added to database!");
-			console.log(req.body);
-		})
-		.catch(err => {
-			res.status(400).send("Unable to add to database");
-			console.log(err);
-		});
-};
-
-
-var smtpTransport = nodemailer.createTransport({
-    host: 'mail.google.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-        user: 'projectinherit28@gmail.com', // generated ethereal user
-        pass: 'iwant2commit' // generated ethereal password
-    },
-    tls: {
-        rejectUnauthorized:false
-    }
-});
-
-
-var rand,mailOptions,host,link;
-
-var emailSend =function(req,res){
-    rand=Math.floor((Math.random() * 100) + 54);
-    host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+rand;
-    mailOptions={
-        to : req.query.to,
-        subject : "Please confirm your Email account",
-        html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-    }
-    console.log(mailOptions);
-    smtpTransport.sendMail(mailOptions, function(error, response){
-        if(error){
-            console.log(error);
-            res.end("error");
         }else{
-            console.log("Message sent: " + response.message);
-            var results = {title: 'Inherit', error: message};
-            res.render('send', results);
-            res.end("sent");
+            res.sendStatus(404);
         }
-    });
+    }).sort({"created":-1});
 
 };
 
-var emailVerify = function(req,res){
-    console.log(req.protocol+":/"+req.get('host'));
-    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
-        console.log("Domain is matched. Information is from Authentic email");
-        if(req.query.id==rand){
-            console.log("email is verified");
-            var results = {title: 'Inherit', error: message};
-            res.render('verify', results);
-
-            res.end("<h1>Email "+mailOptions.to+" is been Successfully verified");
-        }else{
-            console.log("email is not verified");
-            res.end("<h1>Bad Request</h1>");
-        }
-    }else{
-        res.end("<h1>Request is from unknown source");
-    }
-};
 
 var createUser = function(req,res){
     if (req.body.password.length < 8){
@@ -120,14 +68,15 @@ var createUser = function(req,res){
         res.render('signup', results);
     } else {
         bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-            let user = new User({
+            var user = new User({
                 "email":req.body.email,
                 "fname":req.body.fname,
                 "lname":req.body.lname,
                 "birthday":req.body.birthday,
                 "photo":req.body.photo,
                 "phone":req.body.phone,
-                "password":hash
+                "password":hash,
+                "verified":false
             });
             // Check if the email already exists
             User.find({email: req.body.email}, function(err, users){
@@ -144,6 +93,8 @@ var createUser = function(req,res){
                             if(!err){
                                 //if there are no errors, show the new user
                                 fetchIntro(req,res)
+                                send(req,res);
+                                console.log("user added to database");
                             }else{
                                 res.sendStatus(400);
                             }
@@ -159,6 +110,92 @@ var createUser = function(req,res){
 };
 
 
+var checkUser = function(req, res) {
+    password = req.body.password
+    User.find({'email': req.body.email},function(err,user){
+        if(!err){
+            if (user.length != 1) {
+                var message = "Incorrect email or password. Please try again.";
+                var results = {title: 'Inherit', error: message}
+                res.render('login.pug', results);
+            } else {
+                bcrypt.compare(password, user[0].password, function (err, same){
+                    if (same) {
+                        let sidrequest = utils.generate_unique_sid();
+                        sidrequest.then(function (sid) {
+                            user[0].sessionId = sid;
+                            user[0].save();
+                            res.cookie("sessionId", sid).redirect("/home");
+                        });
+                    } else {
+                        var message = "Incorrect email or password. Please try again.";
+                        var results = {title: 'Inherit', error: message}
+                        res.render('login.pug', results);
+                    }
+                });
+            }
+        }else{
+            // Redirect back to login with server error bubble
+            res.sendStatus(500);
+        }
+    });
+};
+
+
+var smtpTransport = nodemailer.createTransport({
+	service: "Gmail",
+	auth: {
+		user: "projectinherit28@gmail.com",
+		pass: "iwant2commit"
+	}
+})
+var rand, mailOptions, host, link;
+
+var send = function(req,res) {
+    rand=Math.floor((Math.random() * 100) + 54);
+    host=req.get('host');
+    link="http://"+req.get('host')+"/verify?id="+rand;
+    mailOptions={
+        to : req.body.email,
+        subject : "Please confirm your email account",
+        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
+    }
+    console.log(mailOptions);
+    smtpTransport.sendMail(mailOptions, function(error, response){
+    if(error){
+        console.log(error);
+    }
+});
+};
+
+var verify = function(req, res) {
+	console.log(req.protocol+":/"+req.get('host'));
+	if((req.protocol+"://"+req.get('host'))==("http://"+host))
+	{
+	    console.log("Domain is matched. Information is from Authentic email");
+	    if(req.query.id==rand)
+	    {
+	        console.log("email is verified");
+	        res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
+	        // change verified to true
+	        User.findOne({'email':mailOptions.to}, function (error, person) {
+	            if (error) console.log(error);
+	            console.log(mailOptions.to);
+	            person.verified = true;
+	            person.save();
+	        })
+	    }
+	    else
+	    {
+	        console.log("email is not verified");
+	        res.end("<h1>Bad Request</h1>");
+	    }
+	}
+	else
+	{
+	    res.end("<h1>Request is from unknown source");
+	};
+};
 
 module.exports = {
     showIndex,
@@ -166,13 +203,12 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
-    addUser,
-    //sendEmail,
-    //verifyEmail,
-    fetchLanding,
-    fetchFamily,
-    emailSend,
-    emailVerify,
+
+    fetchHomepage,
+    checkUser,
+    send,
+    verify,
+
     createUser
 }
 

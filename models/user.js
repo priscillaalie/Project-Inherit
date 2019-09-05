@@ -25,7 +25,10 @@ var userSchema = new mongoose.Schema({
     "phone": Number,
     "password": String,
     "sessionId": String,
-    "artifacts": Array
+
+    "artifacts": Array,
+    "verified": Boolean
+
 });
 
 userSchema.plugin(uniqueValidator, {message: 'is already taken.'});
@@ -44,16 +47,8 @@ userSchema.methods.validPassword = function(password) {
 
 
 const User = mongoose.model('User', userSchema);
-var checkUser = function(req,res) {
-    User.countDocuments({'email': req.body.email}, function (err, count){
-    if(count>0){
-        console.log("user exists");
-    } else {
-        console.log("user does not exist");
-    }
-    console.log(req.body);
-});
-}
+
+
 
 module.exports = User;
-module.exports.checkUser = checkUser;
+
