@@ -63,6 +63,16 @@ var fetchSettings = function(req, res) {
     });
 };
 
+var fetchDeleteAccount = function(req, res) {
+    var results = {title: 'Inherit', session: req.cookies.sessionId, error: ''};
+    res.render('deleteAccount.pug', results)
+}
+
+var fetchPrivacy = function(req, res) {
+    var results = {title: 'Inherit', session: req.cookies.sessionId};
+    res.render('privacy.pug', results);
+};
+
 var editUser = function(req, res){
     User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
         if (!err && user) {
@@ -251,6 +261,8 @@ module.exports = {
     createUser,
     editUser,
     editPassword,
-    deleteUser
+    deleteUser,
+    fetchDeleteAccount,
+    fetchPrivacy
 }
 

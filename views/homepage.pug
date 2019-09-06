@@ -18,7 +18,7 @@ block content
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
-                nav.fixed-left
+                nav-collapse.fixed-left
                     .vertical-menu
                         br
                         a(href='/antiques',style="color:#666666;") My Antiques
@@ -42,49 +42,47 @@ block content
                                                 h5.font-weight-bold Create Post
                                                 textarea#post(type = 'text', placeholder=' Keep your family updated ...',
                                                     name = 'post', maxlength='250', rows = 5)
-
-                                                button.btn.btn-light.float-right#submit(type='submit') Post
+                                                button.btn.btn-light(type='button') Post
 
                 .row
-                    .col-xs-12.col-sm-12.col-md-2.col-lg-2.col-xl-2
-                            .card(style='width: 15rem; height: 15rem;')
-                                #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                                    form(method='POST' action='/create')
-                                        .modal-content
-                                            .modal-header.text-center
-                                                h4.modal-title.w-100.font-weight-bold Create a Family
-                                                button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                    span(aria-hidden='true') &times;
-                                            .modal-body.mx-3
-                                                .md-form.mb-5
-                                                    label.font-weight-bold(for='familyname') Family Name
-                                                    input#familyname.form-control(type='text', placeholder='Family Name*' name='familyname', required)
-                                                .md-form.mb-5
-                                                    label.font-weight-bold(for='description') Description
-                                                    .input-group
-                                                        textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                                .md-form.mb-5
-                                                    p.font-weight-bold Upload Image (optional)
-                                                    img#preview(src=file)
-                                                    input#pad( type='file' onchange='previewFile()' name = 'photoinput')
-                                                    p#message Looking good!
+                    .col.latestlistingszone
+                        .card(style='width: 15rem; height: 15rem;')
+                            #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                form(method='POST' action='/create')
+                                    .modal-content
+                                        .modal-header.text-center
+                                            h4.modal-title.w-100.font-weight-bold Create a Family
+                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                span(aria-hidden='true') &times;
+                                        .modal-body.mx-3
+                                            .md-form.mb-5
+                                                label.font-weight-bold(for='familyname') Family Name
+                                                input#familyname.form-control(type='text', placeholder='Family Name*' name='title', required)
+                                            .md-form.mb-5
+                                                label.font-weight-bold(for='description') Description
+                                                .input-group
+                                                    textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                            .md-form.mb-5
+                                                p.font-weight-bold Upload Image (optional)
+                                                img#preview(src=file)
+                                                input#pad( type='file' onchange='previewFile()' name = 'photo')
+                                                p#message Looking good!
 
-                                            .modal-footer.d-flex.justify-content-center
-                                                    button.btn.btn-primary(type='submit') Create Family
+                                        .modal-footer.d-flex.justify-content-center
+                                                button.btn.btn-primary(type='submit') Create Family
 
-                                br
-                                .text-center
-                                    a.btn.btn-default.btn-rounded.mb-4.addfamily(href='' data-toggle='modal' data-target='#modalRegisterForm')
-                                        | Create Family Group
-
-                    each family in familygroups
-                        .card(style='width: 15rem; height: fit-content;')
-                            .d-flex
-                                a(href = `/view/${family._id}`)
-                                    img.card-img-top.image-custom(src=family.photo, style="width:14rem;height:15rem;")
-                                    .card-body.flex-fill
-                                        .row
-                                            h5.card-title #{family.title}
+                            br
+                            .text-center
+                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='' data-toggle='modal' data-target='#modalRegisterForm')
+                                    | Create Family Group
+                        each family in familygroups
+                            .card(style='width: 15rem; height: fit-content;')
+                                .d-flex
+                                    a(href = `/view/${family._id}`)
+                                        img.card-img-top.image-custom(src=family.photo, style="width:14rem;height:15rem;")
+                                        .card-body.flex-fill
+                                            .row
+                                                h5.card-title #{family.title}
 
 
 

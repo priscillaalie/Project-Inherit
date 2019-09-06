@@ -66,7 +66,7 @@ nav {
 .textboxdesign{
     background-color: darkseagreen;
     padding-top: 10px;
-    padding-bottom: 4vw;
+    padding-bottom:1vw;
     border-radius: 3px;
 }
 
@@ -74,4 +74,26 @@ nav {
     padding-top: 30%;
     width: 15rem;
     height: 15rem;
+}
+
+.modal{
+    margin: 15px 15px 15px 15px;
+}
+
+.latestlistingszone {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-rows: 1fr 1fr;
+    background-color: white;
+    height: 80%;
+    border-radius: 20px;
+}
+
+.toprow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-rows: 1fr;
+    background-color: white;
+    height: 80%;
+    border-radius: 20px;
 }

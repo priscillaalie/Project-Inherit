@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/controllers.js');
@@ -24,7 +23,7 @@ router.get('/security', function(req, res){
 // Delete user account form page
 router.get('/delete', function(req,res){
     if (req.cookies.sessionId) {
-        controller.fetchDeleteUser(req, res);
+        controller.fetchDeleteAccount(req, res);
     } else {
         res.redirect('/login');
     }
@@ -32,7 +31,7 @@ router.get('/delete', function(req,res){
 
 //redirect settings to general settings
 router.get('/', function(req, res){
-    res.redirect('/settings/');
+    res.redirect('/settings/general');
 });
 
 //update general settings
