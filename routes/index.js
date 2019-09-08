@@ -1,8 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var app = express()
 var user = require('../models/user.js');
+
+settingsRoutes = require('./settings');
+
+
+var app = express();
+
+app.use('/settings', settingsRoutes);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -20,7 +27,9 @@ router.get('/signup', controllers.fetchSignup);
 router.get('/profile', controllers.fetchProfile);
 router.get('/getstarted', controllers.fetchIntro);
 router.get('/home', controllers.fetchHomepage);
-router.get('/settings',controllers.fetchSettings);
+//router.get('/settings',controllers.fetchSettings);
+//router.get('/settings*', settings.settingsRoute);
+
 
 router.post('/signup', controllers.createUser);
 router.post('/login', controllers.checkUser);

@@ -5,6 +5,8 @@ const Group = require('../models/familygroups');
 var express = require('express');
 var app = express();
 
+const controllers = require('../controllers/controllers.js');
+
 var createGroup = function(req,res){
 
     var group = new Group({
@@ -21,8 +23,13 @@ var createGroup = function(req,res){
             group.owner = user[0]._id;
             group.save(function(err, newGroup){
                 if (!err){
-                    user[0].groups.push(group._id);
-                    user[0].save();
+                    if (user[0].groups == undefined) {
+                        User.update({sessionId:sid}, {'groups':group._id});
+                    } else {
+                        user[0].groups.push(group._id);
+                        user[0].save();
+                    }
+                    res.render('homepage.pug', {title: 'Inherit'});
                 } else {
                     res.sendStatus(400);
                 }

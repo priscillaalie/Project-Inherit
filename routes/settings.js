@@ -1,6 +1,6 @@
 const express = require('express');
-const router = express.Router();
 const controller = require('../controllers/controllers.js');
+const router = express.Router();
 
 //show the settings page
 router.get('/general', function(req, res){
@@ -62,3 +62,4 @@ router.post('/delete', function(req, res){
 });
 
 module.exports = router;
+
