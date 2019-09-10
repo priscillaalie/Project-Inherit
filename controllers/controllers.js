@@ -35,13 +35,20 @@ var fetchIntro = function(req,res) {
 
 var fetchHomepage = function(req, res) {
     //find all categories
-    Group.find(function(err,familygroups){
+    userid = User.findOne({'sessionId':req.cookies.sessionId})._id;
+    Group.find({'members':userid}, function(err,familygroups){
         if(!err){
             if (req.cookies.sessionId){
                 User.findOne({'sessionId':req.cookies.sessionId},function(err,user){
-                    var results = {title: 'Inherit', 'familygroups': familygroups,
-                        'session': req.cookies.sessionId, 'name': user.fname};
-                    res.render('homepage.pug', results);
+                	if (user != null) {
+	                    var results = {title: 'Inherit', 'familygroups': familygroups,
+	                        'session': req.cookies.sessionId, 'name': user.fname};
+	                    res.render('homepage.pug', results);
+	                } else {
+	                	var results = {title: 'Inherit', 'familygroups': familygroups,
+	                        'session': req.cookies.sessionId};
+	                    res.render('homepage.pug', results);
+	                }
                 })
             } else {
                 var results = {title: 'Inherit'};
