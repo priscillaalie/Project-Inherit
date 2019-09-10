@@ -22,7 +22,7 @@ var userSchema = new mongoose.Schema({
     },
     "photo": String,
     "birthday": Date,
-    "phone": Number,
+    "phone": String,
     "password": String,
     "sessionId": String,
     "artifacts": Array,

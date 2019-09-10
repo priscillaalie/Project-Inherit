@@ -11,33 +11,27 @@ block content
             .col-xs-12.col-sm-12#backgroundwelcome
 
                 if(session)
-                    h3.text-center.white-transparent Settings
+                    h3.text-center.header Settings
 
         .row
-            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;'
-            })
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2
                 nav.fixed-left
                     .vertical-menu
                         br
                         a.active(href='#',style="color:#666666;") General
-                        hr.my-4
+                        hr.my-3
                         a(href='/settings/security',style="color:#666666;") Security and Login
-                        hr.my-4
+                        hr.my-3
                         a(href='/settings/delete',style="color:#666666;") Delete Account
 
                         br
                         br
+
             .col-md-9.col-lg-10.col-xl-10
                 .jumbotron
                     .row
                         .col.col-md-6.col-lg-6.col-xl-6
                             h3 Personal Details
-                        .col-md-6.col-lg-6.col-xl-6.d-flex.justify-content-center
-                            img#preview(src=user.photo)
-                            input( type='file' onchange='previewFile()')
-
-
 
                     hr.my-4
                     .row
@@ -45,14 +39,22 @@ block content
                             h4 Name
                             br
 
-                    form(method='POST' action='/general').general
+                    form(method='POST' action='/settings/general').general
                         .row
                             .form-group.col.col-md-6.col-lg-6.col-xl-6
                                 p FIRST NAME
                                 input.fullrow(type='text', name='fname', value=user.fname)
+                                .row.form-group
+                                    .col
+                                        p LAST NAME
+                                        input.fullrow(type='text', name='lname', value=user.lname)
                             .form-group.col.col-md-6.col-lg-6.col-xl-6
-                                p LAST NAME
-                                input.fullrow(type='text', name='lname', value=user.lname)
+                                img#preview(src=user.photo)
+                                .row
+                                    .col
+                                        input( type='file' onchange='previewFile()')
+                                        div
+                                            input#b64(type="hidden", name='b64')
                         .row
                             .form-group.col
                                 p EMAIL

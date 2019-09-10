@@ -97,3 +97,32 @@ nav {
     height: 80%;
     border-radius: 20px;
 }
+
+/** ANIMATIONS **/
+
+.fade-in {
+    animation: fadeIn ease 1.5s;
+    -webkit-animation: fadeIn ease 1.5s;
+    -moz-animation: fadeIn ease 1.5s;
+    -o-animation: fadeIn ease 1.5s;
+    -ms-animation: fadeIn ease 1.5s;
+}
+
+
+@keyframes fadeIn{
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
