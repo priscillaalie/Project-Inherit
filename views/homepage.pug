@@ -7,12 +7,12 @@ block css
 
 
 block content
-    .container-fluid.fill-height
+    .container-fluid.fill-height.fade-in
         .row
             .col-xs-12.col-sm-12#backgroundwelcome
 
                 if(session)
-                    h3.text-center.white-transparent Welcome #{name}
+                    h1.text-center.white-transparent Welcome #{name}
 
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
@@ -66,7 +66,7 @@ block content
                                                 p.font-weight-bold Upload Image (optional)
                                                 img#preview(src=file)
                                                 input#pad( type='file' onchange='previewFile()' name = 'photo')
-                                                p#message Looking good!
+
 
                                         .modal-footer.d-flex.justify-content-center
                                                 button.btn.btn-primary(type='submit') Create Family
@@ -100,7 +100,6 @@ block content
 
             if (file) {
                 reader.readAsDataURL(file);
-                document.getElementById('message').style.display = 'block';
                 document.getElementById('nextbtn').style.display = 'block';
             }
         }
