@@ -3,7 +3,6 @@ const utils = require('./utils.js');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
 const Group = require('../models/familygroups');
-const utils = require('./utils.js');
 var express = require('express');
 var app = express();
 var nodemailer = require("nodemailer");
@@ -176,7 +175,8 @@ var verify = function(req, res) {
 	    if(req.query.id==rand)
 	    {
 	        console.log("email is verified");
-	        res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
+            var Verify = {title: 'Account Verified', error: message}
+	        res.render('verify.pug', Verify);
 	        // change verified to true
 	        User.findOne({'email':mailOptions.to}, function (error, person) {
 	            if (error) console.log(error);
@@ -203,12 +203,10 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
-
     fetchHomepage,
     checkUser,
     send,
     verify,
-
     createUser
 }
 

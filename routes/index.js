@@ -33,6 +33,4 @@ router.get("/logout", function(req, res){
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
 
-
-
 module.exports = router;

@@ -24,7 +24,7 @@ and (max-device-width : 480px) {
     }
 
     p {
-        font-size: 12px;
+        font-size: 1vmax;
     }
 }
 
@@ -33,7 +33,7 @@ and (max-device-width : 480px) {
 and (min-width : 321px) {
     /* Styles */
     h1 {
-        font-size: 20px;
+        font-size: 3vmax;
 
     }
 
@@ -43,11 +43,11 @@ and (min-width : 321px) {
     }
 
     h3 {
-        font-size: 15px;
+        font-size: 2vmax;
     }
 
     p {
-        font-size: 12px;
+        font-size: 1.1vmax;
     }
 }
 
