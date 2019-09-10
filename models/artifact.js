@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-var mongoose = require('mongoose');
 var artifactSchema = mongoose.Schema(
     {
         "id": String,

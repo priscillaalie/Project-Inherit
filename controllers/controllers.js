@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
+const Group = require('../models/familygroups');
 const utils = require('./utils.js');
 var express = require('express');
 var app = express();
@@ -25,12 +26,145 @@ var fetchSignup = function (req,res) {
 };
 
 var fetchProfile = function (req,res) {
-    res.render('profile.pug', {title: 'Signup'});
+    res.render('profile.pug', {title: 'Profile'});
 };
 
 var fetchIntro = function(req,res) {
     res.render('getstarted.pug',{title: 'Get Started'})
 };
+
+var fetchHomepage = function(req, res) {
+    //find all categories
+    Group.find(function(err,familygroups){
+        if(!err){
+            if (req.cookies.sessionId){
+                User.findOne({'sessionId':req.cookies.sessionId},function(err,user){
+                    var results = {title: 'Inherit', 'familygroups': familygroups,
+                        'session': req.cookies.sessionId, 'name': user.fname};
+                    res.render('homepage.pug', results);
+                })
+            } else {
+                var results = {title: 'Inherit'};
+                res.render('homepage.pug', results);
+            }
+
+        }else{
+            res.sendStatus(404);
+        }
+    }).sort({"created":-1});
+};
+
+var fetchSettings = function(req, res) {
+    var sid = req.cookies.sessionId;
+    User.findOne({sessionId: sid}, function(err, user){
+        if (!err){
+            var results = {title: 'Inherit', session: sid, user: user};
+            res.render('settings.pug', results);
+        }
+    });
+};
+
+var fetchDeleteAccount = function(req, res) {
+    var results = {title: 'Inherit', session: req.cookies.sessionId, error: ''};
+    res.render('deleteAccount.pug', results)
+}
+
+var fetchPrivacy = function(req, res) {
+    var results = {title: 'Inherit', session: req.cookies.sessionId};
+    res.render('privacy.pug', results);
+};
+
+var editUser = function(req, res){
+    User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+        if (!err && user) {
+            user.fname = req.body.fname;
+            user.lname = req.body.lname;
+            user.email = req.body.email;
+            user.photo = req.body.b64;
+            user.phone = req.body.phone;
+
+            user.save(function(err, updatedUser) {
+                if (updatedUser) {
+                    let message = "Your account has been updated.";
+                    let results = {title: 'Inherit', error: message,
+                        user: updatedUser, session: req.cookies.sessionId};
+                    res.render('settings', results);
+                } else {
+                    res.sendStatus(500);
+                }
+            });
+        } else {
+            res.cookie('sessionId', '');
+            res.redirect('/login')
+        }
+    });
+};
+
+var editPassword = function(req, res){
+    var sid = req.cookies.sessionId
+    User.findOne({sessionId: sid}, function(err, user) {
+        if (req.body.password.length < 8) {
+            let message = "Your password must be at least 8 characters.";
+            let results = {title: 'Inherit', error: message, session: sid}
+            res.render('privacy.pug', results);
+        }
+        else if (!err && user) {
+            bcrypt.hash(req.body.password, saltRounds, function(hasherr, hash) {
+                user.password = hash;
+                user.save(function(err, updatedUser) {
+                    if (updatedUser) {
+                        let message = "Your account has been updated.";
+                        let results = {title: 'Inherit', error: message,
+                            session: sid}
+                        res.render('privacy.pug', results);
+                    } else {
+                        res.sendStatus(500);
+                    }
+                });
+            });
+        } else {
+            res.cookie('sessionId', '');
+            res.redirect('/login')
+        }
+    });
+};
+
+var deleteUser = function(req, res){
+    var sid = req.cookies.sessionId;
+    var username = req.body.username;
+    var pw = req.body.password;
+
+    User.find({email: username}, function(err, user){
+        if(!err){
+            if (user.length != 1) {
+                var message = "Wrong credentials. Please try again.";
+                var results = {title: 'Inherit', error: message, session: sid}
+                res.render('deleteAccount.pug', results);
+            } else {
+                bcrypt.compare(pw, user[0].password, function (err, same){
+                    if (same) {
+                        user[0].listings.forEach(function(element){
+                            Listing.findById(element, function(err, listing){
+                                listing.remove();
+                            });
+                        });
+                        user[0].remove();
+                        res.redirect('/logout');
+                    } else {
+                        var message = "Wrong credentials. Please try again.";
+                        var results = {title: 'Inherit', error: message,
+                            session: sid}
+                        res.render('deleteAccount.pug', results);
+                    }
+                });
+            }
+        }else{
+            // Redirect back to login with server error bubble
+            res.sendStatus(500);
+        }
+    });
+}
+
 
 var createUser = function(req,res){
     if (req.body.password.length < 8){
@@ -59,7 +193,7 @@ var createUser = function(req,res){
                         var results = {title: 'Inherit', error: message,
                             email: req.body.email, fname: req.body.fname,
                             lname: req.body.lname, phone: req.body.phone};
-                        res.render('signup', results);
+                        res.render('signup.pug', results);
                     }
                     else{
                         user.save(function(err,newUser){
@@ -82,24 +216,38 @@ var createUser = function(req,res){
     }
 };
 
-var checkUser = function(req,res) {
-    // check if user exists
-    User.countDocuments({'email': req.body.email}, function (err, count){ 
-    if(count>0){
-        //let hash = bcrypt.hash(req.body.password, saltRounds);
-        User.findOne({'email':req.body.email}, function (error, person) {
-            if (error) console.log(error);
-            if (bcrypt.compareSync(person.password, req.body.password)) {
-                res.send("Incorrect Password");
+
+var checkUser = function(req, res) {
+    password = req.body.password
+    User.find({'email': req.body.email},function(err,user){
+        if(!err){
+            if (user.length != 1) {
+                var message = "Incorrect email or password. Please try again.";
+                var results = {title: 'Inherit', error: message}
+                res.render('login.pug', results);
+
             } else {
-                fetchProfile(req, res);
+                bcrypt.compare(password, user[0].password, function (err, same){
+                    if (same) {
+                        let sidrequest = utils.generate_unique_sid();
+                        sidrequest.then(function (sid) {
+                            user[0].sessionId = sid;
+                            user[0].save();
+                            res.cookie("sessionId", sid).redirect("/home");
+                        });
+                    } else {
+                        var message = "Incorrect email or password. Please try again.";
+                        var results = {title: 'Inherit', error: message}
+                        res.render('login.pug', results);
+                    }
+                });
             }
-        });
-    } else {
-        console.log("user does not exist");
-    }
-}); 
-}
+        }else{
+            // Redirect back to login with server error bubble
+            res.sendStatus(500);
+        }
+    });
+};
 
 
 var smtpTransport = nodemailer.createTransport({
@@ -163,9 +311,16 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
-    checkUser,
     send,
     verify,
-    createUser
+    fetchHomepage,
+    fetchSettings,
+    checkUser,
+    createUser,
+    editUser,
+    editPassword,
+    deleteUser,
+    fetchDeleteAccount,
+    fetchPrivacy
 }
 

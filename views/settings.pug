@@ -1,0 +1,90 @@
+extends layout
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/settings.css
+
+block content
+    .container-fluid.fill-height
+        .row
+            .col-xs-12.col-sm-12#backgroundwelcome
+
+                if(session)
+                    h3.text-center.white-transparent Settings
+
+        .row
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
+                'background-color': 'white;'
+            })
+                nav.fixed-left
+                    .vertical-menu
+                        br
+                        a.active(href='#',style="color:#666666;") General
+                        hr.my-4
+                        a(href='/settings/security',style="color:#666666;") Security and Login
+                        hr.my-4
+                        a(href='/settings/delete',style="color:#666666;") Delete Account
+
+                        br
+                        br
+            .col-md-9.col-lg-10.col-xl-10
+                .jumbotron
+                    .row
+                        .col.col-md-6.col-lg-6.col-xl-6
+                            h3 Personal Details
+                        .col-md-6.col-lg-6.col-xl-6.d-flex.justify-content-center
+                            img#preview(src=user.photo)
+                            input( type='file' onchange='previewFile()')
+
+
+
+                    hr.my-4
+                    .row
+                        .col
+                            h4 Name
+                            br
+
+                    form(method='POST' action='/general').general
+                        .row
+                            .form-group.col.col-md-6.col-lg-6.col-xl-6
+                                p FIRST NAME
+                                input.fullrow(type='text', name='fname', value=user.fname)
+                            .form-group.col.col-md-6.col-lg-6.col-xl-6
+                                p LAST NAME
+                                input.fullrow(type='text', name='lname', value=user.lname)
+                        .row
+                            .form-group.col
+                                p EMAIL
+                                input.fullrow(type='email', name='email', value=user.email)
+                        .row
+                            .form-group.col
+                                p PHONE NUMBER
+                                input.fullrow(type='text', name='phone', value=user.phone)
+                        .row
+                            .col.d-flex.justify-content-center
+                                button.btn.btn-success(type='submit', onClick = "successMsg()" ) Update
+
+    script.
+        function successMsg() {
+            alert("Update Successful");
+        }
+
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+                document.getElementById('message').style.display = 'block';
+                document.getElementById('nextbtn').style.display = 'block';
+
+
+            }
+        }

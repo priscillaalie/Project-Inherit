@@ -1,0 +1,35 @@
+p {
+    font-family: sans-serif;
+    colour: grey;
+    font-size: 10px;
+}
+
+input{
+    padding: 5px;
+}
+
+
+.fullrow {
+    width: 100%;
+}
+
+#imageUpload
+{
+    display: none;
+}
+
+#profileImage
+{
+    cursor: pointer;
+}
+
+#preview {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:20vw;
+    min-width: 10vw;
+    min-height: 10vw;
+    border-radius: 10px;
+    border: 3px solid dimgrey;
+
+}
