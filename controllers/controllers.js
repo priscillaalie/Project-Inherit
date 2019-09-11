@@ -34,32 +34,21 @@ var fetchIntro = function(req,res) {
 };
 
 var fetchHomepage = function(req, res) {
-    //find all categories
-    userid = User.findOne({'sessionId':req.cookies.sessionId})._id;
-    Group.find({'members':userid}, function(err,familygroups){
-        if(!err){
-            if (req.cookies.sessionId){
-                User.findOne({'sessionId':req.cookies.sessionId},function(err,user){
-                	if (user != null) {
-	                    var results = {title: 'Inherit', 'familygroups': familygroups,
-	                        'session': req.cookies.sessionId, 'name': user.fname};
-	                    res.render('homepage.pug', results);
-	                } else {
-	                	var results = {title: 'Inherit', 'familygroups': familygroups,
-	                        'session': req.cookies.sessionId};
-	                    res.render('homepage.pug', results);
-	                }
-                })
-            } else {
-                var results = {title: 'Inherit'};
-                res.render('homepage.pug', results);
-            }
-
-        }else{
-            res.sendStatus(404);
-        }
-    }).sort({"created":-1});
-};
+	if (req.cookies.sessionId) {
+		User.findOne({sessionId: req.cookies.sessionId},function(err,user){
+            if (user) {
+            	Group.find({$or:[{'members':user._id}, {'owner':user._id}]}, function(err, familygroups) {
+            		var results = {title: 'Inherit', 'familygroups': familygroups,
+	                    'session': req.cookies.sessionId, 'name': user.fname};
+	                 	res.render('homepage.pug', results);
+              	});
+	        }
+        })
+	} else {
+		var results = {title:'Inherit'};
+		res.render('homepage.pug', results);
+	}
+}
 
 var fetchSettings = function(req, res) {
     var sid = req.cookies.sessionId;
