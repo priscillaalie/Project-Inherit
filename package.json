@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "cookie-parser": "~1.4.4",
+    "cookie-parser": "^1.4.4",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "expo-cli": "^3.0.9",

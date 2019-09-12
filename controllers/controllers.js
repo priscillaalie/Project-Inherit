@@ -39,7 +39,7 @@ var fetchHomepage = function(req, res) {
             if (req.cookies.sessionId){
                 User.findOne({'sessionId':req.cookies.sessionId},function(err,user){
                     var results = {title: 'Inherit', 'familygroups': familygroups,
-                        'session': req.cookies.sessionId, 'name': user.fname};
+                        'session': req.cookies.sessionId};
                     res.render('homepage.pug', results);
                 })
             } else {
@@ -244,6 +244,67 @@ var checkUser = function(req, res) {
     });
 };
 
+var fetchAntiquesByUser = function(req, res) {
+    Group.find(function(err,familygroups){
+        if(!err){
+            if (req.cookies.sessionId){
+                User.find({sessionId: req.cookies.sessionId}, function(err, user) {
+                    if (!err) {
+                        Artifact.find({owner: user[0]._id}, function (err, artifacts) {
+                            if (!err) {
+                                var results = {
+                                    title: 'Inherit', 'artifacts': artifacts, 'user': user[0]._id,
+                                    session: req.cookies.sessionId, 'familygroups': familygroups
+                                };
+                                res.render('myantiques.pug', results);
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        });
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+            }
+        }
+    });
+};
+
+
+var createAntique = function(req,res){
+
+    var antique = new Artifact({
+        "title":String,
+        "description":String,
+        "familygroup": String,
+        "photo":String,
+        "owner":String,
+    });
+
+    var sid = req.cookies.sessionId;
+    // Get current date and time
+    var today = new Date();
+
+    antique.created = today;
+
+    User.find({sessionId:sid}, function(err, user){
+        if (!err){
+            antique.owner = user[0]._id;
+            antique.save(function(err, newAntique){
+                if (!err){
+                    user[0].antiques.push(antique._id);
+                    user[0].save();
+                    res.redirect('/myantiques');
+                } else {
+                    res.sendStatus(400);
+                }
+            });
+        } else {
+            res.sendStatus(400);
+        }
+    });
+};
+
 // Connect to the db
 const dbURI =
     "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
@@ -263,6 +324,8 @@ module.exports = {
     editPassword,
     deleteUser,
     fetchDeleteAccount,
-    fetchPrivacy
+    fetchPrivacy,
+    fetchAntiquesByUser,
+    createAntique
 }
 

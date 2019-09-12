@@ -22,17 +22,42 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/login', controllers.fetchLogin);
-router.get('/signup', controllers.fetchSignup);
-router.get('/profile', controllers.fetchProfile);
-router.get('/getstarted', controllers.fetchIntro);
-router.get('/home', controllers.fetchHomepage);
-//router.get('/settings',controllers.fetchSettings);
-//router.get('/settings*', settings.settingsRoute);
+router.get('/login', function(req, res){
+  if (req.cookies.sessionId) {
+    res.redirect('/');
+  } else {
+    controllers.fetchLogin(req, res);
+  }
+});
 
+router.get('/signup', function(req, res){
+  if (req.cookies.sessionId) {
+    res.redirect('/');
+  } else {
+    controllers.fetchSignup(req, res);
+  }
+});
+
+router.get('/profile', controllers.fetchProfile);
+
+router.get('/getstarted', controllers.fetchIntro);
+
+router.get('/home', controllers.fetchHomepage);
+
+router.get('/myantiques', function(req, res){
+  if (req.cookies.sessionId) {
+    controllers.fetchAntiquesByUser(req, res);
+  } else {
+    res.redirect('/login');
+  }
+});
+
+router.post('/addantique', controllers.createAntique)
 
 router.post('/signup', controllers.createUser);
+
 router.post('/login', controllers.checkUser);
+
 router.get("/logout", function(req, res){
   res.cookie('sessionId', '');
   res.redirect('/');

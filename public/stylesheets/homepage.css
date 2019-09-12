@@ -64,8 +64,7 @@ nav {
 }
 
 .textboxdesign{
-    background-color: darkseagreen;
-    padding-top: 10px;
+    background: linear-gradient(to right, #00b4db, #0083b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     padding-bottom:1vw;
     border-radius: 3px;
 }
@@ -80,7 +79,7 @@ nav {
     margin: 15px 15px 15px 15px;
 }
 
-.latestlistingszone {
+.familygroupzone {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr ;
     grid-template-rows: 1fr 1fr;

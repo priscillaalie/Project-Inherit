@@ -12,7 +12,7 @@ block content
             .col-xs-12.col-sm-12#backgroundwelcome
 
                 if(session)
-                    h1.text-center.white-transparent Welcome #{name}
+                    h1.text-center.white-transparent Welcome
 
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
@@ -21,7 +21,7 @@ block content
                 nav-collapse.fixed-left
                     .vertical-menu
                         br
-                        a(href='/antiques',style="color:#666666;") My Antiques
+                        a(href='/myantiques',style="color:#666666;") My Antiques
                         hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
@@ -39,13 +39,14 @@ block content
                                     .row
                                         .col
                                             .container.textboxdesign
+                                                br
                                                 h5.font-weight-bold Create Post
                                                 textarea#post(type = 'text', placeholder=' Keep your family updated ...',
                                                     name = 'post', maxlength='250', rows = 5)
                                                 button.btn.btn-light(type='button') Post
 
                 .row
-                    .col.latestlistingszone
+                    .col.familygroupzone
                         .card(style='width: 15rem; height: 15rem;')
                             #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                 form(method='POST' action='/create')
@@ -66,6 +67,8 @@ block content
                                                 p.font-weight-bold Upload Image (optional)
                                                 img#preview(src=file)
                                                 input#pad( type='file' onchange='previewFile()' name = 'photo')
+                                            div
+                                                input#b64(type="hidden", name='b64')
 
 
                                         .modal-footer.d-flex.justify-content-center
@@ -73,7 +76,7 @@ block content
 
                             br
                             .text-center
-                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='' data-toggle='modal' data-target='#modalRegisterForm')
+                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
                                     | Create Family Group
                         each family in familygroups
                             .card(style='width: 15rem; height: fit-content;')
@@ -94,12 +97,14 @@ block content
             var reader = new FileReader();
 
             reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
                 preview.src = reader.result.toString();
                 document.getElementById('b64').value = e.target.result;
             }, false);
 
             if (file) {
                 reader.readAsDataURL(file);
-                document.getElementById('nextbtn').style.display = 'block';
             }
         }
+
+

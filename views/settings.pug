@@ -8,11 +8,15 @@ block css
 block content
     .container-fluid.fill-height
         .row
-            .col-xs-12.col-sm-12#backgroundwelcome
-
-                if(session)
-                    h3.text-center.header Settings
-
+            .col
+                .header
+                    if(session)
+                        br
+                        br
+                        h2.text-center Settings
+                        br
+                        br
+        br
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2
                 nav.fixed-left
@@ -34,10 +38,6 @@ block content
                             h3 Personal Details
 
                     hr.my-4
-                    .row
-                        .col
-                            h4 Name
-                            br
 
                     form(method='POST' action='/settings/general').general
                         .row
@@ -48,21 +48,24 @@ block content
                                     .col
                                         p LAST NAME
                                         input.fullrow(type='text', name='lname', value=user.lname)
-                            .form-group.col.col-md-6.col-lg-6.col-xl-6
+
+                                .row.form-group
+                                    .col
+                                        p EMAIL
+                                        input.fullrow(type='email', name='email', value=user.email)
+                                .row.form-group
+                                    .col
+                                        p PHONE NUMBER
+                                        input.fullrow(type='text', name='phone', value=user.phone)
+
+                            .form-group.col.col-md-6.col-lg-6.col-xl-6.text-center.imgzone
                                 img#preview(src=user.photo)
                                 .row
                                     .col
                                         input( type='file' onchange='previewFile()')
                                         div
                                             input#b64(type="hidden", name='b64')
-                        .row
-                            .form-group.col
-                                p EMAIL
-                                input.fullrow(type='email', name='email', value=user.email)
-                        .row
-                            .form-group.col
-                                p PHONE NUMBER
-                                input.fullrow(type='text', name='phone', value=user.phone)
+
                         .row
                             .col.d-flex.justify-content-center
                                 button.btn.btn-success(type='submit', onClick = "successMsg()" ) Update
