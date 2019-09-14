@@ -18,17 +18,13 @@ var createGroup = function(req,res){
     var sid = req.cookies.sessionId;
 
 
-    User.find({sessionId:sid}, function(err, user){
+    User.findOne({sessionId:sid}, function(err, user){
         if (!err){
-            group.owner = user[0]._id;
+            group.owner = user._id;
             group.save(function(err, newGroup){
                 if (!err){
-                    if (user[0].groups == undefined) {
-                        User.update({sessionId:sid}, {'groups':group._id});
-                    } else {
-                        user[0].groups.push(group._id);
-                        user[0].save();
-                    }
+                    user.groups.push(group._id);
+                    user.save();
                     res.render('homepage.pug', {title: 'Inherit'});
                 } else {
                     res.sendStatus(400);

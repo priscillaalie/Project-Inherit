@@ -33,24 +33,28 @@ var fetchIntro = function(req,res) {
 };
 
 var fetchHomepage = function(req, res) {
-    //find all categories
-    Group.find(function(err,familygroups){
-        if(!err){
-            if (req.cookies.sessionId){
-                User.findOne({'sessionId':req.cookies.sessionId},function(err,user){
-                    var results = {title: 'Inherit', 'familygroups': familygroups,
-                        'session': req.cookies.sessionId};
-                    res.render('homepage.pug', results);
-                })
+	if (req.cookies.sessionId) {
+		User.findOne({sessionId: req.cookies.sessionId},function(err,user){
+            if (!err) {
+            	Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
+            		if (!err) {
+		             	var results = {
+		             		title: 'Inherit', 'familygroups': familygroups, 
+		             		'session':req.cookies.sessionId, 'name': user.fname
+		             	};
+		             	res.render('homepage.pug', results);
+	             } else {
+	             	res.sendStatus(500);
+	             }
+             	});
             } else {
-                var results = {title: 'Inherit'};
-                res.render('homepage.pug', results);
+            	res.sendStatus(500);
             }
-
-        }else{
-            res.sendStatus(404);
-        }
-    }).sort({"created":-1});
+        });
+	} else {
+		var results = {title:'Inherit'};
+		res.render('homepage.pug', results);
+	}
 };
 
 var fetchSettings = function(req, res) {
@@ -245,64 +249,63 @@ var checkUser = function(req, res) {
 };
 
 var fetchAntiquesByUser = function(req, res) {
-    Group.find(function(err,familygroups){
-        if(!err){
-            if (req.cookies.sessionId){
-                User.find({sessionId: req.cookies.sessionId}, function(err, user) {
-                    if (!err) {
-                        Artifact.find({owner: user[0]._id}, function (err, artifacts) {
-                            if (!err) {
-                                var results = {
-                                    title: 'Inherit', 'artifacts': artifacts, 'user': user[0]._id,
-                                    session: req.cookies.sessionId, 'familygroups': familygroups
-                                };
-                                res.render('myantiques.pug', results);
-                            } else {
-                                res.sendStatus(500);
-                            }
-                        });
-                    } else {
-                        res.sendStatus(500);
-                    }
-                })
-            }
-        }
-    });
+    if (req.cookies.sessionId) {
+    	User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
+    		if (!err) {
+    			Group.find({$or:[{'members':user._id}, {'owner':user._id}]}, function(err, familygroups) {
+    				if (!err) {
+    					Artifact.find({'_id': {$in: user.artifacts}}, function(err, artifacts) {
+    						if (!err) {
+    							console.log(artifacts);
+	    						var results = {
+	                                title: 'Inherit', 'artifacts': artifacts, 'user': user._id,
+	                                session: req.cookies.sessionId, 'familygroups': familygroups
+	                            };
+	                            res.render('myantiques.pug', results);
+	                        } else {
+	                        	res.sendStatus(500);
+	                        }
+    					})
+    				} else {
+    					res.sendStatus(500);
+    				}
+            		
+              	});
+    		} else {
+    			res.sendStatus(500);
+    		}
+    	})
+    }
 };
 
 
 var createAntique = function(req,res){
 
-    var antique = new Artifact({
-        "title":String,
-        "description":String,
-        "familygroup": String,
-        "photo":String,
-        "owner":String,
-    });
-
-    var sid = req.cookies.sessionId;
-    // Get current date and time
+	var sid = req.cookies.sessionId;
+	// Get current date and time
     var today = new Date();
 
-    antique.created = today;
-
-    User.find({sessionId:sid}, function(err, user){
-        if (!err){
-            antique.owner = user[0]._id;
-            antique.save(function(err, newAntique){
-                if (!err){
-                    user[0].antiques.push(antique._id);
-                    user[0].save();
-                    res.redirect('/myantiques');
-                } else {
-                    res.sendStatus(400);
-                }
-            });
-        } else {
-            res.sendStatus(400);
-        }
-    });
+	User.findOne({sessionId: sid}, function(err,user) {
+		if (!err) {
+			var antique = new Artifact({
+		        "title": req.body.title,
+		        "description": req.body.description,
+		        "familygroup": req.body.familygroup,
+		        "photo": req.body.b64,
+		        "owner": user._id
+		    });
+		    antique.created = today;
+		    antique.save(function(err, newAntique) {
+		    	if (!err) {
+		    		user.artifacts.push(antique._id);
+		    		user.save();
+		    		res.redirect('/myantiques');
+		    	} else {
+		    		res.sendStatus(400);
+		    	}
+		    })
+		}
+	});
 };
 
 // Connect to the db

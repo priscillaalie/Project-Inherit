@@ -23,19 +23,21 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/login', function(req, res){
-  if (req.cookies.sessionId) {
-    res.redirect('/');
-  } else {
-    controllers.fetchLogin(req, res);
-  }
+  // if (req.cookies.sessionId) {
+  //   res.redirect('/');
+  // } else {
+  //   controllers.fetchLogin(req, res);
+  // }
+  controllers.fetchLogin(req, res);
 });
 
 router.get('/signup', function(req, res){
-  if (req.cookies.sessionId) {
-    res.redirect('/');
-  } else {
-    controllers.fetchSignup(req, res);
-  }
+  // if (req.cookies.sessionId) {
+  //   res.redirect('/');
+  // } else {
+  //   controllers.fetchSignup(req, res);
+  // }
+  controllers.fetchSignup(req, res);
 });
 
 router.get('/profile', controllers.fetchProfile);
