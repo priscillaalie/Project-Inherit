@@ -35,7 +35,7 @@ var fetchIntro = function(req,res) {
 var fetchHomepage = function(req, res) {
 	if (req.cookies.sessionId) {
 		User.findOne({sessionId: req.cookies.sessionId},function(err,user){
-            if (!err) {
+            if (user) {
             	Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
             		if (!err) {
 		             	var results = {
@@ -43,9 +43,9 @@ var fetchHomepage = function(req, res) {
 		             		'session':req.cookies.sessionId, 'name': user.fname
 		             	};
 		             	res.render('homepage.pug', results);
-	             } else {
-	             	res.sendStatus(500);
-	             }
+    	            } else {
+                        res.sendStatus(500);
+                    }
              	});
             } else {
             	res.sendStatus(500);
@@ -231,8 +231,10 @@ var checkUser = function(req, res) {
                         let sidrequest = utils.generate_unique_sid();
                         sidrequest.then(function (sid) {
                             user[0].sessionId = sid;
+                            user[0].markModified('sessionId');
                             user[0].save();
-                            res.cookie("sessionId", sid).redirect("/home");
+                            res.cookie("sessionId", sid);
+                            fetchHomepage(req, res);
                         });
                     } else {
                         var message = "Incorrect email or password. Please try again.";
