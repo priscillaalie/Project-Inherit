@@ -1,0 +1,62 @@
+#backgroundwelcome {
+    background: url(https://images.pexels.com/photos/2832045/pexels-photo-2832045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center fixed;
+    background-size: cover;
+    background-position: fixed;
+    padding: 0px 0px 0px 0px;
+    border-color: white;
+    font-family: "Lato", sans-serif;
+}
+
+.textbackground {
+    color: whitesmoke;
+    font-size: 20px;
+
+}
+
+#preview {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:20vw;
+    min-width: 5vw;
+    min-height: 5vw;
+    border-radius: 3px;
+    border: 3px solid dimgrey;
+
+}
+
+.white-transparent {
+    background-color: white;
+    opacity: 0.7;
+    word-wrap: break-word;
+    padding: 20px 0px 20px 0px;
+}
+
+#pad {
+    padding-left: 30px;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}

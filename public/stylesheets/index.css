@@ -64,6 +64,12 @@ body{
 .icon {
     width: 70% !important;
     height: 70% !important;
+
+}
+
+.responsive {
+    width: 50%;
+    height: auto;
 }
 
 .caption {
