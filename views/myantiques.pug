@@ -67,14 +67,14 @@ block content
                     a.btn.btn-light.btn-rounded.mb-4.addbutton(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
                         | Add antique
 
-        each artifact in artifacts
+        each art in artifact
 
             .card(style='width: 15rem; height: fit-content;')
                 .d-flex
-                    a(href = `/artifact/view/${artifact._id}`)
-                        img.card-img-top.image-custom(src=artifact.photo, style="width:14rem;height:15rem;")
+                    a(href = `/artifact/view/${art.id}`)
+                        img.card-img-top.image-custom(src=art.photo, style="width:14rem;height:15rem;")
                         .card-body.flex-fill
                             .row
-                                h5.card-title #{artifact.title}
+                                h5.card-title #{art.title}
                             .row
-                                p.listingdescription #{artifact.description}
+                                p.listingdescription #{art.description}
