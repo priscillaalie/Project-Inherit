@@ -22,7 +22,7 @@
   "homepage": "https://github.com/priscillaalie/Project-Inherit#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "cookie-parser": "^1.4.4",
+    "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
     "darwin": "0.0.5",
     "debug": "~2.6.9",
