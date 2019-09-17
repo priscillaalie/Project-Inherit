@@ -68,11 +68,13 @@ block content
                         | Add antique
 
         each artifact in artifacts
-            .card(style='width: 15rem; height: fit-content;')
-                img.card-img-top(src=artifact.photo, alt='' width="100%" height="100%")
-                a.navbar-brand(href=`/artifact/view/${artifact._id}`)
-                .card-body
-                    h5.card-title.text-center #{artifact.title}
-                    br
-                    p.listingdescription #{artifact.description}
 
+            .card(style='width: 15rem; height: fit-content;')
+                .d-flex
+                    a(href = `/artifact/view/${artifact._id}`)
+                        img.card-img-top.image-custom(src=artifact.photo, style="width:14rem;height:15rem;")
+                        .card-body.flex-fill
+                            .row
+                                h5.card-title #{artifact.title}
+                            .row
+                                p.listingdescription #{artifact.description}
