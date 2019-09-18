@@ -264,7 +264,7 @@ var fetchAntiquesByUser = function(req, res) {
     if (req.cookies.sessionId) {
     	User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
     		if (!err) {
-    			Group.find({$or:[{'members':user._id}, {'owner':user._id}]}, function(err, familygroups) {
+    			Group.find({'_id':{$in: user.groups}}, function(err, familygroups) {
     				if (!err) {
     					Artifact.find({'_id': {$in: user.artifacts}}, function(err, artifacts) {
     						if (!err) {
