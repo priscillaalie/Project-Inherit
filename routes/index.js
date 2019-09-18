@@ -41,7 +41,7 @@ router.get('/signup', function(req, res){
 });
 
 router.get('/profile', controllers.fetchProfile);
-router.get('/getstarted', controllers.fetchIntro);
+router.get('/getstarted', controllers.fetchProfile);
 
 router.get('/home', controllers.fetchHomepage);
 

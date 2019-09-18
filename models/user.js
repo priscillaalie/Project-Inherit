@@ -26,7 +26,8 @@ var userSchema = new mongoose.Schema({
     "password": String,
     "sessionId": String,
     "artifacts": Array,
-    "groups": Array
+    "groups": Array,
+    "verified": Boolean 
 });
 
 userSchema.plugin(uniqueValidator, {message: 'is already taken.'});
