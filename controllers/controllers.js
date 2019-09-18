@@ -331,6 +331,8 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
+    send,
+    verify,
     fetchHomepage,
     fetchSettings,
     checkUser,
