@@ -219,22 +219,32 @@ var createUser = function(req,res){
 
 var checkUser = function(req, res) {
     password = req.body.password
-    User.find({'email': req.body.email},function(err,user){
+    User.findOne({'email': req.body.email},function(err,user){
         if(!err){
-            if (user.length != 1) {
+            if (!user) {
                 var message = "Incorrect email or password. Please try again.";
                 var results = {title: 'Inherit', error: message}
                 res.render('login.pug', results);
             } else {
-                bcrypt.compare(password, user[0].password, function (err, same){
+                bcrypt.compare(password, user.password, function (err, same){
                     if (same) {
                         let sidrequest = utils.generate_unique_sid();
                         sidrequest.then(function (sid) {
-                            user[0].sessionId = sid;
-                            user[0].markModified('sessionId');
-                            user[0].save();
+                            user.sessionId = sid;
+                            user.markModified('sessionId');
+                            user.save();
                             res.cookie("sessionId", sid);
-                            fetchHomepage(req, res);
+                            Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
+                                if (!err) {
+                                    var results = {
+                                        title: 'Inherit', 'familygroups': familygroups,
+                                        'session': sid, 'name': user.fname
+                                    };
+                                    res.render('homepage.pug', results);
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
                         });
                     } else {
                         var message = "Incorrect email or password. Please try again.";
