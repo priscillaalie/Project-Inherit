@@ -268,7 +268,6 @@ var fetchAntiquesByUser = function(req, res) {
     				if (!err) {
     					Artifact.find({'_id': {$in: user.artifacts}}, function(err, artifacts) {
     						if (!err) {
-    							console.log(artifacts);
 	    						var results = {
 	                                title: 'Inherit', 'artifacts': artifacts, 'user': user._id,
 	                                session: req.cookies.sessionId, 'familygroups': familygroups
@@ -296,6 +295,7 @@ var createAntique = function(req,res){
 	var sid = req.cookies.sessionId;
 	// Get current date and time
     var today = new Date();
+    console.log(req.body.b64);
 
 	User.findOne({sessionId: sid}, function(err,user) {
 		if (!err) {
@@ -307,6 +307,7 @@ var createAntique = function(req,res){
 		        "owner": user._id
 		    });
 		    antique.created = today;
+            console.log(antique);
 		    antique.save(function(err, newAntique) {
 		    	if (!err) {
 		    		user.artifacts.push(antique._id);

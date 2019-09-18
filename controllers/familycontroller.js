@@ -9,6 +9,7 @@ const controllers = require('../controllers/controllers.js');
 
 var createGroup = function(req,res){
 
+    console.log(req.body.b64);
     var group = new Group({
         "title":req.body.title,
         "photo":req.body.b64,
