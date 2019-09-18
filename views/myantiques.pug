@@ -88,3 +88,22 @@ block content
                                                 h5.card-title #{artifact.title}
                                             .row
                                                 p.listingdescription #{artifact.description}
+
+    // upload image for create group
+    script.
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    
