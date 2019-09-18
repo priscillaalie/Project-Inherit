@@ -295,7 +295,6 @@ var createAntique = function(req,res){
 	var sid = req.cookies.sessionId;
 	// Get current date and time
     var today = new Date();
-    console.log(req.body.b64);
 
 	User.findOne({sessionId: sid}, function(err,user) {
 		if (!err) {
@@ -307,14 +306,13 @@ var createAntique = function(req,res){
 		        "owner": user._id
 		    });
 		    antique.created = today;
-            console.log(antique);
 		    antique.save(function(err, newAntique) {
 		    	if (!err) {
 		    		user.artifacts.push(antique._id);
-                    Groups.findById(req.body.familygroup, function(err, group) {
+                    Group.findById(req.body.familygroup, function(err, group) {
                         group.artifacts.push(antique._id);
+                        group.save();
                     });
-                    group.save();
 		    		user.save();
 		    		res.redirect('/myantiques');
 		    	} else {
@@ -336,8 +334,6 @@ module.exports = {
     fetchSignup,
     fetchProfile,
     fetchIntro,
-    send,
-    verify,
     fetchHomepage,
     fetchSettings,
     checkUser,
