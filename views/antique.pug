@@ -1,0 +1,43 @@
+extends homepage.pug
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/myantiques.css
+
+block content
+    .container-fluid.fill-height.fade-in
+        .row
+            .col-xs-12.col-sm-12#backgroundwelcome
+
+                if(session)
+                    h1.text-center.white-transparent My Antiques
+
+        .row
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
+                'background-color': 'white;'
+            })
+                nav-collapse.fixed-left
+                    .vertical-menu
+                        br
+                        a(href='/antiques',style="color:#666666;") My Antiques
+                        hr.my-4
+                        a(href='/events',style="color:#666666;") Events
+                        br
+                        a(href='/settings',style="color:#666666;") Settings
+                        br
+                        a(href='/logout',style="color:#666666;") Log Out
+                        br
+                        br
+            .col-md-9.col-lg-10.col-xl-10
+                .row
+                    .col-sm-12.col-md-8.col-lg-5.col-xl-5
+                        img(src=artifact.photo)
+                    .col
+                        h1 #{artifact.title}
+
+                        p #{artifact.description}
+
+
+
+

@@ -1,124 +1,79 @@
-extends layout
+extends homepage.pug
 
 block css
     style
-        include ../public/stylesheets/family.css
-
-
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/myantiques.css
 
 block content
-    .container-fluid.fill-height
+    .container-fluid.fill-height.fade-in
         .row
+            .col-xs-12.col-sm-12#backgroundwelcome
 
+                if(session)
+                    h1.text-center.white-transparent #{family.title}
+
+        .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
-                nav#sidebar.fixed-left
-
-
-                    .sidebar-header
+                nav-collapse.fixed-left
+                    .vertical-menu
                         br
-                        h5
-                            a(href='/landing', style="color:DimGray;") Your Account
+                        a(href='/antiques',style="color:#666666;") My Antiques
                         hr.my-4
-
-
-                .col.vertical-menu
-                    a(href='#', style="color:#666666;") Home
-                    br
-                    a(href='/events',style="color:#666666;") Members
-                    br
-                    a(href='/events',style="color:#666666;") Timeline
-                    br
-                    a(href='/events',style="color:#666666;") Artefacts
-                    br
-                    a(href='/events',style="color:#666666;") Events
-                    br
-                    a(href='/settings',style="color:#666666;") Settings
-                    br
-                    a(href='/logout',style="color:#666666;") Log Out
-                    br
-                    br
-            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
-                .row
-                    .col-xs-12.col-sm-12#backgroundwelcome
+                        a(href='/events',style="color:#666666;") Events
+                        br
+                        a(href='/settings',style="color:#666666;") Settings
+                        br
+                        a(href='/logout',style="color:#666666;") Log Out
                         br
                         br
+            .col-md-9.col-lg-10.col-xl-10
+                #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                    form(method='POST' action='/addantique')
+                        .modal-content
+                            .modal-header.text-center
+                                h4.modal-title.w-100.font-weight-bold Add an antique
+                                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                    span(aria-hidden='true') &times;
+                            .modal-body.mx-3
+                                .md-form.mb-5
+                                    label.font-weight-bold(for='familyname') Title
+                                    input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
+                                .md-form.mb-5
+                                    label.font-weight-bold(for='description') Description
+                                    .input-group
+                                        textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                .md-form.mb-5
+                                    p.font-weight-bold Upload Image (optional)
+                                    img#preview(src=file)
+                                    input#pad( type='file' onchange='previewFile()' name = 'photo')
+                                .md-form.mb-5
+                                    label.font-weight-bold(for='familyname') Which family does this antique belong to?
+                                    select#state(type='text', placeholder='Family Group' name='familygroup', required)
+                                        for family in familygroups
+                                            option(value=`${family._id}`) #{family.title}
 
-                        button.collapsible Open Collapsible
-                        .content
-                            p Lorem ipsum...
-                        br
-                        br
-                .row
-                    .col
-
-
-                        #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                            form(method='POST' action='/family')
-
-
-                            .modal-dialog(role='document')
-                                .modal-content
-                                    .modal-header.text-center
-                                        h4.modal-title.w-100.font-weight-bold Create a Family
-                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                            span(aria-hidden='true') &times;
-                                    .modal-body.mx-3
-                                        .md-form.mb-5
-                                            label.font-weight-bold(for='familyname') Family Name
-                                            input#familyname.form-control(type='text', placeholder='Family Name*' name='familyname', required)
-                                        .md-form.mb-5
-                                            label.font-weight-bold(for='description') Description
-                                            .input-group
-                                                textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                        .md-form.mb-5
-                                            p.font-weight-bold Upload Image (optional)
-                                            img#preview(src=file)
-                                            input#pad( type='file' onchange='previewFile()' name = 'photoinput')
-                                            p#message Looking good!
-
-                                    .modal-footer.d-flex.justify-content-center
-                                        button.btn.btn-primary(type='submit') Create Family
-                        br
-                        .text-center
-
-                            a.btn.btn-default.btn-rounded.mb-4(href='' data-toggle='modal' data-target='#modalRegisterForm')
-                                | Create Family Group
+                                div
+                                    input#b64(type="hidden", name='b64')
 
 
+                            .modal-footer.d-flex.justify-content-center
+                                button.btn.btn-primary(type='submit') Add
 
-        script.
-            function previewFile() {
-                var preview = document.querySelector('img');
-                var file = document.querySelector('input[type=file]').files[0];
-                var reader = new FileReader();
+                br
+                .text-center
+                    a.btn.btn-light.btn-rounded.mb-4.addbutton(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                        | Add antique
 
-                reader.addEventListener("load", function (e) {
-                    preview.src = reader.result.toString();
-                    document.getElementById('b64').value = e.target.result;
-                }, false);
-
-                if (file) {
-                    reader.readAsDataURL(file);
-                    document.getElementById('message').style.display = 'block';
-                    document.getElementById('nextbtn').style.display = 'block';
-                }
-            }
-
-        script.
-            var coll = document.getElementsByClassName("collapsible");
-            var i;
-
-            for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function () {
-                    this.classList.toggle("active");
-                    var content = this.nextElementSibling;
-                    if (content.style.display === "block") {
-                        content.style.display = "none";
-                    } else {
-                        content.style.display = "block";
-                    }
-                });
-            }
-
+        each art in artifact
+            .card(style='width: 15rem; height: fit-content;')
+                .d-flex
+                    a(href = `/artifact/view/${art._id}`)
+                        img.card-img-top.image-custom(src=art.photo, style="width:14rem;height:15rem;")
+                        .card-body.flex-fill
+                            .row
+                                h5.card-title #{art.title}
+                            .row
+                                p.listingdescription #{art.description}
