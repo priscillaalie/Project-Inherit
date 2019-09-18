@@ -5,10 +5,11 @@ var groupSchema = mongoose.Schema(
         "id": String,
         "title":String,
         "description":String,
-        "photo":String,
-        "owner":String, //want to connect this to a user id
+        "photo": String,
+        "owner": String,
         "members":Array,
-        "posts": Array
+        "posts": Array,
+        "artifacts": Array
     }
 );
 module.exports = mongoose.model('Group', groupSchema);

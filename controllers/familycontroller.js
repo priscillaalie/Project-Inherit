@@ -9,10 +9,12 @@ const controllers = require('../controllers/controllers.js');
 
 var createGroup = function(req,res){
 
+    console.log(req.body.b64);
     var group = new Group({
         "title":req.body.title,
         "photo":req.body.b64,
         "description":req.body.description,
+
     });
 
     var sid = req.cookies.sessionId;
@@ -25,7 +27,7 @@ var createGroup = function(req,res){
                 if (!err){
                     user.groups.push(group._id);
                     user.save();
-                    res.render('homepage.pug', {title: 'Inherit'});
+                    res.redirect('/home');
                 } else {
                     res.sendStatus(400);
                 }
@@ -46,15 +48,11 @@ var showGroupByID = function(req, res) {
                     var sid = req.cookies.sessionId;
                     User.find({sessionId: sid}, function(err, currUser){
                         if (!err){
-                            Category.find({}, function(err, categories){
-                                if (!err){
-                                    var results = {group: group, owner: owner,
-                                        user: currUser[0], session: sid};
-                                    res.render('family.pug', results);
-                                } else {
-                                    res.sendStatus(400);
-                                }
-                            });
+                            var results = {group: group, owner: owner,
+                                user: currUser[0], session: sid, artifacts: group.artifacts};
+                            console.log('rendering');
+                            res.render('family.pug', results);
+                            console.log('rendered');
                         } else {
                             res.sendStatus(400);
                         }
