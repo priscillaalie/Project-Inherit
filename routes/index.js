@@ -41,7 +41,7 @@ router.get('/signup', function(req, res){
 });
 
 router.get('/profile', controllers.fetchProfile);
-router.get('/getstarted', controllers.fetchProfile);
+router.get('/getstarted', controllers.getStarted);
 
 router.get('/home', controllers.fetchHomepage);
 
@@ -58,6 +58,8 @@ router.post('/addantique', controllers.createAntique)
 router.post('/signup', controllers.createUser);
 
 router.post('/login', controllers.checkUser);
+
+router.get('/verify', controllers.verify);
 
 router.get("/logout", function(req, res){
   res.cookie('sessionId', '');

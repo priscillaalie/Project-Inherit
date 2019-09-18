@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Group = require('../models/familygroups');
 const utils = require('./utils.js');
 var express = require('express');
+var nodemailer = require("nodemailer");
 var app = express();
 
 const bcrypt = require('bcrypt');
@@ -15,6 +16,10 @@ var  showIndex = function(req,res) {
     res.render('index', results);
 };
 
+var getStarted = function(req,res) {
+    send(req, res);
+    fetchProfile(req, res);
+}
 
 var fetchLogin = function (req,res) {
     res.render('login.pug', {title: 'Login'});
@@ -26,10 +31,6 @@ var fetchSignup = function (req,res) {
 
 var fetchProfile = function (req,res) {
     res.render('profile.pug', {title: 'Profile'});
-};
-
-var fetchIntro = function(req,res) {
-    res.render('getstarted.pug',{title: 'Get Started'})
 };
 
 var fetchHomepage = function(req, res) {
@@ -201,7 +202,7 @@ var createUser = function(req,res){
                         user.save(function(err,newUser){
                             if(!err){
                                 //if there are no errors, show the new user
-                                fetchIntro(req,res)
+                                fetchProfile(req,res)
                                 console.log("user added to database");
                             }else{
                                 res.sendStatus(400);
@@ -323,6 +324,62 @@ var createAntique = function(req,res){
 	});
 };
 
+var smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: "projectinherit28@gmail.com",
+        pass: "iwant2commit"
+    }
+})
+var rand, mailOptions, host, link;
+
+var send = function(req,res) {
+    rand=Math.floor((Math.random() * 100) + 54);
+    host=req.get('host');
+    link="http://"+req.get('host')+"/verify?id="+rand;
+    mailOptions={
+        to : req.body.email,
+        subject : "Please confirm your email account",
+        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
+    }
+    console.log(mailOptions);
+    smtpTransport.sendMail(mailOptions, function(error, response){
+    if(error){
+        console.log(error);
+    }
+});
+};
+
+var verify = function(req, res) {
+    console.log(req.protocol+":/"+req.get('host'));
+    if((req.protocol+"://"+req.get('host'))==("http://"+host))
+    {
+        console.log("Domain is matched. Information is from Authentic email");
+        if(req.query.id==rand)
+        {
+            console.log("email is verified");
+            res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
+            // change verified to true
+            User.findOne({'email':mailOptions.to}, function (error, person) {
+                if (error) console.log(error);
+                console.log(mailOptions.to);
+                person.verified = true;
+                person.save();
+            })
+        }
+        else
+        {
+            console.log("email is not verified");
+            res.end("<h1>Bad Request</h1>");
+        }
+    }
+    else
+    {
+        res.end("<h1>Request is from unknown source");
+    };
+};
+
+
 // Connect to the db
 const dbURI =
     "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
@@ -333,7 +390,7 @@ module.exports = {
     fetchLogin,
     fetchSignup,
     fetchProfile,
-    fetchIntro,
+    getStarted,
     fetchHomepage,
     fetchSettings,
     checkUser,
@@ -344,6 +401,8 @@ module.exports = {
     fetchDeleteAccount,
     fetchPrivacy,
     fetchAntiquesByUser,
-    createAntique
+    createAntique,
+    send,
+    verify
 }
 
