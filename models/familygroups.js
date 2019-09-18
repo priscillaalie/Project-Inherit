@@ -5,8 +5,8 @@ var groupSchema = mongoose.Schema(
         "id": String,
         "title":String,
         "description":String,
-        "photo":String,
-        "owner":String, //want to connect this to a user id
+        "photo": String,
+        "owner": String, //want to connect this to a user id
         "members":Array,
         "posts": Array
     }
