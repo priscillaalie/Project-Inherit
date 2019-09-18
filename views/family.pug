@@ -9,10 +9,16 @@ block content
     .container-fluid.fill-height.fade-in
         .row
             .col-xs-12.col-sm-12#backgroundwelcome
+                .row
 
-                if(session)
+                    .col
+                    .col
+                        if(session)
+                            h2.text-center.white-transparent #{group.title}
+                    .col.text-right
 
-                    h1.text-center.white-transparent #{group.title}
+                            a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                                | Edit Group Details
 
 
         .row
@@ -32,6 +38,45 @@ block content
                         br
                         br
             .col-md-9.col-lg-10.col-xl-10
+                .row
+                    .col.familygroupzone
+                        .card(style='width: 15rem; height: 15rem;')
+                            // Button trigger modal
+                            //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
+                            a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                                | Add Artifact
+
+                            #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+
+                                .modal-dialog(role='document')
+                                    form(method='POST' action='/addantique')
+                                        .modal-content
+                                            .modal-header.text-center
+                                                h4.modal-title.w-100.font-weight-bold Add an artifact
+                                                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                    span(aria-hidden='true') &times;
+                                            .modal-body.mx-3
+                                                .md-form.mb-5
+                                                    label.font-weight-bold(for='familyname') Title
+                                                    input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
+                                                .md-form.mb-5
+                                                    label.font-weight-bold(for='description') Description
+                                                    .input-group
+                                                        textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                                .md-form.mb-5
+                                                    p.font-weight-bold Upload Image (optional)
+                                                    img#preview(src=file)
+                                                    input#pad( type='file' onchange='previewFile()' name = 'photo')
+
+                                                div
+                                                    input#b64(type="hidden", name='b64')
+
+
+                                            .modal-footer.justify-content-center
+                                                button.btn.btn-primary(type='submit') Add
+
+
+
                 #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                     form(method='POST' action='/addantique')
                         .modal-content
@@ -51,13 +96,12 @@ block content
                                     p.font-weight-bold Upload Image (optional)
                                     img#preview(src=file)
                                     input#pad( type='file' onchange='previewFile()' name = 'photo')
+                                div
+                                    input#b64(type="hidden", name='b64')
 
-                                            div
-                                                input#b64(type="hidden", name='b64')
 
-
-                                        .modal-footer.d-flex.justify-content-center
-                                            button.btn.btn-primary(type='submit') Add
+                            .modal-footer.d-flex.justify-content-center
+                                button.btn.btn-primary(type='submit') Add
 
                             br
 
