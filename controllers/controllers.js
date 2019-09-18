@@ -196,13 +196,13 @@ var createUser = function(req,res){
                         var results = {title: 'Inherit', error: message,
                             email: req.body.email, fname: req.body.fname,
                             lname: req.body.lname, phone: req.body.phone};
-                        res.render('signup.pug', results);
                     }
                     else{
                         user.save(function(err,newUser){
                             if(!err){
                                 //if there are no errors, show the new user
-                                fetchProfile(req,res)
+                                fetchSettings(req, res);
+                                send(req,res);
                                 console.log("user added to database");
                             }else{
                                 res.sendStatus(400);
@@ -354,11 +354,10 @@ var verify = function(req, res) {
     console.log(req.protocol+":/"+req.get('host'));
     if((req.protocol+"://"+req.get('host'))==("http://"+host))
     {
-        console.log("Domain is matched. Information is from Authentic email");
         if(req.query.id==rand)
         {
-            console.log("email is verified");
-            res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
+            res.render('verify.pug');
+            //res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
             // change verified to true
             User.findOne({'email':mailOptions.to}, function (error, person) {
                 if (error) console.log(error);
