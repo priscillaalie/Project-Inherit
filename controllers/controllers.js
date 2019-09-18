@@ -311,6 +311,10 @@ var createAntique = function(req,res){
 		    antique.save(function(err, newAntique) {
 		    	if (!err) {
 		    		user.artifacts.push(antique._id);
+                    Groups.findById(req.body.familygroup, function(err, group) {
+                        group.artifacts.push(antique._id);
+                    });
+                    group.save();
 		    		user.save();
 		    		res.redirect('/myantiques');
 		    	} else {
