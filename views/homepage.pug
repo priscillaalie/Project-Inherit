@@ -12,7 +12,7 @@ block content
             .col-xs-12.col-sm-12#backgroundwelcome
 
                 if(session)
-                    h1.text-center.white-transparent Welcome
+                    h1.text-center.white-transparent Welcome #{name}
 
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
@@ -21,7 +21,7 @@ block content
                 nav-collapse.fixed-left
                     .vertical-menu
                         br
-                        a(href='/myantiques',style="color:#666666;") My Antiques
+                        a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
@@ -87,9 +87,7 @@ block content
                                             .row
                                                 h5.card-title #{family.title}
 
-
-
-
+    // upload image for create group
     script.
         function previewFile() {
             var preview = document.querySelector('img');

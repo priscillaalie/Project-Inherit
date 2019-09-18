@@ -11,7 +11,7 @@ block content
             .col-xs-12.col-sm-12#backgroundwelcome
 
                 if(session)
-                    h1.text-center.white-transparent My Antiques
+                    h1.text-center.white-transparent My Artifacts
 
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
@@ -20,7 +20,7 @@ block content
                 nav-collapse.fixed-left
                     .vertical-menu
                         br
-                        a(href='/antiques',style="color:#666666;") My Antiques
+                        a(href='/antiques',style="color:#666666;") My Artifact
                         hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
@@ -37,7 +37,7 @@ block content
                                 form(method='POST' action='/addantique')
                                     .modal-content
                                         .modal-header.text-center
-                                            h4.modal-title.w-100.font-weight-bold Add an antique
+                                            h4.modal-title.w-100.font-weight-bold Add an artifact
                                             button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                 span(aria-hidden='true') &times;
                                         .modal-body.mx-3
@@ -69,7 +69,7 @@ block content
 
                             .text-center
                                 a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
-                                    | Add antique
+                                    | Add Artifact
 
                         each artifact in artifacts
 
