@@ -49,13 +49,11 @@ var showGroupByID = function(req, res) {
                     User.find({sessionId: sid}, function(err, currUser){
                         if (!err){
                             Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
-                                if (!err) {
-                                    var results = {group: group, owner: owner,
-                                    user: currUser[0], session: sid, artifacts: group.artifacts};
+
+                                var results = {group: group, owner: owner,
+                                    user: currUser[0], session: sid, artifacts: artifacts};
                                 res.render('family.pug', results);
-                                } else {
-                                    res.sendStatus(400);
-                                }
+
                             })
                         } else {
                             res.sendStatus(400);
