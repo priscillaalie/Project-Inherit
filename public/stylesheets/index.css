@@ -1,12 +1,17 @@
 /** CAROUSEL **/
+body{
+    margin: 30px 0 0 0 !important;
+    padding: 60px 0px 0px 0px !important;
+}
 .carousel-item {
-    height: 500px;
+    height: 600px;
     vertical-align: middle;
-    padding: 0px;
+    padding-top: 80px;
 }
 
+
 .item1 {
-    background: url("https://images.unsplash.com/photo-1519567770579-c2fc5436bcf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), no-repeat center center fixed;
+    background: url("https://images.unsplash.com/photo-1533158307587-828f0a76ef46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80"), no-repeat center center fixed;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -15,7 +20,7 @@
 }
 
 .item2 {
-    background: url("https://images.unsplash.com/photo-1508873881324-c92a3fc536ba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"), no-repeat center center fixed;
+    background: url("https://images.unsplash.com/photo-1519567770579-c2fc5436bcf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), no-repeat center center fixed;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -24,7 +29,7 @@
 }
 
 .item3 {
-    background-image: linear-gradient(to top,lightskyblue 0%, deepskyblue 1%, lightskyblue 100%);
+    background: linear-gradient(to top, #eacda3, #d6ae7b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 /** ITEM 1 **/
@@ -59,6 +64,12 @@
 .icon {
     width: 70% !important;
     height: 70% !important;
+
+}
+
+.responsive {
+    width: 50%;
+    height: auto;
 }
 
 .caption {

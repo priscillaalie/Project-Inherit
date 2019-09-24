@@ -64,9 +64,8 @@ nav {
 }
 
 .textboxdesign{
-    background-color: darkseagreen;
-    padding-top: 10px;
-    padding-bottom: 4vw;
+    background: linear-gradient(to right, #00b4db, #0083b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding-bottom:1vw;
     border-radius: 3px;
 }
 
@@ -74,4 +73,56 @@ nav {
     padding-top: 30%;
     width: 15rem;
     height: 15rem;
+}
+
+.modal{
+    margin: 15px 15px 15px 15px;
+}
+
+.familygroupzone {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-rows: 1fr 1fr;
+    background-color: white;
+    height: 80%;
+    border-radius: 20px;
+}
+
+.toprow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-rows: 1fr;
+    background-color: white;
+    height: 80%;
+    border-radius: 20px;
+}
+
+
+/** ANIMATIONS **/
+
+.fade-in {
+    animation: fadeIn ease 1.5s;
+    -webkit-animation: fadeIn ease 1.5s;
+    -moz-animation: fadeIn ease 1.5s;
+    -o-animation: fadeIn ease 1.5s;
+    -ms-animation: fadeIn ease 1.5s;
+}
+
+
+@keyframes fadeIn{
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
 }

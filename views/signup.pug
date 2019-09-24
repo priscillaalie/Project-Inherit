@@ -89,6 +89,19 @@ block content
                 }, 8000);
             });
 
+                            // Modal Success Popup
+                            //#myModal.modal.fade.success-popup(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
+                                .modal-dialog.modal-sm(role='document')
+                                    .modal-content
+                                        .modal-header
+                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                span(aria-hidden='true') &times;
+                                            h4#myModalLabel.modal-title Thank You !
+                                        .modal-body.text-center
+                                            img(src='http://osmhotels.com//assets/check-true.jpg')
+                                            p.lead Contact form successfully submitted. Thank you, We will get back to you soon!
+                                            a.rd_more.btn.btn-default(href='index.php') Go to Home
+
 
         script.
             (function () {
@@ -126,5 +139,7 @@ block content
                     document.getElementById('email').value = "#{email}";
                     document.getElementById('fname').value = "#{fname}";
                     document.getElementById('lname').value = "#{lname}";
+
                     document.getElementById('phone').value = "#{phone}";
+
                 }
