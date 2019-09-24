@@ -41,9 +41,10 @@ block content
 
             .col-md-9.col-lg-10.col-xl-10
                 .row
-                    .col.familygroupzone
+                    .col
                         h3 #{artifact.title}
                         br
+
                         p #{artifact.description}
                     .col
                         img(src=artifact.photo)
@@ -51,7 +52,9 @@ block content
 
                 .row
                     .col
-                        btn.btn-outline-dark.btn-lg(href = "/delete") Delete Artifact
+                        btn.btn-outline-secondary.btn-lg(href = "/delete") Delete Artifact
+                        br
+                        br
 
 
                 .row.bootstrap.snippets
