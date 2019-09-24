@@ -13,6 +13,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/priscillaalie/Project-Inherit.git"
+
   },
   "author": "",
   "license": "ISC",
@@ -22,9 +23,9 @@
   "homepage": "https://github.com/priscillaalie/Project-Inherit#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "cookie-parser": "~1.4.4",
-    "controllers": "0.0.2",
+    "cookie-parser": "^1.4.4",
     "crypto": "^1.0.1",
+    "darwin": "0.0.5",
     "debug": "~2.6.9",
     "expo-cli": "^3.0.9",
     "express": "^4.16.4",
@@ -34,6 +35,7 @@
     "mongoose": "^5.6.9",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "~1.9.1",
+    "nodemailer": "^6.3.0",
     "navigator": "^1.0.1",
     "nodemon": "^1.19.1",
     "parser": "^0.1.4",

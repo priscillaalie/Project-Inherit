@@ -8,60 +8,64 @@ block css
 block content
     .container-fluid.fill-height
         .row
-            .col-xs-12.col-sm-12#backgroundwelcome
-
-                if(session)
-                    h3.text-center.white-transparent Settings
-
+            .col
+                .header
+                    if(session)
+                        br
+                        br
+                        h2.text-center Settings
+                        br
+                        br
+        br
         .row
-            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;'
-            })
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2
                 nav.fixed-left
                     .vertical-menu
                         br
-                        a(href='/antiques',style="color:#666666;") General
-                        hr.my-4
-                        a(href='/events',style="color:#666666;") Security and Login
-                        hr.my-4
-                        a(href='/settings',style="color:#666666;") Delete Account
-                        hr.my-4
-                        a(href='/logout',style="color:#666666;") Log out
+                        a.active(href='#',style="color:#666666;") General
+                        hr.my-3
+                        a(href='/settings/security',style="color:#666666;") Security and Login
+                        hr.my-3
+                        a(href='/settings/delete',style="color:#666666;") Delete Account
+
                         br
                         br
+
             .col-md-9.col-lg-10.col-xl-10
                 .jumbotron
                     .row
                         .col.col-md-6.col-lg-6.col-xl-6
                             h3 Personal Details
-                        .col-md-6.col-lg-6.col-xl-6.d-flex.justify-content-center
-                            img#preview(src=user.photo)
-                            input( type='file' onchange='previewFile()')
-
-
 
                     hr.my-4
-                    .row
-                        .col
-                            h4 Name
-                            br
 
-                    form(method='POST' action='/general').general
+                    form(method='POST' action='/settings/general').general
                         .row
                             .form-group.col.col-md-6.col-lg-6.col-xl-6
                                 p FIRST NAME
                                 input.fullrow(type='text', name='fname', value=user.fname)
-                            .form-group.col.col-md-6.col-lg-6.col-xl-6
-                                p LAST NAME
-                                input.fullrow(type='text', name='lname', value=user.lname)
-                        .row
-                            .form-group.col
-                                p EMAIL
-                                input.fullrow(type='email', name='email', value=user.email)
-                        .row
-                            .form-group.col
-                                p PHONE NUMBER
-                                input.fullrow(type='text', name='phone', value=user.phone)
+                                .row.form-group
+                                    .col
+                                        p LAST NAME
+                                        input.fullrow(type='text', name='lname', value=user.lname)
+
+                                .row.form-group
+                                    .col
+                                        p EMAIL
+                                        input.fullrow(type='email', name='email', value=user.email)
+                                .row.form-group
+                                    .col
+                                        p PHONE NUMBER
+                                        input.fullrow(type='text', name='phone', value=user.phone)
+
+                            .form-group.col.col-md-6.col-lg-6.col-xl-6.text-center.imgzone
+                                img#preview(src=user.photo)
+                                .row
+                                    .col
+                                        input( type='file' onchange='previewFile()')
+                                        div
+                                            input#b64(type="hidden", name='b64')
+
                         .row
                             .col.d-flex.justify-content-center
                                 button.btn.btn-success(type='submit', onClick = "successMsg()" ) Update

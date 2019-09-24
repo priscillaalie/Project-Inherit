@@ -3,58 +3,60 @@ extends layout
 block css
   style
     include ../public/stylesheets/index.css
+    include ../public/stylesheets/font.css
 
 
 
 block content
-    #carouselIndicators.carousel.slide(data-ride = "carousel")
-        ol.carousel-indicators
-            li.active(data-target = "#carouselIndicators" data-slide-to = "0")
-            li(data-target = "#carouselIndicators" data-slide-to = "1")
-            li(data-target = "#carouselIndicators" data-slide-to = "2")
-        .carousel-inner(role = "listbox")
-            .carousel-item.active.item1.text-center.fade-in
-                .row
-                    .col
-                    .col.my-auto
-                        #title.handwrite
-                    .col
-                .row
-                    .col.white-transparent
-                        h1 The easiest way to keep up with the family
-                        h3 Track relatives and family antiques/treasures. Get back to your roots.
-                        br
-                        a#signupbtn.btn.btn-outline-dark.btn-lg(href = "/signup") Get Started
-            .carousel-item.item2.text-center
-                .row.sp
-                    .col
-                        h1(style = "color: white;") Share memories and events with family
-                .row.h-90
-                    .col
-                        img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/69/69366.svg", height = "100px;")
-                        h3.caption Photo
-                    .col
-                        img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181538.svg", height = "100px;")
-                        h3.caption Video
-                    .col
-                        img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181531.svg", height = "100px;")
-                        h3.caption Link
-                    .col
-                        img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181540.svg", height = "100px;")
-                        h3.caption Text
-            .carousel-item.item3.fade-in
-                .row.sp
-                    .col-lg-1.col-xl-1
-                    .col.col-lg-4.col-xl-4
-                        .jumbotron.white-transparent
-                            h3.font-weight-bold Inherit creates your family tree
-                            p Inherit aims to make it easier for families living near and far to connect and preserve your family history, antiques, and relationships. Share photos and celebrate birthdays, anniversaries and other events together.
+    .row
+        .col
+            #carouselIndicators.carousel.slide(data-ride = "carousel")
+                ol.carousel-indicators
+                    li.active(data-target = "#carouselIndicators" data-slide-to = "0")
+                    li(data-target = "#carouselIndicators" data-slide-to = "1")
+                    li(data-target = "#carouselIndicators" data-slide-to = "2")
+                .carousel-inner(role = "listbox")
+                    .carousel-item.active.item1.text-center.fade-in
+                        .row
+                            .col
+                            .col.my-auto
+                                #title.handwrite
+                            .col
+                        .row
+                            .col.white-transparent
+                                h3 The easiest way to keep up with the family
+                                p Track relatives and family antiques/treasures. Get back to your roots.
+                                a#signupbtn.btn.btn-outline-dark.btn-lg(href = "/signup") Get Started
+                    .carousel-item.item2.text-center
+                        .row.sp
+                            .col
+                                h1(style = "color: white;") Share memories and events with family
+                        .row.h-90
+                            .col
+                                img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/69/69366.svg", height = "100px;")
+                                h3.caption Photo
+                            .col
+                                img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181538.svg", height = "100px;")
+                                h3.caption Video
+                            .col
+                                img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181531.svg", height = "100px;")
+                                h3.caption Link
+                            .col
+                                img.icon.fade-in(src = "https://image.flaticon.com/icons/svg/181/181540.svg", height = "100px;")
+                                h3.caption Text
+                    .carousel-item.item3.fade-in
+                        .row.sp
+                            .col-lg-1.col-xl-1
+                            .col.col-lg-4.col-xl-4
+                                .jumbotron.white-transparent
+                                    h3.font-weight-bold Inherit creates your family tree
+                                    p Inherit aims to make it easier for families living near and far to connect and preserve your family history, antiques, and relationships. Share photos and celebrate birthdays, anniversaries and other events together.
 
-                            p.font-weight-bold Plant your family tree on Inherit
-                    .col-lg-7.col-xl-7
-                        div(style="width:90%;height:0;padding-bottom:56%;position:relative;")
-                            .d-none.d-lg-block.d-xl-block
-                                iframe.giphy-embed.video(src="https://giphy.com/embed/l49bmpMXQytsws6S84" width="100%" height="100%" style="position:absolute" frameborder="0" allowfullscreen="")
+                                    p.font-weight-bold Plant your family tree on Inherit
+                            .col-lg-7.col-xl-7
+                                div(style="width:80%;height:70% ;padding-bottom:56%;position:relative;")
+                                    .d-none.d-lg-block.d-xl-block
+                                        iframe.giphy-embed.video(src="https://giphy.com/embed/l49bmpMXQytsws6S84" width="100%" height="100%" style="position:absolute" frameborder="0" allowfullscreen="")
 
     script.
         window.onload = typeWriter;

@@ -1,8 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var app = express()
 var user = require('../models/user.js');
+
+settingsRoutes = require('./settings');
+
+
+var app = express();
+
+app.use('/settings', settingsRoutes);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -15,15 +22,44 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/login', controllers.fetchLogin);
-router.get('/signup', controllers.fetchSignup);
+router.get('/login', function(req, res){
+  // if (req.cookies.sessionId) {
+  //   res.redirect('/');
+  // } else {
+  //   controllers.fetchLogin(req, res);
+  // }
+  controllers.fetchLogin(req, res);
+});
+
+router.get('/signup', function(req, res){
+  // if (req.cookies.sessionId) {
+  //   res.redirect('/');
+  // } else {
+  //   controllers.fetchSignup(req, res);
+  // }
+  controllers.fetchSignup(req, res);
+});
+
 router.get('/profile', controllers.fetchProfile);
-router.get('/getstarted', controllers.fetchIntro);
+
 router.get('/home', controllers.fetchHomepage);
-router.get('/settings',controllers.fetchSettings);
+
+router.get('/myantiques', function(req, res){
+  if (req.cookies.sessionId) {
+    controllers.fetchAntiquesByUser(req, res);
+  } else {
+    res.redirect('/login');
+  }
+});
+
+router.post('/addantique', controllers.createAntique)
 
 router.post('/signup', controllers.createUser);
+
 router.post('/login', controllers.checkUser);
+
+router.get('/verify', controllers.verify);
+
 router.get("/logout", function(req, res){
   res.cookie('sessionId', '');
   res.redirect('/');
@@ -31,6 +67,7 @@ router.get("/logout", function(req, res){
 
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
+router.get('/artifact/view/:id', controllers.showArtifactByID);
 
 
 module.exports = router;

@@ -1,0 +1,106 @@
+extends homepage.pug
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/myantiques.css
+
+block content
+    .container-fluid.fill-height.fade-in
+        .row
+            .col-xs-12.col-sm-12#backgroundwelcome
+                .row
+
+                    .col
+                    .col
+                        if(session)
+                            h2.text-center.white-transparent #{group.title}
+                    .col.text-right
+
+                            a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                                | Edit Group Details
+
+
+        .row
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
+                'background-color': 'white;'
+            })
+                nav-collapse.fixed-left
+                    .vertical-menu
+                        br
+                        a(href='/myantiques',style="color:#666666;") My Antiques
+                        hr.my-4
+                        a(href='/events',style="color:#666666;") Events
+                        br
+                        a(href='/settings',style="color:#666666;") Settings
+                        br
+                        a(href='/logout',style="color:#666666;") Log Out
+                        br
+                        br
+
+
+            .col-md-9.col-lg-10.col-xl-10
+                .row
+                    .col.familygroupzone
+                        .card.mb-4(style='width: 15rem; height: 15rem;')
+                            // Button trigger modal
+                            //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
+                            a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                                | Add Artifact
+
+                            #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+
+                                .modal-dialog(role='document')
+                                    form(method='POST' action='/addantique')
+                                        .modal-content
+                                            .modal-header.text-center
+                                                h4.modal-title.w-100.font-weight-bold Add an artifact
+                                                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                    span(aria-hidden='true') &times;
+                                            .modal-body.mx-3
+                                                .md-form.mb-5
+                                                    label.font-weight-bold(for='familyname') Title
+                                                    input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
+                                                .md-form.mb-5
+                                                    label.font-weight-bold(for='description') Description
+                                                    .input-group
+                                                        textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                                .md-form.mb-5
+                                                    p.font-weight-bold Upload Image (optional)
+                                                    img#preview(src=file)
+                                                    input#pad( type='file' onchange='previewFile()' name = 'photo')
+                                                div
+                                                    input#b64(type="hidden", name='b64')
+
+                                            .modal-footer.justify-content-center
+                                                button.btn.btn-primary(type='submit') Add
+
+                        each artifact in artifacts
+
+                            .card.mb-4(style='width: 15rem; height: fit-content;')
+                                .d-flex
+                                    a(href = `/artifact/view/${artifact._id}`)
+                                        img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")
+                                        .card-body.flex-fill
+                                            .row
+                                                h5.card-title #{artifact.title}
+                                            .row
+                                                p.listingdescription #{artifact.description}
+
+            // upload image for create group
+            script.
+                function previewFile() {
+                    var preview = document.querySelector('img');
+                    var file = document.querySelector('input[type=file]').files[0];
+                    var reader = new FileReader();
+
+                    reader.addEventListener("load", function (e) {
+                        //document.getElementById("b64").innerHTML = e.target.result;
+                        preview.src = reader.result.toString();
+                        document.getElementById('b64').value = e.target.result;
+                    }, false);
+
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    }
+                }
