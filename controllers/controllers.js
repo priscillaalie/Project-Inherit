@@ -18,7 +18,11 @@ var  showIndex = function(req,res) {
 
 var getStarted = function(req,res) {
     send(req, res);
-    fetchProfile(req, res);
+    fetchSend(req,res);
+}
+
+var fetchSend = function (req, res) {
+    res.render('send.pug', {title: 'Send'});
 }
 
 var fetchLogin = function (req,res) {
@@ -202,7 +206,7 @@ var createUser = function(req,res){
                         user.save(function(err,newUser){
                             if(!err){
                                 //if there are no errors, show the new user
-                                fetchProfile(req,res)
+                                getStarted(req,res);
                                 console.log("user added to database");
                             }else{
                                 res.sendStatus(400);
@@ -358,7 +362,7 @@ var verify = function(req, res) {
         if(req.query.id==rand)
         {
             console.log("email is verified");
-            res.end("<h1>Email "+mailOptions.to+" is been successfully verified");
+            res.render('verify.pug');
             // change verified to true
             User.findOne({'email':mailOptions.to}, function (error, person) {
                 if (error) console.log(error);
@@ -377,6 +381,17 @@ var verify = function(req, res) {
     {
         res.end("<h1>Request is from unknown source");
     };
+};
+
+var showArtifactByID = function(req, res) {
+    var ID = req.params.id;
+    Artifact.findById(ID, function(err, artifact) {
+        if(!err){
+            res.render('artifact.pug', {artifact: artifact});
+        }else{
+            res.sendStatus(404);
+        }
+    });
 };
 
 
@@ -403,6 +418,7 @@ module.exports = {
     fetchAntiquesByUser,
     createAntique,
     send,
-    verify
+    verify,
+    showArtifactByID
 }
 

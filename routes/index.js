@@ -68,6 +68,7 @@ router.get("/logout", function(req, res){
 
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
+router.get('/artifact/view/:id', controllers.showArtifactByID);
 
 
 module.exports = router;
