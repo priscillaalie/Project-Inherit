@@ -16,15 +16,16 @@ var  showIndex = function(req,res) {
     res.render('index', results);
 };
 
+var fetchSend = function (req, res) {
+    res.render('send.pug', {title: 'Send'});
+}
+
 //sends the new user a verification email and takes them to their profile page
 var getStarted = function(req,res) {
     send(req, res);
     fetchSend(req,res);
 }
 
-var fetchSend = function (req, res) {
-    res.render('send.pug', {title: 'Send'});
-}
 
 // renders the login page
 var fetchLogin = function (req,res) {
