@@ -4,34 +4,46 @@ const User = require('../models/user');
 const Group = require('../models/familygroups');
 const utils = require('./utils.js');
 var express = require('express');
+var nodemailer = require("nodemailer");
 var app = express();
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-
+//renders the index page
 var  showIndex = function(req,res) {
     var results = {title: 'Inherit', error: " "};
     res.render('index', results);
 };
 
+var fetchSend = function (req, res) {
+    res.render('send.pug', {title: 'Send'});
+}
 
+//sends the new user a verification email and takes them to their profile page
+var getStarted = function(req,res) {
+    send(req, res);
+    fetchSend(req,res);
+}
+
+
+// renders the login page
 var fetchLogin = function (req,res) {
     res.render('login.pug', {title: 'Login'});
 };
 
+// renders the signup page
 var fetchSignup = function (req,res) {
     res.render('signup.pug', {title: 'Signup'});
 };
 
+// renders the profile page
 var fetchProfile = function (req,res) {
     res.render('profile.pug', {title: 'Profile'});
 };
 
-var fetchIntro = function(req,res) {
-    res.render('getstarted.pug',{title: 'Get Started'})
-};
-
+// if it is a current user, find the user's information such as name and groups they are in 
+// and send this to the front end to be displayed. if not, display basic front end
 var fetchHomepage = function(req, res) {
 	if (req.cookies.sessionId) {
 		User.findOne({sessionId: req.cookies.sessionId},function(err,user){
@@ -57,6 +69,7 @@ var fetchHomepage = function(req, res) {
 	}
 };
 
+// displays the settings page of a user
 var fetchSettings = function(req, res) {
     var sid = req.cookies.sessionId;
     User.findOne({sessionId: sid}, function(err, user){
@@ -67,16 +80,19 @@ var fetchSettings = function(req, res) {
     });
 };
 
+// renders the delete account page
 var fetchDeleteAccount = function(req, res) {
     var results = {title: 'Inherit', session: req.cookies.sessionId, error: ''};
     res.render('deleteAccount.pug', results)
 }
 
+// renders the privacy page
 var fetchPrivacy = function(req, res) {
     var results = {title: 'Inherit', session: req.cookies.sessionId};
     res.render('privacy.pug', results);
 };
 
+// changes the data of a user
 var editUser = function(req, res){
     User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
         if (!err && user) {
@@ -103,6 +119,7 @@ var editUser = function(req, res){
     });
 };
 
+// changes the password of a user
 var editPassword = function(req, res){
     var sid = req.cookies.sessionId
     User.findOne({sessionId: sid}, function(err, user) {
@@ -132,6 +149,7 @@ var editPassword = function(req, res){
     });
 };
 
+// deletes a user
 var deleteUser = function(req, res){
     var sid = req.cookies.sessionId;
     var username = req.body.username;
@@ -168,7 +186,8 @@ var deleteUser = function(req, res){
     });
 }
 
-
+// creates a user and adds all their information to the database
+// also sends the user a verification 
 var createUser = function(req,res){
     if (req.body.password.length < 8){
         var message = "Password must be more than 7 characters";
@@ -195,13 +214,14 @@ var createUser = function(req,res){
                         var results = {title: 'Inherit', error: message,
                             email: req.body.email, fname: req.body.fname,
                             lname: req.body.lname, phone: req.body.phone};
-                        res.render('signup.pug', results);
                     }
                     else{
                         user.save(function(err,newUser){
                             if(!err){
                                 //if there are no errors, show the new user
-                                fetchIntro(req,res)
+
+                                getStarted(req,res);
+
                                 console.log("user added to database");
                             }else{
                                 res.sendStatus(400);
@@ -217,15 +237,18 @@ var createUser = function(req,res){
     }
 };
 
+// checks a user's entered credentials
 var checkUser = function(req, res) {
     password = req.body.password
     User.findOne({'email': req.body.email},function(err,user){
         if(!err){
+            // user cannot be found
             if (!user) {
                 var message = "Incorrect email or password. Please try again.";
                 var results = {title: 'Inherit', error: message}
                 res.render('login.pug', results);
             } else {
+                // encrypt password and compare encrypted data against stored encrypted password
                 bcrypt.compare(password, user.password, function (err, same){
                     if (same) {
                         let sidrequest = utils.generate_unique_sid();
@@ -260,11 +283,12 @@ var checkUser = function(req, res) {
     });
 };
 
+// renders the myantiques page by passing in data about user's antiques and families
 var fetchAntiquesByUser = function(req, res) {
     if (req.cookies.sessionId) {
     	User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
     		if (!err) {
-    			Group.find({$or:[{'members':user._id}, {'owner':user._id}]}, function(err, familygroups) {
+    			Group.find({'_id':{$in: user.groups}}, function(err, familygroups) {
     				if (!err) {
     					Artifact.find({'_id': {$in: user.artifacts}}, function(err, artifacts) {
     						if (!err) {
@@ -289,13 +313,12 @@ var fetchAntiquesByUser = function(req, res) {
     }
 };
 
-
+// adds an antique to the database
 var createAntique = function(req,res){
 
 	var sid = req.cookies.sessionId;
 	// Get current date and time
     var today = new Date();
-    console.log(req.body.b64);
 
 	User.findOne({sessionId: sid}, function(err,user) {
 		if (!err) {
@@ -307,14 +330,13 @@ var createAntique = function(req,res){
 		        "owner": user._id
 		    });
 		    antique.created = today;
-            console.log(antique);
 		    antique.save(function(err, newAntique) {
 		    	if (!err) {
 		    		user.artifacts.push(antique._id);
-                    Groups.findById(req.body.familygroup, function(err, group) {
+                    Group.findById(req.body.familygroup, function(err, group) {
                         group.artifacts.push(antique._id);
+                        group.save();
                     });
-                    group.save();
 		    		user.save();
 		    		res.redirect('/myantiques');
 		    	} else {
@@ -324,6 +346,78 @@ var createAntique = function(req,res){
 		}
 	});
 };
+
+// declaring login authorisation for the organisation email 
+var smtpTransport = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: "projectinherit28@gmail.com",
+        pass: "iwant2commit"
+    }
+})
+
+var rand, mailOptions, host, link;
+
+// sends the user an email link to verify
+var send = function(req,res) {
+    rand=Math.floor((Math.random() * 100) + 54);
+    host=req.get('host');
+    link="http://"+req.get('host')+"/verify?id="+rand;
+    mailOptions={
+        to : req.body.email,
+        subject : "Please confirm your email account",
+        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
+    }
+    console.log(mailOptions);
+    smtpTransport.sendMail(mailOptions, function(error, response){
+    if(error){
+        console.log(error);
+    }
+});
+};
+
+// verifies a user and changes their data in database to verified
+var verify = function(req, res) {
+    console.log(req.protocol+":/"+req.get('host'));
+    if((req.protocol+"://"+req.get('host'))==("http://"+host))
+    {
+        if(req.query.id==rand)
+        {
+
+            console.log("email is verified");
+            res.render('verify.pug');
+
+            // change verified to true
+            User.findOne({'email':mailOptions.to}, function (error, person) {
+                if (error) console.log(error);
+                console.log(mailOptions.to);
+                person.verified = true;
+                person.save();
+            })
+        }
+        else
+        {
+            console.log("email is not verified");
+            res.end("<h1>Bad Request</h1>");
+        }
+    }
+    else
+    {
+        res.end("<h1>Request is from unknown source");
+    };
+};
+
+var showArtifactByID = function(req, res) {
+    var ID = req.params.id;
+    Artifact.findById(ID, function(err, artifact) {
+        if(!err){
+            res.render('artifact.pug', {artifact: artifact});
+        }else{
+            res.sendStatus(404);
+        }
+    });
+};
+
 
 // Connect to the db
 const dbURI =
@@ -335,7 +429,7 @@ module.exports = {
     fetchLogin,
     fetchSignup,
     fetchProfile,
-    fetchIntro,
+    getStarted,
     fetchHomepage,
     fetchSettings,
     checkUser,
@@ -346,6 +440,9 @@ module.exports = {
     fetchDeleteAccount,
     fetchPrivacy,
     fetchAntiquesByUser,
-    createAntique
+    createAntique,
+    send,
+    verify,
+    showArtifactByID
 }
 

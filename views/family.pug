@@ -37,10 +37,12 @@ block content
                         a(href='/logout',style="color:#666666;") Log Out
                         br
                         br
+
+
             .col-md-9.col-lg-10.col-xl-10
                 .row
                     .col.familygroupzone
-                        .card(style='width: 15rem; height: 15rem;')
+                        .card.mb-4(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
@@ -67,52 +69,38 @@ block content
                                                     p.font-weight-bold Upload Image (optional)
                                                     img#preview(src=file)
                                                     input#pad( type='file' onchange='previewFile()' name = 'photo')
-
                                                 div
                                                     input#b64(type="hidden", name='b64')
-
 
                                             .modal-footer.justify-content-center
                                                 button.btn.btn-primary(type='submit') Add
 
+                        each artifact in artifacts
 
+                            .card.mb-4(style='width: 15rem; height: fit-content;')
+                                .d-flex
+                                    a(href = `/artifact/view/${artifact._id}`)
+                                        img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")
+                                        .card-body.flex-fill
+                                            .row
+                                                h5.card-title #{artifact.title}
+                                            .row
+                                                p.listingdescription #{artifact.description}
 
-                #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                    form(method='POST' action='/addantique')
-                        .modal-content
-                            .modal-header.text-center
-                                h4.modal-title.w-100.font-weight-bold Add an antique
-                                button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                    span(aria-hidden='true') &times;
-                            .modal-body.mx-3
-                                .md-form.mb-5
-                                    label.font-weight-bold(for='familyname') Title
-                                    input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
-                                .md-form.mb-5
-                                    label.font-weight-bold(for='description') Description
-                                    .input-group
-                                        textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                .md-form.mb-5
-                                    p.font-weight-bold Upload Image (optional)
-                                    img#preview(src=file)
-                                    input#pad( type='file' onchange='previewFile()' name = 'photo')
-                                div
-                                    input#b64(type="hidden", name='b64')
+            // upload image for create group
+            script.
+                function previewFile() {
+                    var preview = document.querySelector('img');
+                    var file = document.querySelector('input[type=file]').files[0];
+                    var reader = new FileReader();
 
+                    reader.addEventListener("load", function (e) {
+                        //document.getElementById("b64").innerHTML = e.target.result;
+                        preview.src = reader.result.toString();
+                        document.getElementById('b64').value = e.target.result;
+                    }, false);
 
-                            .modal-footer.d-flex.justify-content-center
-                                button.btn.btn-primary(type='submit') Add
-
-                            br
-
-        each art in artifacts
-            .card(style='width: 15rem; height: fit-content;')
-                .d-flex
-                    a(href = `/artifact/view/${art._id}`)
-                        img.card-img-top.image-custom(src=art.photo, style="width:14rem;height:15rem;")
-                        .card-body.flex-fill
-                            .row
-                                h5.card-title #{art.title}
-                            .row
-                                p.listingdescription #{art.description}
-
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    }
+                }

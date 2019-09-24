@@ -47,7 +47,7 @@ block content
 
                 .row
                     .col.familygroupzone
-                        .card(style='width: 15rem; height: 15rem;')
+                        .card.mb-4#bottom(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
@@ -97,13 +97,14 @@ block content
 
 
                         each family in familygroups
-                            .card(style='width: 15rem; height: fit-content;')
+                            .card.mb-4#bottom(style='width: 15rem; height: fit-content;')
                                 .d-flex
                                     a(href = `/view/${family._id}`)
-                                        img.card-img-top.image-custom(src=family.photo, style="width:14rem;height:15rem;")
+                                        img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem;")
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{family.title}
+
 
     // upload image for create group
     script.

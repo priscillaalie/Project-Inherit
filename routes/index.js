@@ -41,7 +41,6 @@ router.get('/signup', function(req, res){
 });
 
 router.get('/profile', controllers.fetchProfile);
-router.get('/getstarted', controllers.fetchIntro);
 
 router.get('/home', controllers.fetchHomepage);
 
@@ -59,6 +58,8 @@ router.post('/signup', controllers.createUser);
 
 router.post('/login', controllers.checkUser);
 
+router.get('/verify', controllers.verify);
+
 router.get("/logout", function(req, res){
   res.cookie('sessionId', '');
   res.redirect('/');
@@ -66,6 +67,7 @@ router.get("/logout", function(req, res){
 
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
+router.get('/artifact/view/:id', controllers.showArtifactByID);
 
 
 module.exports = router;

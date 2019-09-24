@@ -9,6 +9,7 @@ block css
         include ../public/stylesheets/homepage.css
         include ../public/stylesheets/myantiques.css
 
+
 block content
     .container-fluid.fill-height.fade-in
         .row
@@ -26,7 +27,7 @@ block content
                 nav-collapse.fixed-left
                     .vertical-menu
                         br
-                        a(href='/antiques',style="color:#666666;") My Artifact
+                        a(href='/myantiques',style="color:#666666;") My Artifact
                         hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
@@ -38,7 +39,9 @@ block content
             .col-md-9.col-lg-10.col-xl-10
                 .row
                     .col.familygroupzone
-                        .card(style='width: 15rem; height: 15rem;')
+
+
+                        .card.mb-4(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
@@ -70,28 +73,26 @@ block content
                                                     select#state(type='text', placeholder='Family Group' name='familygroup', required)
                                                         for family in familygroups
                                                             option(value=`${family._id}`) #{family.title}
-
                                                 div
                                                     input#b64(type="hidden", name='b64')
-
 
                                             .modal-footer.justify-content-center
                                                 button.btn.btn-primary(type='submit') Add
 
 
-
-
                         each artifact in artifacts
-
-                            .card(style='width: 15rem; height: fit-content;')
+                            .card.mb-4(style='width: 15rem; height: fit-content;')
                                 .d-flex
                                     a(href = `/artifact/view/${artifact._id}`)
-                                        img.card-img-top.image-custom(src=artifact.photo, style="width:14rem;height:15rem;")
+                                        img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")
+
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{artifact.title}
                                             .row
                                                 p.listingdescription #{artifact.description}
+
+
 
     // upload image for create group
     script.
