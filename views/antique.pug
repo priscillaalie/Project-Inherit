@@ -9,9 +9,17 @@ block content
     .container-fluid.fill-height.fade-in
         .row
             .col-xs-12.col-sm-12#backgroundwelcome
+                .row
 
-                if(session)
-                    h1.text-center.white-transparent My Antiques
+                    .col
+                    .col
+                        if(session)
+                            h2.text-center.white-transparent #{group.title}
+                    .col.text-right
+
+                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                            | Edit Group Details
+
 
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
@@ -20,7 +28,7 @@ block content
                 nav-collapse.fixed-left
                     .vertical-menu
                         br
-                        a(href='/antiques',style="color:#666666;") My Antiques
+                        a(href='/myantiques',style="color:#666666;") My Antiques
                         hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
@@ -29,14 +37,24 @@ block content
                         a(href='/logout',style="color:#666666;") Log Out
                         br
                         br
+
+
             .col-md-9.col-lg-10.col-xl-10
                 .row
-                    .col-sm-12.col-md-8.col-lg-5.col-xl-5
-                        img(src=artifact.photo)
-                    .col
-                        h1 #{artifact.title}
-
+                    .col.familygroupzone
+                        h3 #{artifact.title}
+                        br
                         p #{artifact.description}
+                    .col
+                        img(src=artifact.photo)
+                        
+
+                .row
+                    .col
+                        btn.btn-outline-dark.btn-lg(href = "/delete") Delete Artifact
+
+
+
 
 
 
