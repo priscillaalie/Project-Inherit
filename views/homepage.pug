@@ -31,23 +31,10 @@ block content
                         br
                         br
             .col-md-9.col-lg-10.col-xl-10
-                .row
-                    .col
-                        .container-fluid.uploadzone
-                            form(method='POST' action='/upload')
-                                div.form-group
-                                    .row
-                                        .col
-                                            .container.textboxdesign
-                                                br
-                                                h5.font-weight-bold Create Post
-                                                textarea#post(type = 'text', placeholder=' Keep your family updated ...',
-                                                    name = 'post', maxlength='250', rows = 5)
-                                                button.btn.btn-light(type='button') Post
 
                 .row
                     .col.familygroupzone
-                        .card.mb-4#bottom(style='width: 15rem; height: 15rem;')
+                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
@@ -81,23 +68,9 @@ block content
                                                 button.btn.btn-primary(href='/home' type='submit') Create Family
 
 
-                            //#exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
-                                .modal-dialog(role='document')
-                                    .modal-content
-                                        .modal-header
-                                            h5#exampleModalLabel.modal-title Modal title
-                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                span(aria-hidden='true') &times;
-                                        .modal-body
-                                            | ...
-                                        .modal-footer
-                                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-                                            button.btn.btn-primary(type='button') Save changes
-
-
 
                         each family in familygroups
-                            .card.mb-4#bottom(style='width: 15rem; height: fit-content;')
+                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content;')
                                 .d-flex
                                     a(href = `/view/${family._id}`)
                                         img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem;")

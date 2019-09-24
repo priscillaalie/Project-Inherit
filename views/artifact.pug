@@ -42,7 +42,7 @@ block content
             .col-md-9.col-lg-10.col-xl-10
                 .row
                     .col
-                        h3 #{artifact.title}
+                        h1 #{artifact.title}
                         br
 
                         p #{artifact.description}
@@ -52,7 +52,10 @@ block content
 
                 .row
                     .col
-                        btn.btn-outline-secondary.btn-lg(href = "/delete") Delete Artifact
+                        h3 Uploaded by #name of owner
+                .row
+                    .col
+                        button.btn-outline-secondary.btn-lg(href = "/delete") Delete Artifact
                         br
                         br
 
@@ -69,6 +72,9 @@ block content
                                     button.btn.btn-info.pull-right(type='button') Post
                                     .clearfix
                                     hr
+                                    ul.media-list
+
+
                                     ul.media-list
                                         li.media
                                             a.pull-left(href='#')

@@ -15,6 +15,7 @@ block content
                     .col
                         if(session)
                             h2.text-center.white-transparent #{group.title}
+                            p.text-center #{group.description}
                     .col.text-right
 
                             a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
@@ -42,7 +43,7 @@ block content
             .col-md-9.col-lg-10.col-xl-10
                 .row
                     .col.familygroupzone
-                        .card.mb-4(style='width: 15rem; height: 15rem;')
+                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
@@ -77,7 +78,7 @@ block content
 
                         each artifact in artifacts
 
-                            .card.mb-4(style='width: 15rem; height: fit-content;')
+                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content;')
                                 .d-flex
                                     a(href = `/artifact/view/${artifact._id}`)
                                         img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")
