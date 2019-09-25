@@ -49,11 +49,12 @@ var showGroupByID = function(req, res) {
                     User.find({sessionId: sid}, function(err, currUser){
                         if (!err){
                             Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
-
-                                var results = {group: group, owner: owner,
-                                    user: currUser[0], session: sid, artifacts: artifacts};
-                                res.render('family.pug', results);
-
+                                User.find({'_id': {$in: group.members}}, function(err, members) {
+                                    var results = {group: group, owner: owner,
+                                        user: currUser[0], session: sid, artifacts: artifacts,
+                                        members:members};
+                                    res.render('family.pug', results);
+                                })
                             })
                         } else {
                             res.sendStatus(400);
@@ -69,8 +70,38 @@ var showGroupByID = function(req, res) {
     });
 };
 
+var editGroup = function(req, res){
+    Group.findById(req.originalUrl.split('/')[2], function(err, group) {
+        if (!err && group) {
+            group.title = req.body.title;
+            group.description = req.body.description;
+            group.owner = req.body.owner;
+
+            group.save(function(err, updatedGroup) {
+                if (updatedGroup) {
+                    let message = "Your family has been updated";
+                    Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
+                        User.find({'_id': {$in: group.members}}, function(err, members) {
+                            var results = {group: group, owner: group.owner,
+                                user: updatedGroup, session: req.cookies.sessionId, artifacts: artifacts,
+                                    members:members, error: message};
+                            res.render('family.pug', results);
+                        })
+                    })
+                } else {
+                    res.sendStatus(500);
+                }
+            });
+        } else {
+            res.cookie('sessionId', '');
+            res.redirect('/login')
+        }
+    });
+};
+
 module.exports = {
     createGroup,
-    showGroupByID
+    showGroupByID,
+    editGroup
 }
 

@@ -31,7 +31,11 @@ html
 
 
     nav.navbar.navbar-expand-md.navbar-light.fixed-top.white-bg#navtop
-      a.navbar-brand#handwrite(href = '/home') Inherit
+      if (session)
+        a.navbar-brand#handwrite(href = '/home') Inherit
+      else
+        a.navbar-brand#handwrite(href='/') Inherit
+      
 
 
       button.navbar-toggler(type = "button" data-toggle = "collapse" data-target = "#navbarResponsive")
@@ -42,7 +46,7 @@ html
 
           if (session)
             li.nav-item
-              a.nav-link(href = "/profile") Profile
+              a.nav-link(href = "/logout") Logout
           else
             li.nav-item
               a.nav-link(href = "/aboutus") About Us
