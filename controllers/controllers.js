@@ -411,7 +411,14 @@ var showArtifactByID = function(req, res) {
     var ID = req.params.id;
     Artifact.findById(ID, function(err, artifact) {
         if(!err){
-            res.render('artifact.pug', {artifact: artifact});
+            User.findById(artifact.owner, function(err, owner) {
+                if (!err) {
+                    res.render('artifact.pug', {artifact: artifact, owner: owner});
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+            
         }else{
             res.sendStatus(404);
         }
