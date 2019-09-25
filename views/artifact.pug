@@ -74,20 +74,18 @@ block content
                                     hr
                                     ul.media-list
 
+                                    each comment in comments
 
-                                    ul.media-list
                                         li.media
                                             a.pull-left(href='#')
-                                                img.img-circle(src='https://bootdey.com/img/Content/user_1.jpg', alt='')
+                                                img.img-circle(src=comment.photo)
                                             .media-body
                                                 span.text-muted.pull-right
                                                     small.text-muted 30 min ago
-                                                strong.text-success @MartinoMont
+                                                strong.text-success name of person
                                                 p
-                                                    | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    | Lorem ipsum dolor sit amet,
-                                                    a(href='#') #consecteturadipiscing
-                                                    | .
+                                                    | comment here the # thing
+
                                         li.media
                                             a.pull-left(href='#')
                                                 img.img-circle(src='https://bootdey.com/img/Content/user_2.jpg', alt='')

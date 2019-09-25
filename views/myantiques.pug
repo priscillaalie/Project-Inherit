@@ -9,22 +9,19 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
-            .col-xs-12.col-sm-12#backgroundwelcome
-
-                if(session)
-                    h2.text-center.white-transparent My Artifacts
-
-
-
-        .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
-                nav-collapse.fixed-left
-                    .vertical-menu
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
                         br
-                        a(href='/myantiques',style="color:#666666;") My Artifact
+                        a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
+                        each family in familygroups
+                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            br
+                        if (familygroups)
+                            hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
                         a(href='/settings',style="color:#666666;") Settings
@@ -32,12 +29,19 @@ block content
                         a(href='/logout',style="color:#666666;") Log Out
                         br
                         br
-            .col-md-9.col-lg-10.col-xl-10
+
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
                 .row
-                    .col.familygroupzone
+                    .col
+
+                        if(session)
+                            h2.text-center.white-transparent My Artifacts
+                .row
 
 
-                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
+                    .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex.text-center
+
+                        .card.mb-4.pr-3(style='width: 15rem; height: 15rem; min-width:15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
@@ -76,8 +80,11 @@ block content
                                                 button.btn.btn-primary(type='submit') Add
 
 
-                        each artifact in artifacts
-                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content;')
+                    each artifact in artifacts
+                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex.text-center
+
+
+                            .card.mb-4.pr-3(style='width: 15rem; height: fit-content; min-width: 15rem; padding-right: 20px;')
                                 .d-flex
                                     a(href = `/artifact/view/${artifact._id}`)
                                         img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")

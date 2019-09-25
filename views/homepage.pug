@@ -4,25 +4,22 @@ block css
     style
         include ../public/stylesheets/homepage.css
 
-
-
 block content
     .container-fluid.fill-height.fade-in
-        .row
-            .col-xs-12.col-sm-12#backgroundwelcome
-
-                if(session)
-                    h2.text-center.white-transparent Welcome #{name}
-
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
-                nav-collapse.fixed-left
-                    .vertical-menu
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
                         br
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
+                        each family in familygroups
+                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            br
+                        if (familygroups)
+                            hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
                         a(href='/settings',style="color:#666666;") Settings
@@ -30,7 +27,13 @@ block content
                         a(href='/logout',style="color:#666666;") Log Out
                         br
                         br
-            .col-md-9.col-lg-10.col-xl-10
+
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
+                .row
+                    .col
+                        if(session)
+                            h2.text-center.white-transparent Welcome #{name}
+                            br
 
                 .row
                     .col.familygroupzone
@@ -62,12 +65,8 @@ block content
                                                     input#pad( type='file' onchange='previewFile()' name = 'photo')
                                                 div
                                                     input#b64(type="hidden", name='b64')
-
-
                                             .modal-footer.d-flex.justify-content-center
                                                 button.btn.btn-primary(href='/home' type='submit') Create Family
-
-
 
                         each family in familygroups
                             .card.mb-4.mr-5(style='width: 15rem; height: fit-content;')
@@ -77,7 +76,6 @@ block content
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{family.title}
-
 
     // upload image for create group
     script.
