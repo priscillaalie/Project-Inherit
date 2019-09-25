@@ -330,20 +330,33 @@ var createAntique = function(req,res){
 			var antique = new Artifact({
 		        "title": req.body.title,
 		        "description": req.body.description,
-		        "familygroup": req.body.familygroup,
 		        "photo": req.body.b64,
 		        "owner": user._id
 		    });
 		    antique.created = today;
+            var groupId, nextUrl;
+            //made on the my artifacts page
+            if (req.body.familygroup) {
+                groupId = req.body.familygroup;
+                nextUrl = '/myantiques';
+                console.log(groupId);
+            // else made on individual family page
+            } else {
+                groupId = req.headers.referer.split('/')[4];
+                nextUrl = '/view/' + groupId;
+                console.log(groupId);
+            }
+            antique.familygroup = groupId;
+
 		    antique.save(function(err, newAntique) {
 		    	if (!err) {
 		    		user.artifacts.push(antique._id);
-                    Group.findById(req.body.familygroup, function(err, group) {
+                    Group.findById(groupId, function(err, group) {
                         group.artifacts.push(antique._id);
                         group.save();
                     });
 		    		user.save();
-		    		res.redirect('/myantiques');
+		    		res.redirect(nextUrl);
 		    	} else {
 		    		res.sendStatus(400);
 		    	}
