@@ -71,9 +71,7 @@ var showGroupByID = function(req, res) {
 };
 
 var editGroup = function(req, res){
-    console.log(req);
     Group.findById(req.originalUrl.split('/')[2], function(err, group) {
-        console.log(group);
         if (!err && group) {
             group.title = req.body.title;
             group.description = req.body.description;
@@ -82,9 +80,14 @@ var editGroup = function(req, res){
             group.save(function(err, updatedGroup) {
                 if (updatedGroup) {
                     let message = "Your family has been updated";
-                    let results = {title: 'Inherit', error: message,
-                        user: updatedGroup, session: req.cookies.sessionId};
-                    res.render('family.pug', results);
+                    Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
+                        User.find({'_id': {$in: group.members}}, function(err, members) {
+                            var results = {group: group, owner: group.owner,
+                                user: updatedGroup, session: req.cookies.sessionId, artifacts: artifacts,
+                                    members:members, error: message};
+                            res.render('family.pug', results);
+                        })
+                    })
                 } else {
                     res.sendStatus(500);
                 }
