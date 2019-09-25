@@ -42,32 +42,37 @@ var fetchProfile = function (req,res) {
     res.render('profile.pug', {title: 'Profile'});
 };
 
-// if it is a current user, find the user's information such as name and groups they are in 
+// if it is a current user, find the user's information such as name and groups they are in
 // and send this to the front end to be displayed. if not, display basic front end
 var fetchHomepage = function(req, res) {
-	if (req.cookies.sessionId) {
-		User.findOne({sessionId: req.cookies.sessionId},function(err,user){
-            if (user) {
-            	Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
-            		if (!err) {
-		             	var results = {
-		             		title: 'Inherit', 'familygroups': familygroups, 
-		             		'session':req.cookies.sessionId, 'name': user.fname
-		             	};
-		             	res.render('homepage.pug', results);
-    	            } else {
+    User.find({}, function(err,users) {
+        if (!err) {
+	        if (req.cookies.sessionId) {
+                User.findOne({sessionId: req.cookies.sessionId}, function (err, user) {
+                    if (user) {
+                        Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
+                            if (!err) {
+                                var results = {
+                                    title: 'Inherit', 'familygroups': familygroups,
+                                    'session': req.cookies.sessionId, 'name': user.fname, 'users':users
+                                };
+                                res.render('homepage.pug', results);
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        });
+                    } else {
                         res.sendStatus(500);
                     }
-             	});
+                });
             } else {
-            	res.sendStatus(500);
+                var results = {title: 'Inherit'};
+                res.render('homepage.pug', results);
             }
-        });
-	} else {
-		var results = {title:'Inherit'};
-		res.render('homepage.pug', results);
-	}
-};
+        }
+    });
+}
+
 
 // displays the settings page of a user
 var fetchSettings = function(req, res) {
@@ -187,7 +192,7 @@ var deleteUser = function(req, res){
 }
 
 // creates a user and adds all their information to the database
-// also sends the user a verification 
+// also sends the user a verification
 var createUser = function(req,res){
     if (req.body.password.length < 8){
         var message = "Password must be more than 7 characters";
@@ -304,7 +309,7 @@ var fetchAntiquesByUser = function(req, res) {
     				} else {
     					res.sendStatus(500);
     				}
-            		
+
               	});
     		} else {
     			res.sendStatus(500);
@@ -347,7 +352,7 @@ var createAntique = function(req,res){
 	});
 };
 
-// declaring login authorisation for the organisation email 
+// declaring login authorisation for the organisation email
 var smtpTransport = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -366,7 +371,7 @@ var send = function(req,res) {
     mailOptions={
         to : req.body.email,
         subject : "Please confirm your email account",
-        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
+        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
     }
     console.log(mailOptions);
     smtpTransport.sendMail(mailOptions, function(error, response){
@@ -418,7 +423,44 @@ var showArtifactByID = function(req, res) {
     });
 };
 
+var searchUser = function(req, res) {
+    var input = req.params.input;
+    var regex = new RegExp(input, 'i');
+    User.find({"fname": regex}, function(err, users) {
+        if(!err){
+            res.json(users);
+        }else{
+            res.sendStatus(404);
+        }
+    });
+};
 
+var findUserByName = function(req, res) {
+    var Name = req.params.title;
+    User.find({fname:Name}, function(err, user) {
+        if(!err){
+            res.send(user); //if no errors send the listings found
+        }else{
+            res.sendStatus(404);
+        }
+    });
+};
+
+var searchResults = function(req, res) {
+    var input = req.query.input;
+    var regex = new RegExp(input, 'i');
+    User.find({"fname": regex}, function(err, users) {
+        var results = {
+            title: 'Inherit', "users": users,
+            session: req.cookies.sessionId
+        };
+        if (!err) {
+            res.render('myantiques', results);
+        } else {
+            res.sendStatus(500);
+        }
+    });
+}
 // Connect to the db
 const dbURI =
     "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
@@ -443,6 +485,9 @@ module.exports = {
     createAntique,
     send,
     verify,
-    showArtifactByID
+    showArtifactByID,
+    findUserByName,
+    searchUser,
+    searchResults
 }
 
