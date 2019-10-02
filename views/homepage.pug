@@ -9,6 +9,15 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
+            .col-8
+                form(id = 'search', method = 'GET', action = "/search", autocomplete='off')
+                    input(type='hidden', name = 'users', value = user, autocomplete="off")
+                    input#searchbar(type='text', name = 'input', placeholder= "I am looking for...", list='datalist', autocomplete="off")
+                    datalist#datalist
+            .col-4
+                button.searchbutton(type='submit' form = 'search') Search
+                    i.fa.fa-search
+        .row
             .col-xs-12.col-sm-12#backgroundwelcome
 
                 if(session)
@@ -31,19 +40,6 @@ block content
                         br
                         br
             .col-md-9.col-lg-10.col-xl-10
-                .row
-                    .col
-                        .container-fluid.uploadzone
-                            form(method='POST' action='/upload')
-                                div.form-group
-                                    .row
-                                        .col
-                                            .container.textboxdesign
-                                                br
-                                                h5.font-weight-bold Create Post
-                                                textarea#post(type = 'text', placeholder=' Keep your family updated ...',
-                                                    name = 'post', maxlength='250', rows = 5)
-                                                button.btn.btn-light(type='button') Post
 
                 .row
                     .col.familygroupzone
@@ -122,6 +118,41 @@ block content
             if (file) {
                 reader.readAsDataURL(file);
             }
+        }
+
+        function getusers() {
+            users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
+            })
+
+        }
+        document.getElementById("searchbar").addEventListener('keyup', () => {
+            autocomplete(document.getElementById("searchbar").value);
+        });
+
+        function autocomplete(value) {
+            if (value == "") {
+                document.getElementById("datalist").innerHTML = "";
+                return;
+            }
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var result = JSON.parse(xhttp.responseText);
+                    document.getElementById("datalist").innerHTML = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var node = document.createElement("option");
+                        var val = document.createTextNode(result[i].title);
+                        node.appendChild(val);
+                        document.getElementById("datalist").appendChild(node);
+                    }
+                }
+            };
+
+            xhttp.open("GET", "/search/list/" + value, true);
+            xhttp.send();
+
+
         }
 
 

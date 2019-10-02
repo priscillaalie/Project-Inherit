@@ -33,7 +33,7 @@ html
         a.navbar-brand#handwrite(href = '/home') Inherit
       else
         a.navbar-brand#handwrite(href='/') Inherit
-      
+
 
 
       button.navbar-toggler(type = "button" data-toggle = "collapse" data-target = "#navbarResponsive")
@@ -44,7 +44,15 @@ html
 
           if (session)
             li.nav-item
-              a.nav-link(href = "/logout") Logout
+              a.nav-link(href = "/home") Home
+
+            li.nav-item.dropdown.pull-right
+              a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                | #{name}
+              .dropdown-menu.dropdown-menu-left(aria-labelledby='navbarDropdown')
+                a.dropdown-item(href='/settings') Settings
+                .dropdown-divider
+                a.dropdown-item(href='/logout') Logout
           else
             li.nav-item
               a.nav-link(href = "/aboutus") About Us

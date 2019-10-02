@@ -209,7 +209,8 @@ var createUser = function(req,res){
                 "birthday":req.body.birthday,
                 "photo":req.body.photo,
                 "phone":req.body.phone,
-                "password":hash
+                "password":hash,
+                "name": req.body.fname + req.body.lname
             });
             // Check if the email already exists
             User.find({email: req.body.email}, function(err, users){
@@ -436,8 +437,8 @@ var searchUser = function(req, res) {
 };
 
 var findUserByName = function(req, res) {
-    var Name = req.params.title;
-    User.find({fname:Name}, function(err, user) {
+    var Name = req.params.name;
+    User.find({name:Name}, function(err, user) {
         if(!err){
             res.send(user); //if no errors send the listings found
         }else{
@@ -449,7 +450,7 @@ var findUserByName = function(req, res) {
 var searchResults = function(req, res) {
     var input = req.query.input;
     var regex = new RegExp(input, 'i');
-    User.find({"fname": regex}, function(err, users) {
+    User.find({"name": regex}, function(err, users) {
         var results = {
             title: 'Inherit', "users": users,
             session: req.cookies.sessionId
