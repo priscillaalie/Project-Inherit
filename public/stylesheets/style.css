@@ -4,10 +4,17 @@ body {
   font-family: 'Palatino', sans-serif;
 }
 
+
+footer {
+  margin-left:  -200px;
+  margin-right: -200px;
+
+  background-color: whitesmoke;
+
+}
+
 h2 {
-
   font-family: 'Merriweather', sans-serif;
-
 }
 
 .white-bg {
@@ -19,10 +26,21 @@ h2 {
   padding: 0px 30px 0px 30px;
 }
 
+#footerbottom {
+  background-color: whitesmoke;
+  padding: 0px 0px 0px 0px;
+}
+
 .Noto {
   font-family: 'Noto Sans JP', sans-serif;
 }
 
+.dropdown-left-manual {
+  right: 0;
+  left: auto;
+  padding-left: 1px;
+  padding-right: 1px;
+}
 
 
 @font-face {

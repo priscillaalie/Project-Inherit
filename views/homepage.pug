@@ -4,11 +4,10 @@ block css
     style
         include ../public/stylesheets/homepage.css
 
-
-
 block content
     .container-fluid.fill-height.fade-in
         .row
+
             .col-8
                 form(id = 'search', method = 'GET', action = "/search", autocomplete='off')
                     input(type='hidden', name = 'users', value = user, autocomplete="off")
@@ -24,26 +23,36 @@ block content
                     h2.text-center.white-transparent Welcome #{name}
 
         .row
+
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
-                nav-collapse.fixed-left
-                    .vertical-menu
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
                         br
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
+                        each family in familygroups
+                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            br
+                        if (familygroups)
+                            hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
-                        a(href='/settings',style="color:#666666;") Settings
-                        br
-                        a(href='/logout',style="color:#666666;") Log Out
-                        br
-                        br
-            .col-md-9.col-lg-10.col-xl-10
+
+
+
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
+                .row
+                    .col
+                        if(session)
+                            h2.text-center.white-transparent Welcome #{name}
+                            br
+
 
                 .row
                     .col.familygroupzone
-                        .card.mb-4#bottom(style='width: 15rem; height: 15rem;')
+                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
@@ -71,36 +80,17 @@ block content
                                                     input#pad( type='file' onchange='previewFile()' name = 'photo')
                                                 div
                                                     input#b64(type="hidden", name='b64')
-
-
                                             .modal-footer.d-flex.justify-content-center
                                                 button.btn.btn-primary(href='/home' type='submit') Create Family
 
-
-                            //#exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
-                                .modal-dialog(role='document')
-                                    .modal-content
-                                        .modal-header
-                                            h5#exampleModalLabel.modal-title Modal title
-                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                span(aria-hidden='true') &times;
-                                        .modal-body
-                                            | ...
-                                        .modal-footer
-                                            button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-                                            button.btn.btn-primary(type='button') Save changes
-
-
-
                         each family in familygroups
-                            .card.mb-4#bottom(style='width: 15rem; height: fit-content;')
+                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content;')
                                 .d-flex
                                     a(href = `/view/${family._id}`)
                                         img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem;")
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{family.title}
-
 
     // upload image for create group
     script.

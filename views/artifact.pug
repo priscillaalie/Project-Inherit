@@ -8,7 +8,25 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
-            .col-xs-12.col-sm-12#backgroundwelcome
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
+                'background-color': 'white;'
+            })
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
+                        br
+                        a(href='/myantiques',style="color:#666666;") My Artifacts
+                        hr.my-4
+                        each family in familygroups
+                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            br
+                        if (familygroups)
+                            hr.my-4
+                        a(href='/events',style="color:#666666;") Events
+                        br
+
+
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
+
                 .row
 
                     .col
@@ -21,28 +39,9 @@ block content
                             | Edit Group Details
 
 
-        .row
-            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;'
-            })
-                nav-collapse.fixed-left
-                    .vertical-menu
-                        br
-                        a(href='/myantiques',style="color:#666666;") My Antiques
-                        hr.my-4
-                        a(href='/events',style="color:#666666;") Events
-                        br
-                        a(href='/settings',style="color:#666666;") Settings
-                        br
-                        a(href='/logout',style="color:#666666;") Log Out
-                        br
-                        br
-
-
-            .col-md-9.col-lg-10.col-xl-10
                 .row
                     .col
-                        h3 #{artifact.title}
+                        h1 #{artifact.title}
                         br
 
                         p #{artifact.description}
@@ -52,7 +51,10 @@ block content
 
                 .row
                     .col
-                        btn.btn-outline-secondary.btn-lg(href = "/delete") Delete Artifact
+                        h3 Uploaded by #name of owner
+                .row
+                    .col
+                        button.btn-outline-secondary.btn-lg(href = "/delete") Delete Artifact
                         br
                         br
 
@@ -70,18 +72,19 @@ block content
                                     .clearfix
                                     hr
                                     ul.media-list
+
+                                    each comment in comments
+
                                         li.media
                                             a.pull-left(href='#')
-                                                img.img-circle(src='https://bootdey.com/img/Content/user_1.jpg', alt='')
+                                                img.img-circle(src=comment.photo)
                                             .media-body
                                                 span.text-muted.pull-right
                                                     small.text-muted 30 min ago
-                                                strong.text-success @MartinoMont
+                                                strong.text-success name of person
                                                 p
-                                                    | Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    | Lorem ipsum dolor sit amet,
-                                                    a(href='#') #consecteturadipiscing
-                                                    | .
+                                                    | comment here the # thing
+
                                         li.media
                                             a.pull-left(href='#')
                                                 img.img-circle(src='https://bootdey.com/img/Content/user_2.jpg', alt='')

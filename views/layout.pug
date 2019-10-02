@@ -32,7 +32,7 @@ html
       if (session)
         a.navbar-brand#handwrite(href = '/home') Inherit
       else
-        a.navbar-brand#handwrite(href='/') Inherit
+        a.navbar-brand#handwrite(href = '/') Inherit
 
 
 
@@ -44,15 +44,18 @@ html
 
           if (session)
             li.nav-item
-              a.nav-link(href = "/home") Home
 
+              a.nav-link(href="/aboutus") About Us
+            li.nav-item
+              a.nav-link(href = "/home") Profile
             li.nav-item.dropdown.pull-right
               a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                | #{name}
-              .dropdown-menu.dropdown-menu-left(aria-labelledby='navbarDropdown')
+                |
+              .dropdown-menu.dropdown-left-manual(aria-labelledby='navbarDropdown')
                 a.dropdown-item(href='/settings') Settings
                 .dropdown-divider
                 a.dropdown-item(href='/logout') Logout
+
           else
             li.nav-item
               a.nav-link(href = "/aboutus") About Us
@@ -60,13 +63,13 @@ html
               a.nav-link(href = "/login") Log in
 
 
-
   body
 
     block content
 
-    block footer
-      br
-      hr
+
+
+  footer.position-relative
+
       p.text-center Copyright (c) Project Inherit
 
