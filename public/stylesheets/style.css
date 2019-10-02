@@ -4,10 +4,17 @@ body {
   font-family: 'Palatino', sans-serif;
 }
 
+
+footer {
+  margin-left:  -200px;
+  margin-right: -200px;
+
+  background-color: whitesmoke;
+
+}
+
 h2 {
-
   font-family: 'Merriweather', sans-serif;
-
 }
 
 .white-bg {
@@ -17,6 +24,11 @@ h2 {
 #navtop {
   background-color: whitesmoke;
   padding: 0px 30px 0px 30px;
+}
+
+#footerbottom {
+  background-color: whitesmoke;
+  padding: 0px 0px 0px 0px;
 }
 
 .Noto {

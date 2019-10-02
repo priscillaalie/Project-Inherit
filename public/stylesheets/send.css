@@ -1,16 +1,6 @@
 
-
-verify-bg {
-    background: url("https://images.unsplash.com/photo-1533158307587-828f0a76ef46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80"), no-repeat center center fixed;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
 body {
-    background: url("https://images.pexels.com/photos/1131458/pexels-photo-1131458.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"), no-repeat center center fixed;
+    background: url("https://images.pexels.com/photos/262113/pexels-photo-262113.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"), no-repeat center center fixed;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
