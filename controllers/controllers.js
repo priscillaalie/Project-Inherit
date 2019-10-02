@@ -319,38 +319,43 @@ var fetchAntiquesByUser = function(req, res) {
     }
 };
 
+var upload = require('../services/file-uploader');
+var singleUpload = upload.single('image');
+
 // adds an antique to the database
 var createAntique = function(req,res){
-
 	var sid = req.cookies.sessionId;
 	// Get current date and time
     var today = new Date();
-
-	User.findOne({sessionId: sid}, function(err,user) {
-		if (!err) {
-			var antique = new Artifact({
-		        "title": req.body.title,
-		        "description": req.body.description,
-		        "familygroup": req.body.familygroup,
-		        "photo": req.body.b64,
-		        "owner": user._id
-		    });
-		    antique.created = today;
-		    antique.save(function(err, newAntique) {
-		    	if (!err) {
-		    		user.artifacts.push(antique._id);
-                    Group.findById(req.body.familygroup, function(err, group) {
-                        group.artifacts.push(antique._id);
-                        group.save();
-                    });
-		    		user.save();
-		    		res.redirect('/myantiques');
-		    	} else {
-		    		res.sendStatus(400);
-		    	}
-		    })
-		}
-	});
+    singleUpload(req, res, function(err) {
+        console.log(req.file);
+    	User.findOne({sessionId: sid}, function(err,user) {
+    		if (!err) {
+    			var antique = new Artifact({
+    		        "title": req.body.title,
+    		        "description": req.body.description,
+    		        "familygroup": req.body.familygroup,
+    		        "photo": req.file.location,
+    		        "owner": user._id
+    		    });
+    		    antique.created = today;
+                console.log(antique);
+    		    antique.save(function(err, newAntique) {
+    		    	if (!err) {
+    		    		user.artifacts.push(antique._id);
+                        Group.findById(req.body.familygroup, function(err, group) {
+                            group.artifacts.push(antique._id);
+                            group.save();
+                        });
+    		    		user.save();
+    		    		res.redirect('/myantiques');
+    		    	} else {
+    		    		res.sendStatus(400);
+    		    	}
+    		    })
+    		}
+    	});
+    })
 };
 
 // declaring login authorisation for the organisation email
@@ -429,6 +434,9 @@ var searchUser = function(req, res) {
     var regex = new RegExp(input, 'i');
     User.find({"fname": regex}, function(err, users) {
         if(!err){
+            for (var i=0; i<users.length; i++) {
+                console.log(users[i].fname);
+            }
             res.json(users);
         }else{
             res.sendStatus(404);
