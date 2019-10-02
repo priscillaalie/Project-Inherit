@@ -4,11 +4,12 @@ var bodyParser = require('body-parser');
 var user = require('../models/user.js');
 
 settingsRoutes = require('./settings');
-
+familyRoutes = require('./family');
 
 var app = express();
 
 app.use('/settings', settingsRoutes);
+app.use('/family', familyRoutes);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -68,6 +69,9 @@ router.get("/logout", function(req, res){
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
 router.get('/artifact/view/:id', controllers.showArtifactByID);
+router.post('/view/:id', function(req, res) {
+  famcontrollers.editGroup(req,res);
+});
 
 
 module.exports = router;

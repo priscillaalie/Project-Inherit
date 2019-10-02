@@ -7,6 +7,23 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
+
+            .col-8
+                form(id = 'search', method = 'GET', action = "/search", autocomplete='off')
+                    input(type='hidden', name = 'users', value = user, autocomplete="off")
+                    input#searchbar(type='text', name = 'input', placeholder= "I am looking for...", list='datalist', autocomplete="off")
+                    datalist#datalist
+            .col-4
+                button.searchbutton(type='submit' form = 'search') Search
+                    i.fa.fa-search
+        .row
+            .col-xs-12.col-sm-12#backgroundwelcome
+
+                if(session)
+                    h2.text-center.white-transparent Welcome #{name}
+
+        .row
+
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
@@ -24,6 +41,7 @@ block content
                         br
 
 
+
             .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
                 .row
                     .col
@@ -31,14 +49,15 @@ block content
                             h2.text-center.white-transparent Welcome #{name}
                             br
 
+
                 .row
                     .col.familygroupzone
                         .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
-                            a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                            a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
                                 | Create Family Group
-                            #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                            #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                 .modal-dialog(role='document')
                                     form(method='POST' action='/create')
                                         .modal-content
@@ -89,6 +108,41 @@ block content
             if (file) {
                 reader.readAsDataURL(file);
             }
+        }
+
+        function getusers() {
+            users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
+            })
+
+        }
+        document.getElementById("searchbar").addEventListener('keyup', () => {
+            autocomplete(document.getElementById("searchbar").value);
+        });
+
+        function autocomplete(value) {
+            if (value == "") {
+                document.getElementById("datalist").innerHTML = "";
+                return;
+            }
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var result = JSON.parse(xhttp.responseText);
+                    document.getElementById("datalist").innerHTML = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var node = document.createElement("option");
+                        var val = document.createTextNode(result[i].title);
+                        node.appendChild(val);
+                        document.getElementById("datalist").appendChild(node);
+                    }
+                }
+            };
+
+            xhttp.open("GET", "/search/list/" + value, true);
+            xhttp.send();
+
+
         }
 
 

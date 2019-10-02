@@ -8,6 +8,46 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
+
+            .col-xs-12.col-sm-12#backgroundwelcome
+                .row
+
+                    .col
+                    .col
+                        if(session)
+                            h2.text-center.white-transparent #{group.title}
+                    .col.text-right
+
+                            a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
+                                | Edit Group Details
+
+                            #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                .modal-dialog(role='document')
+                                    form(method='POST' action='')
+                                        .modal-content
+                                            .modal-header.text-center
+                                                h4.modal-title.w-100.font-weight-bold Update My Family
+                                                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                    span(aria-hidden='true') &times;
+                                            .modal-body.mx-3
+                                                .md-form.mb-5
+                                                    label.font-weight-bold(for='title') Title
+                                                    input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
+                                                .md-form.mb-5
+                                                    label.font-weight-bold(for='desc') Description
+                                                    .input-group
+                                                        textarea#desc.form-control(type='text', placeholder='Description*', name='description',value = group.description)
+
+                                                    label.font-weight-bold(for='owner') Admin:
+                                                    select#owner(type='text', placeholder='Admin' name='owner', value = group.owner)
+                                                        for member in members
+                                                            option(value=`${member._id}`) #{member.fname}
+
+                                            .modal-footer.justify-content-center
+                                                button.btn.btn-primary(type='submit') Update
+
+        .row
+
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
@@ -43,10 +83,10 @@ block content
                         .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
-                            a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                            a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalArtifactForm')
                                 | Add Artifact
 
-                            #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                            #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                                 .modal-dialog(role='document')
                                     form(method='POST' action='/addantique')
