@@ -328,16 +328,24 @@ var createAntique = function(req,res){
 	// Get current date and time
     var today = new Date();
     singleUpload(req, res, function(err) {
-        console.log(req.file);
     	User.findOne({sessionId: sid}, function(err,user) {
     		if (!err) {
-    			var antique = new Artifact({
-    		        "title": req.body.title,
-    		        "description": req.body.description,
-    		        "familygroup": req.body.familygroup,
-    		        "photo": req.file.location,
-    		        "owner": user._id
-    		    });
+                if (req.file) {
+        			var antique = new Artifact({
+        		        "title": req.body.title,
+        		        "description": req.body.description,
+        		        "familygroup": req.body.familygroup,
+        		        "photo": req.file.location,
+        		        "owner": user._id
+        		    });
+                } else {
+                    var antique = new Artifact({
+                        "title": req.body.title,
+                        "description": req.body.description,
+                        "familygroup": req.body.familygroup,
+                        "owner": user._id
+                    });
+                }
     		    antique.created = today;
                 console.log(antique);
     		    antique.save(function(err, newAntique) {

@@ -59,7 +59,7 @@ block content
                                 | Create Family Group
                             #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                 .modal-dialog(role='document')
-                                    form(method='POST' action='/create')
+                                    form(method='POST' action='/create', enctype = "multipart/form-data")
                                         .modal-content
                                             .modal-header.text-center
                                                 h4.modal-title.w-100.font-weight-bold Create a Family
@@ -77,9 +77,8 @@ block content
                                                 .md-form.mb-5
                                                     p.font-weight-bold Upload Image (optional)
                                                     img#preview(src=file)
-                                                    input#pad( type='file' onchange='previewFile()' name = 'photo')
-                                                div
-                                                    input#b64(type="hidden", name='b64')
+                                                    input#pad( type='file' onchange='previewFile()' name = 'image')
+
                                             .modal-footer.d-flex.justify-content-center
                                                 button.btn.btn-primary(href='/home' type='submit') Create Family
 
