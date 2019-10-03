@@ -24,10 +24,11 @@ var userSchema = new mongoose.Schema({
     "birthday": Date,
     "phone": String,
     "password": String,
+    "name": String,
     "sessionId": String,
     "artifacts": Array,
     "groups": Array,
-    "verified": Boolean 
+    "verified": Boolean
 });
 
 userSchema.plugin(uniqueValidator, {message: 'is already taken.'});

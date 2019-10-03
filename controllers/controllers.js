@@ -209,7 +209,8 @@ var createUser = function(req,res){
                 "birthday":req.body.birthday,
                 "photo":req.body.photo,
                 "phone":req.body.phone,
-                "password":hash
+                "password":hash,
+                "name": req.body.fname + req.body.lname
             });
             // Check if the email already exists
             User.find({email: req.body.email}, function(err, users){
@@ -318,51 +319,51 @@ var fetchAntiquesByUser = function(req, res) {
     }
 };
 
+var upload = require('../services/file-uploader');
+var singleUpload = upload.single('image');
+
 // adds an antique to the database
 var createAntique = function(req,res){
-
 	var sid = req.cookies.sessionId;
 	// Get current date and time
     var today = new Date();
-
-	User.findOne({sessionId: sid}, function(err,user) {
-		if (!err) {
-			var antique = new Artifact({
-		        "title": req.body.title,
-		        "description": req.body.description,
-		        "photo": req.body.b64,
-		        "owner": user._id
-		    });
-		    antique.created = today;
-            var groupId, nextUrl;
-            //made on the my artifacts page
-            if (req.body.familygroup) {
-                groupId = req.body.familygroup;
-                nextUrl = '/myantiques';
-                console.log(groupId);
-            // else made on individual family page
-            } else {
-                groupId = req.headers.referer.split('/')[4];
-                nextUrl = '/view/' + groupId;
-                console.log(groupId);
-            }
-            antique.familygroup = groupId;
-
-		    antique.save(function(err, newAntique) {
-		    	if (!err) {
-		    		user.artifacts.push(antique._id);
-                    Group.findById(groupId, function(err, group) {
-                        group.artifacts.push(antique._id);
-                        group.save();
+    singleUpload(req, res, function(err) {
+    	User.findOne({sessionId: sid}, function(err,user) {
+    		if (!err) {
+                if (req.file) {
+        			var antique = new Artifact({
+        		        "title": req.body.title,
+        		        "description": req.body.description,
+        		        "familygroup": req.body.familygroup,
+        		        "photo": req.file.location,
+        		        "owner": user._id
+        		    });
+                } else {
+                    var antique = new Artifact({
+                        "title": req.body.title,
+                        "description": req.body.description,
+                        "familygroup": req.body.familygroup,
+                        "owner": user._id
                     });
-		    		user.save();
-		    		res.redirect(nextUrl);
-		    	} else {
-		    		res.sendStatus(400);
-		    	}
-		    })
-		}
-	});
+                }
+    		    antique.created = today;
+                console.log(antique);
+    		    antique.save(function(err, newAntique) {
+    		    	if (!err) {
+    		    		user.artifacts.push(antique._id);
+                        Group.findById(req.body.familygroup, function(err, group) {
+                            group.artifacts.push(antique._id);
+                            group.save();
+                        });
+    		    		user.save();
+    		    		res.redirect('/myantiques');
+    		    	} else {
+    		    		res.sendStatus(400);
+    		    	}
+    		    })
+    		}
+    	});
+    })
 };
 
 // declaring login authorisation for the organisation email
@@ -429,14 +430,19 @@ var showArtifactByID = function(req, res) {
     var ID = req.params.id;
     Artifact.findById(ID, function(err, artifact) {
         if(!err){
-            User.findById(artifact.owner, function(err, owner) {
+            User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
                 if (!err) {
-                    res.render('artifact.pug', {artifact: artifact, owner: owner});
+                    Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
+                        if (!err) {
+                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups, comments:[]});
+                        } else {
+                            res.sendStatus(404);
+                        }
+                    })
                 } else {
-                    res.sendStatus(500);
+                    res.sendStatus(404);
                 }
             })
-            
         }else{
             res.sendStatus(404);
         }
@@ -448,6 +454,9 @@ var searchUser = function(req, res) {
     var regex = new RegExp(input, 'i');
     User.find({"fname": regex}, function(err, users) {
         if(!err){
+            for (var i=0; i<users.length; i++) {
+                console.log(users[i].fname);
+            }
             res.json(users);
         }else{
             res.sendStatus(404);
@@ -456,8 +465,8 @@ var searchUser = function(req, res) {
 };
 
 var findUserByName = function(req, res) {
-    var Name = req.params.title;
-    User.find({fname:Name}, function(err, user) {
+    var Name = req.params.name;
+    User.find({name:Name}, function(err, user) {
         if(!err){
             res.send(user); //if no errors send the listings found
         }else{
@@ -469,7 +478,7 @@ var findUserByName = function(req, res) {
 var searchResults = function(req, res) {
     var input = req.query.input;
     var regex = new RegExp(input, 'i');
-    User.find({"fname": regex}, function(err, users) {
+    User.find({"name": regex}, function(err, users) {
         var results = {
             title: 'Inherit', "users": users,
             session: req.cookies.sessionId
