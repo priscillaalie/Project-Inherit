@@ -430,7 +430,19 @@ var showArtifactByID = function(req, res) {
     var ID = req.params.id;
     Artifact.findById(ID, function(err, artifact) {
         if(!err){
-            res.render('artifact.pug', {artifact: artifact});
+            User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
+                if (!err) {
+                    Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
+                        if (!err) {
+                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups, comments:[]});
+                        } else {
+                            res.sendStatus(404);
+                        }
+                    })
+                } else {
+                    res.sendStatus(404);
+                }
+            })
         }else{
             res.sendStatus(404);
         }
