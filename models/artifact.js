@@ -1,3 +1,6 @@
+/*
+artifact.js defines the schema that will be stored in the mongodb atlas collection for each individual artifact
+ */
 var mongoose = require('mongoose');
 
 var artifactSchema = mongoose.Schema(
