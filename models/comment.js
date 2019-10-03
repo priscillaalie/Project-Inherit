@@ -10,7 +10,8 @@ var commentSchema = mongoose.Schema(
         "owner":String,
         "content":String,
         "artifact": String,
-        "created":Date
+        "created": Date,
+        timestamps: true
     }
 );
 module.exports = mongoose.model('Comment', commentSchema);
