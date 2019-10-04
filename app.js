@@ -9,7 +9,6 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var searchRouter = require('./routes/search');
 var settingsRouter = require('./routes/settings');
-var imageRouter = require('./routes/images');
 
 var app = express();
 
@@ -31,9 +30,6 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/search',searchRouter);
 app.use('/settings', settingsRouter);
-app.use('/', imageRouter);
-
-
 
 // Connect to Database
 require('./models/db.js');
