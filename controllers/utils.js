@@ -1,3 +1,8 @@
+/*
+utils.js contains functions for:
+- creating unique keys for passwords
+- verifying user accounts 
+ */
 const User = require('../models/user');
 var crypto = require('crypto');
 

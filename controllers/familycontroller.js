@@ -1,3 +1,10 @@
+/*
+familycontroller.js defines and contains functions that are related to family groups
+This includes functions to:
+- Create a New Group
+- Display Group
+- Edit Group
+ */
 const mongoose = require('mongoose');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
