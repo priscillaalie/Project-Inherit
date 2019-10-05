@@ -36,7 +36,7 @@ block content
                     .col.text-right
 
                         a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
-                            | Edit Group Details
+                            | Edit artifact
 
 
                 .row
@@ -47,7 +47,7 @@ block content
                         p #{artifact.description}
                     .col
                         img(src=artifact.photo)
-                        
+
 
                 .row
                     .col
@@ -66,9 +66,11 @@ block content
                                 .panel-heading
                                     | Comment panel
                                 .panel-body
-                                    textarea.form-control(placeholder='write a comment...', rows='3')
-                                    br
-                                    button.btn.btn-info.pull-right(type='button') Post
+                                    form(action = "/post")
+                                        textarea.form-control(placeholder='write a comment...', rows='3')
+                                        br
+                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+
                                     .clearfix
                                     hr
                                     ul.media-list

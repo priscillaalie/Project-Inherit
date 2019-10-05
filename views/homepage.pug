@@ -7,16 +7,6 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
-
-            .col-8
-                form(id = 'search', method = 'GET', action = "/search", autocomplete='off')
-                    input(type='hidden', name = 'users', value = user, autocomplete="off")
-                    input#searchbar(type='text', name = 'input', placeholder= "I am looking for...", list='datalist', autocomplete="off")
-                    datalist#datalist
-            .col-4
-                button.searchbutton(type='submit' form = 'search') Search
-                    i.fa.fa-search
-        .row
             .col-xs-12.col-sm-12#backgroundwelcome
 
                 if(session)
@@ -42,12 +32,7 @@ block content
 
 
 
-            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
-                .row
-                    .col
-                        if(session)
-                            h2.text-center.white-transparent Welcome #{name}
-                            br
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
 
 
                 .row
@@ -74,6 +59,14 @@ block content
                                                     label.font-weight-bold(for='description') Description
                                                     .input-group
                                                         textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                                .md-form.mb-5
+                                                    label.font-weight-bold  Members
+                                                    .input-group
+                                                        form(id = 'search', method = 'GET', action = "/search", autocomplete='off')
+                                                        input(type='hidden', name = 'users', value = user, autocomplete="off")
+                                                        input#searchbar(type='text', name = 'input', placeholder= "Search", list='datalist', autocomplete="off")
+                                                        datalist#datalist
+                                                            button.searchbutton(type='submit' form = 'search') Add
                                                 .md-form.mb-5
                                                     p.font-weight-bold Upload Image (optional)
                                                     img#preview(src=file)
@@ -131,7 +124,7 @@ block content
                     document.getElementById("datalist").innerHTML = "";
                     for (var i = 0; i < result.length; i++) {
                         var node = document.createElement("option");
-                        var val = document.createTextNode(result[i].title);
+                        var val = document.createTextNode(result[i].name);
                         node.appendChild(val);
                         document.getElementById("datalist").appendChild(node);
                     }

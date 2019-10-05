@@ -1,11 +1,9 @@
-const mongoose = require('mongoose');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
 const Group = require('../models/familygroups');
 var express = require('express');
 var app = express();
 
-const controllers = require('../controllers/controllers.js');
 
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
@@ -17,6 +15,7 @@ var createGroup = function(req,res){
                 "title":req.body.title,
                 "photo":req.file.location,
                 "description":req.body.description,
+                "members": req.body.members
             });
         } else {
             var group = new Group({
@@ -24,7 +23,7 @@ var createGroup = function(req,res){
                 "description":req.body.description,
             });
         }
-        
+
         var sid = req.cookies.sessionId;
 
         User.findOne({sessionId:sid}, function(err, user){
