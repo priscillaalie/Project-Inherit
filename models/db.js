@@ -1,3 +1,8 @@
+/*
+db.js is connecting to the MongoDB Atlas which is where the data is stored
+it is connecting using a driver
+ */
+
 const mongoose =  require('mongoose');
 
 //copy from CONNECT (MongoDB Atlas)

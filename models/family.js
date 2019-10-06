@@ -1,6 +1,9 @@
+/*
+family.js is defining the family schema
+ */
+
 var mongoose = require('mongoose');
 
-// defining family schema
 var familySchema = new mongoose.Schema({
     "familyname": {
         type: String,

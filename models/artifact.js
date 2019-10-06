@@ -1,3 +1,7 @@
+/*
+artifact.js defines the schema that will be stored in the mongodb atlas collection for each individual artifact
+ */
+
 var mongoose = require('mongoose');
 
 var artifactSchema = mongoose.Schema(
@@ -9,7 +13,8 @@ var artifactSchema = mongoose.Schema(
         "photo":String,
         "owner":String,
         "category":String,
-        "created":Date
+        "created":Date,
+        "comments": Array
     }
 );
 module.exports = mongoose.model('Artifact', artifactSchema);

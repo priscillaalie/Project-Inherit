@@ -1,3 +1,9 @@
+/*
+app.js is the first point of call for the server
+it contains the variables and connects the controllers, public, routes and views
+app.js also catches errors and sets a local port for local hosting
+ */
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,7 +15,6 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var searchRouter = require('./routes/search');
 var settingsRouter = require('./routes/settings');
-var imageRouter = require('./routes/images');
 
 var app = express();
 
@@ -31,9 +36,6 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/search',searchRouter);
 app.use('/settings', settingsRouter);
-app.use('/', imageRouter);
-
-
 
 // Connect to Database
 require('./models/db.js');
