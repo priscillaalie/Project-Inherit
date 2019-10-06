@@ -12,36 +12,45 @@ const Group = require('../models/familygroups');
 var express = require('express');
 var app = express();
 
-const controllers = require('../controllers/controllers.js');
+
+var upload = require('../services/file-uploader');
+var singleUpload = upload.single('image');
 
 var createGroup = function(req,res){
-
-    console.log(req.body.b64);
-    var group = new Group({
-        "title":req.body.title,
-        "photo":req.body.b64,
-        "description":req.body.description,
-
-    });
-
-    var sid = req.cookies.sessionId;
-
-
-    User.findOne({sessionId:sid}, function(err, user){
-        if (!err){
-            group.owner = user._id;
-            group.save(function(err, newGroup){
-                if (!err){
-                    user.groups.push(group._id);
-                    user.save();
-                    res.redirect('/home');
-                } else {
-                    res.sendStatus(400);
-                }
+    singleUpload(req, res, function(err) {
+        if (req.file) {
+            var group = new Group({
+                "title":req.body.title,
+                "photo":req.file.location,
+                "description":req.body.description,
+                "members": req.body.members
             });
         } else {
-            res.sendStatus(400);
+            var group = new Group({
+                "title":req.body.title,
+                "description":req.body.description,
+            });
         }
+
+        var sid = req.cookies.sessionId;
+
+        User.findOne({sessionId:sid}, function(err, user){
+            if (!err){
+                group.owner = user._id;
+                console.log(group);
+                group.save(function(err, newGroup){
+                    if (!err){
+                        user.groups.push(group._id);
+                        user.save();
+                        res.redirect('/home');
+                    } else {
+                        res.sendStatus(400);
+                    }
+                });
+            } else {
+                res.sendStatus(400);
+            }
+        });
     });
 };
 
@@ -57,10 +66,16 @@ var showGroupByID = function(req, res) {
                         if (!err){
                             Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
                                 User.find({'_id': {$in: group.members}}, function(err, members) {
-                                    var results = {group: group, owner: owner,
-                                        user: currUser[0], session: sid, artifacts: artifacts,
-                                        members:members};
-                                    res.render('family.pug', results);
+                                    Group.find({'_id': {$in: currUser[0].groups}}, function (err, familygroups) {
+                                        if (!err) {
+                                            var results = {group: group, owner: owner,
+                                                user: currUser[0], session: sid, artifacts: artifacts,
+                                                members:members, familygroups: familygroups};
+                                            res.render('family.pug', results);
+                                        } else {
+                                            res.sendStatus(500);
+                                        }
+                                    })
                                 })
                             })
                         } else {
