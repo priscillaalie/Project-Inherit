@@ -5,13 +5,7 @@ body {
 }
 
 
-footer {
-  margin-left:  -200px;
-  margin-right: -200px;
 
-  background-color: whitesmoke;
-
-}
 
 h2 {
   font-family: 'Merriweather', sans-serif;
@@ -65,7 +59,15 @@ h2 {
 }
 
 a {
+  color: darkgreen;
+}
+
+a:hover {
   color: #666666;
+}
+
+a:visited {
+  color: darkgray;
 }
 
 /* Grow */

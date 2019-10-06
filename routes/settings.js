@@ -1,3 +1,9 @@
+/*
+settings.js contains the routes that are used for the settings page
+- showing settings page
+- updating settings page
+- deleting user account
+ */
 const express = require('express');
 const controller = require('../controllers/controllers.js');
 const router = express.Router();

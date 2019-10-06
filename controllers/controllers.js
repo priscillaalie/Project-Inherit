@@ -1,3 +1,20 @@
+/*
+controllers.js contains functions that are for the basic functions of the web application
+this includes:
+- rendering pug into html
+- checking session id's to determine which layout is shown
+- editing user data
+- editing password for account
+- deleting user
+- creating user
+- logging in users
+- creating artifacts
+- fetching artifacts that user has access to
+- sending verification email after sign up
+- verifying user account
+- searching existing users to add to family group
+ */
+
 const mongoose = require('mongoose');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
