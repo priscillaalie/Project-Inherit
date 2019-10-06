@@ -20,6 +20,7 @@ const Artifact = require('../models/artifact');
 const User = require('../models/user');
 const Group = require('../models/familygroups');
 const utils = require('./utils.js');
+const Comment = require('../models/comment');
 var express = require('express');
 var nodemailer = require("nodemailer");
 var app = express();
@@ -451,7 +452,7 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
-                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups, comments:[]});
+                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups, comments:artifact.comments});
                         } else {
                             res.sendStatus(404);
                         }
@@ -505,6 +506,29 @@ var searchResults = function(req, res) {
         } else {
             res.sendStatus(500);
         }
+    });
+}
+
+var addComment = function(req, res) {
+    var artifactId = req.url;
+    User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
+        Artifact.findById(artifactId, function(err, artifact) {
+            var comment = new Comment({
+                "owner": user._id,
+                "content": req.body.comment,
+                "artifact": artifact._id,
+            })
+            comment.created = new Date.now();
+            comment.save(function(err, newComment) {
+                if (!err) {
+                    artifact.comments.push(comment._id);
+                    artifact.save();
+                    res.redirect('/artifact/view/'+artifactId);
+                } else {
+                    res.sendStatus(400);
+                }
+            })
+        })
     });
 }
 // Connect to the db
