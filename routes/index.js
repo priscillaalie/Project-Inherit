@@ -1,3 +1,17 @@
+/*
+index.js contains routes to call the basic routes and connect functions, namely controllers/controllers.js
+- showing home page
+- login
+- sign up
+- viewing settings
+- family group
+- showing profile
+- showing artifacts
+- adding artifacts
+- sending verification email
+- verifying email
+- logging out
+ */
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');

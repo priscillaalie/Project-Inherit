@@ -39,20 +39,16 @@ block content
                             hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
+                        br
 
 
 
             .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
-                .row
-                    .col
-                        if(session)
-                            h2.text-center.white-transparent Welcome #{name}
-                            br
-
 
                 .row
-                    .col.familygroupzone
-                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
+                    .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex.text-center
+
+                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
@@ -83,11 +79,12 @@ block content
                                             .modal-footer.d-flex.justify-content-center
                                                 button.btn.btn-primary(href='/home' type='submit') Create Family
 
-                        each family in familygroups
-                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content;')
+                    each family in familygroups
+                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex.text-center
+                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
                                 .d-flex
                                     a(href = `/view/${family._id}`)
-                                        img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem;")
+                                        img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{family.title}
