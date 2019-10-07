@@ -1,3 +1,9 @@
+/*
+family.js contains the routes that call family functions from controllers/familycontroller.js
+- creating group
+- viewing group
+- updating group
+ */
 var express = require('express');
 var router = express.Router();
 
