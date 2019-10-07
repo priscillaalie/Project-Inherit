@@ -4,6 +4,8 @@ block css
     style
         include ../public/stylesheets/homepage.css
         include ../public/stylesheets/myantiques.css
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+
 
 block content
     .container-fluid.fill-height.fade-in
@@ -51,7 +53,7 @@ block content
 
                 .row
                     .col
-                        h3 Uploaded by #name of owner
+                        p Uploaded by #{artifact.owner}
                 .row
                     .col
                         button.btn-outline-secondary.btn-sm(href = "/delete") Delete Artifact
@@ -81,11 +83,14 @@ block content
                                             a.pull-left(href='#')
                                                 img.img-circle(src=comment.photo)
                                             .media-body
-                                                //span.text-muted.pull-right
+                                                span.text-muted.pull-right
                                                     small.text-muted 30 min ago
+                                                    button.btn(href='/deletecomment')
+                                                        i.fa.fa-trash
                                                 strong.text-success name of person #{comment.person}
                                                 p
                                                     | comment here the # thing
+
 
                                        
 
