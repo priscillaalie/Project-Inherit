@@ -54,7 +54,7 @@ block content
                         h3 Uploaded by #name of owner
                 .row
                     .col
-                        button.btn-outline-secondary.btn-lg(href = "/delete") Delete Artifact
+                        button.btn-outline-secondary.btn-sm(href = "/delete") Delete Artifact
                         br
                         br
 
@@ -66,7 +66,7 @@ block content
                                 .panel-heading
                                     | Comment panel
                                 .panel-body
-                                    form(action = "/post")
+                                    form(method='POST' action = "/post")
                                         textarea.form-control(placeholder='write a comment...', rows='3')
                                         br
                                         button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
