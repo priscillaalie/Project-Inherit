@@ -228,7 +228,7 @@ var createUser = function(req,res){
                 "photo":req.body.photo,
                 "phone":req.body.phone,
                 "password":hash,
-                "name": req.body.fname + req.body.lname
+                "name": req.body.fname + ' ' + req.body.lname
             });
             // Check if the email already exists
             User.find({email: req.body.email}, function(err, users){
@@ -494,6 +494,7 @@ var findUserByName = function(req, res) {
 };
 
 var searchResults = function(req, res) {
+    console.log(req);
     var input = req.query.input;
     var regex = new RegExp(input, 'i');
     User.find({"name": regex}, function(err, users) {
