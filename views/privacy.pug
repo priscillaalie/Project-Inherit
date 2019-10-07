@@ -34,7 +34,7 @@ block content
                         br
                         br
 
-            .col-md-9.col-lg-10.col-xl-10
+            .col-md-9.col-lg-10.col-xl-10.fade-in
                 .jumbotron
                     .row
                         .col.col-md-6.col-lg-6.col-xl-6
@@ -50,13 +50,13 @@ block content
                                 .form-group
                                     .row
                                         .col
-                                            p NEW PASSWORD
+                                            p.font-weight-bold NEW PASSWORD
                                             input.fullrow#pw(type='password', onkeyup="checkPasswords();",
                                                 placeholder='Password' name='password', required)
                                     br
                                     .row
                                         .col
-                                            p RETYPE NEW PASSWORD
+                                            p.font-weight-bold RETYPE NEW PASSWORD
                                             input.fullrow#pw2(type='password', onkeyup="checkPasswords();",
                                                 placeholder='Retype Password' name='confirmPassword',
                                                 autocomplete='new-password', required)

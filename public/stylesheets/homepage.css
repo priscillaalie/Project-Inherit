@@ -6,67 +6,8 @@
     font-family: "Lato", sans-serif;
 }
 
-.textbackground {
-    color: whitesmoke;
-    font-size: 20px;
-
-}
-
-#preview {
-    background-color: whitesmoke;
-    max-width: 10vw;
-    max-height:20vw;
-    min-width: 5vw;
-    min-height: 5vw;
-    border-radius: 3px;
-    border: 3px solid dimgrey;
-
-}
-
-.white-transparent {
-    background-color: white;
-    opacity: 0.7;
-    word-wrap: break-word;
-    padding: 20px 0px 20px 0px;
-}
-
-#pad {
-    padding-left: 30px;
-}
-
-#message{
-    display: none;
-    font-weight: bold;
-}
-
-nav {
-    background-color: lightgrey;
-    padding-left: 2vw;
-    border-radius: 3px;
-}
-
 .vertical-menu{
     min-height: 40vw;
-}
-
-.uploadzone{
-    min-height: 20vw;
-}
-
-#post{
-    height:10vw;
-    width: 100%;
-    padding: 20px 15px 15px 15px;
-}
-
-#submit {
-    width:6vw;
-}
-
-.textboxdesign{
-    background: linear-gradient(to right, #00b4db, #0083b0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    padding-bottom:1vw;
-    border-radius: 3px;
 }
 
 .addfamily {
@@ -77,24 +18,6 @@ nav {
 
 .modal{
     margin: 15px 15px 15px 15px;
-}
-
-.familygroupzone {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr ;
-    grid-template-rows: 1fr 1fr;
-    background-color: white;
-    height: 80%;
-    border-radius: 20px;
-}
-
-.toprow {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr ;
-    grid-template-rows: 1fr;
-    background-color: white;
-    height: 80%;
-    border-radius: 20px;
 }
 
 

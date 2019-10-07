@@ -20,14 +20,10 @@ html
     link(rel='icon', type='image/png', href='https://i.ibb.co/bHJdZX2/output-onlinepngtools-3.png')
 
     style.
-      @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:700&display=swap');
-      @import url('https://fonts.googleapis.com/css?family=Assistant:700|EB+Garamond&display=swap');
-      @import url('https://fonts.googleapis.com/css?family=Beth+Ellen&display=swap');
       @import url('https://fonts.googleapis.com/css?family=Merriweather&display=swap');
-
-
-
-  header
+      @import url('https://fonts.googleapis.com/css?family=Biryani:900&display=swap');  header
+      @import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
 
     nav.navbar.navbar-expand-md.navbar-light.fixed-top.white-bg#navtop
       if (session)
@@ -45,10 +41,7 @@ html
 
           if (session)
             li.nav-item
-
-              a.nav-link(href="/aboutus") About Us
-            li.nav-item
-              a.nav-link(href = "/home") Profile
+              a.nav-link(href = "/home") PROFILE
             li.nav-item.dropdown.pull-right
               a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                 |
@@ -59,9 +52,7 @@ html
 
           else
             li.nav-item
-              a.nav-link(href = "/aboutus") About Us
-            li.nav-item
-              a.nav-link(href = "/login") Log in
+              a.nav-link(href = "/login") LOGIN
 
 
   body
@@ -71,6 +62,4 @@ html
 
 
   footer
-      br
-      p.text-center Copyright (c) Project Inherit
 
