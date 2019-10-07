@@ -13,7 +13,7 @@ block content
                 .row
 
                     .col
-                    .col
+                    .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
                         if(session)
                             h2.text-center.white-transparent #{group.title}
                     .col.text-right
@@ -53,7 +53,6 @@ block content
             })
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
-                        br
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
                         each family in familygroups

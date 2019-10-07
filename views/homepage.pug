@@ -19,7 +19,6 @@ block content
             })
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
-                        br
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
                         each family in familygroups
@@ -82,7 +81,7 @@ block content
                             .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
                                 .d-flex
                                     a(href = `/view/${family._id}`)
-                                        img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        img.card-img-top.image-custom(src=family.photo, style="min-width: 15rem; object-fit: cover;")
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{family.title}
