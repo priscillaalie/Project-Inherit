@@ -8,6 +8,7 @@ var commentSchema = mongoose.Schema(
     {
         "id": String,
         "owner":String,
+        "ownername": String,
         "content":String,
         "artifact": String,
         "created": Date,

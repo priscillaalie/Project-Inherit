@@ -452,7 +452,15 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
-                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups, comments:artifact.comments});
+                            Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
+                                if (!err) {
+                                    res.render('artifact.pug', {artifact: artifact, 
+                                        familygroups:familygroups, comments:comments});
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
+                            
                         } else {
                             res.sendStatus(404);
                         }
@@ -511,19 +519,26 @@ var searchResults = function(req, res) {
 }
 
 var addComment = function(req, res) {
-    var artifactId = req.url;
+    var artifactId = req.headers.referer.split('/')[5];
     User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
         Artifact.findById(artifactId, function(err, artifact) {
             var comment = new Comment({
                 "owner": user._id,
                 "content": req.body.comment,
-                "artifact": artifact._id,
+                "artifact": artifactId,
             })
-            comment.created = new Date.now();
+            if (user.name) {
+                comment.ownername = user.name;
+            } else {
+                comment.ownername = user.fname;
+            }
+            comment.created = Date.now();
+            console.log(comment);
             comment.save(function(err, newComment) {
                 if (!err) {
                     artifact.comments.push(comment._id);
                     artifact.save();
+                    console.log(artifact);
                     res.redirect('/artifact/view/'+artifactId);
                 } else {
                     res.sendStatus(400);
@@ -559,6 +574,7 @@ module.exports = {
     showArtifactByID,
     findUserByName,
     searchUser,
-    searchResults
+    searchResults,
+    addComment
 }
 

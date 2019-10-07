@@ -86,6 +86,7 @@ router.get('/artifact/view/:id', controllers.showArtifactByID);
 router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
+router.post('/post', controllers.addComment);
 
 
 module.exports = router;
