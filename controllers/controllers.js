@@ -119,6 +119,7 @@ var editUser = function(req, res){
             user.email = req.body.email;
             user.photo = req.body.b64;
             user.phone = req.body.phone;
+            user.name = req.body.fname + ' ' + req.body.lname;
 
             user.save(function(err, updatedUser) {
                 if (updatedUser) {
@@ -233,14 +234,13 @@ var createUser = function(req,res){
                         var results = {title: 'Inherit', error: message,
                             email: req.body.email, fname: req.body.fname,
                             lname: req.body.lname, phone: req.body.phone};
+                        res.render('signup',results);
                     }
                     else{
                         user.save(function(err,newUser){
                             if(!err){
                                 //if there are no errors, show the new user
-
                                 getStarted(req,res);
-
                                 console.log("user added to database");
                             }else{
                                 res.sendStatus(400);
@@ -463,8 +463,15 @@ var showArtifactByID = function(req, res) {
                                 if (!err) {
                                     User.findById(artifact.owner, function(err, owner) {
                                         if (!err) {
-                                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
-                                            comments:comments, sessionId: req.cookies.sessionId, owner:owner.name});
+                                            Group.findbyId(artifact.familygroup, function(err, belongsTo) {
+                                                if (!err) {
+                                                    res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                                    comments:comments, session: req.cookies.sessionId, owner:owner.name,
+                                                    familyname:belongsTo});
+                                                } else {
+                                                    res.sendStatus(500);
+                                                }
+                                            })
                                         } else {
                                             res.sendStatus(500);
                                         }
