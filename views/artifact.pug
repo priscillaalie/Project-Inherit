@@ -49,7 +49,7 @@ block content
 
 
                                         .modal-footer.justify-content-center
-                                            button.btn-outline-secondary.btn-sm( method ="POST" action = "/delete", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            button.btn-outline-secondary.btn-sm( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                             button.btn.btn-primary(type='submit') Update
 
 
@@ -94,7 +94,7 @@ block content
 
                         br
                         hr.my-4
-                        p Uploaded by #{artifact.owner} on {artifact.created}
+                        p Uploaded by #{artifact.owner} on #{artifact.created}
                         br
 
 
