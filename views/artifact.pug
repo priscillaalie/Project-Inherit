@@ -15,12 +15,24 @@ block content
                 .row
 
                     .col
-                    .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
+                    .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
                         h2.text-center.white-transparent #{artifact.title}
-                    .col.text-right
+                    .col.text-right.justify-content-right
+                        //if (admin)
 
-                        a.btn.btn-outline-secondary.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
-                            | Edit artifact
+                            .btn-group.mr-2(role='group', aria-label='Second group')
+                              button.btn.btn-secondary(type='button') 5
+                              button.btn.btn-secondary(type='button') 6
+                              button.btn.btn-secondary(type='button') 7
+                            .btn-group(role='group', aria-label='Third group')
+
+                        .btn-toolbar(role='toolbar', aria-label='Toolbar with button groups')
+                            .btn-group.mr-2(role='group', aria-label='First Group')
+                                a.btn.btn-outline-secondary.btn-sm(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
+                                    | Edit artifact
+                            .btn-group(role='group', aria-label='Second Group')
+                                button.btn-danger.btn-sm( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+
 
                         #modalUpdateArtifact.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
@@ -115,7 +127,7 @@ block content
                     .col-md-12.col-sm-12.col-lg-12.col-xl-12
                         .comment-wrapper
                             .panel.panel-info
-                                .panel-heading
+                                .panel-heading.font-weight-bold
                                     | Comment panel
 
                                 .panel-body
@@ -124,9 +136,11 @@ block content
                                         textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
                                         br
                                         button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                    br
 
 
-                                    .clearfix
+
+                                    br
 
                                     ul.media-list
 
