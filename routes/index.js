@@ -55,8 +55,6 @@ router.get('/signup', function(req, res){
   controllers.fetchSignup(req, res);
 });
 
-router.get('/profile', controllers.fetchProfile);
-
 router.get('/home', controllers.fetchHomepage);
 
 router.get('/myantiques', function(req, res){
@@ -80,12 +78,15 @@ router.get("/logout", function(req, res){
   res.redirect('/');
 });
 
+router.get('/view/info', famcontrollers.showInfo);
+router.get('/view/members', famcontrollers.showMembers);
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
 router.get('/artifact/view/:id', controllers.showArtifactByID);
 router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
+
 
 
 module.exports = router;

@@ -54,11 +54,6 @@ var fetchSignup = function (req,res) {
     res.render('signup.pug', {title: 'Signup'});
 };
 
-// renders the profile page
-var fetchProfile = function (req,res) {
-    res.render('profile.pug', {title: 'Profile'});
-};
-
 // if it is a current user, find the user's information such as name and groups they are in
 // and send this to the front end to be displayed. if not, display basic front end
 var fetchHomepage = function(req, res) {
@@ -451,7 +446,14 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
-                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups, comments:[]});
+                            User.findOne({'_id':artifact.owner}, function(err, owner) {
+                                if (!err) {
+                                    res.render('artifact.pug', {artifact: artifact, 
+                                        familygroups:familygroups, comments:[], owner:owner.name});
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
                         } else {
                             res.sendStatus(404);
                         }
@@ -516,7 +518,6 @@ module.exports = {
     showIndex,
     fetchLogin,
     fetchSignup,
-    fetchProfile,
     getStarted,
     fetchHomepage,
     fetchSettings,
