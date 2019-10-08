@@ -58,3 +58,9 @@ a{
         opacity:1;
     }
 }
+
+img {
+    object-fit: cover;
+    position: relative;
+
+}

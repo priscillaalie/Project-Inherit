@@ -13,3 +13,7 @@
 #pad {
     padding-left: 30px;
 }
+
+img {
+    object-fit: cover;
+}
