@@ -10,10 +10,25 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
-            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
+
+            .col-xs-12.col-sm-12#backgroundwelcome
+                .row
+
+                    .col
+                    .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
+                        h2.text-center.white-transparent artifact group?
+                    .col.text-right
+
+                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                            | Edit artifact
+
+        .row
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
+                'background-color': 'white;'
+            })
                 nav-collapse.fixed-left.dropdown-menu-left
-                    .vertical-menu
-                        br
+                    .vertical-menu.mr-4
+
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
                         p(style = "color: dimgrey;") Groups
@@ -30,55 +45,50 @@ block content
                         br
                         br
 
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
 
-            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
-
-                .row
-
-                    .col
-                    .col
-                        if(session)
-                            h2.text-center.white-transparent #{group.title}
-                    .col.text-right
-
-                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
-                            | Edit artifact
 
 
                 .row
-                    .col
-                        h1 #{artifact.title}
+                    .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
+                        h2 #{artifact.title}
                         br
 
                         p #{artifact.description}
-                    .col
-                        img(src=artifact.photo)
 
+                        br
+                        hr.my-4
+                        p Uploaded by #{artifact.owner}
+                        br
 
-                .row
-                    .col
-                        p Uploaded by #{owner}
-                .row
-                    .col
                         button.btn-outline-secondary.btn-sm(href = "/delete") Delete Artifact
                         br
                         br
 
+                    .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
+                        img.responsive(src=artifact.photo)
+                        br
+                        br
+
+
+
+
 
                 .row.bootstrap.snippets
-                    .col-md-6.col-md-offset-2.col-sm-12
+                    .col-md-12.col-sm-12.col-lg-12.col-xl-12
                         .comment-wrapper
                             .panel.panel-info
                                 .panel-heading
                                     | Comment panel
-                                .panel-body
-                                    form(method='POST' action = "/post")
-                                        textarea.form-control(placeholder='write a comment...', rows='3')
-                                        br
-                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                .col-sm-12.col-md-12.col-lg-8.col-xl-8
+                                    .panel-body
+                                        form(method='POST' action = "/post")
+                                            textarea.form-control(placeholder='write a comment...', rows='3')
+                                            br
+                                            button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
 
                                     .clearfix
-                                    hr
+
                                     ul.media-list
 
                                     each comment in comments

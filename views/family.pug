@@ -11,7 +11,11 @@ block content
 
             .col-xs-12.col-sm-12
                 .row
+
+
                     .col
+                    .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
+
                         if(session)
                             h2.text-center #{group.title}
 
@@ -20,12 +24,14 @@ block content
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
+
                         br
                         .row
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
                                 a(href='/home') Back
+
                         hr.my-4
 
                         .row
