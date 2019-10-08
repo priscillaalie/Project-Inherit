@@ -55,8 +55,6 @@ router.get('/signup', function(req, res){
   controllers.fetchSignup(req, res);
 });
 
-router.get('/profile', controllers.fetchProfile);
-
 router.get('/home', controllers.fetchHomepage);
 
 router.get('/myantiques', function(req, res){

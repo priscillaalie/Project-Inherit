@@ -8,6 +8,15 @@
 
 .vertical-menu{
     min-height: 40vw;
+    color: grey
+}
+
+.cardzone{
+    padding-top: 2.4vw;
+}
+
+a{
+    color: #666666;
 }
 
 .addfamily {

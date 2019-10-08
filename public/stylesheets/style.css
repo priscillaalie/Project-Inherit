@@ -1,10 +1,20 @@
 body {
   margin: 30px 30px 0px 30px;
   padding: 70px 30px 0px 30px;
+  background-color:#fffef7;
+}
+
+h2 {
+  font-family: 'Big Shoulders Display', cursive;
+  font-weight: bolder;
+}
+
+p{
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 #navtop {
-  background-color: rgba(203,75,30, 1);
+  background-color: rgb(247,158,96);
   padding: 0px 30px 0px 30px;
 }
 
@@ -14,8 +24,8 @@ body {
 }
 
 #handwrite {
-  font-family: 'Biryani', Arial, sans-serif;
-  font-weight: normal;
+  font-family: 'Big Shoulders Display', cursive;
+  font-weight: bolder;
   font-style: normal;
   font-size: 25px;
   color: white;

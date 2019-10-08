@@ -4,7 +4,7 @@ html
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
-
+    link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
 
     script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
@@ -21,15 +21,16 @@ html
 
     style.
       @import url('https://fonts.googleapis.com/css?family=Merriweather&display=swap');
-      @import url('https://fonts.googleapis.com/css?family=Biryani:900&display=swap');  header
+      @import url('https://fonts.googleapis.com/css?family=Biryani:900&display=swap');
       @import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap');
-      @import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Big+Shoulders+Display&display=swap');
 
+  header
     nav.navbar.navbar-expand-md.navbar-light.fixed-top.white-bg#navtop
       if (session)
-        a.navbar-brand#handwrite(href = '/home') Inherit
+        a.navbar-brand#handwrite(href = '/home') INHERIT
       else
-        a.navbar-brand#handwrite(href = '/') Inherit
+        a.navbar-brand#handwrite(href = '/') INHERIT
 
 
 

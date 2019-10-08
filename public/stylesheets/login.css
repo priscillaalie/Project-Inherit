@@ -3,8 +3,8 @@
 
 }
 
-.leaves {
-    background-image: url("https://images.unsplash.com/photo-1496776574435-bf184935f729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
+.imgzone {
+    background-image:url(https://images.unsplash.com/photo-1495887633121-f1156ca7f6a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80);
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -14,6 +14,7 @@
 
 .white {
     background-color: white;
-    opacity: 1;
     word-wrap: break-word;
+    height: 100%;
+
 }

@@ -3,74 +3,79 @@ extends homepage.pug
 block css
     style
         include ../public/stylesheets/homepage.css
-        include ../public/stylesheets/myantiques.css
+        include ../public/stylesheets/family.css
 
 block content
     .container-fluid.fill-height.fade-in
         .row
 
-            .col-xs-12.col-sm-12#backgroundwelcome
+            .col-xs-12.col-sm-12
                 .row
-
-                    .col
                     .col
                         if(session)
-                            h2.text-center.white-transparent #{group.title}
-                    .col.text-right
-
-                            a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
-                                | Edit Group Details
-
-                            #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                                .modal-dialog(role='document')
-                                    form(method='POST' action='')
-                                        .modal-content
-                                            .modal-header.text-center
-                                                h4.modal-title.w-100.font-weight-bold Update My Family
-                                                button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                    span(aria-hidden='true') &times;
-                                            .modal-body.mx-3
-                                                .md-form.mb-5
-                                                    label.font-weight-bold(for='title') Title
-                                                    input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
-                                                .md-form.mb-5
-                                                    label.font-weight-bold(for='desc') Description
-                                                    .input-group
-                                                        textarea#desc.form-control(type='text', placeholder='Description*', name='description',value = group.description)
-
-                                                    label.font-weight-bold(for='owner') Admin:
-                                                    select#owner(type='text', placeholder='Admin' name='owner', value = group.owner)
-                                                        for member in members
-                                                            option(value=`${member._id}`) #{member.fname}
-
-                                            .modal-footer.justify-content-center
-                                                button.btn.btn-primary(type='submit') Update
+                            h2.text-center #{group.title}
 
         .row
 
-            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;'
-            })
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
                         br
-                        a(href='/myantiques',style="color:#666666;") My Artifacts
+                        .row
+                            .col-2
+                                i.material-icons keyboard_arrow_left
+                            .col-10
+                                a(href='/home') Back
                         hr.my-4
-                        each family in familygroups
-                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
-                            br
-                        if (familygroups)
-                            hr.my-4
-                        a(href='/events',style="color:#666666;") Events
+
+                        .row
+                            .col
+                                a(href = "/view/info/:id/") About
+
                         br
+                        .row
+                            .col
+                                a.active(href='/view/:id' style = "font-weight: bolder;") Artifacts
+
+                        br
+                        .row
+                            .col
+                                a(href = "/view/:id/members") Members
+                        br
+                        .row
+                            .col
+                                a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") More
+                                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                    .modal-dialog(role='document')
+                                        form(method='POST' action='')
+                                            .modal-content
+                                                .modal-header.text-center
+                                                    h4.modal-title.w-100.font-weight-bold Update My Family
+                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                        span(aria-hidden='true') &times;
+                                                .modal-body.mx-3
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='title') Title
+                                                        input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='desc') Description
+                                                        .input-group
+                                                            textarea#desc.form-control(type='text', placeholder='Description*', name='description',value = group.description)
+
+                                                        label.font-weight-bold(for='owner') Admin:
+                                                        select#owner(type='text', placeholder='Admin' name='owner', value = group.owner)
+                                                            for member in members
+                                                                option(value=`${member._id}`) #{member.fname}
+
+                                                .modal-footer.justify-content-center
+                                                    button.btn.btn-primary(type='submit') Update
+                        hr.my-4
 
 
-            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
-
-
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
                     .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem;')
+                        .card.mb-4.mr-5(style='min-width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalArtifactForm')
@@ -105,7 +110,7 @@ block content
 
                     each artifact in artifacts
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content;')
+                            .card.mb-4.mr-5(style='min-width: 15rem; height: fit-content;')
                                 .d-flex
                                     a(href = `/artifact/view/${artifact._id}`)
                                         img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")

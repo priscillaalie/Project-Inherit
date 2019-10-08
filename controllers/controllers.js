@@ -54,11 +54,6 @@ var fetchSignup = function (req,res) {
     res.render('signup.pug', {title: 'Signup'});
 };
 
-// renders the profile page
-var fetchProfile = function (req,res) {
-    res.render('profile.pug', {title: 'Profile'});
-};
-
 // if it is a current user, find the user's information such as name and groups they are in
 // and send this to the front end to be displayed. if not, display basic front end
 var fetchHomepage = function(req, res) {
@@ -516,7 +511,6 @@ module.exports = {
     showIndex,
     fetchLogin,
     fetchSignup,
-    fetchProfile,
     getStarted,
     fetchHomepage,
     fetchSettings,

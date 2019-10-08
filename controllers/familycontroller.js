@@ -92,6 +92,16 @@ var showGroupByID = function(req, res) {
     });
 };
 
+var showGroupInfo = function(req, res) {
+    var ID = req.params.id;
+    Group.findById(ID, function(err, group) {
+        if (!err) {
+            var results = {title: 'Inherit', session: sid, group: group};
+            res.render('familyInfo.pug', results);
+        }
+    })
+};
+
 var editGroup = function(req, res){
     Group.findById(req.originalUrl.split('/')[2], function(err, group) {
         if (!err && group) {
@@ -124,6 +134,7 @@ var editGroup = function(req, res){
 module.exports = {
     createGroup,
     showGroupByID,
+    showGroupInfo,
     editGroup
 }
 
