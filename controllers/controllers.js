@@ -463,7 +463,7 @@ var showArtifactByID = function(req, res) {
                             Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
                                 if (!err) {
                                     res.render('artifact.pug', {artifact: artifact, 
-                                        familygroups:familygroups, comments:comments});
+                                        familygroups:familygroups, comments:comments, title: artifact.title});
 
                                 } else {
                                     res.sendStatus(500);
