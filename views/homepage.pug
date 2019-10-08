@@ -14,8 +14,9 @@ block content
         .row
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
-                    .vertical-menu
-                        br
+
+                    .vertical-menu.mr-4
+
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
                         p(style = "color: dimgrey;") Groups
@@ -78,6 +79,15 @@ block content
                                             .modal-footer.d-flex.justify-content-center
                                                 button.btn.btn-primary(href='/home' type='submit') Create Family
 
+                    each family in familygroups
+                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex.text-center
+                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
+                                .d-flex
+                                    a(href = `/view/${family._id}`)
+                                        img.card-img-top.image-custom(src=family.photo, style="min-width: 15rem; object-fit: cover;")
+                                        .card-body.flex-fill
+                                            .row
+                                                h5.card-title #{family.title}
 
     // upload image for create group
     script.
