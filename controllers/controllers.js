@@ -232,6 +232,7 @@ var createUser = function(req,res){
                         var results = {title: 'Inherit', error: message,
                             email: req.body.email, fname: req.body.fname,
                             lname: req.body.lname, phone: req.body.phone};
+                        res.render('signup', results);
                     }
                     else{
                         user.save(function(err,newUser){
