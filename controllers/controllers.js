@@ -340,6 +340,17 @@ var fetchAntiquesByUser = function(req, res) {
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
 
+var deleteArtifact = function(req, res) {
+    var artifactId = req.headers.referer.split('/')[5];
+    Artifact.remove({'_id': artifactId}, function(err) {
+        if (!err) {
+            res.send("theres been an error deleting your artifact");
+        } else {
+            res.send("artifact successfully deleted");
+        }
+    })
+}
+
 // adds an antique to the database
 var createAntique = function(req,res){
 	var sid = req.cookies.sessionId;
