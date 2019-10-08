@@ -61,6 +61,13 @@ p{
   -ms-animation: fadeIn ease 1.5s;
 }
 
+.dropdown-left-manual {
+  right: 0;
+  left: auto;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
 
 @keyframes fadeIn{
   0% {

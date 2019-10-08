@@ -79,7 +79,7 @@ block content
                                                                 option(value=`${member._id}`) #{member.fname}
 
                                                 .modal-footer.justify-content-center
-                                                    button.btn-outline-secondary.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                                    button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                                     button.btn.btn-primary(type='submit') Update
                         hr.my-4
 
