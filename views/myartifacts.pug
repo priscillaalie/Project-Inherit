@@ -17,7 +17,7 @@ block content
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu
                         br
-                        a(href='/myantiques',style="color:#666666;") My Artifacts
+                        a(href='/myartifacts',style="color:#666666;") My Artifacts
                         hr.my-4
                         p(style = "color: dimgrey;") Groups
                         each family in familygroups
@@ -38,12 +38,12 @@ block content
                     .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
                         .card.mb-4.pr-3(style='min-width: 15rem; height: 15rem; width: 15rem;')
                             img.card-img-top.image-custom(src=url('https://image.flaticon.com/icons/svg/149/149156.svg'))
-                            
+
 
                             #modalRegisterForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                                 .modal-dialog(role='document')
-                                    form(method='POST' action='/addantique', enctype = "multipart/form-data")
+                                    form(method='POST' action='/addartifact', enctype = "multipart/form-data")
                                         .modal-content
                                             .modal-header.text-center
                                                 h4.modal-title.w-100.font-weight-bold Add an artifact

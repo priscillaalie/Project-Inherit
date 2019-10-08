@@ -315,7 +315,7 @@ var fetchAntiquesByUser = function(req, res) {
 	                                title: 'Inherit', 'artifacts': artifacts, 'user': user._id,
 	                                session: req.cookies.sessionId, 'familygroups': familygroups
 	                            };
-	                            res.render('myantiques.pug', results);
+	                            res.render('myartifacts.pug', results);
 	                        } else {
 	                        	res.sendStatus(500);
 	                        }
@@ -369,7 +369,7 @@ var createAntique = function(req,res){
                             group.save();
                         });
     		    		user.save();
-    		    		res.redirect('/myantiques');
+    		    		res.redirect('/myartifacts');
     		    	} else {
     		    		res.sendStatus(400);
     		    	}
@@ -449,7 +449,7 @@ var showArtifactByID = function(req, res) {
                         if (!err) {
                             User.findOne({'_id':artifact.owner}, function(err, owner) {
                                 if (!err) {
-                                    res.render('artifact.pug', {artifact: artifact, 
+                                    res.render('artifact.pug', {artifact: artifact,
                                         familygroups:familygroups, comments:[], owner:owner.name});
                                 } else {
                                     res.sendStatus(500);
@@ -504,7 +504,7 @@ var searchResults = function(req, res) {
             session: req.cookies.sessionId
         };
         if (!err) {
-            res.render('myantiques', results);
+            res.render('myartifacts', results);
         } else {
             res.sendStatus(500);
         }

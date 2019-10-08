@@ -57,7 +57,7 @@ router.get('/signup', function(req, res){
 
 router.get('/home', controllers.fetchHomepage);
 
-router.get('/myantiques', function(req, res){
+router.get('/myartifacts', function(req, res){
   if (req.cookies.sessionId) {
     controllers.fetchAntiquesByUser(req, res);
   } else {
@@ -65,7 +65,7 @@ router.get('/myantiques', function(req, res){
   }
 });
 
-router.post('/addantique', controllers.createAntique)
+router.post('/addartifact', controllers.createAntique)
 
 router.post('/signup', controllers.createUser);
 
