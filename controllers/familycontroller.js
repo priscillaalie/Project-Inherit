@@ -150,6 +150,7 @@ var showInfo = function(req, res) {
 
 var showMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
+    console.log(groupId);
     Group.findById(groupId, function(err, group) {
         if (!err) {
             User.find({}, function(err, members) {

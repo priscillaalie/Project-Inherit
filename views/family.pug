@@ -73,17 +73,17 @@ block content
 
                         .row
                             .col
-                                a(href = '/view/info/') About
+                                a(href = `/view/${group._id}/info/`) About
 
                         br
                         .row
                             .col
-                                a.active(href='/view/#{family._id}' style = "font-weight: bolder;") Artifacts
+                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
 
                         br
                         .row
                             .col
-                                a(href = "/view/members") Members
+                                a(href = `/view/${group._id}/members`) Members
                         br
                         .row
                             .col
