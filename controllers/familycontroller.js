@@ -70,7 +70,7 @@ var showGroupByID = function(req, res) {
                                         if (!err) {
                                             var results = {group: group, owner: owner,
                                                 user: currUser[0], session: sid, artifacts: artifacts,
-                                                members:members, familygroups: familygroups};
+                                                members:members, familygroups: familygroups, title: group.title};
                                             res.render('family.pug', results);
                                         } else {
                                             res.sendStatus(500);
