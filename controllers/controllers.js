@@ -446,7 +446,14 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
-                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups, comments:[]});
+                            User.findOne({'_id':artifact.owner}, function(err, owner) {
+                                if (!err) {
+                                    res.render('artifact.pug', {artifact: artifact, 
+                                        familygroups:familygroups, comments:[], owner:owner.name});
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
                         } else {
                             res.sendStatus(404);
                         }
