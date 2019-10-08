@@ -459,11 +459,16 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
-
                             Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
                                 if (!err) {
-                                    res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
-                                    comments:comments, sessionId: req.cookies.sessionId});
+                                    User.findById(artifact.owner, function(err, owner) {
+                                        if (!err) {
+                                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                            comments:comments, sessionId: req.cookies.sessionId, owner:owner.name});
+                                        } else {
+                                            res.sendStatus(500);
+                                        }
+                                    })
                                 } else {
                                     res.sendStatus(500);
                                 }
