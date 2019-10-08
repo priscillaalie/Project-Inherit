@@ -92,6 +92,16 @@ var showGroupByID = function(req, res) {
     });
 };
 
+var showGroupInfo = function(req, res) {
+    var ID = req.params.id;
+    Group.findById(ID, function(err, group) {
+        if (!err) {
+            var results = {title: 'Inherit', session: sid, group: group};
+            res.render('familyInfo.pug', results);
+        }
+    })
+};
+
 var editGroup = function(req, res){
     Group.findById(req.originalUrl.split('/')[2], function(err, group) {
         if (!err && group) {
@@ -121,9 +131,47 @@ var editGroup = function(req, res){
     });
 };
 
+var showInfo = function(req, res) {
+    var groupId = req.headers.referer.split('/')[4];
+    Group.findById(groupId, function(err, group) {
+        if (!err) {
+            User.find({'_id': {$in: group.members}}, function(err, members) {
+                if (!err) {
+                    res.render('familyInfo.pug', {group:group, members:members});
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
+}
+
+var showMembers = function(req, res) {
+    var groupId = req.headers.referer.split('/')[4];
+    Group.findById(groupId, function(err, group) {
+        if (!err) {
+            User.find({}, function(err, members) {
+                if (!err) {
+                    res.render('members.pug', {group:group, members:members});
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
+}
+
+
 module.exports = {
     createGroup,
     showGroupByID,
-    editGroup
+    showGroupInfo,
+    editGroup,
+    showInfo,
+    showMembers
 }
 

@@ -10,6 +10,7 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
+
             .col-xs-12.col-sm-12#backgroundwelcome
                 .row
 
@@ -27,17 +28,25 @@ block content
             })
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
+
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
+                        p(style = "color: dimgrey;") Groups
                         each family in familygroups
-                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            .row
+                                .col-2
+                                    i.material-icons group
+                                .col-10
+                                    a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
                             br
                         if (familygroups)
                             hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
                         br
+
             .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
+
 
 
                 .row
@@ -51,6 +60,7 @@ block content
                         hr.my-4
                         p Uploaded by #{artifact.owner}
                         br
+
                         button.btn-outline-secondary.btn-sm(href = "/delete") Delete Artifact
                         br
                         br
@@ -96,7 +106,7 @@ block content
                                                     | comment here the # thing
 
 
-                                       
+
 
 
 

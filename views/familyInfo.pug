@@ -1,0 +1,80 @@
+extends family.pug
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/family.css
+block content
+    .container-fluid.fill-height.fade-in
+        .row
+
+            .col-xs-12.col-sm-12
+                .row
+                    .col
+                        if(session)
+                            h2.text-center #{group.title}
+
+        .row
+
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
+                        br
+                        .row
+                            .col-2
+                                i.material-icons keyboard_arrow_left
+                            .col-10
+                                a(href='/home') Back
+                        hr.my-4
+
+                        .row
+                            .col
+                                a(href = "/view/:id/info" style = "font-weight: bolder;") About
+
+                        br
+                        .row
+                            .col
+                                a.active(href='/view/:id' ) Artifacts
+
+                        br
+                        .row
+                            .col
+                                a(href = "/view/:id/members") Members
+                        br
+                        .row
+                            .col
+                                a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") More
+                                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                    .modal-dialog(role='document')
+                                        form(method='POST' action='')
+                                            .modal-content
+                                                .modal-header.text-center
+                                                    h4.modal-title.w-100.font-weight-bold Update My Family
+                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                        span(aria-hidden='true') &times;
+                                                .modal-body.mx-3
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='title') Title
+                                                        input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='desc') Description
+                                                        .input-group
+                                                            textarea#desc.form-control(type='text', placeholder='Description*', name='description',value = group.description)
+
+                                                        label.font-weight-bold(for='owner') Admin:
+                                                        select#owner(type='text', placeholder='Admin' name='owner', value = group.owner)
+                                                            for member in members
+                                                                option(value=`${member._id}`) #{member.fname}
+
+                                                .modal-footer.justify-content-center
+                                                    button.btn.btn-primary(type='submit') Update
+                        hr.my-4
+
+                .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
+                    .jumbotron
+                        .row
+                            .col
+                                h2 About #{group.title}
+                        .row
+                            .col
+                                p #{group.description}

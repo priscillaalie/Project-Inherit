@@ -1,106 +1,41 @@
 /** CAROUSEL **/
 body{
-    margin: 30px 0 0 0 !important;
+    margin: 0 0 0 0 !important;
     padding: 60px 0px 0px 0px !important;
-}
-.carousel-item {
-    height: 600px;
-    vertical-align: middle;
-    padding-top: 80px;
+    scroll-snap-type: y mandatory;
 }
 
-
-.item1 {
-    background: url("https://images.unsplash.com/photo-1533158307587-828f0a76ef46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80"), no-repeat center center fixed;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+section {
+    height: 100vh;
+    width: 100vw;
+    scroll-snap-align: start;
+    padding: 15% 30px 0 30px;
 }
 
-.item2 {
-    background: url("https://images.unsplash.com/photo-1519567770579-c2fc5436bcf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), no-repeat center center fixed;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+.first{
+    background: url("https://images.unsplash.com/photo-1533158307587-828f0a76ef46?ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80");
 }
 
-.item3 {
-    background: linear-gradient(to top, #eacda3, #d6ae7b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+.second{
+    background-color: lightblue;
 }
-/** ITEM 1 **/
+
+.third{
+    background: url("https://images.unsplash.com/photo-1551810368-45c2c58f6e74?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=60");
+    background-position-x: 10%;
+}
 
 .white-transparent {
-    background-color: white;
-    opacity: 0.7;
+    background-color: rgba(255,255,255,0.7);
     word-wrap: break-word;
     padding: 30px 30px 30px 30px;
+    font-weight: bold;
+    margin: 0 30px 0 30px;
 }
 
-@font-face {
-    font-family: "handwrite";
-    src: url("../webfontkit-20190819-002319");
-    src: url("../webfontkit-20190819-002319/atmosphere-regular-webfont.woff") format("woff");
-
-}
-
-.handwrite {
-    font-family: 'handwrite', Arial, sans-serif;
-    font-weight: normal;
+.title {
+    font-family: 'Big Shoulders Display', cursive;
+    font-weight: bolder;
     color: white;
-    font-size: 100px;
-}
-
-/** ITEM 2 **/
-.sp{
-    padding-top: 50px;
-    padding-bottom: 40px;
-}
-
-.icon {
-    width: 70% !important;
-    height: 70% !important;
-
-}
-
-.responsive {
-    width: 50%;
-    height: auto;
-}
-
-.caption {
-    color: white;
-}
-
-/** ANIMATIONS **/
-
-.fade-in {
-    animation: fadeIn ease 1.5s;
-    -webkit-animation: fadeIn ease 1.5s;
-    -moz-animation: fadeIn ease 1.5s;
-    -o-animation: fadeIn ease 1.5s;
-    -ms-animation: fadeIn ease 1.5s;
-}
-
-
-@keyframes fadeIn{
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
-
-@-webkit-keyframes fadeIn {
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
+    font-size: 70px;
 }
