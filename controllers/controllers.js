@@ -20,6 +20,7 @@ const Artifact = require('../models/artifact');
 const User = require('../models/user');
 const Group = require('../models/familygroups');
 const utils = require('./utils.js');
+const Comment = require('../models/comment');
 var express = require('express');
 var nodemailer = require("nodemailer");
 var app = express();
@@ -222,7 +223,7 @@ var createUser = function(req,res){
                 "photo":req.body.photo,
                 "phone":req.body.phone,
                 "password":hash,
-                "name": req.body.fname + req.body.lname
+                "name": req.body.fname + ' ' + req.body.lname
             });
             // Check if the email already exists
             User.find({email: req.body.email}, function(err, users){
@@ -333,6 +334,18 @@ var fetchAntiquesByUser = function(req, res) {
 
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
+
+
+var deleteArtifact = function(req, res) {
+    var artifactId = req.headers.referer.split('/')[5];
+    Artifact.remove({'_id': artifactId}, function(err) {
+        if (!err) {
+            res.send("theres been an error deleting your artifact");
+        } else {
+            res.send("artifact successfully deleted");
+        }
+    })
+}
 
 // adds an antique to the database
 var createAntique = function(req,res){
@@ -446,14 +459,17 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
-                            User.findOne({'_id':artifact.owner}, function(err, owner) {
+
+                            Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
                                 if (!err) {
                                     res.render('artifact.pug', {artifact: artifact, 
-                                        familygroups:familygroups, comments:[], owner:owner.name});
+                                        familygroups:familygroups, comments:comments});
+
                                 } else {
                                     res.sendStatus(500);
                                 }
                             })
+
                         } else {
                             res.sendStatus(404);
                         }
@@ -495,6 +511,7 @@ var findUserByName = function(req, res) {
 };
 
 var searchResults = function(req, res) {
+    console.log(req);
     var input = req.query.input;
     var regex = new RegExp(input, 'i');
     User.find({"name": regex}, function(err, users) {
@@ -507,6 +524,36 @@ var searchResults = function(req, res) {
         } else {
             res.sendStatus(500);
         }
+    });
+}
+
+var addComment = function(req, res) {
+    var artifactId = req.headers.referer.split('/')[5];
+    User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
+        Artifact.findById(artifactId, function(err, artifact) {
+            var comment = new Comment({
+                "owner": user._id,
+                "content": req.body.comment,
+                "artifact": artifactId,
+            })
+            if (user.name) {
+                comment.ownername = user.name;
+            } else {
+                comment.ownername = user.fname;
+            }
+            comment.created = Date.now();
+            console.log(comment);
+            comment.save(function(err, newComment) {
+                if (!err) {
+                    artifact.comments.push(comment._id);
+                    artifact.save();
+                    console.log(artifact);
+                    res.redirect('/artifact/view/'+artifactId);
+                } else {
+                    res.sendStatus(400);
+                }
+            })
+        })
     });
 }
 // Connect to the db
@@ -535,6 +582,7 @@ module.exports = {
     showArtifactByID,
     findUserByName,
     searchUser,
-    searchResults
+    searchResults,
+    addComment
 }
 

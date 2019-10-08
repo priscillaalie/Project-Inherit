@@ -39,8 +39,6 @@ app.use('/search',searchRouter);
 app.use('/settings', settingsRouter);
 app.use('/', imageRouter);
 
-
-
 // Connect to Database
 require('./models/db.js');
 

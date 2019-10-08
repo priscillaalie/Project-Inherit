@@ -26,6 +26,7 @@ html
       @import url('https://fonts.googleapis.com/css?family=Big+Shoulders+Display&display=swap');
 
   header
+
     nav.navbar.navbar-expand-md.navbar-light.fixed-top.white-bg#navtop
       if (session)
         a.navbar-brand#handwrite(href = '/home') INHERIT
@@ -53,7 +54,11 @@ html
 
           else
             li.nav-item
-              a.nav-link(href = "/login") LOGIN
+
+              a.nav-link(href = "/aboutus") About Us
+            li.nav-item
+              a.nav-link(href = "/login") Log in
+    script(data-ad-client='ca-pub-3112071443703358' async='' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')         
 
 
   body

@@ -48,6 +48,20 @@ block content
             .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
 
 
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
+
+                .row
+
+                    .col
+                    .col
+                        if(session)
+                            h2.text-center.white-transparent #{group.title}
+                    .col.text-right
+
+                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                            | Edit artifact
+
+
 
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
@@ -55,6 +69,11 @@ block content
                         br
 
                         p #{artifact.description}
+
+                    .col
+                        img(src=artifact.photo)
+
+
 
                         br
                         hr.my-4
@@ -80,12 +99,13 @@ block content
                             .panel.panel-info
                                 .panel-heading
                                     | Comment panel
-                                .col-sm-12.col-md-12.col-lg-8.col-xl-8
-                                    .panel-body
-                                        form(method='POST' action = "/post")
-                                            textarea.form-control(placeholder='write a comment...', rows='3')
-                                            br
-                                            button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+
+                                .panel-body
+                                    form(method = "POST" action = "/post")
+                                        textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
+                                        br
+                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+
 
                                     .clearfix
 
@@ -100,8 +120,10 @@ block content
                                                 span.text-muted.pull-right
                                                     small.text-muted 30 min ago
                                                     button.btn(href='/deletecomment')
-                                                        i.fa.fa-trash
-                                                strong.text-success name of person #{comment.person}
+                                                      i.fa.fa-trash
+
+                                                strong.text-success name of person #{comment.ownername}
+
                                                 p
                                                     | comment here the # thing
 

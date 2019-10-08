@@ -13,7 +13,8 @@ var artifactSchema = mongoose.Schema(
         "photo":String,
         "owner":String,
         "category":String,
-        "created":Date
+        "created":Date,
+        "comments": Array
     }
 );
 module.exports = mongoose.model('Artifact', artifactSchema);
