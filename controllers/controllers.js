@@ -462,9 +462,8 @@ var showArtifactByID = function(req, res) {
 
                             Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
                                 if (!err) {
-                                    res.render('artifact.pug', {artifact: artifact, 
-                                        familygroups:familygroups, comments:comments});
-
+                                    res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                    comments:comments, sessionId: req.cookies.sessionId});
                                 } else {
                                     res.sendStatus(500);
                                 }
