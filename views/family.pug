@@ -18,6 +18,43 @@ block content
 
                         if(session)
                             h2.text-center #{group.title}
+                    .col.text-right
+                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                            | Edit artifact
+
+                        #modalRegisterForm.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+
+                            .modal-dialog(role='document')
+                                form(method='POST' action='/family/update').general
+                                    .modal-content
+                                        .modal-header.text-center
+                                            h4.modal-title.w-100.font-weight-bold Edit #{group.title}
+                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                span(aria-hidden='true') &times;
+
+
+                                        .modal-body.mx-3
+                                            .md-form.mb-5
+                                                label.font-weight-bold(for='artifactname') Artifact Name
+                                                input.form-control.fullrow(type='text', name='artifactname', value=group.title)
+
+                                            .md-form.mb-5
+                                                label.font-weight-bold(for='description') Description
+                                                .input-group
+                                                    textarea.form-control(type='text',name='description', value=group.description)
+                                            .md-form.mb-5
+                                                p.font-weight-bold Upload Image (optional)
+                                                img#preview(src=group.photo)
+                                                input#pad( type='file' onchange='previewFile()' name = 'image')
+
+
+                                        .modal-footer.justify-content-center
+                                            button.btn-outline-secondary.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            button.btn.btn-primary(type='submit') Update
+
+
+
+
 
         .row
 

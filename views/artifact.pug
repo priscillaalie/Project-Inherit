@@ -22,10 +22,45 @@ block content
                         a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
                             | Edit artifact
 
+                        #modalRegisterForm.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+
+                            .modal-dialog(role='document')
+                                form(method='POST' action='/artifact/update').general
+                                    .modal-content
+                                        .modal-header.text-center
+                                            h4.modal-title.w-100.font-weight-bold Edit #{artifact.title}
+                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                span(aria-hidden='true') &times;
+
+
+                                        .modal-body.mx-3
+                                            .md-form.mb-5
+                                                label.font-weight-bold(for='artifactname') Artifact Name
+                                                input.form-control.fullrow(type='text', name='artifactname', value=artifact.title)
+
+                                            .md-form.mb-5
+                                                label.font-weight-bold(for='description') Description
+                                                .input-group
+                                                    textarea.form-control(type='text',name='description', value=artifact.description)
+                                            .md-form.mb-5
+                                                p.font-weight-bold Upload Image (optional)
+                                                img#preview(src=artifact.photo)
+                                                input#pad( type='file' onchange='previewFile()' name = 'image')
+
+
+                                        .modal-footer.justify-content-center
+                                            button.btn-outline-secondary.btn-sm( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            button.btn.btn-primary(type='submit') Update
+
+
+
+
+
+
+
+
         .row
-            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;'
-            })
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
 
@@ -45,22 +80,8 @@ block content
                         br
                         br
 
-            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
 
-
-            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
-
-                .row
-
-                    .col
-                    .col
-                        if(session)
-                            h2.text-center.white-transparent #{group.title}
-                    .col.text-right
-
-                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
-                            | Edit artifact
-
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9#backgroundwelcome
 
 
                 .row
@@ -70,18 +91,13 @@ block content
 
                         p #{artifact.description}
 
-                    .col
-                        img(src=artifact.photo)
-
-
 
                         br
                         hr.my-4
-                        p Uploaded by #{artifact.owner}
+                        p Uploaded by #{artifact.owner} on #{artifact.created}
                         br
 
-                        button.btn-outline-secondary.btn-sm(href = "/delete") Delete Artifact
-                        br
+
                         br
 
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
@@ -102,9 +118,15 @@ block content
 
                                 .panel-body
                                     form(method = "POST" action = "/post")
-                                        textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
-                                        br
-                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                        .col
+                                            .row
+                                                .col-xs-12.col-sm-12.col-md-9.col.lg-8.col-xl-8
+
+                                                    textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
+                                                .col-xs-12.col-sm-12.col-md-3.col.lg-4.col-xl-4.text-left
+
+
+                                                    button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
 
 
                                     .clearfix
@@ -118,14 +140,16 @@ block content
                                                 img.img-circle(src=comment.photo)
                                             .media-body
                                                 span.text-muted.pull-right
-                                                    small.text-muted 30 min ago
-                                                    button.btn(href='/deletecomment')
+                                                    small.text-muted #{comment.created}
+                                                    button.btn(method='POST' action='/deletecomment', onclick="return confirm('Are you sure? This action cannot be undone')")
                                                       i.fa.fa-trash
 
-                                                strong.text-success name of person #{comment.ownername}
+                                                strong.text-success #{comment.ownername}
 
                                                 p
-                                                    | comment here the # thing
+                                                    | #{comment.content}
+
+                                                hr.my-4
 
 
 
