@@ -10,24 +10,28 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
-            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;'
-            })
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
-                    .vertical-menu.mr-4
+                    .vertical-menu
                         br
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
+                        p(style = "color: dimgrey;") Groups
                         each family in familygroups
-                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            .row
+                                .col-2
+                                    i.material-icons group
+                                .col-10
+                                    a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
                             br
                         if (familygroups)
                             hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
+                        br
 
 
-            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
 
                 .row
 
