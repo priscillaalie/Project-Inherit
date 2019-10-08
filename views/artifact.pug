@@ -4,25 +4,48 @@ block css
     style
         include ../public/stylesheets/homepage.css
         include ../public/stylesheets/myantiques.css
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+
 
 block content
     .container-fluid.fill-height.fade-in
+        .row
+
+            .col-xs-12.col-sm-12#backgroundwelcome
+                .row
+
+                    .col
+                    .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
+                        h2.text-center.white-transparent artifact group?
+                    .col.text-right
+
+                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
+                            | Edit artifact
+
         .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
-                        br
+
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
+                        p(style = "color: dimgrey;") Groups
                         each family in familygroups
-                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            .row
+                                .col-2
+                                    i.material-icons group
+                                .col-10
+                                    a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
                             br
                         if (familygroups)
                             hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
+                        br
+
+            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10
 
 
             .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
@@ -39,40 +62,53 @@ block content
                             | Edit artifact
 
 
+
                 .row
-                    .col
-                        h1 #{artifact.title}
+                    .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
+                        h2 #{artifact.title}
                         br
 
                         p #{artifact.description}
+
                     .col
                         img(src=artifact.photo)
 
 
-                .row
-                    .col
-                        h3 Uploaded by #name of owner
-                .row
-                    .col
-                        button.btn-outline-secondary.btn-lg(href = "/delete") Delete Artifact
+
+                        br
+                        hr.my-4
+                        p Uploaded by #{artifact.owner}
+                        br
+
+                        button.btn-outline-secondary.btn-sm(href = "/delete") Delete Artifact
                         br
                         br
+
+                    .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
+                        img.responsive(src=artifact.photo)
+                        br
+                        br
+
+
+
 
 
                 .row.bootstrap.snippets
-                    .col-md-6.col-md-offset-2.col-sm-12
+                    .col-md-12.col-sm-12.col-lg-12.col-xl-12
                         .comment-wrapper
                             .panel.panel-info
                                 .panel-heading
                                     | Comment panel
+
                                 .panel-body
                                     form(method = "POST" action = "/post")
                                         textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
                                         br
                                         button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
 
+
                                     .clearfix
-                                    hr
+
                                     ul.media-list
 
                                     each comment in comments
@@ -81,13 +117,18 @@ block content
                                             a.pull-left(href='#')
                                                 img.img-circle(src=comment.photo)
                                             .media-body
-                                                //span.text-muted.pull-right
+                                                span.text-muted.pull-right
                                                     small.text-muted 30 min ago
+                                                    button.btn(href='/deletecomment')
+                                                      i.fa.fa-trash
+
                                                 strong.text-success name of person #{comment.ownername}
+
                                                 p
                                                     | comment here the # thing
 
-                                       
+
+
 
 
 

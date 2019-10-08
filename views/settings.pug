@@ -28,10 +28,8 @@ block content
                         hr.my-3
                         a(href='/settings/delete',style="color:#666666;") Delete Account
 
-                        br
-                        br
 
-            .col-md-9.col-lg-10.col-xl-10
+            .col-md-9.col-lg-10.col-xl-10.fade-in
                 .jumbotron
                     .row
                         .col.col-md-6.col-lg-6.col-xl-6
@@ -42,20 +40,21 @@ block content
                     form(method='POST' action='/settings/general').general
                         .row
                             .form-group.col.col-md-6.col-lg-6.col-xl-6
-                                p FIRST NAME
+                                p.font-weight-bold FIRST NAME
                                 input.fullrow(type='text', name='fname', value=user.fname)
                                 .row.form-group
                                     .col
-                                        p LAST NAME
+                                        br
+                                        p.font-weight-bold LAST NAME
                                         input.fullrow(type='text', name='lname', value=user.lname)
 
                                 .row.form-group
                                     .col
-                                        p EMAIL
+                                        p.font-weight-bold EMAIL
                                         input.fullrow(type='email', name='email', value=user.email)
                                 .row.form-group
                                     .col
-                                        p PHONE NUMBER
+                                        p.font-weight-bold PHONE NUMBER
                                         input.fullrow(type='text', name='phone', value=user.phone)
 
                             .form-group.col.col-md-6.col-lg-6.col-xl-6.text-center.imgzone

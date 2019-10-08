@@ -3,7 +3,6 @@ extends layout
 block css
     style
         include ../public/stylesheets/homepage.css
-
 block content
     .container-fluid.fill-height.fade-in
         .row
@@ -13,17 +12,20 @@ block content
                     h2.text-center.white-transparent Welcome #{name}
 
         .row
-
-            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
-                'background-color': 'white;'
-            })
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
+
                     .vertical-menu.mr-4
-                        br
+
                         a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
+                        p(style = "color: dimgrey;") Groups
                         each family in familygroups
-                            a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                            .row
+                                .col-2
+                                    i.material-icons group
+                                .col-10
+                                    a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
                             br
                         if (familygroups)
                             hr.my-4
@@ -33,10 +35,19 @@ block content
 
 
 
-            .col-xs-12.col-sm-12.col-md-9.col-lg-10.col-xl-10#backgroundwelcome
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.fade-in.cardzone
 
-                .row
-                    .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex.text-center
+                .row.text-center
+                    each family in familygroups
+                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
+                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
+                                a(href = `/view/${family._id}`)
+                                    img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                    .card-body.flex-fill
+                                        .row
+                                            h5.card-title #{family.title}
+
+                    .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
 
                         .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
                             // Button trigger modal
@@ -81,7 +92,7 @@ block content
                             .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
                                 .d-flex
                                     a(href = `/view/${family._id}`)
-                                        img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        img.card-img-top.image-custom(src=family.photo, style="min-width: 15rem; object-fit: cover;")
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{family.title}
@@ -103,6 +114,7 @@ block content
                 reader.readAsDataURL(file);
             }
         }
+
 
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
@@ -138,6 +150,7 @@ block content
 
 
         }
+
 
 
 

@@ -55,11 +55,6 @@ var fetchSignup = function (req,res) {
     res.render('signup.pug', {title: 'Signup'});
 };
 
-// renders the profile page
-var fetchProfile = function (req,res) {
-    res.render('profile.pug', {title: 'Profile'});
-};
-
 // if it is a current user, find the user's information such as name and groups they are in
 // and send this to the front end to be displayed. if not, display basic front end
 var fetchHomepage = function(req, res) {
@@ -340,6 +335,7 @@ var fetchAntiquesByUser = function(req, res) {
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
 
+
 var deleteArtifact = function(req, res) {
     var artifactId = req.headers.referer.split('/')[5];
     Artifact.remove({'_id': artifactId}, function(err) {
@@ -463,15 +459,17 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
+
                             Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
                                 if (!err) {
                                     res.render('artifact.pug', {artifact: artifact, 
                                         familygroups:familygroups, comments:comments});
+
                                 } else {
                                     res.sendStatus(500);
                                 }
                             })
-                            
+
                         } else {
                             res.sendStatus(404);
                         }
@@ -567,7 +565,6 @@ module.exports = {
     showIndex,
     fetchLogin,
     fetchSignup,
-    fetchProfile,
     getStarted,
     fetchHomepage,
     fetchSettings,
