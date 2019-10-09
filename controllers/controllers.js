@@ -431,9 +431,8 @@ var rand, mailOptions, host, link;
 
 // sends the user an email link to verify
 var send = function(req,res) {
-    rand=Math.floor((Math.random() * 100) + 54);
     host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+rand;
+    link="http://"+req.get('host')+"/verify?id="+req.body.email;
     mailOptions={
         to : req.body.email,
         subject : "Please confirm your email account",
@@ -449,31 +448,19 @@ var send = function(req,res) {
 
 // verifies a user and changes their data in database to verified
 var verify = function(req, res) {
-    console.log(req.protocol+":/"+req.get('host'));
-    if((req.protocol+"://"+req.get('host'))==("http://"+host))
-    {
-        if(req.query.id==rand)
-        {
-
-            console.log("email is verified");
-            res.render('verify.pug');
-
-            // change verified to true
-            User.findOne({'email':mailOptions.to}, function (error, person) {
-                if (error) console.log(error);
-                console.log(mailOptions.to);
+    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
+        // change verified to true
+        User.findOne({'email':req.query.id}, function (err, person) {
+            if (!err) {
+                res.render('verify.pug');
                 person.verified = true;
                 person.save();
-            })
-        }
-        else
-        {
-            console.log("email is not verified");
-            res.end("<h1>Bad Request</h1>");
-        }
-    }
-    else
-    {
+            } else {
+                console.log("email is not verified");
+                res.end("<h1>Bad Request</h1>");
+            }
+        })
+    } else {
         res.end("<h1>Request is from unknown source");
     };
 };

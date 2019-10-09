@@ -28,7 +28,7 @@ var userSchema = new mongoose.Schema({
     "sessionId": String,
     "artifacts": Array,
     "groups": Array,
-    "verified": Boolean,
+    "verified": false,
     "parents": Array,
     "siblings": Array
 });
