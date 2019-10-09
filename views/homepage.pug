@@ -6,10 +6,40 @@ block css
 block content
     .container-fluid.fill-height.fade-in
         .row
-            .col-xs-12.col-sm-12#backgroundwelcome
-
+            .col
+            .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
                 if(session)
-                    h2.text-center.white-transparent Welcome #{name}
+                    h2.text-center Welcome #{name}
+            .col.text-right
+                //if (admin)
+                a.btn.btn-outline-secondary.btn-md.mr-3(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
+                    | Create Family
+                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                    .modal-dialog(role='document')
+                        form(method='POST' action='/create', enctype = "multipart/form-data")
+                            .modal-content
+                                .modal-header.text-center
+                                    h4.modal-title.w-100.font-weight-bold Create a Family
+
+                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                        span(aria-hidden='true') &times;
+                                .modal-body.mx-3.text-left
+                                    .md-form.mb-5
+                                        label.font-weight-bold(for='familyname') Family Name
+                                        input#familyname.form-control(type='text', placeholder='Family Name*' name='title', required)
+                                    .md-form.mb-5
+                                        label.font-weight-bold(for='description') Description
+                                        .input-group
+                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                    .md-form.mb-5.text-center
+                                        p.font-weight-bold Upload Image (optional)
+                                        img#preview(src=file)
+                                        br
+                                        input.text-center( type='file' onchange='previewFile()' name = 'image')
+
+                                .modal-footer.d-flex.justify-content-center
+                                    button.btn.btn-primary(href='/home' type='submit') Create Family
+
 
         .row
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
@@ -17,16 +47,18 @@ block content
 
                     .vertical-menu.mr-4
 
-                        a(href='/myartifacts',style="color:#666666;") My Artifacts
+                        h2
+                            a(href='/myartifacts',style="color:#666666;") My Artifacts
                         hr.my-4
-                        p(style = "color: dimgrey;") Groups
+                        h2.my-4(style = "color: dimgrey;") Groups
                         each family in familygroups
                             .row
+                                br
                                 .col-2
                                     i.material-icons group
                                 .col-10
                                     a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
-                            br
+
                         if (familygroups)
                             hr.my-4
                         a(href='/events',style="color:#666666;") Events
@@ -37,55 +69,54 @@ block content
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.fade-in.cardzone
 
-                .row.text-center
-                    each family in familygroups
+                if (familygroups.length>0)
+
+                    .row.text-center
+
+                        each family in familygroups
+                            .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-4
+                                .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
+                                    a(href = `/view/${family._id}`)
+                                        img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        .card-body.flex-fill
+                                            .row.text-center.justify-content-center
+                                                h5.card-title #{family.title}
+
+                else
+                    .row
+                        h1 Create Your First Family Group!
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
-                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
-                                a(href = `/view/${family._id}`)
-                                    img.card-img-top.image-custom(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
-                                    .card-body.flex-fill
-                                        .row
-                                            h5.card-title #{family.title}
 
-                    .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
+                            .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
+                                // Button trigger modal
+                                //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
+                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
+                                    | Create Family Group
+                                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                    .modal-dialog(role='document')
+                                        form(method='POST' action='/create', enctype = "multipart/form-data")
+                                            .modal-content
+                                                .modal-header.text-center
+                                                    h4.modal-title.w-100.font-weight-bold Create a Family
 
-                        .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
-                            // Button trigger modal
-                            //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
-                            a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
-                                | Create Family Group
-                            #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                                .modal-dialog(role='document')
-                                    form(method='POST' action='/create', enctype = "multipart/form-data")
-                                        .modal-content
-                                            .modal-header.text-center
-                                                h4.modal-title.w-100.font-weight-bold Create a Family
+                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                        span(aria-hidden='true') &times;
+                                                .modal-body.mx-3.text-left
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='familyname') Family Name
+                                                        input#familyname.form-control(type='text', placeholder='Family Name*' name='title', required)
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='description') Description
+                                                        .input-group
+                                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                                    .md-form.mb-5.text-center
+                                                        p.font-weight-bold Upload Image (optional)
+                                                        img#preview(src=file)
+                                                        br
+                                                        input.text-center( type='file' onchange='previewFile()' name = 'image')
 
-                                                button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                    span(aria-hidden='true') &times;
-                                            .modal-body.mx-3
-                                                .md-form.mb-5
-                                                    label.font-weight-bold(for='familyname') Family Name
-                                                    input#familyname.form-control(type='text', placeholder='Family Name*' name='title', required)
-                                                .md-form.mb-5
-                                                    label.font-weight-bold(for='description') Description
-                                                    .input-group
-                                                        textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                                .md-form.mb-5
-                                                    label.font-weight-bold  Members
-                                                    .input-group
-                                                        form(id = 'search', method = 'GET', action = "/search", autocomplete='off')
-                                                        input(type='hidden', name = 'users', value = user, autocomplete="off")
-                                                        input#searchbar(type='text', name = 'input', placeholder= "Search", list='datalist', autocomplete="off")
-                                                        datalist#datalist
-                                                            button.searchbutton(type='submit' form = 'search') Add
-                                                .md-form.mb-5
-                                                    p.font-weight-bold Upload Image (optional)
-                                                    img#preview(src=file)
-                                                    input#pad( type='file' onchange='previewFile()' name = 'image')
-
-                                            .modal-footer.d-flex.justify-content-center
-                                                button.btn.btn-primary(href='/home' type='submit') Create Family
+                                                .modal-footer.d-flex.justify-content-center
+                                                    button.btn.btn-primary(href='/home' type='submit') Create Family
 
 
 

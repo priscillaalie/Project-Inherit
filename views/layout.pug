@@ -39,7 +39,7 @@ html
         span.navbar-toggler-icon
 
       div.collapse.navbar-collapse#navbarResponsive
-        ul.navbar-nav.ml-auto
+        ul.navbar-nav.ml-auto(style='color: white;')
 
           if (session)
             li.nav-item
@@ -55,6 +55,7 @@ html
                 a.dropdown-item(href='/logout') Logout
 
           else
+
             li.nav-item
               a.nav-link(href = "/login") Log in
     script(data-ad-client='ca-pub-3112071443703358' async='' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')

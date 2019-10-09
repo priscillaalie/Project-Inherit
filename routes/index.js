@@ -78,8 +78,8 @@ router.get("/logout", function(req, res){
   res.redirect('/');
 });
 
-router.get('/view/info', famcontrollers.showInfo);
-router.get('/view/members', famcontrollers.showMembers);
+router.get('/view/:id/info', famcontrollers.showInfo);
+router.get('/view/:id/members', famcontrollers.showMembers);
 router.post('/create', famcontrollers.createGroup);
 router.get('/view/:id', famcontrollers.showGroupByID);
 router.get('/artifact/view/:id', controllers.showArtifactByID);

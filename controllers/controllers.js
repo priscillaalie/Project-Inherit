@@ -112,29 +112,33 @@ var fetchPrivacy = function(req, res) {
 
 // changes the data of a user
 var editUser = function(req, res){
-    User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
-        if (!err && user) {
-            user.fname = req.body.fname;
-            user.lname = req.body.lname;
-            user.email = req.body.email;
-            user.photo = req.body.b64;
-            user.phone = req.body.phone;
-
-            user.save(function(err, updatedUser) {
-                if (updatedUser) {
-                    let message = "Your account has been updated.";
-                    let results = {title: 'Inherit', error: message,
-                        user: updatedUser, session: req.cookies.sessionId};
-                    res.render('settings', results);
-                } else {
-                    res.sendStatus(500);
+    singleUpload(req, res, function(err) {
+        User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+            if (!err && user) {
+                user.fname = req.body.fname;
+                user.lname = req.body.lname;
+                user.email = req.body.email;
+                user.phone = req.body.phone;
+                user.name = req.body.fname + ' ' + req.body.lname;
+                if (req.file) {
+                    user.photo = req.file.location;
                 }
-            });
-        } else {
-            res.cookie('sessionId', '');
-            res.redirect('/login')
-        }
-    });
+                user.save(function(err, updatedUser) {
+                    if (updatedUser) {
+                        let message = "Your account has been updated.";
+                        let results = {title: 'Inherit', error: message,
+                            user: updatedUser, session: req.cookies.sessionId};
+                        res.render('settings', results);
+                    } else {
+                        res.sendStatus(500);
+                    }
+                });
+            } else {
+                res.cookie('sessionId', '');
+                res.redirect('/login')
+            }
+        });
+    })
 };
 
 // changes the password of a user
@@ -207,6 +211,7 @@ var deleteUser = function(req, res){
 // creates a user and adds all their information to the database
 // also sends the user a verification
 var createUser = function(req,res){
+    console.log(req.body);
     if (req.body.password.length < 8){
         var message = "Password must be more than 7 characters";
         var results = {title: 'Inherit', error: message,
@@ -214,46 +219,45 @@ var createUser = function(req,res){
             lname: req.body.lname, birthday: req.body.birthday};
         res.render('signup', results);
     } else {
-        bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
-            var user = new User({
-                "email":req.body.email,
-                "fname":req.body.fname,
-                "lname":req.body.lname,
-                "birthday":req.body.birthday,
-                "photo":req.body.photo,
-                "phone":req.body.phone,
-                "password":hash,
-                "name": req.body.fname + ' ' + req.body.lname
-            });
-            // Check if the email already exists
-            User.find({email: req.body.email}, function(err, users){
-                if (!err){
-                    if(users.length != 0){
-                        var message = "Email address already in use. Please log in.";
-                        var results = {title: 'Inherit', error: message,
-                            email: req.body.email, fname: req.body.fname,
-                            lname: req.body.lname, phone: req.body.phone};
-                        res.render('signup', results);
+        singleUpload(req, res, function(err) {
+            bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+                var user = new User({
+                    "email":req.body.email,
+                    "fname":req.body.fname,
+                    "lname":req.body.lname,
+                    "birthday":req.body.birthday,
+                    "phone":req.body.phone,
+                    "password":hash,
+                    "name": req.body.fname + ' ' + req.body.lname
+                });
+                // Check if the email already exists
+                User.find({email: req.body.email}, function(err, users){
+                    if (!err){
+                        if(users.length != 0){
+                            var message = "Email address already in use. Please log in.";
+                            var results = {title: 'Inherit', error: message,
+                                email: req.body.email, fname: req.body.fname,
+                                lname: req.body.lname, phone: req.body.phone};
+                            res.render('signup',results);
+                        }
+                        else{
+                            user.save(function(err,newUser){
+                                if(!err){
+                                    //if there are no errors, show the new user
+                                    getStarted(req,res);
+                                    console.log("user added to database");
+                                }else{
+                                    res.sendStatus(400);
+                                }
+                            });
+                        }
                     }
-                    else{
-                        user.save(function(err,newUser){
-                            if(!err){
-                                //if there are no errors, show the new user
-
-                                getStarted(req,res);
-
-                                console.log("user added to database");
-                            }else{
-                                res.sendStatus(400);
-                            }
-                        });
+                    else {
+                        res.sendStatus(400);
                     }
-                }
-                else {
-                    res.sendStatus(400);
-                }
+                });
             });
-        });
+        })
     }
 };
 
@@ -377,12 +381,34 @@ var createAntique = function(req,res){
     		    antique.save(function(err, newAntique) {
     		    	if (!err) {
     		    		user.artifacts.push(antique._id);
-                        Group.findById(req.body.familygroup, function(err, group) {
-                            group.artifacts.push(antique._id);
-                            group.save();
-                        });
-    		    		user.save();
-    		    		res.redirect('/myartifacts');
+                        if (req.body.familygroup) {
+                            // creating artifact from myartifacts page
+                            Group.findById(req.body.familygroup, function(err, group) {
+                                if (!err) {
+                                    group.artifacts.push(antique._id);
+                                    group.save();
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                                
+                            });
+                            user.save();
+                            res.redirect('/myantiques');
+                        } else {
+                            // creating artifact from family page
+                            var groupId = req.headers.referer.split('/')[4];
+                            Group.findById(groupId, function(err, group) {
+                                if (!err) {
+                                    group.artifacts.push(antique._id);
+                                    group.save();
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                                
+                            });
+                            user.save();
+                            res.redirect('/view/' + groupId);
+                        }
     		    	} else {
     		    		res.sendStatus(400);
     		    	}
@@ -405,9 +431,8 @@ var rand, mailOptions, host, link;
 
 // sends the user an email link to verify
 var send = function(req,res) {
-    rand=Math.floor((Math.random() * 100) + 54);
     host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+rand;
+    link="http://"+req.get('host')+"/verify?id="+req.body.email;
     mailOptions={
         to : req.body.email,
         subject : "Please confirm your email account",
@@ -423,31 +448,19 @@ var send = function(req,res) {
 
 // verifies a user and changes their data in database to verified
 var verify = function(req, res) {
-    console.log(req.protocol+":/"+req.get('host'));
-    if((req.protocol+"://"+req.get('host'))==("http://"+host))
-    {
-        if(req.query.id==rand)
-        {
-
-            console.log("email is verified");
-            res.render('verify.pug');
-
-            // change verified to true
-            User.findOne({'email':mailOptions.to}, function (error, person) {
-                if (error) console.log(error);
-                console.log(mailOptions.to);
+    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
+        // change verified to true
+        User.findOne({'email':req.query.id}, function (err, person) {
+            if (!err) {
+                res.render('verify.pug');
                 person.verified = true;
                 person.save();
-            })
-        }
-        else
-        {
-            console.log("email is not verified");
-            res.end("<h1>Bad Request</h1>");
-        }
-    }
-    else
-    {
+            } else {
+                console.log("email is not verified");
+                res.end("<h1>Bad Request</h1>");
+            }
+        })
+    } else {
         res.end("<h1>Request is from unknown source");
     };
 };
@@ -460,12 +473,23 @@ var showArtifactByID = function(req, res) {
                 if (!err) {
                     Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                         if (!err) {
-
                             Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
                                 if (!err) {
-                                    res.render('artifact.pug', {artifact: artifact, 
-                                        familygroups:familygroups, comments:comments, title: artifact.title});
-
+                                    User.findById(artifact.owner, function(err, owner) {
+                                        if (!err) {
+                                            Group.findById(artifact.familygroup, function(err, belongsTo) {
+                                                if (!err) {
+                                                    res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                                    comments:comments, session: req.cookies.sessionId, owner:owner.name,
+                                                    familyname:belongsTo.title});
+                                                } else {
+                                                    res.sendStatus(500);
+                                                }
+                                            })
+                                        } else {
+                                            res.sendStatus(500);
+                                        }
+                                    })
                                 } else {
                                     res.sendStatus(500);
                                 }
@@ -543,7 +567,6 @@ var addComment = function(req, res) {
                 comment.ownername = user.fname;
             }
             comment.created = Date.now();
-            console.log(comment);
             comment.save(function(err, newComment) {
                 if (!err) {
                     artifact.comments.push(comment._id);
@@ -584,6 +607,7 @@ module.exports = {
     findUserByName,
     searchUser,
     searchResults,
-    addComment
+    addComment,
+    deleteArtifact
 }
 
