@@ -233,6 +233,7 @@ var createUser = function(req,res){
                         var results = {title: 'Inherit', error: message,
                             email: req.body.email, fname: req.body.fname,
                             lname: req.body.lname, phone: req.body.phone};
+                        res.render('signup', results);
                     }
                     else{
                         user.save(function(err,newUser){
@@ -315,7 +316,7 @@ var fetchAntiquesByUser = function(req, res) {
 	                                title: 'Inherit', 'artifacts': artifacts, 'user': user._id,
 	                                session: req.cookies.sessionId, 'familygroups': familygroups
 	                            };
-	                            res.render('myantiques.pug', results);
+	                            res.render('myartifacts.pug', results);
 	                        } else {
 	                        	res.sendStatus(500);
 	                        }
@@ -381,7 +382,7 @@ var createAntique = function(req,res){
                             group.save();
                         });
     		    		user.save();
-    		    		res.redirect('/myantiques');
+    		    		res.redirect('/myartifacts');
     		    	} else {
     		    		res.sendStatus(400);
     		    	}
@@ -520,7 +521,7 @@ var searchResults = function(req, res) {
             session: req.cookies.sessionId
         };
         if (!err) {
-            res.render('myantiques', results);
+            res.render('myartifacts', results);
         } else {
             res.sendStatus(500);
         }
