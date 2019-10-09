@@ -1,53 +1,40 @@
 body {
   margin: 30px 30px 0px 30px;
   padding: 70px 30px 0px 30px;
-  font-family: 'Palatino', sans-serif;
+  background-color:#fffef7;
 }
 
 h2 {
-  font-family: 'Merriweather', sans-serif;
+  font-family: 'Big Shoulders Display', cursive;
+  font-weight: bolder;
 }
 
-.white-bg {
-  background-color: white;
+p{
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
 #navtop {
-  background-color: whitesmoke;
+  background-color: rgb(247,158,96);
   padding: 0px 30px 0px 30px;
 }
 
-.Noto {
-  font-family: 'Noto Sans JP', sans-serif;
-}
-
-
-
-@font-face {
-  font-family: "handwrite";
-  src: url("../webfontkit-20190819-002319");
-  src: url("../webfontkit-20190819-002319/atmosphere-regular-webfont.woff") format("woff");
-
+#navbarResponsive{
+  color: white !important;
+  font-size: 12px;
 }
 
 #handwrite {
-  font-family: 'handwrite', Arial, sans-serif;
-  font-weight: normal;
+  font-family: 'Big Shoulders Display', cursive;
+  font-weight: bolder;
   font-style: normal;
-  font-size: 40px;
-  color: #666666;
+  font-size: 25px;
+  color: white;
+  padding-top: 1%;
+  padding-bottom: 1%;
 }
 
-.headergrey {
-  font-color: #666666;
-  color: #666666;
-}
 
-a {
-  color: #666666;
-}
-
-/* Grow */
+/** ANIMATIONS **/
 .hvr-grow {
   display: inline-block;
   vertical-align: middle;
@@ -64,3 +51,39 @@ a {
 .hvr-grow:active {
   transform: scale(1.1);
 }
+
+
+.fade-in {
+  animation: fadeIn ease 1.5s;
+  -webkit-animation: fadeIn ease 1.5s;
+  -moz-animation: fadeIn ease 1.5s;
+  -o-animation: fadeIn ease 1.5s;
+  -ms-animation: fadeIn ease 1.5s;
+}
+
+.dropdown-left-manual {
+  right: 0;
+  left: auto;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+
+@keyframes fadeIn{
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+

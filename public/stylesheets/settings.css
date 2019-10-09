@@ -1,0 +1,53 @@
+p {
+    font-family: sans-serif;
+    colour: grey;
+    font-size: 10px;
+}
+
+input{
+    padding: 5px;
+}
+
+.fullrow {
+    width: 100%;
+}
+.halfrow {
+    width: 50%;
+}
+
+#imageUpload
+{
+    display: none;
+}
+
+#profileImage
+{
+    cursor: pointer;
+}
+
+#preview {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:15vw;
+    min-width: 16vw;
+    min-height: 18vw;
+    border-radius: 5px;
+    border: 3px solid dimgrey;
+
+}
+
+.header {
+    background-image: url(https://images.unsplash.com/photo-1497942304796-b8bc2cc898f3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80);
+    min-height: 10vw;
+    color: white;
+}
+
+nav {
+    background-color: white;
+    padding-left: 2vw;
+    border-radius: 3px;
+}
+
+.imgzone{
+    padding: 20px;
+}

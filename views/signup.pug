@@ -6,32 +6,32 @@ block css
 
 
 block content
-    .container(style={'background': 'url(https://images.unsplash.com/photo-1489644484856-f3ddc0adc923?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80) no-repeat center center fixed;', 'background-size': 'cover;'})
+    .container.fade-in
         .row
-            .col-xs-12.col-sm-12.white.text-center
+            .col-xs-12.col-sm-12.text-center
                 h2.font-weight-bold Signup
                 br
         .row
-            .col
+            .col-md-6.col-lg-6.col-xl-6.signupimg
 
-            .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
-                div.container-fluid.formzone
+            .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+                div.container-fluid
+                    br
                     form(method='POST' action='/signup')
-
                         div.form-group
                             .row
                                 .col.col-lg-6.col-xl-6
                                     label.font-weight-bold(for='fname') First Name
                                     input#fname.form-control(type='text', placeholder='First Name*' name='fname', required)
                                 .col-lg-6.col-xl-6
-                                    label(for = 'lname') Surname
+                                    label(for = 'lname').font-weight-bold Surname
                                     input#lname.form-control(type='text', placeholder='Surname*' name='lname', required)
 
                         br
                         div.form-group
                             .row
                                 .col
-                                    label(for='email') Email
+                                    label(for='email').font-weight-bold Email
                                     input#email.form-control(type='email', placeholder='Email Address*' name='email', required)
 
                         br
@@ -39,24 +39,24 @@ block content
                         div.form-group
                             .row
                                 .col.col-lg-6.col-xl-6
-                                    label(for='email') Date of Birth
+                                    label(for='email').font-weight-bold Date of Birth
                                     input.form-control#dob(type='date', placeholder='22/07/2018' name='dob', max='2001-01-01', min='1930-01-01', required)
                                 .col-lg-6.col-xl-6
-                                    label(for = 'phone') Phone Number
+                                    label(for = 'phone').font-weight-bold Phone Number
                                     input.form-control#phone(type='text', placeholder='Phone Number', name='phone')
                         br
 
                         div.form-group
                             .row
                                 .col
-                                    label(for='pw') Password
+                                    label(for='pw').font-weight-bold Password
                                     input#pw.form-control(type='password', onkeyup="checkPasswords();",
                                         placeholder='Password*' name='password', required)
                         br
                         div.form-group
                             .row
                                 .col
-                                    label(for='pw2') Confirm Password
+                                    label(for='pw2').font-weight-bold Confirm Password
                                     input#pw2.form-control(type='password', onkeyup="checkPasswords();",placeholder='Retype Password*' name='confirmPassword',
                                         autocomplete='new-password', required)
                         br
@@ -81,34 +81,6 @@ block content
                             button.btn.btn-primary.page-button#submit(type='submit' data-loading-text=`<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order` data-toggle='modal' data-target='#myModal') Sign Up
 
         script.
-            $('.btn').on('click', function () {
-                var $this = $(this);
-                $this.button('loading');
-                setTimeout(function () {
-                    $this.button('reset');
-                }, 8000);
-            });
-
-
-        script.
-            (function () {
-                'use strict';
-                window.addEventListener('load', function () {
-                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Loop over them and prevent submission
-                    var validation = Array.prototype.filter.call(forms, function (form) {
-                        form.addEventListener('submit', function (event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-
             var checkPasswords = function () {
                 if (document.getElementById('pw').value ==
                     document.getElementById('pw2').value) {
@@ -119,12 +91,12 @@ block content
                     document.getElementById('pw_message').style.display = 'block';
                 }
             }
-        if (error)
-            p#errormessage #{error}
-            script.
-                window.onload = function () {
-                    document.getElementById('email').value = "#{email}";
-                    document.getElementById('fname').value = "#{fname}";
-                    document.getElementById('lname').value = "#{lname}";
-                    document.getElementById('phone').value = "#{phone}";
-                }
+            if (error)
+                p#message #{error}
+                script.
+                    window.onload = function () {
+                        document.getElementById('email').value = "#{email}";
+                        document.getElementById('fname').value = "#{fname}";
+                        document.getElementById('lname').value = "#{lname}";
+                        document.getElementById('phone').value = "#{phone}";
+                    }
