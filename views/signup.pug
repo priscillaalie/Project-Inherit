@@ -6,18 +6,18 @@ block css
 
 
 block content
-    .container(style={'background': 'url(https://images.unsplash.com/photo-1518893883800-45cd0954574b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=60) no-repeat center center fixed;', 'background-size': 'cover;'})
+    .container.fade-in
         .row
-            .col-xs-12.col-sm-12.white.text-center
+            .col-xs-12.col-sm-12.text-center
                 h2.font-weight-bold Signup
                 br
         .row
-            .col
+            .col-md-6.col-lg-6.col-xl-6.signupimg
 
-            .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
-                div.container-fluid.formzone
+            .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+                div.container-fluid
+                    br
                     form(method='POST' action='/signup')
-
                         div.form-group
                             .row
                                 .col.col-lg-6.col-xl-6
@@ -81,47 +81,6 @@ block content
                             button.btn.btn-primary.page-button#submit(type='submit' data-loading-text=`<i class='fa fa-circle-o-notch fa-spin'></i> Processing Order` data-toggle='modal' data-target='#myModal') Sign Up
 
         script.
-            $('.btn').on('click', function () {
-                var $this = $(this);
-                $this.button('loading');
-                setTimeout(function () {
-                    $this.button('reset');
-                }, 8000);
-            });
-
-                            // Modal Success Popup
-                            //#myModal.modal.fade.success-popup(tabindex='-1' role='dialog' aria-labelledby='myModalLabel')
-                                .modal-dialog.modal-sm(role='document')
-                                    .modal-content
-                                        .modal-header
-                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                span(aria-hidden='true') &times;
-                                            h4#myModalLabel.modal-title Thank You !
-                                        .modal-body.text-center
-                                            img(src='http://osmhotels.com//assets/check-true.jpg')
-                                            p.lead Contact form successfully submitted. Thank you, We will get back to you soon!
-                                            a.rd_more.btn.btn-default(href='index.php') Go to Home
-
-
-        script.
-            (function () {
-                'use strict';
-                window.addEventListener('load', function () {
-                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Loop over them and prevent submission
-                    var validation = Array.prototype.filter.call(forms, function (form) {
-                        form.addEventListener('submit', function (event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-
             var checkPasswords = function () {
                 if (document.getElementById('pw').value ==
                     document.getElementById('pw2').value) {
@@ -132,14 +91,12 @@ block content
                     document.getElementById('pw_message').style.display = 'block';
                 }
             }
-        if (error)
-            p#errormessage #{error}
-            script.
-                window.onload = function () {
-                    document.getElementById('email').value = "#{email}";
-                    document.getElementById('fname').value = "#{fname}";
-                    document.getElementById('lname').value = "#{lname}";
-
-                    document.getElementById('phone').value = "#{phone}";
-
-                }
+            if (error)
+                p#message #{error}
+                script.
+                    window.onload = function () {
+                        document.getElementById('email').value = "#{email}";
+                        document.getElementById('fname').value = "#{fname}";
+                        document.getElementById('lname').value = "#{lname}";
+                        document.getElementById('phone').value = "#{phone}";
+                    }
