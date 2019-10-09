@@ -91,7 +91,7 @@ block content
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
 
-                        p.font-weight-bold Family: #{artifact.familygroup}
+                        p.font-weight-bold Family: #{familyname}
 
                         p #{artifact.description}
 
@@ -142,7 +142,7 @@ block content
                                             .media-body
                                                 span.text-muted.pull-right
                                                     small.text-muted #{comment.created}
-                                                    button.btn(method='POST' action='/deletecomment', onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                    button.btn(method='GET' action='/deletecomment', onclick="return confirm('Are you sure? This action cannot be undone')")
                                                       i.fa.fa-trash
 
                                                 strong.text-success #{comment.ownername}

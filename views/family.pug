@@ -40,17 +40,17 @@ block content
 
                         .row
                             .col
-                                a(href = '/view/info/') About
+                                a(href = `/view/${group._id}/info/`) About
 
                         br
                         .row
                             .col
-                                a.active(href='/view/#{family._id}' style = "font-weight: bolder;") Artifacts
+                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
 
                         br
                         .row
                             .col
-                                a(href = "/view/members") Members
+                                a(href = `/view/${group._id}/members`) Members
                         br
                         .row
                             .col
@@ -113,9 +113,7 @@ block content
                                                 .md-form.mb-5
                                                     p.font-weight-bold Upload Image (optional)
                                                     img#preview(src=file)
-                                                    input#pad( type='file' onchange='previewFile()' name = 'photo')
-                                                div
-                                                    input#b64(type="hidden", name='b64')
+                                                    input#pad( type='file' onchange='previewFile()' name = 'image')
 
                                             .modal-footer.justify-content-center
                                                 button.btn.btn-primary(type='submit') Add
