@@ -11,24 +11,17 @@ block content
     .container-fluid.fill-height.fade-in
         .row
             .col-xs-12.col-sm-12
+                .row
                     .col
                     .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
                         h2.text-center.white-transparent #{artifact.title}
-                    .col.text-right.justify-content-right.pull-right
+                        br
+                    .col.text-right
                         //if (admin)
+                        a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
+                            | Edit artifact
+                        button.btn-danger.btn-sm( method ='GET' action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
 
-                            .btn-group.mr-2(role='group', aria-label='Second group')
-                              button.btn.btn-secondary(type='button') 5
-                              button.btn.btn-secondary(type='button') 6
-                              button.btn.btn-secondary(type='button') 7
-                            .btn-group(role='group', aria-label='Third group')
-
-                        .btn-toolbar.text-right.justify-content-right(role='toolbar', aria-label='Toolbar with button groups')
-                            .btn-group.mr-2.text-right.justify-content-right(role='group', aria-label='First Group')
-                                a.btn.btn-outline-secondary.btn-sm.pull-right(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
-                                    | Edit artifact
-                            .btn-group.text-right.justify-content-right(role='group', aria-label='Second Group')
-                                button.btn-danger.btn-sm.pull-right( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
 
 
                         #modalUpdateArtifact.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
@@ -58,7 +51,7 @@ block content
 
 
                                         .modal-footer.justify-content-center
-                                            button.btn-outline-secondary.btn-sm( method ="GET" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            button.btn-danger.btn-sm( method ="GET" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                             button.btn.btn-primary(type='submit') Update
 
 
@@ -74,7 +67,7 @@ block content
                     .vertical-menu.mr-4
 
                         h2
-                            a(href='/myantiques',style="color:#666666;") My Artifacts
+                            a(href='/myartifacts',style="color:#666666;") My Artifacts
                         hr.my-4
                         h2(style = "color: dimgrey;") Groups
                         br
