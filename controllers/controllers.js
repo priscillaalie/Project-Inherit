@@ -494,7 +494,7 @@ var showArtifactByID = function(req, res) {
                                                 if (!err) {
                                                     res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
                                                     comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                    familyname:belongsTo});
+                                                    familyname:belongsTo.title});
                                                 } else {
                                                     res.sendStatus(500);
                                                 }
