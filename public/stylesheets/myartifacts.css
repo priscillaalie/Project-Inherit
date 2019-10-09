@@ -30,3 +30,8 @@
     border: 3px solid dimgrey;
 
 }
+
+
+img {
+    object-fit: cover;
+}

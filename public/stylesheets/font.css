@@ -1,8 +1,7 @@
 
 /* iPads (portrait and landscape) ----------- */
 @media only screen
-and (min-device-width : 768px)
-and (max-device-width : 1024px) {
+and (max-device-width : 768px) {
     /* Styles */
     h1 {
         font-size: 4vmax;
@@ -19,7 +18,7 @@ and (max-device-width : 1024px) {
     }
 
     p {
-        font-size: 1.5vmax;
+        font-size: 1vmax;
     }
 
 }
@@ -45,7 +44,7 @@ and (orientation : landscape) {
     }
 
     p {
-        font-size: 1.5vmax;
+        font-size: 1.3vmax;
     }
 }
 
@@ -70,7 +69,7 @@ and (orientation : portrait) {
     }
 
     p {
-        font-size: 1.5vmax;
+        font-size: 1.3vmax;
     }
 }
 
@@ -93,6 +92,6 @@ and (min-width : 1224px) {
     }
 
     p {
-        font-size: 1.5vmax;
+        font-size: 1vmax;
     }
 }

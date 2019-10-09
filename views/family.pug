@@ -19,39 +19,6 @@ block content
                         if(session)
                             h2.text-center #{group.title}
                     .col.text-right
-                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
-                            | Edit artifact
-
-                        #modalRegisterForm.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-
-                            .modal-dialog(role='document')
-                                form(method='POST' action='/family/update').general
-                                    .modal-content
-                                        .modal-header.text-center
-                                            h4.modal-title.w-100.font-weight-bold Edit #{group.title}
-                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                span(aria-hidden='true') &times;
-
-
-                                        .modal-body.mx-3
-                                            .md-form.mb-5
-                                                label.font-weight-bold(for='artifactname') Artifact Name
-                                                input.form-control.fullrow(type='text', name='artifactname', value=group.title)
-
-                                            .md-form.mb-5
-                                                label.font-weight-bold(for='description') Description
-                                                .input-group
-                                                    textarea.form-control(type='text',name='description', value=group.description)
-                                            .md-form.mb-5
-                                                p.font-weight-bold Upload Image (optional)
-                                                img#preview(src=group.photo)
-                                                input#pad( type='file' onchange='previewFile()' name = 'image')
-
-
-                                        .modal-footer.justify-content-center
-                                            button.btn-outline-secondary.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
-                                            button.btn.btn-primary(type='submit') Update
-
 
 
 
@@ -87,13 +54,14 @@ block content
                         br
                         .row
                             .col
-                                a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") More
+                                a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+
                                 #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                     .modal-dialog(role='document')
-                                        form(method='POST' action='')
+                                        form(method='POST' action='/family/update')
                                             .modal-content
                                                 .modal-header.text-center
-                                                    h4.modal-title.w-100.font-weight-bold Update My Family
+                                                    h4.modal-title.w-100.font-weight-bold Update #{group.title}
                                                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                         span(aria-hidden='true') &times;
                                                 .modal-body.mx-3
@@ -111,6 +79,7 @@ block content
                                                                 option(value=`${member._id}`) #{member.fname}
 
                                                 .modal-footer.justify-content-center
+                                                    button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                                     button.btn.btn-primary(type='submit') Update
                         hr.my-4
 
@@ -118,7 +87,7 @@ block content
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
                     .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-                        .card.mb-4.mr-5(style='min-width: 15rem; height: 15rem;')
+                        .card.mb-4.mr-5(style=' width: 15rem; min-width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalArtifactForm')
@@ -127,7 +96,7 @@ block content
                             #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                                 .modal-dialog(role='document')
-                                    form(method='POST' action='/addantique', enctype = "multipart/form-data")
+                                    form(method='POST' action='/addartifact')
                                         .modal-content
                                             .modal-header.text-center
                                                 h4.modal-title.w-100.font-weight-bold Add an artifact
@@ -151,7 +120,7 @@ block content
 
                     each artifact in artifacts
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-                            .card.mb-4.mr-5(style='min-width: 15rem; height: fit-content;')
+                            .card.mb-4.mr-5(style='width: 15rem; min-width: 15rem; height: fit-content;')
                                 .d-flex
                                     a(href = `/artifact/view/${artifact._id}`)
                                         img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")

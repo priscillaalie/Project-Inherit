@@ -3,26 +3,35 @@ extends homepage.pug
 block css
     style
         include ../public/stylesheets/homepage.css
-        include ../public/stylesheets/myantiques.css
+        include ../public/stylesheets/myartifacts.css
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 
 
 block content
     .container-fluid.fill-height.fade-in
         .row
-
-            .col-xs-12.col-sm-12#backgroundwelcome
-                .row
-
+            .col-xs-12.col-sm-12
                     .col
-                    .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
-                        h2.text-center.white-transparent artifact group?
-                    .col.text-right
+                    .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+                        h2.text-center.white-transparent #{artifact.title}
+                    .col.text-right.justify-content-right.pull-right
+                        //if (admin)
 
-                        a.btn.btn-default.btn-rounded.mb-4.my-auto(href='/home' data-toggle='modal' data-target='#modalRegisterForm')
-                            | Edit artifact
+                            .btn-group.mr-2(role='group', aria-label='Second group')
+                              button.btn.btn-secondary(type='button') 5
+                              button.btn.btn-secondary(type='button') 6
+                              button.btn.btn-secondary(type='button') 7
+                            .btn-group(role='group', aria-label='Third group')
 
-                        #modalRegisterForm.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                        .btn-toolbar.text-right.justify-content-right(role='toolbar', aria-label='Toolbar with button groups')
+                            .btn-group.mr-2.text-right.justify-content-right(role='group', aria-label='First Group')
+                                a.btn.btn-outline-secondary.btn-sm.pull-right(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
+                                    | Edit artifact
+                            .btn-group.text-right.justify-content-right(role='group', aria-label='Second Group')
+                                button.btn-danger.btn-sm.pull-right( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+
+
+                        #modalUpdateArtifact.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                             .modal-dialog(role='document')
                                 form(method='POST' action='/artifact/update').general
@@ -36,12 +45,12 @@ block content
                                         .modal-body.mx-3
                                             .md-form.mb-5
                                                 label.font-weight-bold(for='artifactname') Artifact Name
-                                                input.form-control.fullrow(type='text', name='artifactname', value=artifact.title)
+                                                input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
 
                                             .md-form.mb-5
                                                 label.font-weight-bold(for='description') Description
                                                 .input-group
-                                                    textarea.form-control(type='text',name='description', value=artifact.description)
+                                                    textarea.form-control#description(type='text',name='description', value=artifact.description)
                                             .md-form.mb-5
                                                 p.font-weight-bold Upload Image (optional)
                                                 img#preview(src=artifact.photo)
@@ -64,9 +73,11 @@ block content
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
 
-                        a(href='/myantiques',style="color:#666666;") My Artifacts
+                        h2
+                            a(href='/myantiques',style="color:#666666;") My Artifacts
                         hr.my-4
-                        p(style = "color: dimgrey;") Groups
+                        h2(style = "color: dimgrey;") Groups
+                        br
                         each family in familygroups
                             .row
                                 .col-2
@@ -86,15 +97,19 @@ block content
 
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
-                        h2 #{artifact.title}
-                        br
+
+                        p.font-weight-bold Family: #{artifact.familygroup}
 
                         p #{artifact.description}
 
 
                         br
                         hr.my-4
+<<<<<<< HEAD
                         p Uploaded by #{owner} on #{artifact.created}
+=======
+                        p#smallsize Uploaded by #{owner} on #{artifact.created}
+>>>>>>> kay2
                         br
 
 
@@ -113,23 +128,20 @@ block content
                     .col-md-12.col-sm-12.col-lg-12.col-xl-12
                         .comment-wrapper
                             .panel.panel-info
-                                .panel-heading
+                                .panel-heading.font-weight-bold
                                     | Comment panel
 
                                 .panel-body
                                     form(method = "POST" action = "/post")
-                                        .col
-                                            .row
-                                                .col-xs-12.col-sm-12.col-md-9.col.lg-8.col-xl-8
 
-                                                    textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
-                                                .col-xs-12.col-sm-12.col-md-3.col.lg-4.col-xl-4.text-left
-
-
-                                                    button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                        textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
+                                        br
+                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                    br
 
 
-                                    .clearfix
+
+                                    br
 
                                     ul.media-list
 

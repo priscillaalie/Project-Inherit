@@ -219,6 +219,7 @@ var createUser = function(req,res){
             lname: req.body.lname, birthday: req.body.birthday};
         res.render('signup', results);
     } else {
+<<<<<<< HEAD
         singleUpload(req, res, function(err) {
             bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
                 var user = new User({
@@ -320,7 +321,7 @@ var fetchAntiquesByUser = function(req, res) {
 	                                title: 'Inherit', 'artifacts': artifacts, 'user': user._id,
 	                                session: req.cookies.sessionId, 'familygroups': familygroups
 	                            };
-	                            res.render('myantiques.pug', results);
+	                            res.render('myartifacts.pug', results);
 	                        } else {
 	                        	res.sendStatus(500);
 	                        }
@@ -381,6 +382,7 @@ var createAntique = function(req,res){
     		    antique.save(function(err, newAntique) {
     		    	if (!err) {
     		    		user.artifacts.push(antique._id);
+<<<<<<< HEAD
                         if (req.body.familygroup) {
                             // creating artifact from myartifacts page
                             Group.findById(req.body.familygroup, function(err, group) {
@@ -409,6 +411,14 @@ var createAntique = function(req,res){
                             user.save();
                             res.redirect('/view/' + groupId);
                         }
+=======
+                        Group.findById(req.body.familygroup, function(err, group) {
+                            group.artifacts.push(antique._id);
+                            group.save();
+                        });
+    		    		user.save();
+    		    		res.redirect('/myartifacts');
+>>>>>>> kay2
     		    	} else {
     		    		res.sendStatus(400);
     		    	}
@@ -488,6 +498,7 @@ var showArtifactByID = function(req, res) {
                         if (!err) {
                             Comment.find({'_id':{$in: artifact.comments}}, function(err, comments) {
                                 if (!err) {
+<<<<<<< HEAD
                                     User.findById(artifact.owner, function(err, owner) {
                                         if (!err) {
                                             Group.findById(artifact.familygroup, function(err, belongsTo) {
@@ -503,6 +514,11 @@ var showArtifactByID = function(req, res) {
                                             res.sendStatus(500);
                                         }
                                     })
+=======
+                                    res.render('artifact.pug', {artifact: artifact, 
+                                        familygroups:familygroups, comments:comments, title: artifact.title});
+
+>>>>>>> kay2
                                 } else {
                                     res.sendStatus(500);
                                 }
@@ -558,7 +574,7 @@ var searchResults = function(req, res) {
             session: req.cookies.sessionId
         };
         if (!err) {
-            res.render('myantiques', results);
+            res.render('myartifacts', results);
         } else {
             res.sendStatus(500);
         }
