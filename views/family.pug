@@ -127,7 +127,7 @@ block content
                             #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                                 .modal-dialog(role='document')
-                                    form(method='POST' action='/addantique')
+                                    form(method='POST' action='/addantique', enctype = "multipart/form-data")
                                         .modal-content
                                             .modal-header.text-center
                                                 h4.modal-title.w-100.font-weight-bold Add an artifact
@@ -144,9 +144,7 @@ block content
                                                 .md-form.mb-5
                                                     p.font-weight-bold Upload Image (optional)
                                                     img#preview(src=file)
-                                                    input#pad( type='file' onchange='previewFile()' name = 'photo')
-                                                div
-                                                    input#b64(type="hidden", name='b64')
+                                                    input#pad( type='file' onchange='previewFile()' name = 'image')
 
                                             .modal-footer.justify-content-center
                                                 button.btn.btn-primary(type='submit') Add

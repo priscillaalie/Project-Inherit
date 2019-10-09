@@ -150,12 +150,30 @@ var showInfo = function(req, res) {
 
 var showMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
-    console.log(groupId);
     Group.findById(groupId, function(err, group) {
         if (!err) {
             User.find({}, function(err, members) {
                 if (!err) {
                     res.render('members.pug', {group:group, members:members});
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
+}
+
+var addMember = function(req, res) {
+    var userId = req.body.user // ????
+    var groupId = req.headers.referer.split('/')[4];
+    Group.findById(groupId, function(err, group) {
+        if (!err) {
+            group.members.push(userId);
+            User.findById(userId, function(err, user) {
+                if (!err) {
+                    user.groups.push(groupId);
                 } else {
                     res.sendStatus(500);
                 }

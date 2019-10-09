@@ -49,7 +49,7 @@ block content
 
 
                                         .modal-footer.justify-content-center
-                                            button.btn-outline-secondary.btn-sm( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            button.btn-outline-secondary.btn-sm( method ="GET" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                             button.btn.btn-primary(type='submit') Update
 
 
@@ -141,7 +141,7 @@ block content
                                             .media-body
                                                 span.text-muted.pull-right
                                                     small.text-muted #{comment.created}
-                                                    button.btn(method='POST' action='/deletecomment', onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                    button.btn(method='GET' action='/deletecomment', onclick="return confirm('Are you sure? This action cannot be undone')")
                                                       i.fa.fa-trash
 
                                                 strong.text-success #{comment.ownername}

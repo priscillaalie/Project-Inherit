@@ -37,7 +37,7 @@ block content
 
                     hr.my-4
 
-                    form(method='POST' action='/settings/general').general
+                    form(method='POST' action='/settings/general', enctype = "multipart/form-data").general
                         .row
                             .form-group.col.col-md-6.col-lg-6.col-xl-6
                                 p.font-weight-bold FIRST NAME
@@ -61,9 +61,7 @@ block content
                                 img#preview(src=user.photo)
                                 .row
                                     .col
-                                        input( type='file' onchange='previewFile()')
-                                        div
-                                            input#b64(type="hidden", name='b64')
+                                        input( type='file' onchange='previewFile()' name = 'image')
 
                         .row
                             .col.d-flex.justify-content-center
