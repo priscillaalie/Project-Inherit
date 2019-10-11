@@ -393,7 +393,7 @@ var createAntique = function(req,res){
                                 
                             });
                             user.save();
-                            res.redirect('/myantiques');
+                            res.redirect('/myartifacts');
                         } else {
                             // creating artifact from family page
                             var groupId = req.headers.referer.split('/')[4];
@@ -434,8 +434,9 @@ var send = function(req,res) {
     host=req.get('host');
     link="http://"+req.get('host')+"/verify?id="+req.body.email;
     mailOptions={
+        from : "Project Inherit",
         to : req.body.email,
-        subject : "Please confirm your email account",
+        subject : "Please confirm your Inherit account",
         html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
     }
     console.log(mailOptions);

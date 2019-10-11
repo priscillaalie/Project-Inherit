@@ -23,7 +23,6 @@ var createGroup = function(req,res){
                 "title":req.body.title,
                 "photo":req.file.location,
                 "description":req.body.description,
-                "members": req.body.members
             });
         } else {
             var group = new Group({
@@ -37,6 +36,7 @@ var createGroup = function(req,res){
         User.findOne({sessionId:sid}, function(err, user){
             if (!err){
                 group.owner = user._id;
+                group.members.push(user._id);
                 console.log(group);
                 group.save(function(err, newGroup){
                     if (!err){
