@@ -471,7 +471,7 @@ var verify = function(req, res) {
     })
 };
 
-var showArtifactByID = function(req, res) {
+var fetchArtifactByID = function(req, res) {
     var ID = req.params.id;
     Artifact.findById(ID, function(err, artifact) {
         if(!err){
@@ -609,7 +609,7 @@ module.exports = {
     createAntique,
     send,
     verify,
-    showArtifactByID,
+    fetchArtifactByID,
     findUserByName,
     searchUser,
     searchResults,

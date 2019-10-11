@@ -18,7 +18,6 @@ var bodyParser = require('body-parser');
 var user = require('../models/user.js');
 
 settingsRoutes = require('./settings');
-familyRoutes = require('./family');
 
 var app = express();
 app.use(bodyParser.json({limit: "50mb"}));
@@ -26,7 +25,6 @@ app.use(bodyParser.urlencoded({limit:'50mb', extended: true, parameterLimit:5000
 app.use(bodyParser.json());
 
 app.use('/settings', settingsRoutes);
-app.use('/family', familyRoutes);
 
 const controllers = require('../controllers/controllers.js');
 const famcontrollers = require('../controllers/familycontroller.js');
@@ -78,11 +76,12 @@ router.get("/logout", function(req, res){
   res.redirect('/');
 });
 
-router.get('/view/:id/info', famcontrollers.showInfo);
-router.get('/view/:id/members', famcontrollers.showMembers);
+router.get('/resend', controllers.getStarted);
+router.get('/view/:id/info', famcontrollers.fetchGroupInfo);
+router.get('/view/:id/members', famcontrollers.fetchGroupMembers);
 router.post('/create', famcontrollers.createGroup);
-router.get('/view/:id', famcontrollers.showGroupByID);
-router.get('/artifact/view/:id', controllers.showArtifactByID);
+router.get('/view/:id', famcontrollers.fetchGroupByID);
+router.get('/artifact/view/:id', controllers.fetchArtifactByID);
 router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });

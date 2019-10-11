@@ -55,7 +55,7 @@ var createGroup = function(req,res){
 };
 
 
-var showGroupByID = function(req, res) {
+var fetchGroupByID = function(req, res) {
     var ID = req.params.id;
     Group.findById(ID, function(err, group) {
         if(!err){
@@ -92,16 +92,6 @@ var showGroupByID = function(req, res) {
     });
 };
 
-var showGroupInfo = function(req, res) {
-    var ID = req.params.id;
-    Group.findById(ID, function(err, group) {
-        if (!err) {
-            var results = {title: 'Inherit', session: sid, group: group};
-            res.render('familyInfo.pug', results);
-        }
-    })
-};
-
 var editGroup = function(req, res){
     Group.findById(req.originalUrl.split('/')[2], function(err, group) {
         if (!err && group) {
@@ -131,7 +121,7 @@ var editGroup = function(req, res){
     });
 };
 
-var showInfo = function(req, res) {
+var fetchGroupInfo = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
         Group.findById(groupId, function(err, group) {
@@ -152,7 +142,7 @@ var showInfo = function(req, res) {
     }
 }
 
-var showMembers = function(req, res) {
+var fetchGroupMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
         Group.findById(groupId, function(err, group) {
@@ -195,10 +185,9 @@ var addMember = function(req, res) {
 
 module.exports = {
     createGroup,
-    showGroupByID,
-    showGroupInfo,
+    fetchGroupByID,
+    fetchGroupInfo,
     editGroup,
-    showInfo,
-    showMembers
+    fetchGroupMembers
 }
 
