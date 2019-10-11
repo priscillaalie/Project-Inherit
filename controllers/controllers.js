@@ -390,7 +390,7 @@ var createAntique = function(req,res){
                                 } else {
                                     res.sendStatus(500);
                                 }
-                                
+
                             });
                             user.save();
                             res.redirect('/myantiques');
@@ -404,7 +404,7 @@ var createAntique = function(req,res){
                                 } else {
                                     res.sendStatus(500);
                                 }
-                                
+
                             });
                             user.save();
                             res.redirect('/view/' + groupId);
@@ -512,10 +512,10 @@ var showArtifactByID = function(req, res) {
 var searchUser = function(req, res) {
     var input = req.params.input;
     var regex = new RegExp(input, 'i');
-    User.find({"fname": regex}, function(err, users) {
+    User.find({"name": regex}, function(err, users) {
         if(!err){
             for (var i=0; i<users.length; i++) {
-                console.log(users[i].fname);
+                console.log(users[i].name);
             }
             res.json(users);
         }else{
@@ -545,7 +545,7 @@ var searchResults = function(req, res) {
             session: req.cookies.sessionId
         };
         if (!err) {
-            res.render('myartifacts', results);
+            res.render('members.pug', results);
         } else {
             res.sendStatus(500);
         }

@@ -46,10 +46,6 @@ block content
                 nav-collapse.fixed-left.dropdown-menu-left
 
                     .vertical-menu.mr-4
-
-                        h2
-                            a(href='/myartifacts',style="color:#666666;") My Artifacts
-                        hr.my-4
                         h2.my-4(style = "color: dimgrey;") Groups
                         each family in familygroups
                             .row
@@ -58,6 +54,9 @@ block content
                                     i.material-icons group
                                 .col-10
                                     a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                        hr.my-4
+
+                        a(href='/myartifacts',style="color:#666666;") My Artifacts
 
                         if (familygroups)
                             hr.my-4

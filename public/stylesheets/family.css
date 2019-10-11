@@ -17,3 +17,19 @@
 img {
     object-fit: cover;
 }
+
+
+/** MEMBERS **/
+#searchbar{
+    width: 70%;
+}
+
+.searchbutton{
+    width: 30%;
+}
+
+.userszone{
+    align-items: center;
+    justify-items: center
+}
+

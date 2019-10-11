@@ -1,12 +1,103 @@
-.md - form.mb - 5
-    label.font - weight - bold  Members
-        .input - group
-    form(id = 'search', method = 'GET', action = "/search", autocomplete = 'off')
-    input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
-    input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off")
-    datalist#datalist
-    button.searchbutton(type = 'submit' form = 'search') Add
+extends family.pug
 
+block css
+    style
+        include ../public/stylesheets/family.css
+
+block content
+    .container-fluid.fill-height.fade-in
+        .row
+            .col
+            .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
+                if(session)
+                    h2.text-center #{group.title}
+
+        .row
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
+
+                        br
+                        .row
+                            .col-2
+                                i.material-icons keyboard_arrow_left
+                            .col-10
+                                a(href='/home') Back
+
+                        hr.my-4
+
+                        .row
+                            .col
+                                a(href = `/view/${group._id}/info/`) About
+
+                        br
+                        .row
+                            .col
+                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
+
+                        br
+                        .row
+                            .col
+                                a(href = `/view/${group._id}/members`) Members
+                        br
+                        .row
+                            .col
+                                a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+
+                                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                    .modal-dialog(role='document')
+                                        form(method='POST' action='/family/update')
+                                            .modal-content
+                                                .modal-header.text-center
+                                                    h4.modal-title.w-100.font-weight-bold Update #{group.title}
+                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                        span(aria-hidden='true') &times;
+                                                .modal-body.mx-3
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='title') Title
+                                                        input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
+                                                    .md-form.mb-5
+                                                        label.font-weight-bold(for='desc') Description
+                                                        .input-group
+                                                            textarea#desc.form-control(type='text', placeholder='Description*', name='description',value = group.description)
+
+                                                        label.font-weight-bold(for='owner') Admin:
+                                                        select#owner(type='text', placeholder='Admin' name='owner', value = group.owner)
+                                                            for member in members
+                                                                option(value=`${member._id}`) #{member.fname}
+
+                                                .modal-footer.justify-content-center
+                                                    button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                                    button.btn.btn-primary(type='submit') Update
+                        hr.my-4
+            .col
+                br
+                .row
+                    .col
+                    .col-xs-8.col-sm-8.col-md-8.col-lg-8.col-xl-8
+                        form(id = 'search', method = 'GET', action = "/search", autocomplete = 'off')
+                            input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
+                            input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off")
+                            datalist#datalist
+                            button(type = 'submit' form = 'search')
+                                i.material-icons search
+                    .col
+
+                .row
+                    .col
+                        div.userszone
+                            if (Object.keys(members).length > 0)
+                                each member in members
+                                    .row
+                                        .col-2
+                                            img(src=member.photo alt=member.title)
+                                        .col-7
+                                            p #{member.name}
+                                        .col-3
+
+                            else
+                                .card
+                                    .card-body.text  No listings found here!
 
     script.
         function getusers() {
