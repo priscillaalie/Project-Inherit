@@ -133,36 +133,44 @@ var editGroup = function(req, res){
 
 var showInfo = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
-    Group.findById(groupId, function(err, group) {
-        if (!err) {
-            User.find({'_id': {$in: group.members}}, function(err, members) {
-                if (!err) {
-                    res.render('familyInfo.pug', {group:group, members:members});
-                } else {
-                    res.sendStatus(500);
-                }
-            })
-        } else {
-            res.sendStatus(404);
-        }
-    })
+    if (req.cookies.sessionId) {
+        Group.findById(groupId, function(err, group) {
+            if (!err) {
+                User.find({'_id': {$in: group.members}}, function(err, members) {
+                    if (!err) {
+                        res.render('familyInfo.pug', {group:group, members:members, session:req.cookies.sessionId});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+            } else {
+                res.sendStatus(404);
+            }
+        })
+    } else {
+        res.redirect('/signup');
+    }
 }
 
 var showMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
-    Group.findById(groupId, function(err, group) {
-        if (!err) {
-            User.find({}, function(err, members) {
-                if (!err) {
-                    res.render('members.pug', {group:group, members:members});
-                } else {
-                    res.sendStatus(500);
-                }
-            })
-        } else {
-            res.sendStatus(404);
-        }
-    })
+    if (req.cookies.sessionId) {
+        Group.findById(groupId, function(err, group) {
+            if (!err) {
+                User.find({}, function(err, members) {
+                    if (!err) {
+                        res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+            } else {
+                res.sendStatus(404);
+            }
+        })
+    } else {
+        res.redirect('/signup');
+    }
 }
 
 var addMember = function(req, res) {

@@ -440,10 +440,10 @@ var send = function(req,res) {
     }
     console.log(mailOptions);
     smtpTransport.sendMail(mailOptions, function(error, response){
-    if(error){
-        console.log(error);
-    }
-});
+        if(error){
+            console.log(error);
+        }
+    });
 };
 
 // verifies a user and changes their data in database to verified
