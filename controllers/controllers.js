@@ -211,7 +211,6 @@ var deleteUser = function(req, res){
 // creates a user and adds all their information to the database
 // also sends the user a verification
 var createUser = function(req,res){
-    console.log(req.body);
     if (req.body.password.length < 8){
         var message = "Password must be more than 7 characters";
         var results = {title: 'Inherit', error: message,
@@ -432,37 +431,44 @@ var rand, mailOptions, host, link;
 // sends the user an email link to verify
 var send = function(req,res) {
     host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+req.body.email;
-    mailOptions={
-        to : req.body.email,
-        subject : "Please confirm your email account",
-        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-    }
-    console.log(mailOptions);
-    smtpTransport.sendMail(mailOptions, function(error, response){
-        if(error){
-            console.log(error);
+    User.findOne({'email':req.body.email}, function(err, user) {
+        if (!err) {
+            link="http://" + host + "/verify?id=" + user._id;
+            
+            mailOptions={
+                to : req.body.email,
+                subject : "Please confirm your email account",
+                html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+            }
+
+            console.log(mailOptions);
+            smtpTransport.sendMail(mailOptions, function(error, response){
+                if(error){
+                    console.log(error);
+                }
+            });
+        } else {
+            res.end("User was not found, try creating another account.");
         }
-    });
+    })
+    
+            
 };
 
 // verifies a user and changes their data in database to verified
 var verify = function(req, res) {
-    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
-        // change verified to true
-        User.findOne({'email':req.query.id}, function (err, person) {
-            if (!err) {
-                res.render('verify.pug');
-                person.verified = true;
-                person.save();
-            } else {
-                console.log("email is not verified");
-                res.end("<h1>Bad Request</h1>");
-            }
-        })
-    } else {
-        res.end("<h1>Request is from unknown source");
-    };
+    // change verified to true
+    console.log(req.query);
+    User.findById(req.query.id, function(err, person) {
+        if (!err) {
+            res.render('verify.pug');
+            person.verified = true;
+            person.save();
+        } else {
+            console.log("email is not verified");
+            res.end("<h1>Bad Request</h1>");
+        }
+    })
 };
 
 var showArtifactByID = function(req, res) {
