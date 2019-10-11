@@ -1,5 +1,5 @@
 /*
-comment.js contains the mongodb atlas schema for storing comments that will be displayed on individual artifacts
+post.js contains the mongodb atlas schema for storing posts that will be displayed on family groups
  */
 
 var mongoose = require('mongoose');
@@ -10,11 +10,10 @@ var commentSchema = mongoose.Schema(
         "owner":String,
         "ownername": String,
         "content":String,
-        "artifact": String,
+        "familygroup": String,
         "created": Date,
         "photo": String,
-
-            //timestamps: true
+        //timestamps: true
     }
 );
 module.exports = mongoose.model('Comment', commentSchema);
