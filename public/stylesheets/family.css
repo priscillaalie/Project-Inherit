@@ -17,3 +17,38 @@
 img {
     object-fit: cover;
 }
+
+
+/** MEMBERS **/
+#searchbar{
+    width: 100%;
+    height: 40px;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: none;
+    padding: 10px;
+}
+
+.searchbutton{
+    width: 30%;
+}
+
+.userszone{
+    align-items: center;
+    justify-items: center;
+    background-color: lightblue;
+    border-radius: 3px;
+    list-style-type: none;
+}
+
+.namezone{
+    padding-top: 2%;
+    padding-left: 2%;
+}
+
+.photozone{
+    height: 9rem;
+    width: 9rem;
+    border-radius: 3px;
+}
+
