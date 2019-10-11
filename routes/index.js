@@ -86,6 +86,7 @@ router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
 router.post('/post', controllers.addComment);
+router.get('/addmember/:id', famcontrollers.addMember);
 
 
 

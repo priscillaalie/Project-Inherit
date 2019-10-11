@@ -98,9 +98,11 @@ block content
                                                 .col.col-lg-8.col-xl-8
                                                     .namezone
                                                         h4.text-left.text-justify #{member.name}
-                                                .col.col-lg-2.col-xl-2
-                                                    button.btn.btn-primary( method ="POST" action = "/addmember")
-                                                        i.material-icons person_add
+                                                if (!group.members.includes(member._id))
+                                                    .col.col-lg-2.col-xl-2
+                                                        a(href = `/addmember/${member._id}`)
+                                                            button.btn.btn-primary(type='button')
+                                                                i.material-icons person_add
 
                         else
                             .card

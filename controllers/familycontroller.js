@@ -164,7 +164,7 @@ var fetchGroupMembers = function(req, res) {
 }
 
 var addMember = function(req, res) {
-    var userId = req.body.user // ????
+    var userId = req.url.split('/')[2]; // ????
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
@@ -172,6 +172,11 @@ var addMember = function(req, res) {
             User.findById(userId, function(err, user) {
                 if (!err) {
                     user.groups.push(groupId);
+                    user.save();
+                    group.save();
+                    console.log(group);
+                    console.log(user);
+                    res.redirect('/view/' + groupId + '/members');
                 } else {
                     res.sendStatus(500);
                 }
@@ -188,6 +193,7 @@ module.exports = {
     fetchGroupByID,
     fetchGroupInfo,
     editGroup,
-    fetchGroupMembers
+    fetchGroupMembers,
+    addMember
 }
 
