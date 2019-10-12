@@ -98,18 +98,18 @@ var editGroup = function(req, res){
             group.title = req.body.title;
             group.description = req.body.description;
             group.owner = req.body.owner;
-
             group.save(function(err, updatedGroup) {
                 if (updatedGroup) {
-                    let message = "Your family has been updated";
-                    Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
-                        User.find({'_id': {$in: group.members}}, function(err, members) {
-                            var results = {group: group, owner: group.owner,
-                                user: updatedGroup, session: req.cookies.sessionId, artifacts: artifacts,
-                                    members:members, error: message};
-                            res.render('family.pug', results);
-                        })
-                    })
+                    // let message = "Your family has been updated";
+                    // Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
+                    //     User.find({'_id': {$in: group.members}}, function(err, members) {
+                    //         var results = {group: group, owner: group.owner,
+                    //             user: updatedGroup, session: req.cookies.sessionId, artifacts: artifacts,
+                    //                 members:members, error: message};
+                    //         res.render('family.pug', results);
+                    //     })
+                    // })
+                    res.redirect('/view/' + group._id);
                 } else {
                     res.sendStatus(500);
                 }
@@ -187,6 +187,63 @@ var addMember = function(req, res) {
     })
 }
 
+var deleteGroup = function(req, res) {
+    var groupId = req.url.split('/')[2];
+    Group.findById(groupId, function(err, group) {
+        if (!err) {
+            User.find({'_id':{$in: group.members}}, function(err, members) {
+                if (!err) {
+                    // deleting group from all members
+                    for (var i=0;i<members.length;i++) {
+                        var position = members[i].groups.indexOf(groupId);
+                        members[i].groups.splice(position, 1);
+                        members[i].save();
+                    }
+                    // deleting all artifacts in the group
+                    Artifact.find({'_id':{$in: group.artifacts}}, function(err, artifacts) {
+                        if (!err) {
+                            for (var i=0;i<artifacts.length;i++) {
+                                // deleting artifact from owner
+                                User.findById(artifacts[i].owner, function(err, owner) {
+                                    if (!err) {
+                                        var position = owner.artifacts.indexOf(artifacts[i]);
+                                        owner.artifacts.splice(position, 1);
+                                        owner.save();
+                                        // delete the artifact
+                                        Artifact.deleteOne({'_id':artifacts[i]}, function(err) {
+                                            if (err) {
+                                                res.sendStatus(500);
+                                            }
+                                        })
+                                    } else {
+                                        res.send(500);
+                                    }
+                                })
+                            }
+                            //finally delete the group
+                            Group.deleteOne({'_id':groupId}, function(err) {
+                                if (!err) {
+                                    console.log('group successfully deleted');
+                                    res.redirect('/home');
+                                } else {
+                                    console.log('group failed to delete' + err.message);
+                                    res.sendStatus(500);
+                                }
+                            })
+                        } else {
+                            res.send(500);
+                        }
+                    })
+                } else {
+                    res.send(500);
+                }
+            }) 
+        } else {
+            res.send(404);
+        }
+    })
+}
+
 
 module.exports = {
     createGroup,
@@ -194,6 +251,7 @@ module.exports = {
     fetchGroupInfo,
     editGroup,
     fetchGroupMembers,
-    addMember
+    addMember,
+    deleteGroup
 }
 

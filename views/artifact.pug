@@ -48,9 +48,9 @@ block content
                                                 img#preview(src=artifact.photo)
                                                 input#pad( type='file' onchange='previewFile()' name = 'image')
 
-
                                         .modal-footer.justify-content-center
-                                            button.btn-danger.btn-sm( method ="GET" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            a(href = `/deleteartifact/${artifact._id}`)
+                                                button.btn-danger.btn-sm(type = "button" onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                             button.btn.btn-primary(type='submit') Update
 
 

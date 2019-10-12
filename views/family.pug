@@ -59,7 +59,7 @@ block content
 
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
-                                            form(method='POST' action='/family/update')
+                                            form(method='POST' action=`/view/${group._id}`)
                                                 .modal-content
                                                     .modal-header.text-center
                                                         h4.modal-title.w-100.font-weight-bold Update #{group.title}
@@ -85,7 +85,8 @@ block content
             
 
                                                     .modal-footer.justify-content-center
-                                                        button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                                        a(href = `/deletegroup/${group._id}`)
+                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
                                                         button.btn.btn-primary(type='submit') Update
                         hr.my-4
 
