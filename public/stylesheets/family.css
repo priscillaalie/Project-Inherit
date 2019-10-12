@@ -29,26 +29,17 @@ img {
     padding: 10px;
 }
 
-.searchbutton{
-    width: 30%;
+
+.responsive {
+    width: 100%;
+
+    height: auto;
 }
 
-.userszone{
-    align-items: center;
-    justify-items: center;
-    background-color: lightblue;
-    border-radius: 3px;
-    list-style-type: none;
+.cardzone{
+    padding-top: 2.4vw;
 }
 
-.namezone{
-    padding-top: 2%;
-    padding-left: 2%;
+#addbutton:focus{
+    background-color: forestgreen;
 }
-
-.photozone{
-    height: 9rem;
-    width: 9rem;
-    border-radius: 3px;
-}
-
