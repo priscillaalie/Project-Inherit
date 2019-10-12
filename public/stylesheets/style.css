@@ -13,6 +13,16 @@ p{
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+a{
+  color: #666666;
+}
+
+a:hover{
+  color: dimgrey;
+  transition: all 100ms;
+  font-size: 18
+}
+
 #navtop {
   background-color: rgb(247,158,96);
   padding: 0px 30px 0px 30px;

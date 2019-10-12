@@ -55,7 +55,7 @@ var createGroup = function(req,res){
 };
 
 
-var showGroupByID = function(req, res) {
+var fetchGroupByID = function(req, res) {
     var ID = req.params.id;
     Group.findById(ID, function(err, group) {
         if(!err){
@@ -92,16 +92,6 @@ var showGroupByID = function(req, res) {
     });
 };
 
-var showGroupInfo = function(req, res) {
-    var ID = req.params.id;
-    Group.findById(ID, function(err, group) {
-        if (!err) {
-            var results = {title: 'Inherit', session: sid, group: group};
-            res.render('familyInfo.pug', results);
-        }
-    })
-};
-
 var editGroup = function(req, res){
     Group.findById(req.originalUrl.split('/')[2], function(err, group) {
         if (!err && group) {
@@ -131,42 +121,50 @@ var editGroup = function(req, res){
     });
 };
 
-var showInfo = function(req, res) {
+var fetchGroupInfo = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
-    Group.findById(groupId, function(err, group) {
-        if (!err) {
-            User.find({'_id': {$in: group.members}}, function(err, members) {
-                if (!err) {
-                    res.render('familyInfo.pug', {group:group, members:members});
-                } else {
-                    res.sendStatus(500);
-                }
-            })
-        } else {
-            res.sendStatus(404);
-        }
-    })
+    if (req.cookies.sessionId) {
+        Group.findById(groupId, function(err, group) {
+            if (!err) {
+                User.find({'_id': {$in: group.members}}, function(err, members) {
+                    if (!err) {
+                        res.render('familyInfo.pug', {group:group, members:members, session:req.cookies.sessionId});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+            } else {
+                res.sendStatus(404);
+            }
+        })
+    } else {
+        res.redirect('/signup');
+    }
 }
 
-var showMembers = function(req, res) {
+var fetchGroupMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
-    Group.findById(groupId, function(err, group) {
-        if (!err) {
-            User.find({}, function(err, members) {
-                if (!err) {
-                    res.render('members.pug', {group:group, members:members});
-                } else {
-                    res.sendStatus(500);
-                }
-            })
-        } else {
-            res.sendStatus(404);
-        }
-    })
+    if (req.cookies.sessionId) {
+        Group.findById(groupId, function(err, group) {
+            if (!err) {
+                User.find({}, function(err, members) {
+                    if (!err) {
+                        res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+            } else {
+                res.sendStatus(404);
+            }
+        })
+    } else {
+        res.redirect('/signup');
+    }
 }
 
 var addMember = function(req, res) {
-    var userId = req.body.user // ????
+    var userId = req.url.split('/')[2]; // ????
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
@@ -174,6 +172,11 @@ var addMember = function(req, res) {
             User.findById(userId, function(err, user) {
                 if (!err) {
                     user.groups.push(groupId);
+                    user.save();
+                    group.save();
+                    console.log(group);
+                    console.log(user);
+                    res.redirect('/view/' + groupId + '/members');
                 } else {
                     res.sendStatus(500);
                 }
@@ -187,10 +190,10 @@ var addMember = function(req, res) {
 
 module.exports = {
     createGroup,
-    showGroupByID,
-    showGroupInfo,
+    fetchGroupByID,
+    fetchGroupInfo,
     editGroup,
-    showInfo,
-    showMembers
+    fetchGroupMembers,
+    addMember
 }
 

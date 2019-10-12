@@ -25,7 +25,7 @@ var express = require('express');
 var nodemailer = require("nodemailer");
 var app = express();
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 //renders the index page
@@ -211,7 +211,6 @@ var deleteUser = function(req, res){
 // creates a user and adds all their information to the database
 // also sends the user a verification
 var createUser = function(req,res){
-    console.log(req.body);
     if (req.body.password.length < 8){
         var message = "Password must be more than 7 characters";
         var results = {title: 'Inherit', error: message,
@@ -360,60 +359,49 @@ var createAntique = function(req,res){
     singleUpload(req, res, function(err) {
     	User.findOne({sessionId: sid}, function(err,user) {
     		if (!err) {
+                var antique = new Artifact({
+                    "title": req.body.title,
+                    "description": req.body.description,
+                    "owner": user._id
+                });
                 if (req.file) {
-        			var antique = new Artifact({
-        		        "title": req.body.title,
-        		        "description": req.body.description,
-        		        "familygroup": req.body.familygroup,
-        		        "photo": req.file.location,
-        		        "owner": user._id
-        		    });
-                } else {
-                    var antique = new Artifact({
-                        "title": req.body.title,
-                        "description": req.body.description,
-                        "familygroup": req.body.familygroup,
-                        "owner": user._id
-                    });
+        			antique.photo = req.file.location;
                 }
-    		    antique.created = today;
+
+                var groupId;
+                var toGo;
+                if (req.body.familygroup) {
+                    groupId = req.body.familygroup;
+                    toGo = '/myantiques';
+                } else {
+                    groupId = req.headers.referer.split('/')[4];
+                    toGo = '/view/' + groupId;
+                }
+
+                antique.familygroup = groupId;
+                antique.created = today;
                 console.log(antique);
-    		    antique.save(function(err, newAntique) {
-    		    	if (!err) {
-    		    		user.artifacts.push(antique._id);
-                        if (req.body.familygroup) {
-                            // creating artifact from myartifacts page
-                            Group.findById(req.body.familygroup, function(err, group) {
-                                if (!err) {
-                                    group.artifacts.push(antique._id);
-                                    group.save();
-                                } else {
-                                    res.sendStatus(500);
-                                }
-                                
-                            });
-                            user.save();
-                            res.redirect('/myartifacts');
-                        } else {
-                            // creating artifact from family page
-                            var groupId = req.headers.referer.split('/')[4];
-                            Group.findById(groupId, function(err, group) {
-                                if (!err) {
-                                    group.artifacts.push(antique._id);
-                                    group.save();
-                                } else {
-                                    res.sendStatus(500);
-                                }
-                                
-                            });
-                            user.save();
-                            res.redirect('/view/' + groupId);
-                        }
-    		    	} else {
-    		    		res.sendStatus(400);
-    		    	}
-    		    })
-    		}
+
+                antique.save(function(err, newAntique) {
+                    if (!err) {
+                        user.artifacts.push(antique._id);
+                        user.save();
+                        Group.findById(groupId, function(err, group) {
+                            if (!err) {
+                                group.artifacts.push(antique._id);
+                                group.save();
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        });
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+    		} else {
+                res.sendStatus(500);
+            }
+
     	});
     })
 };
@@ -432,41 +420,48 @@ var rand, mailOptions, host, link;
 // sends the user an email link to verify
 var send = function(req,res) {
     host=req.get('host');
-    link="http://"+req.get('host')+"/verify?id="+req.body.email;
-    mailOptions={
-        from : "Project Inherit",
-        to : req.body.email,
-        subject : "Please confirm your Inherit account",
-        html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
-    }
-    console.log(mailOptions);
-    smtpTransport.sendMail(mailOptions, function(error, response){
-    if(error){
-        console.log(error);
-    }
-});
+
+    User.findOne({'email':req.body.email}, function(err, user) {
+        if (!err) {
+            link="http://" + host + "/verify?id=" + user._id;
+            
+            mailOptions={
+                to : req.body.email,
+                subject : "Please confirm your email account",
+                html : "Hello,<br> Please click on the link to verify your email.<br><a href="+link+">Click here to verify</a>"
+            }
+
+            console.log(mailOptions);
+            smtpTransport.sendMail(mailOptions, function(error, response){
+                if(error){
+                    console.log(error);
+                }
+            });
+        } else {
+            res.end("User was not found, try creating another account.");
+        }
+    })
+    
+            
 };
 
 // verifies a user and changes their data in database to verified
 var verify = function(req, res) {
-    if((req.protocol+"://"+req.get('host'))==("http://"+host)) {
-        // change verified to true
-        User.findOne({'email':req.query.id}, function (err, person) {
-            if (!err) {
-                res.render('verify.pug');
-                person.verified = true;
-                person.save();
-            } else {
-                console.log("email is not verified");
-                res.end("<h1>Bad Request</h1>");
-            }
-        })
-    } else {
-        res.end("<h1>Request is from unknown source");
-    };
+    // change verified to true
+    console.log(req.query);
+    User.findById(req.query.id, function(err, person) {
+        if (!err) {
+            res.render('verify.pug');
+            person.verified = true;
+            person.save();
+        } else {
+            console.log("email is not verified");
+            res.end("<h1>Bad Request</h1>");
+        }
+    })
 };
 
-var showArtifactByID = function(req, res) {
+var fetchArtifactByID = function(req, res) {
     var ID = req.params.id;
     Artifact.findById(ID, function(err, artifact) {
         if(!err){
@@ -482,7 +477,7 @@ var showArtifactByID = function(req, res) {
                                                 if (!err) {
                                                     res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
                                                     comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                    familyname:belongsTo.title});
+                                                    familyname:belongsTo.title, user:user});
                                                 } else {
                                                     res.sendStatus(500);
                                                 }
@@ -513,10 +508,10 @@ var showArtifactByID = function(req, res) {
 var searchUser = function(req, res) {
     var input = req.params.input;
     var regex = new RegExp(input, 'i');
-    User.find({"fname": regex}, function(err, users) {
+    User.find({"name": regex}, function(err, users) {
         if(!err){
             for (var i=0; i<users.length; i++) {
-                console.log(users[i].fname);
+                console.log(users[i].name);
             }
             res.json(users);
         }else{
@@ -546,7 +541,7 @@ var searchResults = function(req, res) {
             session: req.cookies.sessionId
         };
         if (!err) {
-            res.render('myartifacts', results);
+            res.render('members.pug', results);
         } else {
             res.sendStatus(500);
         }
@@ -561,18 +556,13 @@ var addComment = function(req, res) {
                 "owner": user._id,
                 "content": req.body.comment,
                 "artifact": artifactId,
+                "ownername": user.name
             })
-            if (user.name) {
-                comment.ownername = user.name;
-            } else {
-                comment.ownername = user.fname;
-            }
             comment.created = Date.now();
             comment.save(function(err, newComment) {
                 if (!err) {
                     artifact.comments.push(comment._id);
                     artifact.save();
-                    console.log(artifact);
                     res.redirect('/artifact/view/'+artifactId);
                 } else {
                     res.sendStatus(400);
@@ -580,6 +570,38 @@ var addComment = function(req, res) {
             })
         })
     });
+}
+
+var deleteComment = function(req, res) {
+    var commentId = req.url.split('/')[2];
+    console.log(commentId);
+    var artifactId;
+    Comment.findById(commentId, function(err, comment) {
+        if (!err) {
+            artifactId = comment.artifact;
+            Artifact.findById(artifactId, function(err, artifact) {
+                if (!err) {
+                    var position = artifact.comments.indexOf(artifactId);
+                    artifact.comments = artifact.comments.splice(position, 1);
+                    console.log(artifact);
+                    artifact.save();
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
+    Comment.deleteOne({'_id': commentId}, function(err, result) {
+        if (!err) {
+            console.log('comment deleted');
+            res.redirect('/artifact/view/' + artifactId);
+        } else {
+            console.log(err);
+            console.log('failed to delete comment');
+        }
+    })
 }
 // Connect to the db
 const dbURI =
@@ -604,11 +626,12 @@ module.exports = {
     createAntique,
     send,
     verify,
-    showArtifactByID,
+    fetchArtifactByID,
     findUserByName,
     searchUser,
     searchResults,
     addComment,
-    deleteArtifact
+    deleteArtifact,
+    deleteComment
 }
 
