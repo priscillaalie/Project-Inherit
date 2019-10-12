@@ -58,10 +58,10 @@ block content
                                         input.fullrow(type='text', name='phone', value=user.phone)
 
                             .form-group.col.col-md-6.col-lg-6.col-xl-6.text-center.imgzone
-                                img#preview(src=user.photo)
+                                img.mb-2#preview(src=user.photo)
                                 .row
                                     .col
-                                        input( type='file' onchange='previewFile()' name = 'image')
+                                        input( type='file' onchange='previewFile()' name = 'image' accept="image/*")
 
                         .row
                             .col.d-flex.justify-content-center
