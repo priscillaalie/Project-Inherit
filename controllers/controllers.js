@@ -25,7 +25,7 @@ var express = require('express');
 var nodemailer = require("nodemailer");
 var app = express();
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 //renders the index page
@@ -356,63 +356,55 @@ var createAntique = function(req,res){
 	var sid = req.cookies.sessionId;
 	// Get current date and time
     var today = new Date();
+    console.log(req);
     singleUpload(req, res, function(err) {
     	User.findOne({sessionId: sid}, function(err,user) {
     		if (!err) {
+                var antique = new Artifact({
+                    "title": req.body.title,
+                    "description": req.body.description,
+                    "familygroup": req.body.familygroup,
+                    "owner": user._id
+                });
                 if (req.file) {
-        			var antique = new Artifact({
-        		        "title": req.body.title,
-        		        "description": req.body.description,
-        		        "familygroup": req.body.familygroup,
-        		        "photo": req.file.location,
-        		        "owner": user._id
-        		    });
-                } else {
-                    var antique = new Artifact({
-                        "title": req.body.title,
-                        "description": req.body.description,
-                        "familygroup": req.body.familygroup,
-                        "owner": user._id
+        			antique.photo = req.file.location;
+                }
+                if (req.body.familygroup) {
+                    // creating artifact from myartifacts page
+                    Group.findById(req.body.familygroup, function(err, group) {
+                        if (!err) {
+                            group.artifacts.push(antique._id);
+                            group.save();
+                        } else {
+                            res.sendStatus(500);
+                        }
+
                     });
+                    user.save();
+                    res.redirect('/myantiques');
+                } else {
+                    // creating artifact from family page
+                    var groupId = req.headers.referer.split('/')[4];
+                    Group.findById(groupId, function(err, group) {
+                        if (!err) {
+                            group.artifacts.push(antique._id);
+                            group.save();
+                        } else {
+                            res.sendStatus(500);
+                        }
+
+                    });
+                    user.save();
+                    res.redirect('/view/' + groupId);
                 }
     		    antique.created = today;
                 console.log(antique);
     		    antique.save(function(err, newAntique) {
-    		    	if (!err) {
-    		    		user.artifacts.push(antique._id);
-                        if (req.body.familygroup) {
-                            // creating artifact from myartifacts page
-                            Group.findById(req.body.familygroup, function(err, group) {
-                                if (!err) {
-                                    group.artifacts.push(antique._id);
-                                    group.save();
-                                } else {
-                                    res.sendStatus(500);
-                                }
-
-                            });
-                            user.save();
-                            res.redirect('/myantiques');
-                        } else {
-                            // creating artifact from family page
-                            var groupId = req.headers.referer.split('/')[4];
-                            Group.findById(groupId, function(err, group) {
-                                if (!err) {
-                                    group.artifacts.push(antique._id);
-                                    group.save();
-                                } else {
-                                    res.sendStatus(500);
-                                }
-
-                            });
-                            user.save();
-                            res.redirect('/view/' + groupId);
-                        }
-    		    	} else {
-    		    		res.sendStatus(400);
-    		    	}
+                user.artifacts.push(antique._id);
     		    })
-    		}
+    		} else {
+                res.sendStatus(500);
+            }
     	});
     })
 };
@@ -487,7 +479,7 @@ var fetchArtifactByID = function(req, res) {
                                                 if (!err) {
                                                     res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
                                                     comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                    familyname:belongsTo.title});
+                                                    familyname:belongsTo.title, user:user});
                                                 } else {
                                                     res.sendStatus(500);
                                                 }
