@@ -95,7 +95,7 @@ block content
                             #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                                 .modal-dialog(role='document')
-                                    form(method='POST' action='/addartifact')
+                                    form(method='POST' action='/addartifact', enctype = "multipart/form-data")
                                         .modal-content
                                             .modal-header.text-center
                                                 h4.modal-title.w-100.font-weight-bold Add an artifact

@@ -356,7 +356,6 @@ var createAntique = function(req,res){
 	var sid = req.cookies.sessionId;
 	// Get current date and time
     var today = new Date();
-    console.log(req);
     singleUpload(req, res, function(err) {
     	User.findOne({sessionId: sid}, function(err,user) {
     		if (!err) {
@@ -387,6 +386,7 @@ var createAntique = function(req,res){
                     var groupId = req.headers.referer.split('/')[4];
                     Group.findById(groupId, function(err, group) {
                         if (!err) {
+                            antique.familygroup = groupId;
                             group.artifacts.push(antique._id);
                             group.save();
                         } else {
