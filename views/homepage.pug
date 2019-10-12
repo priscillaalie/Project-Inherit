@@ -25,15 +25,15 @@ block content
                                         span(aria-hidden='true') &times;
                                 .modal-body.mx-3.text-left
                                     .md-form.mb-5
-                                        label.font-weight-bold(for='familyname') Family Name
-                                        input#familyname.form-control(type='text', placeholder='Family Name*' name='title', required)
+                                        label.font-weight-bold(for='familyname') Family Name*
+                                        input#familyname.form-control(type='text', placeholder='Family Name' name='title', required)
                                     .md-form.mb-5
-                                        label.font-weight-bold(for='description') Description
+                                        label.font-weight-bold(for='description') Description*
                                         .input-group
-                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                            textarea#description.form-control(type='text', placeholder='Description', name='description',required)
                                     .md-form.mb-5.text-center
                                         p.font-weight-bold Upload Image (optional)
-                                        img#preview(src=file)
+                                        img.mb-2#preview(src=file)
                                         br
                                         input.text-center( type='file' onchange='previewFile()' name = 'image')
 
@@ -83,14 +83,11 @@ block content
 
                 else
                     .row
-                        h1 Create Your First Family Group!
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
 
                             .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
-                                // Button trigger modal
-                                //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
-                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
-                                    | Create Family Group
+                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm' style="font-size: 15px;")
+                                    | Create Your First Family Group
                                 #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                     .modal-dialog(role='document')
                                         form(method='POST' action='/create', enctype = "multipart/form-data")
@@ -102,17 +99,17 @@ block content
                                                         span(aria-hidden='true') &times;
                                                 .modal-body.mx-3.text-left
                                                     .md-form.mb-5
-                                                        label.font-weight-bold(for='familyname') Family Name
-                                                        input#familyname.form-control(type='text', placeholder='Family Name*' name='title', required)
+                                                        label.font-weight-bold(for='familyname') Family Name*
+                                                        input#familyname.form-control(type='text', placeholder='Family Name' name='title', required)
                                                     .md-form.mb-5
-                                                        label.font-weight-bold(for='description') Description
+                                                        label.font-weight-bold(for='description') Description*
                                                         .input-group
-                                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                                            textarea#description.form-control(type='text', placeholder='Description', name='description',required)
                                                     .md-form.mb-5.text-center
                                                         p.font-weight-bold Upload Image (optional)
-                                                        img#preview(src=file)
+                                                        img.mb-2#preview(src=file)
                                                         br
-                                                        input.text-center( type='file' onchange='previewFile()' name = 'image')
+                                                        input.text-center( type='file' onchange='previewFile()' name = 'image' accept="image/*")
 
                                                 .modal-footer.d-flex.justify-content-center
                                                     button.btn.btn-primary(href='/home' type='submit') Create Family

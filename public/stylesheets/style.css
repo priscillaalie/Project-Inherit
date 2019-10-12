@@ -97,3 +97,11 @@ a:hover{
   }
 }
 
+
+img:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  background-image: url('https://image.flaticon.com/icons/svg/149/149094.svg');
+
+}

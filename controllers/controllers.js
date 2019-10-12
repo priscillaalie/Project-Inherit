@@ -381,6 +381,7 @@ var createAntique = function(req,res){
                 antique.familygroup = groupId;
                 antique.created = today;
                 console.log(antique);
+
                 antique.save(function(err, newAntique) {
                     if (!err) {
                         user.artifacts.push(antique._id);
@@ -400,6 +401,7 @@ var createAntique = function(req,res){
     		} else {
                 res.sendStatus(500);
             }
+
     	});
     })
 };
@@ -418,6 +420,7 @@ var rand, mailOptions, host, link;
 // sends the user an email link to verify
 var send = function(req,res) {
     host=req.get('host');
+
     User.findOne({'email':req.body.email}, function(err, user) {
         if (!err) {
             link="http://" + host + "/verify?id=" + user._id;
