@@ -553,18 +553,13 @@ var addComment = function(req, res) {
                 "owner": user._id,
                 "content": req.body.comment,
                 "artifact": artifactId,
+                "ownername": user.name
             })
-            if (user.name) {
-                comment.ownername = user.name;
-            } else {
-                comment.ownername = user.fname;
-            }
             comment.created = Date.now();
             comment.save(function(err, newComment) {
                 if (!err) {
                     artifact.comments.push(comment._id);
                     artifact.save();
-                    console.log(artifact);
                     res.redirect('/artifact/view/'+artifactId);
                 } else {
                     res.sendStatus(400);
@@ -572,6 +567,38 @@ var addComment = function(req, res) {
             })
         })
     });
+}
+
+var deleteComment = function(req, res) {
+    var commentId = req.url.split('/')[2];
+    console.log(commentId);
+    var artifactId;
+    Comment.findById(commentId, function(err, comment) {
+        if (!err) {
+            artifactId = comment.artifact;
+            Artifact.findById(artifactId, function(err, artifact) {
+                if (!err) {
+                    var position = artifact.comments.indexOf(artifactId);
+                    artifact.comments = artifact.comments.splice(position, 1);
+                    console.log(artifact);
+                    artifact.save();
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
+    Comment.deleteOne({'_id': commentId}, function(err, result) {
+        if (!err) {
+            console.log('comment deleted');
+            res.redirect('/artifact/view/' + artifactId);
+        } else {
+            console.log(err);
+            console.log('failed to delete comment');
+        }
+    })
 }
 // Connect to the db
 const dbURI =
@@ -601,6 +628,7 @@ module.exports = {
     searchUser,
     searchResults,
     addComment,
-    deleteArtifact
+    deleteArtifact,
+    deleteComment
 }
 
