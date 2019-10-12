@@ -362,46 +362,41 @@ var createAntique = function(req,res){
                 var antique = new Artifact({
                     "title": req.body.title,
                     "description": req.body.description,
-                    "familygroup": req.body.familygroup,
                     "owner": user._id
                 });
                 if (req.file) {
         			antique.photo = req.file.location;
                 }
+
+                var groupId;
+                var toGo;
                 if (req.body.familygroup) {
-                    // creating artifact from myartifacts page
-                    Group.findById(req.body.familygroup, function(err, group) {
-                        if (!err) {
-                            group.artifacts.push(antique._id);
-                            group.save();
-                        } else {
-                            res.sendStatus(500);
-                        }
-
-                    });
-                    user.save();
-                    res.redirect('/myantiques');
+                    groupId = req.body.familygroup;
+                    toGo = '/myantiques';
                 } else {
-                    // creating artifact from family page
-                    var groupId = req.headers.referer.split('/')[4];
-                    Group.findById(groupId, function(err, group) {
-                        if (!err) {
-                            antique.familygroup = groupId;
-                            group.artifacts.push(antique._id);
-                            group.save();
-                        } else {
-                            res.sendStatus(500);
-                        }
-
-                    });
-                    user.save();
-                    res.redirect('/view/' + groupId);
+                    groupId = req.headers.referer.split('/')[4];
+                    toGo = '/view/' + groupId;
                 }
-    		    antique.created = today;
+
+                antique.familygroup = groupId;
+                antique.created = today;
                 console.log(antique);
-    		    antique.save(function(err, newAntique) {
-                user.artifacts.push(antique._id);
-    		    })
+                antique.save(function(err, newAntique) {
+                    if (!err) {
+                        user.artifacts.push(antique._id);
+                        user.save();
+                        Group.findById(groupId, function(err, group) {
+                            if (!err) {
+                                group.artifacts.push(antique._id);
+                                group.save();
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        });
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
     		} else {
                 res.sendStatus(500);
             }
