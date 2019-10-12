@@ -135,45 +135,6 @@ block content
                                             .row
                                                 p.listingdescription #{artifact.description}
 
-                .row.bootstrap.snippets
-                    .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
-                        .comment-wrapper
-                            .panel.panel-info
-                                .panel-heading.font-weight-bold
-                                    | Comment panel
-
-                                .panel-body
-                                    form(method = "POST" action = "/postupdate")
-
-                                        textarea.form-control(placeholder='Write a Post...', rows='3', name = 'post')
-                                        br
-                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
-                                    br
-
-
-
-                                    br
-
-                                    ul.media-list
-
-                                    each post in posts
-
-                                        li.media
-                                            a.pull-left(href='#')
-                                                img.img-circle(src=post.photo)
-                                            .media-body
-                                                span.text-muted.pull-right
-                                                    small.text-muted #{post.created}
-                                                    button.btn(method='GET' action='/deletepost', onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                        i.fa.fa-trash
-
-                                                strong.text-success #{post.ownername}
-
-                                                p
-                                                    | #{post.content}
-
-                                                hr.my-4
-
             // upload image for create group
             script.
                 function previewFile() {
