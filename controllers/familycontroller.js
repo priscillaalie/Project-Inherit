@@ -62,14 +62,14 @@ var fetchGroupByID = function(req, res) {
             User.findById(group.owner, function(err, owner){
                 if (!err){
                     var sid = req.cookies.sessionId;
-                    User.find({sessionId: sid}, function(err, currUser){
+                    User.findOne({sessionId: sid}, function(err, user){
                         if (!err){
                             Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
                                 User.find({'_id': {$in: group.members}}, function(err, members) {
-                                    Group.find({'_id': {$in: currUser[0].groups}}, function (err, familygroups) {
+                                    Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                                         if (!err) {
                                             var results = {group: group, owner: owner,
-                                                user: currUser[0], session: sid, artifacts: artifacts,
+                                                user: user, session: sid, artifacts: artifacts,
                                                 members:members, familygroups: familygroups, title: group.title};
                                             res.render('family.pug', results);
                                         } else {
