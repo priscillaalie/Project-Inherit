@@ -36,18 +36,17 @@ block content
 
                                         .modal-body.mx-3
                                             .md-form.mb-5
-                                                label.font-weight-bold(for='artifactname') Artifact Name*
-                                                input.form-control.fullrow#artifactname(type='text', name='Artifact Name', value=artifact.title)
+                                                label.font-weight-bold(for='artifactname') Artifact Name
+                                                input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
 
                                             .md-form.mb-5
-                                                label.font-weight-bold(for='description') Description*
+                                                label.font-weight-bold(for='description') Description
                                                 .input-group
-                                                    textarea.form-control#description(type='text',name='description', value=artifact.description, rows='3')
-
-                                            .md-form.mb-5.text-center
+                                                    textarea.form-control#description(type='text',name='description', value=artifact.description)
+                                            .md-form.mb-5
                                                 p.font-weight-bold Upload Image (optional)
-                                                img.mb-2#preview(src=artifact.photo)
-                                                input.justify-content-center#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                img#preview(src=artifact.photo)
+                                                input#pad( type='file' onchange='previewFile()' name = 'image')
 
 
                                         .modal-footer.justify-content-center

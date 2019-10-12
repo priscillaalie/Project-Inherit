@@ -54,7 +54,6 @@ block content
                         br
                         .row
                             .col
-<<<<<<< HEAD
                                 if (user._id.equals(owner.id))
                                     a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
 
@@ -83,7 +82,6 @@ block content
                                                     .modal-footer.justify-content-center
                                                         button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                                         button.btn.btn-primary(type='submit') Update
-
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
@@ -114,7 +112,7 @@ block content
                                                         textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
                                                 .md-form.mb-5
                                                     p.font-weight-bold Upload Image (optional)
-                                                    img.mb-2#preview(src=file)
+                                                    img#preview(src=file)
                                                     input#pad( type='file' onchange='previewFile()' name = 'image')
 
                                             .modal-footer.justify-content-center
@@ -131,45 +129,6 @@ block content
                                                 h5.card-title #{artifact.title}
                                             .row
                                                 p.listingdescription #{artifact.description}
-
-                .row.bootstrap.snippets
-                    .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
-                        .comment-wrapper
-                            .panel.panel-info
-                                .panel-heading.font-weight-bold
-                                    | Comment panel
-
-                                .panel-body
-                                    form(method = "POST" action = "/postupdate")
-
-                                        textarea.form-control(placeholder='Write a Post...', rows='3', name = 'post')
-                                        br
-                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
-                                    br
-
-
-
-                                    br
-
-                                    ul.media-list
-
-                                    each post in posts
-
-                                        li.media
-                                            a.pull-left(href='#')
-                                                img.img-circle(src=post.photo)
-                                            .media-body
-                                                span.text-muted.pull-right
-                                                    small.text-muted #{post.created}
-                                                    button.btn(method='GET' action='/deletepost', onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                        i.fa.fa-trash
-
-                                                strong.text-success #{post.ownername}
-
-                                                p
-                                                    | #{post.content}
-
-                                                hr.my-4
 
             // upload image for create group
             script.
