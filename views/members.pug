@@ -33,29 +33,54 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a(href='/home') Back
+                                a.tabstyle(href='/home') Back
 
                         hr.my-4
 
                         .row
                             .col
-                                a(href = `/view/${group._id}/info/`) About
+                                a.tabstyle(href = `/view/${group._id}/info/`) About
 
                         br
                         .row
                             .col
-                                a(href=`/view/${group._id}` ) Artifacts
+
+                                a.tabstyle(href=`/view/${group._id}`) Artifacts
 
                         br
                         .row
                             .col
-                                a.active.font-weight-bold(href = `/view/${group._id}/members`) Members
+
+                                a.active.font-weight-bold.tabstyle(style = " text-decoration: none;" href = `/view/${group._id}/members`) Members
                         br
                         .row
                             .col
+                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            form(method='POST' action='/family/update')
+                                                .modal-content
+                                                    .modal-header.text-center
+                                                        h4.modal-title.w-100.font-weight-bold Update #{group.title}
+                                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                            span(aria-hidden='true') &times;
+                                                    .modal-body.mx-3
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='title') Title
+                                                            input#title.form-control(type='text', placeholder=group.title name='title', value = group.title)
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='desc') Description
+                                                            .input-group
+                                                                textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
 
-                               a(href="/") Edit
+                                                            label.font-weight-bold(for='owner') Admin:
+                                                            select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
+                                                                for member in members
+                                                                    option(value=`${member._id}`) #{member.fname}
 
+                                                    .modal-footer.justify-content-center
+                                                        button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                                        button.btn.btn-primary(type='submit') Update
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
@@ -99,15 +124,6 @@ block content
                                 else
                                     .card
                                         .card-body.text  No Users found here!
-
-
-
-
-
-
-
-
-
     script.
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
@@ -159,8 +175,10 @@ block content
             }
         }
 
-        function myFunction() {
-            document.getElementById("icon").innerHTML = "check_circle";
+        function addMember(i) {
+            var x = document.getElementById("icon");
+            x[i].innerHTML = "check_circle";
+            document.getElementById("addbutton").style.backgroundColor = "forestgreen";
         }
 
 

@@ -67,7 +67,7 @@ block content
                     .vertical-menu.mr-4
 
                         h2
-                            a(href='/myartifacts',style="color:#666666;") My Artifacts
+                            a.tabstyle(href='/myartifacts') My Artifacts
                         hr.my-4
                         h2(style = "color: dimgrey;") Groups
                         br
@@ -76,11 +76,11 @@ block content
                                 .col-2
                                     i.material-icons group
                                 .col-10
-                                    a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
+                                    a.tabstyle(href = `/view/${family._id}`) #{family.title}
                             br
                         if (familygroups)
                             hr.my-4
-                        a(href='/events',style="color:#666666;") Events
+                        a.tabstyle(href='/events',style="color:#666666;") Events
                         br
                         br
 

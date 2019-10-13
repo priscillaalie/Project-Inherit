@@ -15,10 +15,6 @@
     padding-top: 2.4vw;
 }
 
-a{
-    color: #666666;
-}
-
 .addfamily {
     padding-top: 30%;
     width: 15rem;
@@ -75,5 +71,15 @@ img {
     border: 3px solid dimgrey;
     object-fit: cover;
     position: relative;
+}
 
+.tabstyle{
+    text-decoration: none;
+    color: #666666;
+}
+
+.tabstyle:hover{
+    text-decoration: none;
+    transition: all 100ms;
+    font-weight: bold;
 }
