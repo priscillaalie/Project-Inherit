@@ -32,16 +32,16 @@ block content
                                         span(aria-hidden='true') &times;
                                 .modal-body.mx-3
                                     .md-form.mb-5
-                                        label.font-weight-bold(for='familyname') Title
-                                        input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
+                                        label.font-weight-bold(for='familyname') Title*
+                                        input#familyname.form-control(type='text', placeholder='Title' name='title', required)
                                     .md-form.mb-5
-                                        label.font-weight-bold(for='description') Description
+                                        label.font-weight-bold(for='description') Description*
                                         .input-group
-                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                            textarea#description.form-control(type='text', placeholder='Description', name='description',required)
                                     .md-form.mb-5
                                         p.font-weight-bold Upload Image (optional)
                                         img#preview(src=file)
-                                        input#pad( type='file' onchange='previewFile()' name = 'image')
+                                        input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*)
                                     .md-form.mb-5
                                         label.font-weight-bold(for='familyname') Which family does this antique belong to?
                                         select#state(type='text', placeholder='Family Group' name='familygroup', required)
@@ -77,8 +77,6 @@ block content
 
                     each artifact in artifacts
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-
-
                             .card.mb-4.pr-3(style='width: 15rem; height: fit-content; min-width: 15rem; padding-right: 20px;')
                                 .d-flex
                                     a(href = `/artifact/view/${artifact._id}`)

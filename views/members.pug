@@ -86,25 +86,27 @@ block content
                         if (Object.keys(members).length > 0)
                             ul#myUL
                                 each member in members
-                                    //if !(member._id in group.members)
-                                        li(style = "list-style-type: none;")
-                                            a
-                                                br
-                                                .row.text-center
-                                                    .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-4.justify-content-center.d-flex
-                                                        .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
-                                                            if(member.photo)
-                                                                img.card-img-top.image-custom(src=member.photo, style="width:15rem;height:15rem; min-width: 15rem;")
-                                                            else
-                                                                img.card-img-top.image-custom(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:15rem;height:15rem; min-width: 15rem;" alt = member.name)
-                                                            .card-body.flex-fill
-                                                                .row.text-center.justify-content-center
-                                                                    .col-7
-                                                                        p
-                                                                            strong.card-title #{member.name}
-                                                                    .col-3
-                                                                        button.btn.btn-primary#addbutton( method ="POST" action = "/addmember")
-                                                                            i#icon(onclick = "myFunction()").material-icons person_add
+                                    .col-xs-6.col-sm-6.col-md-3.col-lg-3.col-xl-3.justify-content-center.d-flex
+
+                                        if !(member._id in group.members)
+                                            li(style = "list-style-type: none;")
+                                                a
+                                                    br
+                                                    .row.text-center
+                                                        .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-4.justify-content-center.d-flex
+                                                            .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
+                                                                if(member.photo)
+                                                                    img.card-img-top.image-custom(src=member.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                                                else
+                                                                    img.card-img-top.image-custom(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:15rem;height:15rem; min-width: 15rem;" alt = member.name)
+                                                                .card-body.flex-fill
+                                                                    .row.text-center.justify-content-center
+                                                                        .col-7
+                                                                            p
+                                                                                strong.card-title #{member.name}
+                                                                        .col-3
+                                                                            button.btn.btn-primary#addbutton( method ="POST" action = "/addmember")
+                                                                                i#icon(onclick = "myFunction()").material-icons person_add
                         else
                             .card
                                 .card-body.text  No Users found here!
