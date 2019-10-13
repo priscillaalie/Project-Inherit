@@ -341,14 +341,51 @@ var singleUpload = upload.single('image');
 
 
 var deleteArtifact = function(req, res) {
-    var artifactId = req.headers.referer.split('/')[5];
-    Artifact.remove({'_id': artifactId}, function(err) {
+    var artifactId = req.url.split('/')[2];
+    var groupId;
+    Artifact.findById(artifactId, function(err, artifact) {
         if (!err) {
-            res.send("theres been an error deleting your artifact");
+            console.log(artifact);
+            groupId = artifact.familygroup;
+            console.log(groupId);
+            //deleting from group
+            Group.findById(groupId, function(err, group) {
+                if (!err) {
+                    var position = group.artifacts.indexOf(artifactId);
+                    group.artifacts.splice(position, 1);
+                    console.log(group);
+                    group.save();
+                    // deleting from owner
+                    User.findById(artifact.owner, function(err, owner) {
+                        if (!err) {
+                            var position = owner.artifacts.indexOf(artifactId);
+                            owner.artifacts = owner.artifacts.splice(position, 1);
+                            owner.save();
+                            Artifact.deleteOne({'_id':artifactId}, function(err, result) {
+                                if (!err) {
+                                    console.log('artifact deleted');
+                                    res.redirect('/view/' + groupId);
+                                } else {
+                                    console.log(err);
+                                    console.log('failed to delete artifact');
+                                }
+                            })
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    })
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+            //deleting from owner
+            
         } else {
-            res.send("artifact successfully deleted");
+            console.log(err);
+            res.sendStatus(404);
         }
     })
+    
 }
 
 // adds an antique to the database
@@ -372,7 +409,7 @@ var createAntique = function(req,res){
                 var toGo;
                 if (req.body.familygroup) {
                     groupId = req.body.familygroup;
-                    toGo = '/myantiques';
+                    toGo = '/myartifacts';
                 } else {
                     groupId = req.headers.referer.split('/')[4];
                     toGo = '/view/' + groupId;
@@ -381,7 +418,6 @@ var createAntique = function(req,res){
                 antique.familygroup = groupId;
                 antique.created = today;
                 console.log(antique);
-
                 antique.save(function(err, newAntique) {
                     if (!err) {
                         user.artifacts.push(antique._id);
@@ -390,6 +426,7 @@ var createAntique = function(req,res){
                             if (!err) {
                                 group.artifacts.push(antique._id);
                                 group.save();
+                                res.redirect(toGo);
                             } else {
                                 res.sendStatus(500);
                             }
@@ -401,7 +438,6 @@ var createAntique = function(req,res){
     		} else {
                 res.sendStatus(500);
             }
-
     	});
     })
 };
@@ -420,7 +456,6 @@ var rand, mailOptions, host, link;
 // sends the user an email link to verify
 var send = function(req,res) {
     host=req.get('host');
-
     User.findOne({'email':req.body.email}, function(err, user) {
         if (!err) {
             link="http://" + host + "/verify?id=" + user._id;
@@ -581,25 +616,25 @@ var deleteComment = function(req, res) {
             artifactId = comment.artifact;
             Artifact.findById(artifactId, function(err, artifact) {
                 if (!err) {
-                    var position = artifact.comments.indexOf(artifactId);
-                    artifact.comments = artifact.comments.splice(position, 1);
+                    var position = artifact.comments.indexOf(commentId);
+                    artifact.comments.splice(position, 1);
                     console.log(artifact);
                     artifact.save();
+                    Comment.deleteOne({'_id': commentId}, function(err, result) {
+                        if (!err) {
+                            console.log('comment deleted');
+                            res.redirect('/artifact/view/' + artifactId);
+                        } else {
+                            console.log(err);
+                            console.log('failed to delete comment');
+                        }
+                    })
                 } else {
                     res.sendStatus(500);
                 }
             })
         } else {
             res.sendStatus(404);
-        }
-    })
-    Comment.deleteOne({'_id': commentId}, function(err, result) {
-        if (!err) {
-            console.log('comment deleted');
-            res.redirect('/artifact/view/' + artifactId);
-        } else {
-            console.log(err);
-            console.log('failed to delete comment');
         }
     })
 }

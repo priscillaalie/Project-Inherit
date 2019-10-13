@@ -14,15 +14,17 @@ block content
                     h2.text-center My Artifacts
             .col.text-right
                 //if (admin)
-                a.btn.btn-outline-secondary.btn-md.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
+                a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
                     i.fas.fa-add
                     | Add Artifact
+
+
 
 
                 #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                     .modal-dialog(role='document')
-                        form.text-left(method='POST' action='/addartifact', enctype = "multipart/form-data")
+                        form(method='POST' action='/addartifact', enctype = "multipart/form-data")
                             .modal-content
                                 .modal-header.text-center
                                     h4.modal-title.w-100.font-weight-bold Add an artifact
@@ -30,102 +32,66 @@ block content
                                         span(aria-hidden='true') &times;
                                 .modal-body.mx-3
                                     .md-form.mb-5
-                                        label.font-weight-bold.text-left(for='familyname') Title*
-                                        input#familyname.form-control(type='text', placeholder='Title' name='title', required)
+                                        label.font-weight-bold(for='familyname') Title
+                                        input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
                                     .md-form.mb-5
-                                        label.font-weight-bold(for='description') Description*
+                                        label.font-weight-bold(for='description') Description
                                         .input-group
-                                            textarea#description.form-control(type='text', placeholder='Description', name='description',required)
-                                    .md-form.mb-5.text-center
-                                        p.font-weight-bold Upload Image (optional)
-                                        img.mb-2#preview(src=file)
-                                        input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
                                     .md-form.mb-5
-                                        label.font-weight-bold.pr-3(for='familyname') Which family does this antique belong to?
-                                        select#group(type='text', placeholder='Family Group' name='familygroup')
+                                        p.font-weight-bold Upload Image (optional)
+                                        img#preview(src=file)
+                                        input#pad( type='file' onchange='previewFile()' name = 'image')
+                                    .md-form.mb-5
+                                        label.font-weight-bold(for='familyname') Which family does this antique belong to?
+                                        select#state(type='text', placeholder='Family Group' name='familygroup', required)
                                             for family in familygroups
                                                 option(value=`${family._id}`) #{family.title}
 
                                 .modal-footer.justify-content-center
                                     button.btn.btn-primary(type='submit') Add
         .row
-            .col-xs-12.col-sm-12.col-md-12.col-lg-3.col-xl-3
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu
                         br
-                        h2
-                            a(href='/myartifacts',style="color:#666666;") My Artifacts
+                        a(href='/myartifacts',style="color:#666666;") My Artifacts
                         hr.my-4
-                        h2(style = "color: dimgrey;") Groups
-                        br
+                        p(style = "color: dimgrey;") Groups
                         each family in familygroups
                             .row
                                 .col-2
                                     i.material-icons group
                                 .col-10
                                     a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
-
+                            br
                         if (familygroups)
                             hr.my-4
                         a(href='/events',style="color:#666666;") Events
                         br
                         br
 
-            .col-xs-12.col-sm-12.col-md-12.col-lg-9.col-xl-9.cardzone.justify-content-center
-                if (artifacts.length > 0)
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
+                .row
 
 
-                    .card-columns
                     each artifact in artifacts
+                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
 
-                        .card.mb-4.mr-3(style='width: 15.1rem; height: fit-content; min-width: 15.1rem; display: inline-block ')
-                            .d-flex
-                                a(href = `/artifact/view/${artifact._id}`)
-                                    img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:17rem; overflow: hidden;", alt=artifact.description)
 
-                                    .card-body.flex-fill
-                                        .row
-                                            h5.card-title.text-center #{artifact.title}
-                                        .row
-                                            p.listingdescription #{artifact.description}
+                            .card.mb-4.pr-3(style='width: 15rem; height: fit-content; min-width: 15rem; padding-right: 20px;')
+                                .d-flex
+                                    a(href = `/artifact/view/${artifact._id}`)
+                                        img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem; overflow: hidden;")
 
-                else
-                    .row.text-center
-
-                        .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
-                            .card.mb-4.mr-5.justify-content-center(style='width: 15rem; height: 15rem; min-width: 15rem;')
-
-                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modaladdartifact')
-                                    | Create Your First Artifact
-                                #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-
-                                    .modal-dialog(role='document')
-                                        form.text-left(method='POST' action='/addartifact', enctype = "multipart/form-data")
-                                            .modal-content
-                                                .modal-header.text-center
-                                                    h4.modal-title.w-100.font-weight-bold Add an artifact
-                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                        span(aria-hidden='true') &times;
-                                                .modal-body.mx-3
-                                                    .md-form.mb-5
-                                                        label.font-weight-bold.text-left(for='familyname') Title
-                                                        input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
-                                                    .md-form.mb-5
-                                                        label.font-weight-bold(for='description') Description
-                                                        .input-group
-                                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                                    .md-form.mb-5.text-center
-                                                        p.font-weight-bold Upload Image (optional)
-                                                        img.mb-2#preview(src=file)
-                                                        input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
-                                                    .md-form.mb-5
-                                                        label.font-weight-bold.pr-3(for='familyname') Which family does this antique belong to?
-                                                        select#group(type='text', placeholder='Family Group' name='familygroup')
-                                                            for family in familygroups
-                                                                option(value=`${family._id}`) #{family.title}
-
-                                                .modal-footer.justify-content-center
-                                                    button.btn.btn-primary(type='submit') Add
+                                        .card-body.flex-fill
+                                            .row
+                                                h5.card-title #{artifact.title}
+                                            .row
+                                                p.listingdescription #{artifact.description}
+                                        .card-footer
+                                            .row
+                                                p #{artifact.familygroup}
 
 
 

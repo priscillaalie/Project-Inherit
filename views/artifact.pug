@@ -17,10 +17,9 @@ block content
                         h2.text-center.white-transparent #{artifact.title}
                         br
                     .col.text-right
-                        //if (admin)
-                        a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
-                            | Edit artifact
-                        button.btn-danger.btn-sm( method ='GET' action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                        if (user._id.equals(artifact.owner))
+                            a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
+                                | Edit artifact
 
 
 
@@ -37,22 +36,22 @@ block content
 
                                         .modal-body.mx-3
                                             .md-form.mb-5
-                                                label.font-weight-bold(for='artifactname') Artifact Name*
-                                                input.form-control.fullrow#artifactname(type='text', name='Artifact Name', value=artifact.title)
+                                                label.font-weight-bold(for='artifactname') Artifact Name
+                                                input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
 
                                             .md-form.mb-5
-                                                label.font-weight-bold(for='description') Description*
+                                                label.font-weight-bold(for='description') Description
                                                 .input-group
-                                                    textarea.form-control#description(type='text',name='description', value=artifact.description, rows='3')
-
-                                            .md-form.mb-5.text-center
+                                                    textarea.form-control#description(type='text',name='description', value=artifact.description)
+                                            .md-form.mb-5
                                                 p.font-weight-bold Upload Image (optional)
-                                                img.mb-2#preview(src=artifact.photo)
-                                                input.justify-content-center#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                img#preview(src=artifact.photo)
+                                                input#pad( type='file' onchange='previewFile()' name = 'image')
 
 
                                         .modal-footer.justify-content-center
-                                            button.btn-danger.btn-sm( method ="GET" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            a(href = `/deleteartifact/${artifact._id}`)
+                                                button.btn-danger.btn-sm(type = "button" onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                             button.btn.btn-primary(type='submit') Update
 
 
@@ -143,7 +142,7 @@ block content
                                             .media-body
                                                 span.text-muted.pull-right
                                                     small.text-muted #{comment.created}
-                                                    if (user._id == comment.owner)
+                                                    if (user._id == comment.owner || user._id == artifact.owner)
                                                         a(href = `/deletecomment/${comment._id}`)
                                                             button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
                                                               i.fa.fa-trash
