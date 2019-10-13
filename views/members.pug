@@ -84,8 +84,16 @@ block content
                                                         strong.card-title #{member.name}
 
                                                 .col-xs-12.col-sm-12.col-md-4.col-lg-4.col-xl-4
-                                                    button.btn.btn-primary.btn-sm#addbutton( method ="POST" action = "/addmember")
-                                                        i(onclick = "myFunction()").material-icons person_add
+                                                    if (!group.members.includes(member._id))
+
+                                                        a(href = `/addmember/${member._id}`)
+                                                            button.btn.btn-primary.btn-sm(type='button')
+                                                                i.material-icons person_add
+                                                    else
+                                                        button.btn.btn-success.btn-sm(type='button')
+                                                            i.material-icons check_circle
+
+
 
 
                                 else
