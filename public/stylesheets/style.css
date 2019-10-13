@@ -2,6 +2,7 @@ body {
   margin: 30px 30px 0px 30px;
   padding: 70px 30px 0px 30px;
   background-color: #FBFCFC ;
+  overflow-wrap: break-word;
 }
 
 h2 {

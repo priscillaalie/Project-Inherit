@@ -23,7 +23,6 @@ var createGroup = function(req,res){
                 "title":req.body.title,
                 "photo":req.file.location,
                 "description":req.body.description,
-                "members": req.body.members
             });
         } else {
             var group = new Group({
@@ -37,6 +36,7 @@ var createGroup = function(req,res){
         User.findOne({sessionId:sid}, function(err, user){
             if (!err){
                 group.owner = user._id;
+                group.members.push(user._id);
                 console.log(group);
                 group.save(function(err, newGroup){
                     if (!err){
@@ -55,21 +55,21 @@ var createGroup = function(req,res){
 };
 
 
-var showGroupByID = function(req, res) {
+var fetchGroupByID = function(req, res) {
     var ID = req.params.id;
     Group.findById(ID, function(err, group) {
         if(!err){
             User.findById(group.owner, function(err, owner){
                 if (!err){
                     var sid = req.cookies.sessionId;
-                    User.find({sessionId: sid}, function(err, currUser){
+                    User.findOne({sessionId: sid}, function(err, user){
                         if (!err){
                             Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
                                 User.find({'_id': {$in: group.members}}, function(err, members) {
-                                    Group.find({'_id': {$in: currUser[0].groups}}, function (err, familygroups) {
+                                    Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
                                         if (!err) {
                                             var results = {group: group, owner: owner,
-                                                user: currUser[0], session: sid, artifacts: artifacts,
+                                                user: user, session: sid, artifacts: artifacts,
                                                 members:members, familygroups: familygroups, title: group.title};
                                             res.render('family.pug', results);
                                         } else {
@@ -92,34 +92,24 @@ var showGroupByID = function(req, res) {
     });
 };
 
-var showGroupInfo = function(req, res) {
-    var ID = req.params.id;
-    Group.findById(ID, function(err, group) {
-        if (!err) {
-            var results = {title: 'Inherit', session: sid, group: group};
-            res.render('familyInfo.pug', results);
-        }
-    })
-};
-
 var editGroup = function(req, res){
     Group.findById(req.originalUrl.split('/')[2], function(err, group) {
         if (!err && group) {
             group.title = req.body.title;
             group.description = req.body.description;
             group.owner = req.body.owner;
-
             group.save(function(err, updatedGroup) {
                 if (updatedGroup) {
-                    let message = "Your family has been updated";
-                    Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
-                        User.find({'_id': {$in: group.members}}, function(err, members) {
-                            var results = {group: group, owner: group.owner,
-                                user: updatedGroup, session: req.cookies.sessionId, artifacts: artifacts,
-                                    members:members, error: message};
-                            res.render('family.pug', results);
-                        })
-                    })
+                    // let message = "Your family has been updated";
+                    // Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
+                    //     User.find({'_id': {$in: group.members}}, function(err, members) {
+                    //         var results = {group: group, owner: group.owner,
+                    //             user: updatedGroup, session: req.cookies.sessionId, artifacts: artifacts,
+                    //                 members:members, error: message};
+                    //         res.render('family.pug', results);
+                    //     })
+                    // })
+                    res.redirect('/view/' + group._id);
                 } else {
                     res.sendStatus(500);
                 }
@@ -131,7 +121,7 @@ var editGroup = function(req, res){
     });
 };
 
-var showInfo = function(req, res) {
+var fetchGroupInfo = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
         Group.findById(groupId, function(err, group) {
@@ -152,7 +142,7 @@ var showInfo = function(req, res) {
     }
 }
 
-var showMembers = function(req, res) {
+var fetchGroupMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
         Group.findById(groupId, function(err, group) {
@@ -174,7 +164,7 @@ var showMembers = function(req, res) {
 }
 
 var addMember = function(req, res) {
-    var userId = req.body.user // ????
+    var userId = req.url.split('/')[2]; // ????
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
@@ -182,6 +172,11 @@ var addMember = function(req, res) {
             User.findById(userId, function(err, user) {
                 if (!err) {
                     user.groups.push(groupId);
+                    user.save();
+                    group.save();
+                    console.log(group);
+                    console.log(user);
+                    res.redirect('/view/' + groupId + '/members');
                 } else {
                     res.sendStatus(500);
                 }
@@ -192,13 +187,71 @@ var addMember = function(req, res) {
     })
 }
 
+var deleteGroup = function(req, res) {
+    var groupId = req.url.split('/')[2];
+    Group.findById(groupId, function(err, group) {
+        if (!err) {
+            User.find({'_id':{$in: group.members}}, function(err, members) {
+                if (!err) {
+                    // deleting group from all members
+                    for (var i=0;i<members.length;i++) {
+                        var position = members[i].groups.indexOf(groupId);
+                        members[i].groups.splice(position, 1);
+                        members[i].save();
+                    }
+                    // deleting all artifacts in the group
+                    Artifact.find({'_id':{$in: group.artifacts}}, function(err, artifacts) {
+                        if (!err) {
+                            for (var i=0;i<artifacts.length;i++) {
+                                // deleting artifact from owner
+                                User.findById(artifacts[i].owner, function(err, owner) {
+                                    if (!err) {
+                                        var position = owner.artifacts.indexOf(artifacts[i]);
+                                        owner.artifacts.splice(position, 1);
+                                        owner.save();
+                                        // delete the artifact
+                                        Artifact.deleteOne({'_id':artifacts[i]}, function(err) {
+                                            if (err) {
+                                                res.sendStatus(500);
+                                            }
+                                        })
+                                    } else {
+                                        res.send(500);
+                                    }
+                                })
+                            }
+                            //finally delete the group
+                            Group.deleteOne({'_id':groupId}, function(err) {
+                                if (!err) {
+                                    console.log('group successfully deleted');
+                                    res.redirect('/home');
+                                } else {
+                                    console.log('group failed to delete' + err.message);
+                                    res.sendStatus(500);
+                                }
+                            })
+                        } else {
+                            res.send(500);
+                        }
+                    })
+                } else {
+                    res.send(500);
+                }
+            }) 
+        } else {
+            res.send(404);
+        }
+    })
+}
+
 
 module.exports = {
     createGroup,
-    showGroupByID,
-    showGroupInfo,
+    fetchGroupByID,
+    fetchGroupInfo,
     editGroup,
-    showInfo,
-    showMembers
+    fetchGroupMembers,
+    addMember,
+    deleteGroup
 }
 

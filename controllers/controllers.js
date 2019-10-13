@@ -25,7 +25,7 @@ var express = require('express');
 var nodemailer = require("nodemailer");
 var app = express();
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 //renders the index page
@@ -341,14 +341,51 @@ var singleUpload = upload.single('image');
 
 
 var deleteArtifact = function(req, res) {
-    var artifactId = req.headers.referer.split('/')[5];
-    Artifact.remove({'_id': artifactId}, function(err) {
+    var artifactId = req.url.split('/')[2];
+    var groupId;
+    Artifact.findById(artifactId, function(err, artifact) {
         if (!err) {
-            res.send("theres been an error deleting your artifact");
+            console.log(artifact);
+            groupId = artifact.familygroup;
+            console.log(groupId);
+            //deleting from group
+            Group.findById(groupId, function(err, group) {
+                if (!err) {
+                    var position = group.artifacts.indexOf(artifactId);
+                    group.artifacts.splice(position, 1);
+                    console.log(group);
+                    group.save();
+                    // deleting from owner
+                    User.findById(artifact.owner, function(err, owner) {
+                        if (!err) {
+                            var position = owner.artifacts.indexOf(artifactId);
+                            owner.artifacts = owner.artifacts.splice(position, 1);
+                            owner.save();
+                            Artifact.deleteOne({'_id':artifactId}, function(err, result) {
+                                if (!err) {
+                                    console.log('artifact deleted');
+                                    res.redirect('/view/' + groupId);
+                                } else {
+                                    console.log(err);
+                                    console.log('failed to delete artifact');
+                                }
+                            })
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    })
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+            //deleting from owner
+            
         } else {
-            res.send("artifact successfully deleted");
+            console.log(err);
+            res.sendStatus(404);
         }
     })
+    
 }
 
 // adds an antique to the database
@@ -359,60 +396,48 @@ var createAntique = function(req,res){
     singleUpload(req, res, function(err) {
     	User.findOne({sessionId: sid}, function(err,user) {
     		if (!err) {
+                var antique = new Artifact({
+                    "title": req.body.title,
+                    "description": req.body.description,
+                    "owner": user._id
+                });
                 if (req.file) {
-        			var antique = new Artifact({
-        		        "title": req.body.title,
-        		        "description": req.body.description,
-        		        "familygroup": req.body.familygroup,
-        		        "photo": req.file.location,
-        		        "owner": user._id
-        		    });
-                } else {
-                    var antique = new Artifact({
-                        "title": req.body.title,
-                        "description": req.body.description,
-                        "familygroup": req.body.familygroup,
-                        "owner": user._id
-                    });
+        			antique.photo = req.file.location;
                 }
-    		    antique.created = today;
+
+                var groupId;
+                var toGo;
+                if (req.body.familygroup) {
+                    groupId = req.body.familygroup;
+                    toGo = '/myartifacts';
+                } else {
+                    groupId = req.headers.referer.split('/')[4];
+                    toGo = '/view/' + groupId;
+                }
+
+                antique.familygroup = groupId;
+                antique.created = today;
                 console.log(antique);
-    		    antique.save(function(err, newAntique) {
-    		    	if (!err) {
-    		    		user.artifacts.push(antique._id);
-                        if (req.body.familygroup) {
-                            // creating artifact from myartifacts page
-                            Group.findById(req.body.familygroup, function(err, group) {
-                                if (!err) {
-                                    group.artifacts.push(antique._id);
-                                    group.save();
-                                } else {
-                                    res.sendStatus(500);
-                                }
-
-                            });
-                            user.save();
-                            res.redirect('/myantiques');
-                        } else {
-                            // creating artifact from family page
-                            var groupId = req.headers.referer.split('/')[4];
-                            Group.findById(groupId, function(err, group) {
-                                if (!err) {
-                                    group.artifacts.push(antique._id);
-                                    group.save();
-                                } else {
-                                    res.sendStatus(500);
-                                }
-
-                            });
-                            user.save();
-                            res.redirect('/view/' + groupId);
-                        }
-    		    	} else {
-    		    		res.sendStatus(400);
-    		    	}
-    		    })
-    		}
+                antique.save(function(err, newAntique) {
+                    if (!err) {
+                        user.artifacts.push(antique._id);
+                        user.save();
+                        Group.findById(groupId, function(err, group) {
+                            if (!err) {
+                                group.artifacts.push(antique._id);
+                                group.save();
+                                res.redirect(toGo);
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        });
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+    		} else {
+                res.sendStatus(500);
+            }
     	});
     })
 };
@@ -471,7 +496,7 @@ var verify = function(req, res) {
     })
 };
 
-var showArtifactByID = function(req, res) {
+var fetchArtifactByID = function(req, res) {
     var ID = req.params.id;
     Artifact.findById(ID, function(err, artifact) {
         if(!err){
@@ -487,7 +512,7 @@ var showArtifactByID = function(req, res) {
                                                 if (!err) {
                                                     res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
                                                     comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                    familyname:belongsTo.title});
+                                                    familyname:belongsTo.title, user:user});
                                                 } else {
                                                     res.sendStatus(500);
                                                 }
@@ -566,18 +591,13 @@ var addComment = function(req, res) {
                 "owner": user._id,
                 "content": req.body.comment,
                 "artifact": artifactId,
+                "ownername": user.name
             })
-            if (user.name) {
-                comment.ownername = user.name;
-            } else {
-                comment.ownername = user.fname;
-            }
             comment.created = Date.now();
             comment.save(function(err, newComment) {
                 if (!err) {
                     artifact.comments.push(comment._id);
                     artifact.save();
-                    console.log(artifact);
                     res.redirect('/artifact/view/'+artifactId);
                 } else {
                     res.sendStatus(400);
@@ -585,6 +605,38 @@ var addComment = function(req, res) {
             })
         })
     });
+}
+
+var deleteComment = function(req, res) {
+    var commentId = req.url.split('/')[2];
+    console.log(commentId);
+    var artifactId;
+    Comment.findById(commentId, function(err, comment) {
+        if (!err) {
+            artifactId = comment.artifact;
+            Artifact.findById(artifactId, function(err, artifact) {
+                if (!err) {
+                    var position = artifact.comments.indexOf(commentId);
+                    artifact.comments.splice(position, 1);
+                    console.log(artifact);
+                    artifact.save();
+                    Comment.deleteOne({'_id': commentId}, function(err, result) {
+                        if (!err) {
+                            console.log('comment deleted');
+                            res.redirect('/artifact/view/' + artifactId);
+                        } else {
+                            console.log(err);
+                            console.log('failed to delete comment');
+                        }
+                    })
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
 }
 // Connect to the db
 const dbURI =
@@ -609,11 +661,12 @@ module.exports = {
     createAntique,
     send,
     verify,
-    showArtifactByID,
+    fetchArtifactByID,
     findUserByName,
     searchUser,
     searchResults,
     addComment,
-    deleteArtifact
+    deleteArtifact,
+    deleteComment
 }
 
