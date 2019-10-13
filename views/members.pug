@@ -22,53 +22,52 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a(href='/home') Back
+                                a.tabstyle(href='/home') Back
 
                         hr.my-4
 
                         .row
                             .col
-                                a(href = `/view/${group._id}/info/`) About
+                                a.tabstyle(href = `/view/${group._id}/info/`) About
 
                         br
                         .row
                             .col
-                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
+                                a.tabstyle(href=`/view/${group._id}`) Artifacts
 
                         br
                         .row
                             .col
-                                a(href = `/view/${group._id}/members`) Members
+                                a.active.tabstyle(style = "font-weight: bolder; text-decoration: none;" href = `/view/${group._id}/members`) Members
                         br
                         .row
                             .col
-                                a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            form(method='POST' action='/family/update')
+                                                .modal-content
+                                                    .modal-header.text-center
+                                                        h4.modal-title.w-100.font-weight-bold Update #{group.title}
+                                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                            span(aria-hidden='true') &times;
+                                                    .modal-body.mx-3
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='title') Title
+                                                            input#title.form-control(type='text', placeholder=group.title name='title', value = group.title)
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='desc') Description
+                                                            .input-group
+                                                                textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
 
-                                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                                    .modal-dialog(role='document')
-                                        form(method='POST' action='/family/update')
-                                            .modal-content
-                                                .modal-header.text-center
-                                                    h4.modal-title.w-100.font-weight-bold Update #{group.title}
-                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                        span(aria-hidden='true') &times;
-                                                .modal-body.mx-3
-                                                    .md-form.mb-5
-                                                        label.font-weight-bold(for='title') Title
-                                                        input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
-                                                    .md-form.mb-5
-                                                        label.font-weight-bold(for='desc') Description
-                                                        .input-group
-                                                            textarea#desc.form-control(type='text', placeholder='Description*', name='description',value = group.description)
+                                                            label.font-weight-bold(for='owner') Admin:
+                                                            select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
+                                                                for member in members
+                                                                    option(value=`${member._id}`) #{member.fname}
 
-                                                        label.font-weight-bold(for='owner') Admin:
-                                                        select#owner(type='text', placeholder='Admin' name='owner', value = group.owner)
-                                                            for member in members
-                                                                option(value=`${member._id}`) #{member.fname}
-
-                                                .modal-footer.justify-content-center
-                                                    button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
-                                                    button.btn.btn-primary(type='submit') Update
+                                                    .modal-footer.justify-content-center
+                                                        button.btn-danger.btn-sm( method ="POST" action = "/deletegroup", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                                        button.btn.btn-primary(type='submit') Update
                         hr.my-4
             .col
                 br
@@ -85,26 +84,34 @@ block content
                     .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.fade-in.cardzone
                         if (Object.keys(members).length > 0)
                             ul#myUL
+                                -var i = 0
                                 each member in members
-                                    //if !(member._id in group.members)
-                                        li(style = "list-style-type: none;")
-                                            a
-                                                br
-                                                .row.text-center
-                                                    .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-4.justify-content-center.d-flex
-                                                        .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
-                                                            if(member.photo)
-                                                                img.card-img-top.image-custom(src=member.photo, style="width:15rem;height:15rem; min-width: 15rem;")
-                                                            else
-                                                                img.card-img-top.image-custom(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:15rem;height:15rem; min-width: 15rem;" alt = member.name)
-                                                            .card-body.flex-fill
-                                                                .row.text-center.justify-content-center
-                                                                    .col-7
+                                    - i = i++;
+                                    li(style = "list-style-type: none;")
+                                        a
+                                            br
+                                            .row.text-center
+                                                .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-4.justify-content-center.d-flex
+                                                    .card.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem;')
+                                                        if(member.photo)
+                                                            img.card-img-top.image-custom(src=member.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                                        else
+                                                            img.card-img-top.image-custom(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:15rem;height:15rem; min-width: 15rem;" alt = member.name)
+                                                        .card-body.flex-fill
+                                                            .row.text-center.justify-content-center
+                                                                .row
+                                                                    .col
                                                                         p
                                                                             strong.card-title #{member.name}
-                                                                    .col-3
-                                                                        button.btn.btn-primary#addbutton( method ="POST" action = "/addmember")
-                                                                            i#icon(onclick = "myFunction()").material-icons person_add
+                                                                .row
+                                                                    .col-8
+                                                                        select#relation(type='text' name='relation' value = "relation", required)
+                                                                            option(value= "" disabled selected) Select your relation
+                                                                            option(value = "parent") Parent
+                                                                            option(value = "sibling") Sibling
+                                                                    .col-4
+                                                                        button.btn.btn-primary#addbutton(onclick = "addMember(i)" method ="POST" action = "/addmember" style = "background-color: #3399ff; border-color: #3399ff;")
+                                                                            i#icon.material-icons person_add
                         else
                             .card
                                 .card-body.text  No Users found here!
@@ -160,8 +167,10 @@ block content
             }
         }
 
-        function myFunction() {
-            document.getElementById("icon").innerHTML = "check_circle";
+        function addMember(i) {
+            var x = document.getElementById("icon");
+            x[i].innerHTML = "check_circle";
+            document.getElementById("addbutton").style.backgroundColor = "forestgreen";
         }
 
 

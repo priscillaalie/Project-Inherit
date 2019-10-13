@@ -138,7 +138,7 @@ var fetchGroupInfo = function(req, res) {
             }
         })
     } else {
-        res.redirect('/signup');
+        res.redirect('/login');
     }
 }
 
@@ -159,7 +159,7 @@ var fetchGroupMembers = function(req, res) {
             }
         })
     } else {
-        res.redirect('/signup');
+        res.redirect('/login');
     }
 }
 
@@ -237,7 +237,7 @@ var deleteGroup = function(req, res) {
                 } else {
                     res.send(500);
                 }
-            }) 
+            })
         } else {
             res.send(404);
         }
