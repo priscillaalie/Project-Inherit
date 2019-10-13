@@ -34,28 +34,30 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a.tabstyle(href='/home') Back
+                                a(href='/home') Back
 
                         hr.my-4
 
                         .row
                             .col
-                                a.tabstyle(href = `/view/${group._id}/info/`) About
+                                a(href = `/view/${group._id}/info/`) About
 
                         br
                         .row
                             .col
-                                a.active(href=`/view/${group._id}` style = "font-weight: bolder; text-decoration: none;") Artifacts
+                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
 
                         br
                         .row
                             .col
-                                a.tabstyle(href = `/view/${group._id}/members`) Members
+                                a(href = `/view/${group._id}/members`) Members
                         br
                         .row
                             .col
+
                                 if (user._id.equals(owner.id))
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    a(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action=`/view/${group._id}`)
@@ -71,10 +73,10 @@ block content
                                                         .md-form.mb-5
                                                             label.font-weight-bold(for='desc') Description
                                                             .input-group
-                                                                textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
-                                                            br
+                                                                textarea#desc.form-control(type='text', placeholder='Description*', name='description',value = group.description)
+
                                                             label.font-weight-bold(for='owner') Admin:
-                                                            select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
+                                                            select#owner(type='text', placeholder='Admin' name='owner', value = group.owner)
                                                                 for member in members
                                                                     option(value=`${member._id}`) #{member.fname}
                                                         .md-form.mb-5
