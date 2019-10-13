@@ -15,7 +15,6 @@ block content
                             h2.text-center #{group.title}
 
         .row
-
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
@@ -70,11 +69,23 @@ block content
                                                     button.btn.btn-primary(type='submit') Update
                         hr.my-4
 
-                .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
-                    .jumbotron
-                        .row
-                            .col
-                                h2 About #{group.title}
-                        .row
-                            .col
-                                p #{group.description}
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
+                .row
+                    .col
+                        .jumbotron
+                            .row
+                                .col
+                                    h2 About #{group.title}
+                                    hr.my-4
+
+                            .row
+                                .col
+                                    p #{group.description}
+                            .row
+                                .col
+                                    p Members #{group.members.length}
+                                    each member in group.members
+                                        img(src=member.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+
+
+
