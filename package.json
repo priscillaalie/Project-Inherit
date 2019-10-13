@@ -23,7 +23,6 @@
   "dependencies": {
     "aws-sdk": "^2.540.0",
     "bcrypt": "^3.0.6",
-    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.4",
     "crypto": "^1.0.1",
     "darwin": "0.0.5",
