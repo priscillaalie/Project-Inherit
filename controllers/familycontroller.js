@@ -254,7 +254,8 @@ var deleteGroup = function(req, res) {
 }
 
 var leaveGroup = function(req, res) {
-    var groupId = req.headers.referer.split('/')[5];
+    var groupId = req.headers.referer.split('/')[4];
+    console.log(groupId);
     User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
         if (!err) {
             Group.findById(groupId, function(err, group) {
@@ -264,16 +265,17 @@ var leaveGroup = function(req, res) {
                         if (group.artifacts.includes(user.artifacts[i])) {
                             var position = group.artifacts.indexOf(user.artifacts[i]);
                             group.artifacts.splice(position, 1);
+                            // assigning no family to that artifact
+                            Artifact.findById(user.artifacts[i], function(err, artifact) {
+                                console.log(artifact);
+                                if (!err) {
+                                    artifact.familygroup = 'None';
+                                    artifact.save();
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
                         }
-                        // assigning no family to that artifact
-                        Artifact.findById(user.artifacts[i], function(err, artifact) {
-                            if (!err) {
-                                artifact.familygroup = 'no family';
-                                artifact.save();
-                            } else {
-                                res.sendStatus(500);
-                            }
-                        })
                     }
                     var position = group.members.indexOf(user._id);
                     group.members.splice(position, 1);
@@ -281,6 +283,7 @@ var leaveGroup = function(req, res) {
                     position = user.groups.indexOf(group._id);
                     user.groups.splice(position, 1);
                     user.save();
+                    res.redirect('/home');
                 } else {
                     res.sendStatus(500);
                 }
@@ -299,6 +302,7 @@ module.exports = {
     editGroup,
     fetchGroupMembers,
     addMember,
-    deleteGroup
+    deleteGroup,
+    leaveGroup
 }
 
