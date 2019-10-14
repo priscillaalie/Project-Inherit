@@ -14,7 +14,6 @@ this includes:
 - verifying user account
 - searching existing users to add to family group
  */
-
 const mongoose = require('mongoose');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
@@ -316,7 +315,7 @@ var fetchAntiquesByUser = function(req, res) {
     					Artifact.find({'_id': {$in: user.artifacts}}, function(err, artifacts) {
     						if (!err) {
 	    						var results = {
-	                                title: 'Inherit', 'artifacts': artifacts, 'user': user._id,
+	                                title: 'Inherit', 'artifacts': artifacts, 'user': user,
 	                                session: req.cookies.sessionId, 'familygroups': familygroups
 	                            };
 	                            res.render('myartifacts.pug', results);
@@ -379,13 +378,13 @@ var deleteArtifact = function(req, res) {
                 }
             })
             //deleting from owner
-            
+
         } else {
             console.log(err);
             res.sendStatus(404);
         }
     })
-    
+
 }
 
 // adds an antique to the database
@@ -459,7 +458,7 @@ var send = function(req,res) {
     User.findOne({'email':req.body.email}, function(err, user) {
         if (!err) {
             link="http://" + host + "/verify?id=" + user._id;
-            
+
             mailOptions={
                 to : req.body.email,
                 subject : "Please confirm your email account",
@@ -476,8 +475,8 @@ var send = function(req,res) {
             res.end("User was not found, try creating another account.");
         }
     })
-    
-            
+
+
 };
 
 // verifies a user and changes their data in database to verified
