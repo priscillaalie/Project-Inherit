@@ -244,6 +244,44 @@ var deleteGroup = function(req, res) {
     })
 }
 
+var leaveGroup = function(req, res) {
+    var groupId = req.headers.referer.split('/')[5];
+    User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+        if (!err) {
+            Group.findById(groupId, function(err, group) {
+                if (!err) {
+                    // removing all artifacts of user from group
+                    for (var i=0;i<user.artifacts.length;i++) {
+                        if (group.artifacts.includes(user.artifacts[i])) {
+                            var position = group.artifacts.indexOf(user.artifacts[i]);
+                            group.artifacts.splice(position, 1);
+                        }
+                        // assigning no family to that artifact
+                        Artifact.findById(user.artifacts[i], function(err, artifact) {
+                            if (!err) {
+                                artifact.familygroup = 'no family';
+                                artifact.save();
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
+                    }
+                    var position = group.members.indexOf(user._id);
+                    group.members.splice(position, 1);
+                    group.save();
+                    position = user.groups.indexOf(group._id);
+                    user.groups.splice(position, 1);
+                    user.save();
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(500);
+        }
+    })
+}
+
 
 module.exports = {
     createGroup,
