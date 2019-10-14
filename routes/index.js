@@ -91,6 +91,8 @@ router.get('/addmember/:id', famcontrollers.addMember);
 router.get('/deletecomment/:id', controllers.deleteComment);
 router.get('/deleteartifact/:id', controllers.deleteArtifact);
 router.get('/deletegroup/:id', famcontrollers.deleteGroup);
+router.get('/poststatus', famcontrollers.addPost);
+router.get('/deletepost', famcontrollers.deletePost);
 
 
 
