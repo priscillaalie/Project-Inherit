@@ -83,8 +83,18 @@ block content
                             .row
                                 .col
                                     p Members #{group.members.length}
-                                    each member in group.members
-                                        img(src=member.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                            .row
+
+
+                                each member in group.members
+                                    .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
+
+                                        .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                            if(member.photo)
+                                                img.card-img-top.image-custom(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                            else
+                                                img.card-img-top.image-custom(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
+
 
 
 
