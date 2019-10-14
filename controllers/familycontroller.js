@@ -128,7 +128,7 @@ var fetchGroupInfo = function(req, res) {
             if (!err) {
                 User.find({'_id': {$in: group.members}}, function(err, members) {
                     if (!err) {
-                        res.render('familyInfo.pug', {group:group, members:members, session:req.cookies.sessionId});
+                        res.render('familyInfo.pug', { group:group, members:members, session:req.cookies.sessionId});
                     } else {
                         res.sendStatus(500);
                     }
@@ -145,31 +145,22 @@ var fetchGroupInfo = function(req, res) {
 var fetchGroupMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
-        User.findOne({sessionId: req.cookies.sessionId}, function(err, user) { 
+        Group.findById(groupId, function(err, group) {
             if (!err) {
-                Group.findById(groupId, function(err, group) {
+                User.find({}, function(err, members) {
                     if (!err) {
-                        User.find({}, function(err, members) {
-                            if (!err) {
-                                res.render('members.pug', {group:group, members:members,
-                                session:req.cookies.sessionId, user:user});
-                                console.log(user._id.equals(group.owner));
-                            } else {
-                                res.sendStatus(500);
-                            }
-                        })
+                        res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId});
                     } else {
-                        res.sendStatus(404);
+                        res.sendStatus(500);
                     }
                 })
             } else {
-                res.sendStatus(500);
+                res.sendStatus(404);
             }
         })
     } else {
         res.redirect('/login');
     }
-    
 }
 
 var addMember = function(req, res) {
@@ -293,7 +284,6 @@ var leaveGroup = function(req, res) {
         }
     })
 }
-
 
 module.exports = {
     createGroup,
