@@ -77,7 +77,7 @@ router.get("/logout", function(req, res){
 });
 
 router.get('/resend', controllers.getStarted);
-router.get('/view/:id/info', famcontrollers.fetchGroupInfo);
+router.get('/view/:id/info', controllers.fetchPost);
 router.get('/view/:id/post', famcontrollers.fetchGroupPost);
 router.get('/view/:id/members', famcontrollers.fetchGroupMembers);
 router.post('/create', famcontrollers.createGroup);
@@ -91,6 +91,8 @@ router.get('/addmember/:id', famcontrollers.addMember);
 router.get('/deletecomment/:id', controllers.deleteComment);
 router.get('/deleteartifact/:id', controllers.deleteArtifact);
 router.get('/deletegroup/:id', famcontrollers.deleteGroup);
+router.get('/poststatus', famcontrollers.addPost);
+router.get('/deletepost/:id', famcontrollers.deletePost);
 
 
 
