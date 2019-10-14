@@ -151,7 +151,10 @@ var fetchGroupPost = function(req, res) {
             if (!err) {
                 User.find({'_id': {$in: group.members}}, function(err, members) {
                     if (!err) {
-                        res.render('familypost.pug', {group:group, members:members, session:req.cookies.sessionId});
+                        Post.find({'_id':{$in: group.posts}}, function(err, posts) {
+                            res.render('familypost.pug', {group:group, members:members,
+                            posts:posts, session:req.cookies.sessionId});
+                        })
                     } else {
                         res.sendStatus(500);
                     }
