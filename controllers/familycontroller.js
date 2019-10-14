@@ -152,8 +152,18 @@ var fetchGroupPost = function(req, res) {
                 User.find({'_id': {$in: group.members}}, function(err, members) {
                     if (!err) {
                         Post.find({'_id':{$in: group.posts}}, function(err, posts) {
-                            res.render('familypost.pug', {group:group, members:members,
-                            posts:posts, session:req.cookies.sessionId});
+                            if (!err) {
+                                User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                                    if (!err) {
+                                        res.render('familypost.pug', {group:group, members:members,
+                                        posts:posts, session:req.cookies.sessionId, user:user});
+                                    } else {
+                                        res.sendStatus(500);
+                                    }
+                                })
+                            } else {
+                                res.sendStatus(500);
+                            }
                         })
                     } else {
                         res.sendStatus(500);
@@ -177,7 +187,13 @@ var fetchGroupMembers = function(req, res) {
             if (!err) {
                 User.find({}, function(err, members) {
                     if (!err) {
-                        res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId});
+                        User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                            if (!err) {
+                                res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId, user:user});
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
                     } else {
                         res.sendStatus(500);
                     }
@@ -261,27 +277,31 @@ var deleteGroup = function(req, res) {
 
 
 var addPost = function(req, res) {
-    var groupId = req.headers.referer.split('/')[5];
+    var groupId = req.headers.referer.split('/')[4];
+    console.log(groupId);
     User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
-        Post.findById(groupId, function(err, group) {
-            var post = new Post({
-                "owner": user._id,
-                "content": req.body.post,
-                "familygroup": artifactId,
-                "ownername": user.name
-            })
-            post.created = Date.now();
-            post.save(function(err, newPost) {
-                if (!err) {
-                    group.post.push(post._id);
-                    group.save();
-                    res.redirect('/view/' + groupId + '/post');
-                    router.get('/view/:id/post', fetchGroupPost);
-
-                } else {
-                    res.sendStatus(400);
-                }
-            })
+        Group.findById(groupId, function(err, group) {
+            if (!err) {
+                var post = new Post({
+                    "owner": user._id,
+                    "content": req.body.post,
+                    "familygroup": groupId,
+                    "ownername": user.name
+                })
+                post.created = Date.now();
+                console.log(post);
+                post.save(function(err, newPost) {
+                    if (!err) {
+                        group.posts.push(post._id);
+                        group.save();
+                        res.redirect('/view/' + groupId + '/post');
+                    } else {
+                        res.sendStatus(400);
+                    }
+                }) 
+            } else {
+                res.sendStatus(500);
+            }
         })
     });
 }
