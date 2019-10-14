@@ -57,7 +57,7 @@ router.get('/home', controllers.fetchHomepage);
 
 router.get('/myartifacts', function(req, res){
   if (req.cookies.sessionId) {
-    controllers.fetchArtifactByUser(req, res);
+    controllers.fetchArtifactsByUser(req, res);
   } else {
     res.redirect('/login');
   }

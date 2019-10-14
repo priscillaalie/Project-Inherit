@@ -228,22 +228,9 @@ var deleteGroup = function(req, res) {
                     Artifact.find({'_id':{$in: group.artifacts}}, function(err, artifacts) {
                         if (!err) {
                             for (var i=0;i<artifacts.length;i++) {
-                                // deleting artifact from owner
-                                User.findById(artifacts[i].owner, function(err, owner) {
-                                    if (!err) {
-                                        var position = owner.artifacts.indexOf(artifacts[i]);
-                                        owner.artifacts.splice(position, 1);
-                                        owner.save();
-                                        // delete the artifact
-                                        Artifact.deleteOne({'_id':artifacts[i]}, function(err) {
-                                            if (err) {
-                                                res.sendStatus(500);
-                                            }
-                                        })
-                                    } else {
-                                        res.send(500);
-                                    }
-                                })
+                                // removing artifact's group
+                                artifacts[i].familygroup = "None";
+                                artifacts[i].save();
                             }
                             //finally delete the group
                             Group.deleteOne({'_id':groupId}, function(err) {
