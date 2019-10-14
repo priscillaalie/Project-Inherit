@@ -55,7 +55,7 @@ block content
                         .row
                             .col
 
-
+                    
 
                         hr.my-4
 
@@ -82,6 +82,25 @@ block content
 
                                     ul.media-list
 
+                                    each post in posts
+
+                                        li.media
+                                            a.pull-left(href='#')
+                                                img.img-circle(src=post.photo)
+                                            .media-body
+                                                span.text-muted.pull-right
+                                                    small.text-muted #{post.created}
+                                                    if (user._id == post.owner)
+                                                        a(href = `/deletepost/${post._id}`)
+                                                            button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                i.fa.fa-trash
+
+                                                strong.text-success #{post.ownername}
+
+                                                p
+                                                    | #{post.content}
+
+                                                hr.my-4
 
             // upload image for create group
             script.
