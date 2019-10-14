@@ -40,6 +40,7 @@ block content
                                         .md-form.mb-5
                                             label.font-weight-bold(for='familyname') Which family does this antique belong to?
                                             select#state(type='text', placeholder='Family Group' name='familygroup', required)
+                                                option(value = "None") None
                                                 for family in familygroups
                                                     option(value=`${family._id}`) #{family.title}
 
