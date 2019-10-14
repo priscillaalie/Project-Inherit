@@ -55,6 +55,10 @@ var fetchSignup = function (req,res) {
     res.render('signup.pug', {title: 'Signup'});
 };
 
+var fetchPost = function(req,res) {
+    res.render('familypost.pug');
+};
+
 // if it is a current user, find the user's information such as name and groups they are in
 // and send this to the front end to be displayed. if not, display basic front end
 var fetchHomepage = function(req, res) {
@@ -667,6 +671,7 @@ module.exports = {
     searchResults,
     addComment,
     deleteArtifact,
-    deleteComment
+    deleteComment,
+    fetchPost
 }
 
