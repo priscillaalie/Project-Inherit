@@ -145,22 +145,31 @@ var fetchGroupInfo = function(req, res) {
 var fetchGroupMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
-        Group.findById(groupId, function(err, group) {
+        User.findOne({sessionId: req.cookies.sessionId}, function(err, user) { 
             if (!err) {
-                User.find({}, function(err, members) {
+                Group.findById(groupId, function(err, group) {
                     if (!err) {
-                        res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId});
+                        User.find({}, function(err, members) {
+                            if (!err) {
+                                res.render('members.pug', {group:group, members:members,
+                                session:req.cookies.sessionId, user:user});
+                                console.log(user._id.equals(group.owner));
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
                     } else {
-                        res.sendStatus(500);
+                        res.sendStatus(404);
                     }
                 })
             } else {
-                res.sendStatus(404);
+                res.sendStatus(500);
             }
         })
     } else {
         res.redirect('/login');
     }
+    
 }
 
 var addMember = function(req, res) {
