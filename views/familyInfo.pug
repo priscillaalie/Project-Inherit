@@ -41,8 +41,8 @@ block content
                         br
                         .row
                             .col
-                                if (user._id.equals(owner.id))
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") More
+
+                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action='')
@@ -66,8 +66,10 @@ block content
                                                                     option(value=`${member._id}`) #{member.fname}
 
                                                     .modal-footer.justify-content-center
-                                else
-                                    a.tabstyle(href = `/leaveGroup`) Leave group                            button.btn.btn-primary(type='submit') Update
+                                                        a(href = `/deletegroup/${group._id}`)
+                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
+                                                        button.btn.btn-primary(type='submit') Update
+                                    a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
@@ -85,8 +87,94 @@ block content
                             .row
                                 .col
                                     p Members #{group.members.length}
-                                    each member in group.members
-                                        img(src=member.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                            .row
+                                .col.text-center.justify-content-center
+                                    br
+                                    form.form-inline.my-2.my-lg-0.ml-auto(id = 'search', method = 'GET', action = "/search", autocomplete = 'off')
+                                        input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
+                                        input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
+                                        datalist#datalist
+                            br
+                            .row
+                                if (Object.keys(members).length > 0)
+                                    each member in members
+                                        .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
+                                                .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                                    if(member.photo)
+                                                        img.card-img-top.image-custom(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                                    else
+                                                        img.card-img-top.image-custom(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
+                                                    .card-body.flex-fill
+                                                        .row.text-center
+                                                            .col.align-middle
+                                                                h6
+                                                                    strong.card-title #{member.name}
+                                                        .row
+                                                            .col.d-flex.justify-content-center
+                                                                a(href = `/removeMember/${member._id}`)
+                                                                    button.btn.btn-danger.btn-sm(type='button')
+                                                                        | Remove
 
+
+
+
+                                else
+                                    .col
+                                        .row.d-flex.justify-content-center
+                                            p.font-weight-light It's a bit lonely here, let's invite a few members!
+                                        .row.d-flex.justify-content-center
+                                            a.btn.btn-lg.btn-light.btn-sm(href = `/view/${group._id}/members`) + Add Members
+
+
+    script.
+        function getusers() {
+            members.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
+            })
+
+        }
+        document.getElementById("searchbar").addEventListener('keyup', () => {
+            autocomplete(document.getElementById("searchbar").value);
+        });
+
+        function autocomplete(value) {
+            if (value == "") {
+                document.getElementById("datalist").innerHTML = "";
+                return;
+            }
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var result = JSON.parse(xhttp.responseText);
+                    document.getElementById("datalist").innerHTML = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var node = document.createElement("option");
+                        var val = document.createTextNode(result[i].name);
+                        node.appendChild(val);
+                        document.getElementById("datalist").appendChild(node);
+                    }
+                }
+            };
+
+            xhttp.open("GET", "/search/list/" + value, true);
+            xhttp.send();
+        }
+
+        function filterList() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("searchbar");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
 
 

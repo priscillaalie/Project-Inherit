@@ -13,42 +13,38 @@ block content
                 if(session)
                     h2.text-center My Artifacts
             .col.text-right
-                //if (admin)
-                a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
-                    i.fas.fa-add
-                    | + Add Artifact
+                if  (user.artifacts.length > 0)
+                    a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
+                        i.fas.fa-add
+                        | + Add Artifact
+                    #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                        .modal-dialog(role='document')
+                            form(method='POST' action='/addartifact', enctype = "multipart/form-data")
+                                .modal-content.text-left
+                                    .modal-header.text-center
+                                        h4.modal-title.w-100.font-weight-bold Add an artifact
+                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                            span(aria-hidden='true') &times;
+                                    .modal-body.mx-3
+                                        .md-form.mb-5
+                                            label.font-weight-bold(for='familyname') Title*
+                                            input#familyname.form-control(type='text', placeholder='Title' name='title', required)
+                                        .md-form.mb-5
+                                            label.font-weight-bold(for='description') Description*
+                                            .input-group
+                                                textarea#description.form-control(type='text', placeholder='Description', name='description',required)
+                                        .md-form.mb-5.text-center
+                                            p.font-weight-bold Upload Image (optional)
+                                            img#preview(src=file)
+                                            input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                        .md-form.mb-5
+                                            label.font-weight-bold(for='familyname') Which family does this antique belong to?
+                                            select#state(type='text', placeholder='Family Group' name='familygroup', required)
+                                                for family in familygroups
+                                                    option(value=`${family._id}`) #{family.title}
 
-
-
-
-                #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                    .modal-dialog(role='document')
-                        form(method='POST' action='/addartifact', enctype = "multipart/form-data")
-                            .modal-content.text-left
-                                .modal-header.text-center
-                                    h4.modal-title.w-100.font-weight-bold Add an artifact
-                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                        span(aria-hidden='true') &times;
-                                .modal-body.mx-3
-                                    .md-form.mb-5
-                                        label.font-weight-bold(for='familyname') Title*
-                                        input#familyname.form-control(type='text', placeholder='Title' name='title', required)
-                                    .md-form.mb-5
-                                        label.font-weight-bold(for='description') Description*
-                                        .input-group
-                                            textarea#description.form-control(type='text', placeholder='Description', name='description',required)
-                                    .md-form.mb-5.text-center
-                                        p.font-weight-bold Upload Image (optional)
-                                        img#preview(src=file)
-                                        input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
-                                    .md-form.mb-5
-                                        label.font-weight-bold(for='familyname') Which family does this antique belong to?
-                                        select#state(type='text', placeholder='Family Group' name='familygroup', required)
-                                            for family in familygroups
-                                                option(value=`${family._id}`) #{family.title}
-
-                                .modal-footer.justify-content-center
-                                    button.btn.btn-primary(type='submit') Add
+                                    .modal-footer.justify-content-center
+                                        button.btn.btn-primary(type='submit') Add
         .row
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
@@ -95,8 +91,6 @@ block content
                         h1 Post Your First Artifact!
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
                             .card.mb-4.mr-5(style=' width: 15rem; min-width: 15rem; height: 15rem;')
-                                // Button trigger modal
-                                //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                                 a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalArtifactForm')
                                     | + Add Artifact
 
