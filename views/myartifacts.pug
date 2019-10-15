@@ -78,22 +78,22 @@ block content
                         each artifact in artifacts
                             .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center(style = "margin-right: 10%;")
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
-                                    a(href = `/artifact/view/${artifact._id}`)                                    
+                                    a(href = `/artifact/view/${artifact._id}`)
                                         img.d-block.w-full(src=artifact.photo, style="width:15rem;height:15rem; overflow: hidden;")
                                         .px-2.py-2
                                         p.mb-0.small.font-weight-medium.text-uppercase.mb-1.text-muted.lts-2px
                                             if (artifact.familygroup === "None")
                                                     p Group: #{artifact.familygroup}
-                                                else
-                                                    each family in familygroups
-                                                        if (family._id.equals(artifact.familygroup))
-                                                            p Group: #{family.title}
+                                            else
+                                                each family in familygroups
+                                                    if (family._id.equals(artifact.familygroup))
+                                                        p Group: #{family.title}
                                             | Group: #{artifact.familygroup}
                                         h4.mt-0.mb-1(style='line-height: 1.25;')
                                             | #{artifact.title}
                                         p.mb-1
-                                            | #{artifact.description}                                          
-                                                    
+                                            | #{artifact.description}
+
                 else
                     .row
                         h1 Post Your First Artifact!
