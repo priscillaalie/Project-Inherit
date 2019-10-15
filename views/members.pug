@@ -100,13 +100,13 @@ block content
                     if (Object.keys(members).length > 0)
                         .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
 
-                        ul#myUL
+                        ul.list-unstyled#myUL
                             -var i = 0
                             each member in members
                                 .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
 
                                     - i = i++;
-                                        li(style = "list-style-type: none;")
+                                        li.list-inline-item.pr-2(style = "list-style-type: none;")
                                             a
                                             if !(member._id in group.members)
 
