@@ -40,6 +40,10 @@ block content
                         .row
                             .col
                                 a.tabstyle(href = `/view/${group._id}/info/`) About
+                        br
+                        .row
+                            .col
+                                a.tabstyle(href=`/view/${group._id}/post/`) Posts
 
                         br
                         .row
@@ -55,7 +59,9 @@ block content
                         br
                         .row
                             .col
+
                                 if (user._id.equals(owner._id))
+
                                     a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
@@ -86,7 +92,6 @@ block content
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
 
-                        hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
                 .row
@@ -98,7 +103,7 @@ block content
                 .row
                     if (Object.keys(members).length > 0)
                         ul#myUL
-                            .row
+                            .row(style = "justify-content: flex-start;")
                                 each member in members
                                     .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
                                         li(style = "list-style-type: none;")
