@@ -11,24 +11,16 @@ block content
     .container-fluid.fill-height.fade-in
         .row
             .col-xs-12.col-sm-12
+                .row
                     .col
                     .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
-                        h2.text-center.white-transparent #{artifact.title}
-                    .col.text-right.justify-content-right.pull-right
-                        //if (admin)
+                        h2.text-center.white-transparent.font-weight-bold #{artifact.title}
+                        br
+                    .col.text-right
+                        if (user._id.equals(artifact.owner))
+                            a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
+                                | Edit artifact
 
-                            .btn-group.mr-2(role='group', aria-label='Second group')
-                              button.btn.btn-secondary(type='button') 5
-                              button.btn.btn-secondary(type='button') 6
-                              button.btn.btn-secondary(type='button') 7
-                            .btn-group(role='group', aria-label='Third group')
-
-                        .btn-toolbar.text-right.justify-content-right(role='toolbar', aria-label='Toolbar with button groups')
-                            .btn-group.mr-2.text-right.justify-content-right(role='group', aria-label='First Group')
-                                a.btn.btn-outline-secondary.btn-sm.pull-right(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
-                                    | Edit artifact
-                            .btn-group.text-right.justify-content-right(role='group', aria-label='Second Group')
-                                button.btn-danger.btn-sm.pull-right( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
 
 
                         #modalUpdateArtifact.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
@@ -50,55 +42,47 @@ block content
                                             .md-form.mb-5
                                                 label.font-weight-bold(for='description') Description
                                                 .input-group
-                                                    textarea.form-control#description(type='text',name='description', value=artifact.description)
-                                            .md-form.mb-5
+                                                    textarea.form-control#description(type='text',name='description', value=artifact.description, placeholder=artifact.description)
+                                            .md-form.mb-5.text-center
                                                 p.font-weight-bold Upload Image (optional)
                                                 img#preview(src=artifact.photo)
-                                                input#pad( type='file' onchange='previewFile()' name = 'image')
+                                                input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
 
 
                                         .modal-footer.justify-content-center
-                                            button.btn-danger.btn-sm( method ="POST" action = "/deleteartifact", onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            a(href = `/deleteartifact/${artifact._id}`)
+                                                button.btn-danger.btn-sm(type = "button" onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                             button.btn.btn-primary(type='submit') Update
-
-
-
-
-
-
 
 
         .row
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
-                    .vertical-menu.mr-4
 
-                        h2
-                            a(href='/myantiques',style="color:#666666;") My Artifacts
-                        hr.my-4
-                        h2(style = "color: dimgrey;") Groups
-                        br
+                    .vertical-menu.mr-4
+                        h2.my-4(style = "color: dimgrey;") Groups
                         each family in familygroups
                             .row
                                 .col-2
                                     i.material-icons group
                                 .col-10
-                                    a(href = `/view/${family._id}`, style="color:#666666;") #{family.title}
-                            br
+                                    a.tabstyle(href = `/view/${family._id}`) #{family.title}
+                        hr.my-4
+
+                        a.tabstyle(href='/myartifacts') My Artifacts
+
                         if (familygroups)
                             hr.my-4
-                        a(href='/events',style="color:#666666;") Events
-                        br
-                        br
+                        a.tabstyle(href='/events') Events
 
 
-            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9#backgroundwelcome
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
 
 
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
 
-                        p.font-weight-bold Family: #{artifact.familygroup}
+                        h2 Family: #{familyname}
 
                         p #{artifact.description}
 
@@ -149,8 +133,10 @@ block content
                                             .media-body
                                                 span.text-muted.pull-right
                                                     small.text-muted #{comment.created}
-                                                    button.btn(method='POST' action='/deletecomment', onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                      i.fa.fa-trash
+                                                    if (user._id == comment.owner || user._id == artifact.owner)
+                                                        a(href = `/deletecomment/${comment._id}`)
+                                                            button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                              i.fa.fa-trash
 
                                                 strong.text-success #{comment.ownername}
 

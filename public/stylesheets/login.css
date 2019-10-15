@@ -10,6 +10,7 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    border-radius: 5px;
 }
 
 .signupimg{
@@ -18,11 +19,7 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-.white {
-    background-color: white;
-    word-wrap: break-word;
-    height: 100%;
+    border-radius: 5px;
 
 }
+

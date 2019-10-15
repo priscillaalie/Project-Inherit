@@ -6,19 +6,18 @@ block css
 
 block content
 
-    .container.loginimg
+    .container
         .row
-            .col-xs-12.col-sm-12.white.text-center
+            .col-xs-12.col-sm-12.text-center
                 h2 Login
                 p
                     | Don't have an account?
                     a(href='/signup')  Sign Up!
 
         .row
-            .col
+            .col-sm-6.col-md-6.col-lg-6.col-xl-6.loginimg.fade-in
 
-
-            .col-xs-12.col-sm-12.col-lg-6.col-xl-6.white
+            .col-xs-12.col-sm-6.col-lg-6.col-xl-6
                 br
                 form(method='POST' action = '/login')
                     .form-group

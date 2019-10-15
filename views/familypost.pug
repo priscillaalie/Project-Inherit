@@ -1,0 +1,122 @@
+extends homepage.pug
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/family.css
+
+block content
+    .container-fluid.fill-height.fade-in
+        .row
+
+            .col-xs-12.col-sm-12
+                .row
+
+
+                    .col
+                    .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
+
+                        if(session)
+                            h2.text-center #{group.title}
+                    .col.text-right
+
+
+
+
+        .row
+
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
+
+                        br
+                        .row
+                            .col-2
+                                i.material-icons keyboard_arrow_left
+                            .col-10
+                                a(href='/home') Back
+
+                        hr.my-4
+
+                        .row
+                            .col
+                                a(href = `/view/${group._id}/info/`) About
+                        br
+                        .row
+                            .col
+                                a.tabstyle(href=`/view/${group._id}/post/` style = "font-weight: bolder;") Posts
+
+                        br
+                        .row
+                            .col
+                                a.active(href=`/view/${group._id}`) Artifacts
+
+                        br
+                        .row
+                            .col
+                                a(href = `/view/${group._id}/members`) Add Members
+                        br
+                        .row
+                            .col
+
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
+                .row
+                    .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+
+                        .comment-wrapper
+                            .panel.panel-info
+                                .panel-heading.font-weight-bold
+                                    | Update Your Family
+
+                                .panel-body
+                                    form(method = "POST" action = "/poststatus")
+
+                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                        br
+                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                    br
+
+
+
+                                    br
+
+                                    ul.media-list
+
+                                    each post in posts
+
+                                        li.media
+                                            a.pull-left(href='#')
+                                                img.img-circle(src=post.photo)
+                                            .media-body
+                                                span.text-muted.pull-right
+                                                    small.text-muted #{post.created}
+                                                    if (user._id == post.owner)
+                                                        a(href = `/deletepost/${post._id}`)
+                                                            button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                i.fa.fa-trash
+
+                                                strong.text-success #{post.ownername} #{post.content}
+
+                                                p
+                                                    | #{post.content}
+
+                                                hr.my-4
+
+            // upload image for create group
+            script.
+                function previewFile() {
+                    var preview = document.querySelector('img');
+                    var file = document.querySelector('input[type=file]').files[0];
+                    var reader = new FileReader();
+
+                    reader.addEventListener("load", function (e) {
+                        //document.getElementById("b64").innerHTML = e.target.result;
+                        preview.src = reader.result.toString();
+                        document.getElementById('b64').value = e.target.result;
+                    }, false);
+
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    }
+                }
+

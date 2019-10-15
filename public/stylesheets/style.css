@@ -1,7 +1,9 @@
 body {
   margin: 30px 30px 0px 30px;
   padding: 70px 30px 0px 30px;
-  background-color:#fffef7;
+  background-color: #FBFCFC ;
+  overflow-wrap: break-word;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h2 {
@@ -11,6 +13,16 @@ h2 {
 
 p{
   font-family: 'Roboto Condensed', sans-serif;
+}
+
+a{
+  color: #666666;
+}
+
+a:hover{
+  color: dimgrey;
+  transition: all 100ms;
+  font-size: 18
 }
 
 #navtop {
@@ -85,5 +97,43 @@ p{
   100% {
     opacity:1;
   }
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+
+
+
+.small {
+  font-size: 0.75rem;
+}
+.card-heading {
+  font-size: 2.25rem;
+}
+.styled-link {
+  text-decoration: none;
+  outline: none;
+  color: #2196fe;
+  transition: all 0.25s ease-in;
+}
+.styled-link:hover,
+.styled-link:focus,
+.styled-link:active {
+  color: #536dfe;
+}
+.shadow-1 {
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.15);
+}
+.blue-hover {
+  transition: all 0.25s ease-in;
+  border-bottom: 5px solid transparent;
+}
+.blue-hover:hover {
+  transform: translateY(-5px);
+  mar
+  border: none;
+  border-bottom: 5px solid #ffd194;
 }
 

@@ -5,6 +5,7 @@ html
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
     link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
 
     script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
@@ -14,10 +15,9 @@ html
     title= title
 
     block css
-
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/font.css')
-    link(rel='icon', type='image/png', href='https://i.ibb.co/bHJdZX2/output-onlinepngtools-3.png')
+    link(rel='icon', type='image/jpg', href="https://i.ibb.co/qC5dVYx/I.jpg" alt = "Inherit Logo")
 
     style.
       @import url('https://fonts.googleapis.com/css?family=Merriweather&display=swap');
@@ -39,9 +39,11 @@ html
         span.navbar-toggler-icon
 
       div.collapse.navbar-collapse#navbarResponsive
-        ul.navbar-nav.ml-auto
+        ul.navbar-nav.ml-auto(style='color: white;')
 
           if (session)
+            li.nav-item
+              a.nav-link(href = "/home") HOME
             li.nav-item
               a.nav-link(href = "/home") PROFILE
             li.nav-item.dropdown.pull-right
@@ -55,8 +57,9 @@ html
                 a.dropdown-item(href='/logout') Logout
 
           else
+
             li.nav-item
-              a.nav-link(href = "/login") Log in
+              a.nav-link(href = "/login") LOGIN
     script(data-ad-client='ca-pub-3112071443703358' async='' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
 
 
@@ -69,6 +72,7 @@ html
   footer
       br
       hr.my-4
-      p.text-center Copyright (c) Project Inherit
+      p.text-center
+        small Copyright (c) Project Inherit
 
 

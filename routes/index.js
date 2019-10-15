@@ -18,7 +18,6 @@ var bodyParser = require('body-parser');
 var user = require('../models/user.js');
 
 settingsRoutes = require('./settings');
-familyRoutes = require('./family');
 
 var app = express();
 app.use(bodyParser.json({limit: "50mb"}));
@@ -26,7 +25,6 @@ app.use(bodyParser.urlencoded({limit:'50mb', extended: true, parameterLimit:5000
 app.use(bodyParser.json());
 
 app.use('/settings', settingsRoutes);
-app.use('/family', familyRoutes);
 
 const controllers = require('../controllers/controllers.js');
 const famcontrollers = require('../controllers/familycontroller.js');
@@ -59,13 +57,13 @@ router.get('/home', controllers.fetchHomepage);
 
 router.get('/myartifacts', function(req, res){
   if (req.cookies.sessionId) {
-    controllers.fetchAntiquesByUser(req, res);
+    controllers.fetchArtifactsByUser(req, res);
   } else {
     res.redirect('/login');
   }
 });
 
-router.post('/addartifact', controllers.createAntique)
+router.post('/addartifact', controllers.createArtifact);
 
 router.post('/signup', controllers.createUser);
 
@@ -78,15 +76,25 @@ router.get("/logout", function(req, res){
   res.redirect('/');
 });
 
-router.get('/view/info', famcontrollers.showInfo);
-router.get('/view/members', famcontrollers.showMembers);
+router.get('/resend', controllers.getStarted);
+router.get('/view/:id/info', famcontrollers.fetchGroupInfo);
+router.get('/view/:id/post', famcontrollers.fetchGroupPost);
+router.get('/view/:id/members', famcontrollers.fetchGroupMembers);
 router.post('/create', famcontrollers.createGroup);
-router.get('/view/:id', famcontrollers.showGroupByID);
-router.get('/artifact/view/:id', controllers.showArtifactByID);
+router.get('/view/:id', famcontrollers.fetchGroupByID);
+router.get('/artifact/view/:id', controllers.fetchArtifactByID);
 router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
 router.post('/post', controllers.addComment);
+router.get('/addmember/:id', famcontrollers.addMember);
+router.get('/deletecomment/:id', controllers.deleteComment);
+router.get('/deleteartifact/:id', controllers.deleteArtifact);
+router.get('/deletegroup/:id', famcontrollers.deleteGroup);
+router.get('/leavegroup', famcontrollers.leaveGroup);
+router.post('/poststatus', famcontrollers.addPost);
+router.get('/deletepost/:id', famcontrollers.deletePost);
+router.get('/removemember/:id', famcontrollers.removeMember);
 
 
 
