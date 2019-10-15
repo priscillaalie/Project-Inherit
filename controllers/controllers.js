@@ -515,7 +515,7 @@ var fetchArtifactByID = function(req, res) {
                                                 if (!err) {
                                                     res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
                                                     comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                    familyname:belongsTo.title, user:user});
+                                                    familyname:belongsTo.title, user:user, title: artifact.title});
                                                 } else {
                                                     res.sendStatus(500);
                                                 }
