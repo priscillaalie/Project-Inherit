@@ -130,7 +130,14 @@ var fetchGroupInfo = function(req, res) {
             if (!err) {
                 User.find({'_id': {$in: group.members}}, function(err, members) {
                     if (!err) {
-                        res.render('familyInfo.pug', { group:group, members:members, session:req.cookies.sessionId});
+                        User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                            if (!err) {
+                                res.render('familyInfo.pug', { group:group, members:members, 
+                                session:req.cookies.sessionId, user:user});
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
                     } else {
                         res.sendStatus(500);
                     }

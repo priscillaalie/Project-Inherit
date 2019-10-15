@@ -140,9 +140,9 @@ block content
 
 
 
-                                            else
-                                                .card
-                                                    .card-body.text  No Users found here!
+                                else
+                                    .card
+                                        .card-body.text  No Users found here!
     script.
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
