@@ -86,7 +86,7 @@ block content
                                     p #{group.description}
                             .row
                                 .col
-                                    p Members #{group.members.length}
+                                    p Members: #{group.members.length}
                             .row
                                 .col.text-center.justify-content-center
                                     br
@@ -111,9 +111,10 @@ block content
                                                                     strong.card-title #{member.name}
                                                         .row
                                                             .col.d-flex.justify-content-center
-                                                                a(href = `/removeMember/${member._id}`)
-                                                                    button.btn.btn-danger.btn-sm(type='button')
-                                                                        | Remove
+                                                                if (group.owner != member._id)
+                                                                    a(href = `/removeMember/${member._id}`)
+                                                                        button.btn.btn-danger.btn-sm(type='button')
+                                                                            | Remove
 
 
 

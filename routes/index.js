@@ -77,7 +77,7 @@ router.get("/logout", function(req, res){
 });
 
 router.get('/resend', controllers.getStarted);
-router.get('/view/:id/info', controllers.fetchPost);
+router.get('/view/:id/info', famcontrollers.fetchGroupInfo);
 router.get('/view/:id/post', famcontrollers.fetchGroupPost);
 router.get('/view/:id/members', famcontrollers.fetchGroupMembers);
 router.post('/create', famcontrollers.createGroup);

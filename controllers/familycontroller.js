@@ -392,7 +392,7 @@ module.exports = {
     fetchGroupPost,
     addMember,
     deleteGroup,
-    leaveGroup
+    leaveGroup,
     addPost,
     deletePost,
 }
