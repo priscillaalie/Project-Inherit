@@ -4,7 +4,7 @@ block css
     style
         include ../public/stylesheets/homepage.css
 block content
-    .container-fluid.fill-height.fade-in
+    .container-fluid.fill-height
         .row
             .col
             .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
@@ -66,7 +66,7 @@ block content
 
 
 
-            .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.fade-in.cardzone
+            .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.cardzone
 
                 if (familygroups.length>0)
                     .row.text-center
@@ -115,9 +115,7 @@ block content
                                                     .md-form.mb-5.text-center
                                                         p.font-weight-bold Upload Image (optional)
                                                         img#preview(src=file)
-                                                        br
                                                         input.text-center( type='file' onchange='previewFile()' name = 'image' accept="image/*")
-
                                                 .modal-footer.d-flex.justify-content-center
                                                     button.btn.btn-primary(href='/home' type='submit') Create Family
 

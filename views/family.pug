@@ -6,7 +6,7 @@ block css
         include ../public/stylesheets/family.css
 
 block content
-    .container-fluid.fill-height.fade-in
+    .container-fluid.fill-height
         .row
 
             .col-xs-12.col-sm-12
@@ -133,7 +133,7 @@ block content
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center
                             .card.mb-4.mr-5.mx-auto.d-flex(style='width: 15rem; min-width: 15rem; height: fit-content;')
                                     a(href = `/artifact/view/${artifact._id}`)
-                                        img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;min-width: 15rem;")
+                                        img.card-img-top.image-custom.fade-in(src=artifact.photo, style="width:15rem;height:15rem;min-width: 15rem;")
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{artifact.title}
