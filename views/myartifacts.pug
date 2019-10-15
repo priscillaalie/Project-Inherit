@@ -13,7 +13,6 @@ block content
                 if(session)
                     h2.text-center My Artifacts
             .col.text-right
-
                 if  (user.artifacts.length > 0)
                     a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
                         i.fas.fa-add
@@ -73,7 +72,7 @@ block content
 
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
-                if (user.artifacts.length > 0)
+                if (artifacts.length > 0)
                     .row.text-center
                         each artifact in artifacts
                             .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center(style = "margin-right: 10%;")
@@ -96,7 +95,6 @@ block content
 
                 else
                     .row
-                        h1 Post Your First Artifact!
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
                             .card.mb-4.mr-5(style=' width: 15rem; min-width: 15rem; height: 15rem;')
                                 a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalArtifactForm')
