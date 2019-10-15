@@ -130,7 +130,7 @@ var fetchGroupInfo = function(req, res) {
             if (!err) {
                 User.find({'_id': {$in: group.members}}, function(err, members) {
                     if (!err) {
-                        res.render('familyInfo.pug', {group:group, members:members, session:req.cookies.sessionId});
+                        res.render('familyInfo.pug', { group:group, members:members, session:req.cookies.sessionId});
                     } else {
                         res.sendStatus(500);
                     }
@@ -275,6 +275,48 @@ var deleteGroup = function(req, res) {
     })
 }
 
+var leaveGroup = function(req, res) {
+    var groupId = req.headers.referer.split('/')[4];
+    console.log(groupId);
+    User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+        if (!err) {
+            Group.findById(groupId, function(err, group) {
+                if (!err) {
+                    // removing all artifacts of user from group
+                    for (var i=0;i<user.artifacts.length;i++) {
+                        if (group.artifacts.includes(user.artifacts[i])) {
+                            var position = group.artifacts.indexOf(user.artifacts[i]);
+                            group.artifacts.splice(position, 1);
+                            // assigning no family to that artifact
+                            Artifact.findById(user.artifacts[i], function(err, artifact) {
+                                console.log(artifact);
+                                if (!err) {
+                                    artifact.familygroup = 'None';
+                                    artifact.save();
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
+                        }
+                    }
+                    // remove user from group
+                    var position = group.members.indexOf(user._id);
+                    group.members.splice(position, 1);
+                    group.save();
+                    // remove group from user
+                    position = user.groups.indexOf(group._id);
+                    user.groups.splice(position, 1);
+                    user.save();
+                    res.redirect('/home');
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(500);
+        }
+    })
+}
 
 var addPost = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
@@ -338,7 +380,51 @@ var deletePost = function(req, res) {
     })
 }
 
-
+var removeMember = function(req, res) {
+    var groupId = req.headers.referer.split('/')[4]
+    var memberId = req.url.split('/')[2];
+    console.log(groupId);
+    console.log(memberId);
+    Group.findById(groupId, function(err, group) {
+        if (!err) {
+            User.findById(memberId, function(err, member) {
+                if (!err) {
+                    // remove group from member
+                    var position = member.groups.indexOf(groupId);
+                    member.groups.splice(position, 1);
+                    member.save();
+                    // remove all of member's artifacts
+                    for (var i=0;i<member.artifacts.length;i++) {
+                        if (group.artifacts.includes(member.artifacts[i])) {
+                            // change each artifact's group to None
+                            Artifact.findById(member.artifacts[i], function(err, artifact) {
+                                if (!err) {
+                                    artifact.familygroup = "None";
+                                    artifact.save();
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
+                            // remove each of member's artifacts from group
+                            position = group.artifacts.indexOf(member.artifacts[i]);
+                            group.artifacts.splice(position, 1);
+                            group.save();
+                        }
+                    }
+                    // remove member from group
+                    position = group.members.indexOf(memberId);
+                    group.members.splice(position, 1);
+                    group.save();
+                    res.redirect('/view/' + groupId + '/info');
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
+}
 
 
 
@@ -352,7 +438,9 @@ module.exports = {
     fetchGroupPost,
     addMember,
     deleteGroup,
+    leaveGroup,
     addPost,
     deletePost,
+    removeMember
 }
 

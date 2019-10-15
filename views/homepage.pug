@@ -56,11 +56,11 @@ block content
                                     a.tabstyle(href = `/view/${family._id}`) #{family.title}
                         hr.my-4
 
-                        a.tabstyle(href='/myartifacts',style="color:#666666;") My Artifacts
+                        a.tabstyle(href='/myartifacts') My Artifacts
 
                         if (familygroups)
                             hr.my-4
-                        a.tabstyle(href='/events',style="color:#666666;") Events
+                        a.tabstyle(href='/events') Events
                         br
                         br
 
@@ -69,13 +69,13 @@ block content
             .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.fade-in.cardzone
 
                 if (familygroups.length>0)
-
                     .row.text-center
-
                         each family in familygroups
+
                             .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4
 
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
+
                                     a(href = `/view/${family._id}`)
 
                                         img.d-block.w-full(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")

@@ -42,8 +42,8 @@ block content
                                             .md-form.mb-5
                                                 label.font-weight-bold(for='description') Description
                                                 .input-group
-                                                    textarea.form-control#description(type='text',name='description', value=artifact.description)
-                                            .md-form.mb-5
+                                                    textarea.form-control#description(type='text',name='description', value=artifact.description, placeholder=artifact.description)
+                                            .md-form.mb-5.text-center
                                                 p.font-weight-bold Upload Image (optional)
                                                 img#preview(src=artifact.photo)
                                                 input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
@@ -53,12 +53,6 @@ block content
                                             a(href = `/deleteartifact/${artifact._id}`)
                                                 button.btn-danger.btn-sm(type = "button" onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
                                             button.btn.btn-primary(type='submit') Update
-
-
-
-
-
-
 
 
         .row

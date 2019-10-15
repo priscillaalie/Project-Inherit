@@ -54,7 +54,7 @@ block content
                         br
                         .row
                             .col
-                                a.tabstyle(href = `/view/${group._id}/members`) Members
+                                a.tabstyle(href = `/view/${group._id}/members`) Add Members
                         br
                         .row
                             .col
@@ -91,20 +91,21 @@ block content
                                                         a(href = `/deletegroup/${group._id}`)
                                                             button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
                                                         button.btn.btn-primary(type='submit') Update
+                                else
+                                    a.tabstyle(href = `/leaveGroup`) Leave group
 
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
                     .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-                        .card.mb-4.mr-5(style=' width: 15rem; min-width: 15rem; height: 15rem;')
+                        .card.mb-4.mr-5.mx-auto.d-flex(style=' width: 15rem; min-width: 15rem; height: 15rem;')
                             // Button trigger modal
                             //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
                             a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalArtifactForm')
-                                | Add Artifact
+                                | + Add Artifact
 
                             #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-
                                 .modal-dialog(role='document')
                                     form(method='POST' action='/addartifact', enctype = "multipart/form-data")
                                         .modal-content
@@ -129,16 +130,16 @@ block content
                                                 button.btn.btn-primary(type='submit') Add
 
                     each artifact in artifacts
-                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-                            .card.mb-4.mr-5(style='width: 15rem; min-width: 15rem; height: fit-content;')
-                                .d-flex
+                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center
+                            .card.mb-4.mr-5.mx-auto.d-flex(style='width: 15rem; min-width: 15rem; height: fit-content;')
                                     a(href = `/artifact/view/${artifact._id}`)
-                                        img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;")
+                                        img.card-img-top.image-custom(src=artifact.photo, style="width:15rem;height:15rem;min-width: 15rem;")
                                         .card-body.flex-fill
                                             .row
                                                 h5.card-title #{artifact.title}
                                             .row
                                                 p.listingdescription #{artifact.description}
+
 
             // upload image for create group
             script.
