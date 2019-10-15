@@ -101,7 +101,7 @@ block content
                 .row
                     if (Object.keys(members).length > 0)
                         ul#myUL
-                            .row
+                            .row(style = "justify-content: flex-start;")
                                 each member in members
                                     .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
                                         li(style = "list-style-type: none;")
