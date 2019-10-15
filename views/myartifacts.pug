@@ -83,7 +83,7 @@ block content
                                         img.d-block.w-full(src=artifact.photo, style="width:15rem;height:15rem; overflow: hidden;")
                                         .px-2.py-2
                                             p.mb-0.small.font-weight-medium.text-uppercase.mb-1.text-muted.lts-2px
-                                                if (artifact.familygroup === "None", style = "text-transform: uppercase;")
+                                                if (artifact.familygroup == "None", style = "text-transform: uppercase;")
                                                     | Group: #{artifact.familygroup}
                                                 else
                                                     each family in familygroups
