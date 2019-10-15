@@ -362,7 +362,7 @@ var deleteArtifact = function(req, res) {
                     User.findById(artifact.owner, function(err, owner) {
                         if (!err) {
                             var position = owner.artifacts.indexOf(artifactId);
-                            owner.artifacts = owner.artifacts.splice(position, 1);
+                            owner.artifacts.splice(position, 1);
                             owner.save();
                             Artifact.deleteOne({'_id':artifactId}, function(err, result) {
                                 if (!err) {
@@ -511,20 +511,29 @@ var fetchArtifactByID = function(req, res) {
                                 if (!err) {
                                     User.findById(artifact.owner, function(err, owner) {
                                         if (!err) {
-                                            Group.findById(artifact.familygroup, function(err, belongsTo) {
-                                                if (!err) {
-                                                    res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
-                                                    comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                    familyname:belongsTo.title, user:user, title: artifact.title});
-                                                } else {
-                                                    res.sendStatus(500);
-                                                }
-                                            })
+                                            if (artifact.familygroup != "None") {
+                                                Group.findById(artifact.familygroup, function(err, belongsTo) {
+                                                    if (!err) {
+                                                        res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                                        comments:comments, session: req.cookies.sessionId, owner:owner.name,
+                                                        familyname:belongsTo.title, user:user});
+                                                    } else {
+                                                        console.log(err);
+                                                        res.sendStatus(500);
+                                                    }
+                                                })
+                                            } else {
+                                                res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                                comments:comments, session: req.cookies.sessionId, owner:owner.name,
+                                                familyname:"None", user:user});
+                                            }
                                         } else {
+                                            console.log(err);
                                             res.sendStatus(500);
                                         }
                                     })
                                 } else {
+                                    console.log(err);
                                     res.sendStatus(500);
                                 }
                             })
