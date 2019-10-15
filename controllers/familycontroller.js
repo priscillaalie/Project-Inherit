@@ -130,14 +130,16 @@ var fetchGroupInfo = function(req, res) {
             if (!err) {
                 User.find({'_id': {$in: group.members}}, function(err, members) {
                     if (!err) {
+
                         User.find({sessionId:req.cookies.sessionId}, function(err, user) {
                             if (!err) {
                                 res.render('familyInfo.pug', { group:group, members:members, 
-                                session:req.cookies.sessionId, user:user});
+                                session:req.cookies.sessionId, user:user, title: group.title});
                             } else {
                                 res.sendStatus(500);
                             }
                         })
+
                     } else {
                         res.sendStatus(500);
                     }
@@ -163,7 +165,7 @@ var fetchGroupPost = function(req, res) {
                                 User.find({sessionId:req.cookies.sessionId}, function(err, user) {
                                     if (!err) {
                                         res.render('familypost.pug', {group:group, members:members,
-                                        posts:posts, session:req.cookies.sessionId, user:user});
+                                        posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
                                     } else {
                                         res.sendStatus(500);
                                     }
@@ -196,7 +198,7 @@ var fetchGroupMembers = function(req, res) {
                     if (!err) {
                         User.find({sessionId:req.cookies.sessionId}, function(err, user) {
                             if (!err) {
-                                res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId, user:user});
+                                res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId, user:user, title: group.title});
                             } else {
                                 res.sendStatus(500);
                             }
