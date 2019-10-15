@@ -41,7 +41,7 @@ block content
                         br
                         .row
                             .col
-
+                                if (user._id.equals(owner._id))
                                     a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
@@ -69,6 +69,7 @@ block content
                                                         a(href = `/deletegroup/${group._id}`)
                                                             button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
                                                         button.btn.btn-primary(type='submit') Update
+                                else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4
 
