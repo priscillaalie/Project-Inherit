@@ -54,6 +54,10 @@ var fetchSignup = function (req,res) {
     res.render('signup.pug', {title: 'Signup'});
 };
 
+var fetchPost = function(req,res) {
+    res.render('familypost.pug');
+};
+
 // if it is a current user, find the user's information such as name and groups they are in
 // and send this to the front end to be displayed. if not, display basic front end
 var fetchHomepage = function(req, res) {
@@ -305,8 +309,8 @@ var checkUser = function(req, res) {
     });
 };
 
-// renders the myantiques page by passing in data about user's antiques and families
-var fetchAntiquesByUser = function(req, res) {
+// renders the myartifacts page by passing in data about user's artifacts and families
+var fetchArtifactsByUser = function(req, res) {
     if (req.cookies.sessionId) {
     	User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
     		if (!err) {
@@ -387,21 +391,21 @@ var deleteArtifact = function(req, res) {
 
 }
 
-// adds an antique to the database
-var createAntique = function(req,res){
-	var sid = req.cookies.sessionId;
-	// Get current date and time
+// adds an artifact to the database
+var createArtifact = function(req,res){
+    var sid = req.cookies.sessionId;
+    // Get current date and time
     var today = new Date();
     singleUpload(req, res, function(err) {
     	User.findOne({sessionId: sid}, function(err,user) {
     		if (!err) {
-                var antique = new Artifact({
+                var artifact = new Artifact({
                     "title": req.body.title,
                     "description": req.body.description,
                     "owner": user._id
                 });
                 if (req.file) {
-        			antique.photo = req.file.location;
+        			artifact.photo = req.file.location;
                 }
 
                 var groupId;
@@ -414,16 +418,16 @@ var createAntique = function(req,res){
                     toGo = '/view/' + groupId;
                 }
 
-                antique.familygroup = groupId;
-                antique.created = today;
-                console.log(antique);
-                antique.save(function(err, newAntique) {
+                artifact.familygroup = groupId;
+                artifact.created = today;
+                console.log(artifact);
+                artifact.save(function(err, newArtifact) {
                     if (!err) {
-                        user.artifacts.push(antique._id);
+                        user.artifacts.push(artifact._id);
                         user.save();
                         Group.findById(groupId, function(err, group) {
                             if (!err) {
-                                group.artifacts.push(antique._id);
+                                group.artifacts.push(artifact._id);
                                 group.save();
                                 res.redirect(toGo);
                             } else {
@@ -656,8 +660,8 @@ module.exports = {
     deleteUser,
     fetchDeleteAccount,
     fetchPrivacy,
-    fetchAntiquesByUser,
-    createAntique,
+    fetchArtifactsByUser,
+    createArtifact,
     send,
     verify,
     fetchArtifactByID,
@@ -666,6 +670,7 @@ module.exports = {
     searchResults,
     addComment,
     deleteArtifact,
-    deleteComment
+    deleteComment,
+    fetchPost
 }
 

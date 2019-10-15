@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const Artifact = require('../models/artifact');
 const User = require('../models/user');
 const Group = require('../models/familygroups');
+const Post = require('../models/post');
+
 var express = require('express');
 var app = express();
 
@@ -142,6 +144,42 @@ var fetchGroupInfo = function(req, res) {
     }
 }
 
+var fetchGroupPost = function(req, res) {
+    var groupId = req.headers.referer.split('/')[4];
+    if (req.cookies.sessionId) {
+        Group.findById(groupId, function(err, group) {
+            if (!err) {
+                User.find({'_id': {$in: group.members}}, function(err, members) {
+                    if (!err) {
+                        Post.find({'_id':{$in: group.posts}}, function(err, posts) {
+                            if (!err) {
+                                User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                                    if (!err) {
+                                        res.render('familypost.pug', {group:group, members:members,
+                                        posts:posts, session:req.cookies.sessionId, user:user});
+                                    } else {
+                                        res.sendStatus(500);
+                                    }
+                                })
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+            } else {
+                res.sendStatus(404);
+            }
+        })
+    } else {
+        res.redirect('/login');
+    }
+}
+
+
+
 var fetchGroupMembers = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
@@ -149,7 +187,13 @@ var fetchGroupMembers = function(req, res) {
             if (!err) {
                 User.find({}, function(err, members) {
                     if (!err) {
-                        res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId});
+                        User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                            if (!err) {
+                                res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId, user:user});
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
                     } else {
                         res.sendStatus(500);
                     }
@@ -203,22 +247,9 @@ var deleteGroup = function(req, res) {
                     Artifact.find({'_id':{$in: group.artifacts}}, function(err, artifacts) {
                         if (!err) {
                             for (var i=0;i<artifacts.length;i++) {
-                                // deleting artifact from owner
-                                User.findById(artifacts[i].owner, function(err, owner) {
-                                    if (!err) {
-                                        var position = owner.artifacts.indexOf(artifacts[i]);
-                                        owner.artifacts.splice(position, 1);
-                                        owner.save();
-                                        // delete the artifact
-                                        Artifact.deleteOne({'_id':artifacts[i]}, function(err) {
-                                            if (err) {
-                                                res.sendStatus(500);
-                                            }
-                                        })
-                                    } else {
-                                        res.send(500);
-                                    }
-                                })
+                                // removing artifact's group
+                                artifacts[i].familygroup = "None";
+                                artifacts[i].save();
                             }
                             //finally delete the group
                             Group.deleteOne({'_id':groupId}, function(err) {
@@ -285,14 +316,84 @@ var leaveGroup = function(req, res) {
     })
 }
 
+var addPost = function(req, res) {
+    var groupId = req.headers.referer.split('/')[4];
+    console.log(groupId);
+    User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
+        Group.findById(groupId, function(err, group) {
+            if (!err) {
+                var post = new Post({
+                    "owner": user._id,
+                    "content": req.body.post,
+                    "familygroup": groupId,
+                    "ownername": user.name
+                })
+                post.created = Date.now();
+                console.log(post);
+                post.save(function(err, newPost) {
+                    if (!err) {
+                        group.posts.push(post._id);
+                        group.save();
+                        res.redirect('/view/' + groupId + '/post');
+                    } else {
+                        res.sendStatus(400);
+                    }
+                }) 
+            } else {
+                res.sendStatus(500);
+            }
+        })
+    });
+}
+
+var deletePost = function(req, res) {
+    var postId = req.url.split('/')[2];
+    console.log(postId);
+    var groupId;
+    Post.findById(postId, function(err, post) {
+        if (!err) {
+            groupId = post.familygroup;
+            Group.findById(groupId, function(err, group) {
+                if (!err) {
+                    var position = group.posts.indexOf(postId);
+                    group.posts.splice(position, 1);
+                    console.log(group);
+                    group.save();
+                    Post.deleteOne({'_id': commentId}, function(err, result) {
+                        if (!err) {
+                            console.log('post deleted');
+                            res.redirect('/view/' + groupId + '/post');
+                        } else {
+                            console.log(err);
+                            console.log('failed to delete post');
+                        }
+                    })
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        } else {
+            res.sendStatus(404);
+        }
+    })
+}
+
+
+
+
+
+
 module.exports = {
     createGroup,
     fetchGroupByID,
     fetchGroupInfo,
     editGroup,
     fetchGroupMembers,
+    fetchGroupPost,
     addMember,
     deleteGroup,
     leaveGroup
+    addPost,
+    deletePost,
 }
 
