@@ -71,7 +71,7 @@ block content
                                 .panel-body
                                     form(method = "POST" action = "/poststatus")
 
-                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'poststatus')
+                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
                                         br
                                         button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
                                     br
@@ -95,7 +95,7 @@ block content
                                                             button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
                                                                 i.fa.fa-trash
 
-                                                strong.text-success #{post.ownername}
+                                                strong.text-success #{post.ownername} #{post.content}
 
                                                 p
                                                     | #{post.content}
