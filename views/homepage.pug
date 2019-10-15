@@ -71,13 +71,19 @@ block content
                 if (familygroups.length>0)
                     .row.text-center
                         each family in familygroups
-                            .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-4
-                                .card.mx-auto.d-flex.mb-4.mr-5(style='width: 15rem; height: fit-content; min-width: 15rem; margin-right: 1rem;')
+
+                            .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4
+
+                                .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
+
                                     a(href = `/view/${family._id}`)
-                                        img.card-img-top.image-custom.fade-in(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
-                                        .card-body.flex-fill
-                                            .row.text-center.justify-content-center
-                                                h5.card-title #{family.title}
+
+                                        img.d-block.w-full(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        .px-2.py-2
+                                            h4.mt-0.mb-1(style='line-height: 1.25;')
+                                                | #{family.title}
+                                            p.mb-1
+                                                | #{family.description}
 
                 else
                     .row

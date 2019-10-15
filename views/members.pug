@@ -120,15 +120,29 @@ block content
                                                             button.btn.btn-primary.btn-sm(type='button')
                                                                 i.material-icons person_add
                                                     else
-                                                        button.btn.btn-success.btn-sm(type='button')
-                                                            i.material-icons check_circle
+                                                        img.card-img-top.image-custom(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
+                                                    .card-body.flex-fill
+                                                        .row.text-center.justify-content-center
+                                                            .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8.align-middle
+                                                                h6
+                                                                    strong.card-title #{member.name}
+
+                                                            .col-xs-12.col-sm-12.col-md-4.col-lg-4.col-xl-4
+                                                                if (!group.members.includes(member._id))
+
+                                                                    a(href = `/addmember/${member._id}`)
+                                                                        button.btn.btn-primary.btn-sm(type='button')
+                                                                            i.material-icons person_add
+                                                                else
+                                                                    button.btn.btn-success.btn-sm(type='button')
+                                                                        i.material-icons check_circle
 
 
 
 
-                                else
-                                    .card
-                                        .card-body.text  No Users found here!
+                                            else
+                                                .card
+                                                    .card-body.text  No Users found here!
     script.
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
