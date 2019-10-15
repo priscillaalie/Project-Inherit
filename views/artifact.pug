@@ -14,7 +14,7 @@ block content
                 .row
                     .col
                     .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
-                        h2.text-center.white-transparent #{artifact.title}
+                        h2.text-center.white-transparent.font-weight-bold #{artifact.title}
                         br
                     .col.text-right
                         if (user._id.equals(artifact.owner))
@@ -58,34 +58,31 @@ block content
         .row
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
-                    .vertical-menu.mr-4
 
-                        h2
-                            a.tabstyle(href='/myartifacts') My Artifacts
-                        hr.my-4
-                        h2(style = "color: dimgrey;") Groups
-                        br
+                    .vertical-menu.mr-4
+                        h2.my-4(style = "color: dimgrey;") Groups
                         each family in familygroups
                             .row
                                 .col-2
                                     i.material-icons group
                                 .col-10
                                     a.tabstyle(href = `/view/${family._id}`) #{family.title}
-                            br
+                        hr.my-4
+
+                        a.tabstyle(href='/myartifacts') My Artifacts
+
                         if (familygroups)
                             hr.my-4
-                        a.tabstyle(href='/events',style="color:#666666;") Events
-                        br
-                        br
+                        a.tabstyle(href='/events') Events
 
 
-            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9#backgroundwelcome
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
 
 
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
 
-                        p.font-weight-bold Family: #{familyname}
+                        h2 Family: #{familyname}
 
                         p #{artifact.description}
 

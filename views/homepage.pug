@@ -4,7 +4,7 @@ block css
     style
         include ../public/stylesheets/homepage.css
 block content
-    .container-fluid.fill-height.fade-in
+    .container-fluid.fill-height
         .row
             .col
             .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
@@ -49,7 +49,6 @@ block content
                         h2.my-4(style = "color: dimgrey;") Groups
                         each family in familygroups
                             .row
-                                br
                                 .col-2
                                     i.material-icons group
                                 .col-10
@@ -66,7 +65,7 @@ block content
 
 
 
-            .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.fade-in.cardzone
+            .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.cardzone
 
                 if (familygroups.length>0)
                     .row
@@ -88,7 +87,6 @@ block content
                 else
                     .row
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
-
                             .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
                                 // Button trigger modal
                                 //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
@@ -114,9 +112,7 @@ block content
                                                     .md-form.mb-5.text-center
                                                         p.font-weight-bold Upload Image (optional)
                                                         img#preview(src=file)
-                                                        br
                                                         input.text-center( type='file' onchange='previewFile()' name = 'image' accept="image/*")
-
                                                 .modal-footer.d-flex.justify-content-center
                                                     button.btn.btn-primary(href='/home' type='submit') Create Family
 
