@@ -650,6 +650,37 @@ var deleteComment = function(req, res) {
         }
     })
 }
+
+var editArtifact = function(req, res) {
+    singleUpload(req, res, function(err) {
+        if (!err) {
+            Artifact.findById(req.originalUrl.split('/')[3], function(err, artifact) {
+                if (!err && artifact) {
+                    artifact.title = req.body.title;
+                    artifact.description = req.body.description;
+                    if (req.file) {
+                        artifact.photo = req.file.location;
+                    }
+                    artifact.save(function(err, updated) {
+                        if (updated) {
+                            console.log(artifact);
+                            fetchArtifactByID(req, res);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    });
+                } else {
+                    res.cookie('sessionId', '');
+                    res.redirect('/login')
+                }
+            });
+        } else {
+            res.sendStatus(500);
+        }
+    })
+}
+
+
 // Connect to the db
 const dbURI =
     "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
@@ -680,6 +711,7 @@ module.exports = {
     addComment,
     deleteArtifact,
     deleteComment,
-    fetchPost
+    fetchPost,
+    editArtifact
 }
 
