@@ -94,6 +94,7 @@ router.get('/deletegroup/:id', famcontrollers.deleteGroup);
 router.get('/leavegroup', famcontrollers.leaveGroup);
 router.post('/poststatus', famcontrollers.addPost);
 router.get('/deletepost/:id', famcontrollers.deletePost);
+router.get('/removemember/:id', famcontrollers.removeMember);
 
 
 
