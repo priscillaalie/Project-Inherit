@@ -92,10 +92,9 @@ block content
                 .row
                     .col.text-center.justify-content-center
                         br
-                        form.form-inline.my-2.my-lg-0.ml-auto(id = 'search', method = 'GET', action = "/search", autocomplete = 'off')
-                            input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
-                            input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
-                            datalist#datalist
+                        input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
+                        input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
+                        datalist#datalist
                 .row
                     if (Object.keys(members).length > 0)
                         ul#myUL
@@ -174,11 +173,4 @@ block content
                 }
             }
         }
-
-        function addMember(i) {
-            var x = document.getElementById("icon");
-            x[i].innerHTML = "check_circle";
-            document.getElementById("addbutton").style.backgroundColor = "forestgreen";
-        }
-
 
