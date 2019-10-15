@@ -86,7 +86,13 @@ block content
                                                 p.listingdescription #{artifact.description}
                                         .card-footer
                                             .row
-                                                p #{artifact.familygroup}
+                                                if (artifact.familygroup === "None")
+                                                    p #{artifact.familygroup}
+                                                else
+                                                    each family in familygroups
+                                                        if (family._id.equals(artifact.familygroup))
+                                                            p #{family.title}
+                                                    
                 else
                     .row
                         h1 Post Your First Artifact!
