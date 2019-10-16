@@ -409,15 +409,11 @@ var createArtifact = function(req,res){
                 }
 
                 var groupId;
-                var toGo;
                 if (req.body.familygroup) {
                     groupId = req.body.familygroup;
-                    toGo = '/myartifacts';
                 } else {
                     groupId = req.headers.referer.split('/')[4];
-                    toGo = '/view/' + groupId;
                 }
-
                 artifact.familygroup = groupId;
                 artifact.created = today;
                 console.log(artifact);
@@ -425,20 +421,30 @@ var createArtifact = function(req,res){
                     if (!err) {
                         user.artifacts.push(artifact._id);
                         user.save();
-                        Group.findById(groupId, function(err, group) {
-                            if (!err) {
-                                group.artifacts.push(artifact._id);
-                                group.save();
-                                res.redirect(toGo);
-                            } else {
-                                res.sendStatus(500);
+                        if (req.body.familygroup) {
+                            if (groupId != "None") {
+                                Group.findById(groupId, function(err, group) {
+                                    if (!err) {
+                                        group.artifacts.push(artifact._id);
+                                        group.save();
+                                    } else {
+                                        console.log(err);
+                                        res.sendStatus(500);
+                                    }
+                                });
                             }
-                        });
+                            res.redirect('/myartifacts');
+                        } else {
+                            res.redirect('/view/' + groupId);
+                        }
+                        
                     } else {
+                        console.log(err);
                         res.sendStatus(500);
                     }
                 })
     		} else {
+                console.log(err);
                 res.sendStatus(500);
             }
     	});
