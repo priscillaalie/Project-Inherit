@@ -36,24 +36,20 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/login', function(req, res){
-  // if (req.cookies.sessionId) {
-  //   res.redirect('/');
-  // } else {
-  //   controllers.fetchLogin(req, res);
-  // }
   controllers.fetchLogin(req, res);
 });
 
 router.get('/signup', function(req, res){
-  // if (req.cookies.sessionId) {
-  //   res.redirect('/');
-  // } else {
-  //   controllers.fetchSignup(req, res);
-  // }
   controllers.fetchSignup(req, res);
 });
 
-router.get('/home', controllers.fetchHomepage);
+router.get('/home', function(req,res) {
+  if(req.cookies.sessionId){
+    controllers.fetchHomepage(req,res);
+  } else {
+    res.redirect('/login');
+  }
+});
 
 router.get('/myartifacts', function(req, res){
   if (req.cookies.sessionId) {

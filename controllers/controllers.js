@@ -56,6 +56,7 @@ var fetchSignup = function (req,res) {
 
 var fetchPost = function(req,res) {
     res.render('familypost.pug');
+
 };
 
 // if it is a current user, find the user's information such as name and groups they are in
