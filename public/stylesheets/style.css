@@ -22,7 +22,8 @@ a{
 a:hover{
   color: dimgrey;
   transition: all 100ms;
-  font-size: 18
+  text-decoration: none;
+
 }
 
 #navtop {
@@ -132,7 +133,6 @@ a:hover{
 }
 .blue-hover:hover {
   transform: translateY(-5px);
-  mar
   border: none;
   border-bottom: 5px solid #ffd194;
 }
