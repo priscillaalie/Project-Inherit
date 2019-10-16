@@ -80,7 +80,13 @@ block content
 
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
                                     a(href = `/artifact/view/${artifact._id}`)
-                                        img.d-block.w-full(src=artifact.photo, style="width:15rem;height:15rem; overflow: hidden;")
+                                        if(artifact.photo)
+                                            img.d-block.w-full(src=artifact.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        else
+
+                                            img.d-block.w-full(src="https://image.flaticon.com/icons/svg/149/149094.svg", style="width:15rem;height:15rem; min-width: 15rem; opacity: 0.5;" alt = artifact.name)
+
+
                                         .px-2.py-2
 
                                             p.mb-0.small.font-weight-medium.text-uppercase.mb-1.text-muted.lts-2px
