@@ -95,32 +95,33 @@ var fetchGroupByID = function(req, res) {
 };
 
 var editGroup = function(req, res){
-    Group.findById(req.originalUrl.split('/')[2], function(err, group) {
-        if (!err && group) {
-            group.title = req.body.title;
-            group.description = req.body.description;
-            group.owner = req.body.owner;
-            group.save(function(err, updatedGroup) {
-                if (updatedGroup) {
-                    // let message = "Your family has been updated";
-                    // Artifact.find({'_id': {$in: group.artifacts}}, function(err, artifacts) {
-                    //     User.find({'_id': {$in: group.members}}, function(err, members) {
-                    //         var results = {group: group, owner: group.owner,
-                    //             user: updatedGroup, session: req.cookies.sessionId, artifacts: artifacts,
-                    //                 members:members, error: message};
-                    //         res.render('family.pug', results);
-                    //     })
-                    // })
-                    res.redirect('/view/' + group._id);
+    singleUpload(req, res, function(err) {
+        if (!err) {
+            Group.findById(req.originalUrl.split('/')[2], function(err, group) {
+                if (!err && group) {
+                    group.title = req.body.title;
+                    group.description = req.body.description;
+                    group.owner = req.body.owner;
+                    if (req.file) {
+                        group.photo = req.file.location;
+                    }
+                    group.save(function(err, updatedGroup) {
+                        if (updatedGroup) {
+                            console.log(group);
+                            fetchGroupByID(req, res);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    });
                 } else {
-                    res.sendStatus(500);
+                    res.cookie('sessionId', '');
+                    res.redirect('/login')
                 }
             });
         } else {
-            res.cookie('sessionId', '');
-            res.redirect('/login')
+            res.sendStatus(500);
         }
-    });
+    })
 };
 
 var fetchGroupInfo = function(req, res) {
@@ -130,11 +131,16 @@ var fetchGroupInfo = function(req, res) {
             if (!err) {
                 User.find({'_id': {$in: group.members}}, function(err, members) {
                     if (!err) {
-
-                        User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                        User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
                             if (!err) {
-                                res.render('familyInfo.pug', { group:group, members:members, 
-                                session:req.cookies.sessionId, user:user, title: group.title});
+                                User.findById(group.owner, function(err, owner) {
+                                    if (!err) {
+                                        res.render('familyInfo.pug', { group:group, members:members, 
+                                            session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
+                                    } else {
+                                        res.sendStatus(500);
+                                    }
+                                })
                             } else {
                                 res.sendStatus(500);
                             }
@@ -162,7 +168,7 @@ var fetchGroupPost = function(req, res) {
                     if (!err) {
                         Post.find({'_id':{$in: group.posts}}, function(err, posts) {
                             if (!err) {
-                                User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                                User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
                                     if (!err) {
                                         res.render('familypost.pug', {group:group, members:members,
                                         posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
@@ -196,9 +202,17 @@ var fetchGroupMembers = function(req, res) {
             if (!err) {
                 User.find({}, function(err, members) {
                     if (!err) {
-                        User.find({sessionId:req.cookies.sessionId}, function(err, user) {
+                        User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
                             if (!err) {
-                                res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId, user:user, title: group.title});
+                                User.findById(group.owner, function(err, owner) {
+                                    if (!err) {
+                                        console.log(user._id.equals(owner._id));
+                                        res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId,
+                                            user:user, owner:owner, title:group.title});
+                                    } else {
+                                        res.sendStatus(500);
+                                    }
+                                })
                             } else {
                                 res.sendStatus(500);
                             }
