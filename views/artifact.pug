@@ -26,7 +26,7 @@ block content
                         #modalUpdateArtifact.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                             .modal-dialog(role='document')
-                                form(method='POST' action='/artifact/update').general
+                                form(method='POST' action=`/artifact/view/${artifact._id}`, enctype = "multipart/form-data").general
                                     .modal-content
                                         .modal-header.text-center
                                             h4.modal-title.w-100.font-weight-bold Edit #{artifact.title}
@@ -37,7 +37,7 @@ block content
                                         .modal-body.mx-3
                                             .md-form.mb-5
                                                 label.font-weight-bold(for='artifactname') Artifact Name
-                                                input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
+                                                input.form-control.fullrow#artifactname(type='text', name='title', value=artifact.title)
 
                                             .md-form.mb-5
                                                 label.font-weight-bold(for='description') Description

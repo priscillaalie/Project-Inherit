@@ -410,15 +410,11 @@ var createArtifact = function(req,res){
                 }
 
                 var groupId;
-                var toGo;
                 if (req.body.familygroup) {
                     groupId = req.body.familygroup;
-                    toGo = '/myartifacts';
                 } else {
                     groupId = req.headers.referer.split('/')[4];
-                    toGo = '/view/' + groupId;
                 }
-
                 artifact.familygroup = groupId;
                 artifact.created = today;
                 console.log(artifact);
@@ -426,20 +422,30 @@ var createArtifact = function(req,res){
                     if (!err) {
                         user.artifacts.push(artifact._id);
                         user.save();
-                        Group.findById(groupId, function(err, group) {
-                            if (!err) {
-                                group.artifacts.push(artifact._id);
-                                group.save();
-                                res.redirect(toGo);
-                            } else {
-                                res.sendStatus(500);
+                        if (req.body.familygroup) {
+                            if (groupId != "None") {
+                                Group.findById(groupId, function(err, group) {
+                                    if (!err) {
+                                        group.artifacts.push(artifact._id);
+                                        group.save();
+                                    } else {
+                                        console.log(err);
+                                        res.sendStatus(500);
+                                    }
+                                });
                             }
-                        });
+                            res.redirect('/myartifacts');
+                        } else {
+                            res.redirect('/view/' + groupId);
+                        }
+                        
                     } else {
+                        console.log(err);
                         res.sendStatus(500);
                     }
                 })
     		} else {
+                console.log(err);
                 res.sendStatus(500);
             }
     	});
@@ -651,6 +657,37 @@ var deleteComment = function(req, res) {
         }
     })
 }
+
+var editArtifact = function(req, res) {
+    singleUpload(req, res, function(err) {
+        if (!err) {
+            Artifact.findById(req.originalUrl.split('/')[3], function(err, artifact) {
+                if (!err && artifact) {
+                    artifact.title = req.body.title;
+                    artifact.description = req.body.description;
+                    if (req.file) {
+                        artifact.photo = req.file.location;
+                    }
+                    artifact.save(function(err, updated) {
+                        if (updated) {
+                            console.log(artifact);
+                            fetchArtifactByID(req, res);
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    });
+                } else {
+                    res.cookie('sessionId', '');
+                    res.redirect('/login')
+                }
+            });
+        } else {
+            res.sendStatus(500);
+        }
+    })
+}
+
+
 // Connect to the db
 const dbURI =
     "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
@@ -681,6 +718,7 @@ module.exports = {
     addComment,
     deleteArtifact,
     deleteComment,
-    fetchPost
+    fetchPost,
+    editArtifact
 }
 
