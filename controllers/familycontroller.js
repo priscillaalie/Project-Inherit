@@ -136,16 +136,16 @@ var fetchGroupInfo = function(req, res) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
                                         res.render('familyInfo.pug', { group:group, members:members, 
-                                            session:req.cookies.sessionId, user:user, owner:owner});
+                                            session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
                                         res.sendStatus(500);
                                     }
                                 })
-                                
                             } else {
                                 res.sendStatus(500);
                             }
                         })
+
                     } else {
                         res.sendStatus(500);
                     }
@@ -171,7 +171,7 @@ var fetchGroupPost = function(req, res) {
                                 User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
                                     if (!err) {
                                         res.render('familypost.pug', {group:group, members:members,
-                                        posts:posts, session:req.cookies.sessionId, user:user});
+                                        posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
                                     } else {
                                         res.sendStatus(500);
                                     }
@@ -204,15 +204,19 @@ var fetchGroupMembers = function(req, res) {
                     if (!err) {
                         User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
                             if (!err) {
+<<<<<<< HEAD
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
                                         console.log(user._id.equals(owner._id));
                                         res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId,
-                                            user:user, owner:owner});
+                                            user:user, owner:owner, title:group.title});
                                     } else {
                                         res.sendStatus(500);
                                     }
                                 })
+=======
+                                res.render('members.pug', {group:group, members:members, session:req.cookies.sessionId, user:user, title: group.title});
+>>>>>>> 7e4bfeb3ef2ad0799bfd5d4c46f938f48da37c59
                             } else {
                                 res.sendStatus(500);
                             }
