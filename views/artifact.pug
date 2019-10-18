@@ -89,7 +89,10 @@ block content
                         p#smallsize Uploaded by #{owner} on #{artifact.created}
 
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
-                        img.responsive(src=artifact.photo)
+                        if(artifact.photo)
+                            img.responsive(src=artifact.photo, alt=artifact.name)
+                        else
+                            p
                         br
                         br
 

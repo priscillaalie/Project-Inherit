@@ -4,6 +4,7 @@ block css
     style
         include ../public/stylesheets/homepage.css
         include ../public/stylesheets/family.css
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 
 block content
     .container-fluid.fill-height.fade-in
@@ -116,13 +117,14 @@ block content
                                             a.pull-left(href='#')
                                                 img.img-circle(src=post.photo)
                                             .media-body
+
+                                                strong.text-success #{post.ownername}
                                                 span.text-muted.pull-right
                                                     small.text-muted #{post.created}
                                                     if (user._id == post.owner)
                                                         a(href = `/deletepost/${post._id}`)
                                                             button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
                                                                 i.fa.fa-trash
-
                                                 strong.text-success #{post.ownername}
 
                                                 p

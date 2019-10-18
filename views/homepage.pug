@@ -75,8 +75,13 @@ block content
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
 
                                     a(href = `/view/${family._id}`)
+                                        if(family.photo)
+                                            img.d-block.w-full(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        else
 
-                                        img.d-block.w-full(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                            img.d-block.w-full(src="https://www.softwarearge.com/wp-content/uploads/2018/09/no-image-icon-6.png", style="width:15rem;height:15rem; min-width: 15rem;" alt = family.name)
+
+
                                         .px-2.py-2
                                             h4.mt-0.mb-1(style='line-height: 1.25;')
                                                 | #{family.title}
