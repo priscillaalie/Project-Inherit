@@ -92,7 +92,6 @@ block content
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
 
-
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
                 .row
                     .col.text-center.justify-content-center
@@ -101,37 +100,28 @@ block content
                         input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
                         datalist#datalist
                 .row
-                    if (Object.keys(members).length > 0)
-                        ul#myUL
-                            .row(style = "justify-content: flex-start;")
+                    .col.justify-content-center.text-center
+                        if (Object.keys(members).length > 0)
+                            ul#myUL
                                 each member in members
-                                    .col-xs-12.col-sm-6.col-md-6.col-lg-4.col-xl-4.d-flex.justify-content-center
-                                        li(style = "list-style-type: none;")
-                                            a
-                                                .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                    br
+                                    li(style = "list-style-type: none;")
+                                        a(href = `/addmember/${member._id}`)
+                                            .row
+                                                .col
                                                     if(member.photo)
-                                                        img.card-img-top.image-custom.fade-in(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                                        img(src = member.photo style = "height: 8rem; width: 8rem;")
                                                     else
-                                                        img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
-                                                    .card-body.flex-fill
-                                                        .row.text-center.justify-content-center
-                                                            .col.align-middle
-                                                                h6
-                                                                    strong.card-title #{member.name}
-
-                                                        .row.text-center.justify-content-center
-                                                            .col
-                                                                if (!group.members.includes(member._id))
-                                                                    a(href = `/addmember/${member._id}`)
-                                                                        button.btn.btn-primary.btn-sm(type='button')
-                                                                            i.material-icons person_add
-                                                                else
-                                                                    button.btn.btn-success.btn-sm(type='button')
-                                                                        i.material-icons check_circle
-
-                    else
-                        .card
-                            .card-body.text  No Users found here!
+                                                        img(src = src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg" style = "height: 8rem; width: 8rem")
+                                                .col
+                                                    h6.text-left.font-weight-bold #{member.name}
+                                                .col
+                                                    if (!group.members.includes(member._id))
+                                                            button.btn.btn-primary.btn-sm(type='button')
+                                                                i.material-icons person_add
+                                                    else
+                                                        button.btn.btn-success.btn-sm(type='button')
+                                                            i.material-icons check_circle
     script.
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
