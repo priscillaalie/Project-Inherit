@@ -7,12 +7,6 @@ var router = express.Router();
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Project Inherit' });
 });
-
-//router.get('/', controllers.fetchIndex);
-
-
-//router.get('/login', controllers.fetchLogin);
-
 //router.get('/', controllers.fetchIndex);
 router.post('/login', function(req, res, next) {
     res.render('login', { title: 'Project Inherit' });

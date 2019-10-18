@@ -26,7 +26,7 @@ block content
                         #modalUpdateArtifact.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
 
                             .modal-dialog(role='document')
-                                form(method='POST' action='/artifact/update').general
+                                form(method='POST' action=`/artifact/view/${artifact._id}`, enctype = "multipart/form-data").general
                                     .modal-content
                                         .modal-header.text-center
                                             h4.modal-title.w-100.font-weight-bold Edit #{artifact.title}
@@ -98,15 +98,8 @@ block content
                         h2 Family: #{familyname}
 
                         p #{artifact.description}
-
-
-                        br
                         hr.my-4
                         p#smallsize Uploaded by #{owner} on #{artifact.created}
-                        br
-
-
-                        br
 
                     .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
                         if(artifact.photo)
@@ -116,31 +109,22 @@ block content
                         br
                         br
 
-
-
-
-
                 .row.bootstrap.snippets
                     .col-md-12.col-sm-12.col-lg-12.col-xl-12
                         .comment-wrapper
                             .panel.panel-info
                                 .panel-heading.font-weight-bold
-                                    | Comment panel
+                                    | Comments
 
                                 .panel-body
                                     form(method = "POST" action = "/post")
 
-                                        textarea.form-control(placeholder='write a comment...', rows='3', name = 'comment')
+                                        textarea.form-control(placeholder='Write a comment...', rows='3', name = 'comment')
                                         br
                                         button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
                                     br
-
-
-
                                     br
-
                                     ul.media-list
-
                                     each comment in comments
 
                                         li.media

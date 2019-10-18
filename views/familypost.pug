@@ -29,36 +29,64 @@ block content
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
-
                         br
                         .row
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a(href='/home') Back
-
+                                a.tabstyle(href='/home') Back
                         hr.my-4
 
                         .row
                             .col
-                                a(href = `/view/${group._id}/info/`) About
+                                a.active(href = `/view/${group._id}/info` style = "font-weight: bolder; text-decoration: none;") About
                         br
                         .row
                             .col
-                                a.tabstyle(href=`/view/${group._id}/post/` style = "font-weight: bolder;") Posts
+                                a.tabstyle(href=`/view/${group._id}/post/`) Posts
 
                         br
                         .row
                             .col
-                                a.active(href=`/view/${group._id}`) Artifacts
+                                a.tabstyle(href=`/view/${group._id}`) Artifacts
 
                         br
                         .row
                             .col
-                                a(href = `/view/${group._id}/members`) Add Members
+                                a.tabstyle(href = `/view/${group._id}/members`) Add Members
                         br
                         .row
                             .col
+                                if (user._id.equals(owner._id))
+                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            form(method='POST' action='')
+                                                .modal-content
+                                                    .modal-header.text-center
+                                                        h4.modal-title.w-100.font-weight-bold Update My Family
+                                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                            span(aria-hidden='true') &times;
+                                                    .modal-body.mx-3
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='title') Title
+                                                            input#title.form-control(type='text', placeholder=group.title name='title', value = group.title)
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='desc') Description
+                                                            .input-group
+                                                                textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
+                                                            br
+                                                            label.font-weight-bold(for='owner') Admin:
+                                                                select#owner(type='text', placeholder=group.owner name='owner', value = group.owner)
+                                                                    for member in members
+                                                                        option(value=`${member._id}`) #{member.fname}
+
+                                                    .modal-footer.justify-content-center
+                                                        a(href = `/deletegroup/${group._id}`)
+                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
+                                                        button.btn.btn-primary(type='submit') Update
+                                else
+                                    a.tabstyle(href = `/leaveGroup`) Leave group
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
@@ -68,7 +96,7 @@ block content
                             .panel.panel-info
                                 .panel-heading.font-weight-bold
                                     | Update Your Family
-
+                                br
                                 .panel-body
                                     form(method = "POST" action = "/poststatus")
 
@@ -97,6 +125,7 @@ block content
                                                         a(href = `/deletepost/${post._id}`)
                                                             button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
                                                                 i.fa.fa-trash
+                                                strong.text-success #{post.ownername}
 
                                                 p
                                                     | #{post.content}
