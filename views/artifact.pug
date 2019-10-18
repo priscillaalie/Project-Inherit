@@ -35,14 +35,16 @@ block content
 
 
                                         .modal-body.mx-3
-                                            .md-form.mb-5
+                                            .md-form
                                                 label.font-weight-bold(for='artifactname') Artifact Name*
                                                 input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
+                                                br
 
-                                            .md-form.mb-5
+                                            .md-form
                                                 label.font-weight-bold(for='description') Description*
                                                 .input-group
                                                     textarea.form-control#description(type='text',name='description', value=artifact.description, placeholder=artifact.description)
+                                                br
                                             .md-form.text-center
                                                 label.font-weight-bold(for='preview') Upload Image (Optional)
                                                 .row

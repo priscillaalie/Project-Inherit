@@ -26,13 +26,15 @@ block content
                                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                                             span(aria-hidden='true') &times;
                                     .modal-body.mx-3
-                                        .md-form.mb-5
+                                        .md-form
                                             label.font-weight-bold(for='familyname') Title*
                                             input#familyname.form-control(type='text', placeholder='Title' name='title', required)
-                                        .md-form.mb-5
+                                            br
+                                        .md-form
                                             label.font-weight-bold(for='description') Description*
                                             .input-group
                                                 textarea#description.form-control(type='text', placeholder='Description', name='description',required)
+                                            br
                                         .md-form.text-center
                                             label.font-weight-bold(for='preview') Upload Image (Optional)
                                             .row
