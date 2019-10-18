@@ -58,10 +58,22 @@ block content
                                         input.fullrow(type='text', name='phone', value=user.phone)
 
                             .form-group.col.col-md-6.col-lg-6.col-xl-6.text-center.imgzone
-                                img#preview(src=user.photo)
+
+                                label.font-weight-bold(for='preview') Upload Image (Optional)
                                 .row
                                     .col
-                                        input( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                    .col-8.justify-content-center
+                                        img.text-center#preview(src=user.photo)
+
+                                    .col
+                                br
+                                .row
+                                    .col
+                                    .col-8.justify-content-center.text-left
+                                        input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                        label.custom-file-label(for='customFile') Choose file
+                                    .col
+
 
                         .row
                             .col.d-flex.justify-content-center

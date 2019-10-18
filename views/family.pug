@@ -108,10 +108,21 @@ block content
                                                             select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
                                                                 for member in members
                                                                     option(value=`${member._id}`) #{member.fname}
-                                                        .md-form.mb-5
-                                                            p.font-weight-bold Upload Image (optional)
-                                                            img#preview(src=group.photo)
-                                                            input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                        .md-form.text-center
+                                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center
+                                                                    img.text-center#preview(src=group.photo)
+
+                                                                .col
+                                                            br
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center.text-left
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    label.custom-file-label(for='customFile') Choose file
+                                                                .col
 
 
                                                     .modal-footer.justify-content-center
@@ -161,10 +172,21 @@ block content
                                                         label.font-weight-bold(for='description') Description
                                                         .input-group
                                                             textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                                    .md-form.mb-5
-                                                        p.font-weight-bold Upload Image (optional)
-                                                        img#preview(src=file)
-                                                        input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                    .md-form.text-center
+                                                        label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center
+                                                                img.text-center#preview(src=file)
+
+                                                            .col
+                                                        br
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center.text-left
+                                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                label.custom-file-label(for='customFile') Choose file
+                                                            .col
 
                                                 .modal-footer.justify-content-center
                                                     button.btn.btn-primary(type='submit') Add
