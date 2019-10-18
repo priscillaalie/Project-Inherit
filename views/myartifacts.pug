@@ -50,12 +50,13 @@ block content
                                                     input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
                                                     label.custom-file-label(for='customFile') Choose file
                                                 .col
-                                        .md-form.mb-5
+                                        .md-form
                                             label.font-weight-bold(for='familyname') Which family does this antique belong to?
                                             select#state(type='text', placeholder='Family Group' name='familygroup', required)
                                                 option(value = "None") None
                                                 for family in familygroups
                                                     option(value=`${family._id}`) #{family.title}
+                                            br
 
                                     .modal-footer.justify-content-center
                                         button.btn.btn-primary(type='submit') Add
@@ -130,13 +131,15 @@ block content
                                                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                         span(aria-hidden='true') &times;
                                                 .modal-body.mx-3
-                                                    .md-form.mb-5
+                                                    .md-form
                                                         label.font-weight-bold(for='familyname') Title
                                                         input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
-                                                    .md-form.mb-5
+                                                        br
+                                                    .md-form
                                                         label.font-weight-bold(for='description') Description
                                                         .input-group
                                                             textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
+                                                        br
                                                     .md-form.text-center
                                                         label.font-weight-bold(for='preview') Upload Image (Optional)
                                                         .row
@@ -152,6 +155,15 @@ block content
                                                                 input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
                                                                 label.custom-file-label(for='customFile') Choose file
                                                             .col
+                                                        br
+
+                                                    .md-form
+                                                        label.font-weight-bold(for='familyname') Which family does this antique belong to?
+                                                        select#state(type='text', placeholder='Family Group' name='familygroup', required)
+                                                            option(value = "None") None
+                                                            for family in familygroups
+                                                                option(value=`${family._id}`) #{family.title}
+                                                        br
 
                                                 .modal-footer.justify-content-center
                                                     button.btn.btn-primary(type='submit') Add
