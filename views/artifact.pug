@@ -16,7 +16,7 @@ block content
                     .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
                         h2.text-center.white-transparent.font-weight-bold #{artifact.title}
                         br
-                    .col.text-right
+                    .col
                         if (user._id.equals(artifact.owner))
                             a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
                                 | Edit artifact
@@ -153,15 +153,5 @@ block content
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 
-            reader.addEventListener("load", function (e) {
-                //document.getElementById("b64").innerHTML = e.target.result;
-                preview.src = reader.result.toString();
-                document.getElementById('b64').value = e.target.result;
-            }, false);
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
 
 

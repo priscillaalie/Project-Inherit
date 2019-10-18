@@ -18,7 +18,7 @@ block content
 
                         if(session)
                             h2.text-center #{group.title}
-                    .col.text-right
+                    .col
                         if  (user.artifacts.length > 0)
                             a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
                                 i.fas.fa-add
@@ -41,10 +41,22 @@ block content
                                                     .input-group
                                                         textarea#description.form-control(type='text', placeholder='Description', name='description',required)
                                                     br
-                                                .md-form.mb-5.text-center
-                                                    p.font-weight-bold Upload Image (optional)
-                                                    img#preview(src=file)
-                                                    input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                .md-form.text-center
+                                                    label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                    .row
+                                                        .col
+                                                        .col-8.justify-content-center
+                                                            img.text-center#preview(src=file)
+
+                                                        .col
+                                                    br
+                                                    .row
+                                                        .col
+                                                        .col-8.justify-content-center.text-left
+                                                            input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                            label.custom-file-label(for='customFile') Choose file
+                                                        .col
+                                                    br
 
 
                                             .modal-footer.justify-content-center
