@@ -16,7 +16,7 @@ block content
                     .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
                         h2.text-center.white-transparent.font-weight-bold #{artifact.title}
                         br
-                    .col.text-right
+                    .col
                         if (user._id.equals(artifact.owner))
                             a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
                                 | Edit artifact
@@ -35,18 +35,31 @@ block content
 
 
                                         .modal-body.mx-3
-                                            .md-form.mb-5
-                                                label.font-weight-bold(for='artifactname') Artifact Name
-                                                input.form-control.fullrow#artifactname(type='text', name='title', value=artifact.title)
+                                            .md-form
+                                                label.font-weight-bold(for='artifactname') Artifact Name*
+                                                input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
+                                                br
 
-                                            .md-form.mb-5
-                                                label.font-weight-bold(for='description') Description
+                                            .md-form
+                                                label.font-weight-bold(for='description') Description*
                                                 .input-group
                                                     textarea.form-control#description(type='text',name='description', value=artifact.description, placeholder=artifact.description)
-                                            .md-form.mb-5.text-center
-                                                p.font-weight-bold Upload Image (optional)
-                                                img#preview(src=artifact.photo)
-                                                input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                br
+                                            .md-form.text-center
+                                                label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                .row
+                                                    .col
+                                                    .col-8.justify-content-center
+                                                        img.text-center#preview(src=artifact.photo)
+
+                                                    .col
+                                                br
+                                                .row
+                                                    .col
+                                                    .col-8.justify-content-center.text-left
+                                                        input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                        label.custom-file-label(for='customFile') Choose file
+                                                    .col
 
 
                                         .modal-footer.justify-content-center
@@ -134,6 +147,11 @@ block content
 
 
 
+    script.
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
 
 
 

@@ -57,53 +57,34 @@ block content
                         br
                         .row
                             .col
-                                if (user._id.equals(owner._id))
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
-                                    #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                                        .modal-dialog(role='document')
-                                            form(method='POST' action='')
-                                                .modal-content
-                                                    .modal-header.text-center
-                                                        h4.modal-title.w-100.font-weight-bold Update My Family
-                                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                            span(aria-hidden='true') &times;
-                                                    .modal-body.mx-3
-                                                        .md-form.mb-5
-                                                            label.font-weight-bold(for='title') Title
-                                                            input#title.form-control(type='text', placeholder=group.title name='title', value = group.title)
-                                                        .md-form.mb-5
-                                                            label.font-weight-bold(for='desc') Description
-                                                            .input-group
-                                                                textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
-                                                            br
-                                                            label.font-weight-bold(for='owner') Admin:
-                                                                select#owner(type='text', placeholder=group.owner name='owner', value = group.owner)
-                                                                    for member in members
-                                                                        option(value=`${member._id}`) #{member.fname}
 
-                                                    .modal-footer.justify-content-center
-                                                        a(href = `/deletegroup/${group._id}`)
-                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
-                                                        button.btn.btn-primary(type='submit') Update
-                                else
-                                    a.tabstyle(href = `/leaveGroup`) Leave group
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
 
                         .comment-wrapper
-                            .panel.panel-info
-                                .panel-heading.font-weight-bold
-                                    | Update Your Family
-                                br
-                                .panel-body
-                                    form(method = "POST" action = "/poststatus")
-
-                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                            .panel.panel-info(style="margin: 3px black;")
+                                .row
+                                    .col
+                                        .panel-heading.font-weight-bold
+                                            | Update Your Family
                                         br
+                                        form(method = "POST" action = "/poststatus")
+                                            textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                        br
+                                    .col-3.text-left
+                                        img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
+                                .row
+                                    .col-8.text-left
+                                        input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                        label.custom-file-label(for='customFile') Upload Image (Optional)
+
+                                    .col
                                         button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+
                                     br
+                                    hr.my-4
 
 
 
@@ -133,20 +114,20 @@ block content
                                                 hr.my-4
 
             // upload image for create group
-            script.
-                function previewFile() {
-                    var preview = document.querySelector('img');
-                    var file = document.querySelector('input[type=file]').files[0];
-                    var reader = new FileReader();
+    script.
+        function previewFile() {
+            var previewpost = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
 
-                    reader.addEventListener("load", function (e) {
-                        //document.getElementById("b64").innerHTML = e.target.result;
-                        preview.src = reader.result.toString();
-                        document.getElementById('b64').value = e.target.result;
-                    }, false);
+            reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
+                previewpost.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
 
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    }
-                }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
 

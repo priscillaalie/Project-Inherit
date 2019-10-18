@@ -1,21 +1,23 @@
 
+
 #preview {
     background-color: whitesmoke;
     max-width: 10vw;
-    max-height:20vw;
-    min-width: 5vw;
-    min-height: 5vw;
-    border-radius: 3px;
+    max-height:15vw;
+    min-width: 16vw;
+    min-height: 18vw;
+    border-radius: 5px;
     border: 3px solid dimgrey;
+    object-fit: cover;
+    position: relative;
 }
 
 
-#pad {
-    padding-left: 30px;
-}
 
 img {
     object-fit: cover;
+    position: relative;
+
 }
 
 
