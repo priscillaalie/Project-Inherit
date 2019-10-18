@@ -135,7 +135,7 @@ var fetchGroupInfo = function(req, res) {
                             if (!err) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
-                                        res.render('familyInfo.pug', { group:group, members:members, 
+                                        res.render('familyInfo.pug', { group:group, members:members,
                                             session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
                                         res.sendStatus(500);
@@ -363,7 +363,7 @@ var addPost = function(req, res) {
                     } else {
                         res.sendStatus(400);
                     }
-                }) 
+                })
             } else {
                 res.sendStatus(500);
             }
