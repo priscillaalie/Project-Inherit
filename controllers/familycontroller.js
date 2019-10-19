@@ -170,8 +170,14 @@ var fetchGroupPost = function(req, res) {
                             if (!err) {
                                 User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
                                     if (!err) {
-                                        res.render('familypost.pug', {group:group, members:members,
-                                        posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
+                                        User.findById(group.owner, function(err, owner) {
+                                            if (!err) {
+                                                res.render('familypost.pug', {group:group, members:members, owner: owner,
+                                                posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
+                                            } else {
+                                                res.sendStatus(500);
+                                            }
+                                        })
                                     } else {
                                         res.sendStatus(500);
                                     }
