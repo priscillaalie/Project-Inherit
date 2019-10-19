@@ -104,8 +104,10 @@ block content
                         if (Object.keys(members).length > 0)
                             ul#myUL
                                 each member in members
+
                                     li.profilerow
                                         form(method = 'POST' action = `/addmember/${member._id}`)
+
                                             .row
                                                 .col(style = "margin: 5px 0 5px 0")
                                                     if(member.photo)
