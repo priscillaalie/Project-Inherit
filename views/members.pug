@@ -104,18 +104,17 @@ block content
                         if (Object.keys(members).length > 0)
                             ul#myUL
                                 each member in members
-                                    hr.my-4
                                     li.profilerow
-                                        a(href = `/addmember/${member._id}`)
+                                        form(method = 'POST' action = `/addmember/${member._id}`)
                                             .row
-                                                .col
+                                                .col(style = "margin: 5px 0 5px 0")
                                                     if(member.photo)
                                                         img(src = member.photo style = "height: 8rem; width: 8rem;")
                                                     else
                                                         img(src = src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg" style = "height: 8rem; width: 8rem")
                                                 .col
-                                                    h6.text-left.font-weight-bold #{member.name}
-                                                .col
+                                                    h6.text-left.font-weight-bold(style = "padding-top: 10%;") #{member.name}
+                                                .col(style = "padding-top: 5%;")
                                                     if (!group.members.includes(member._id))
                                                             button.btn.btn-primary.btn-sm(type='button')
                                                                 i.material-icons person_add
@@ -162,8 +161,9 @@ block content
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
+
             for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
+                a = li[i].getElementsByTagName("form")[0];
                 txtValue = a.textContent || a.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
