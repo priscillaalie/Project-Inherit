@@ -65,23 +65,24 @@ block content
 
                         .comment-wrapper
                             .panel.panel-info(style="margin: 3px black;")
-                                .row
-                                    .col
-                                        .panel-heading.font-weight-bold
-                                            | Update Your Family
-                                        br
-                                        form(method = "POST" action = "/poststatus")
-                                            textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
-                                        br
-                                    .col-3.text-left
-                                        img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
-                                .row
-                                    .col-8.text-left
-                                        input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
-                                        label.custom-file-label(for='customFile') Upload Image (Optional)
+                                form(method = "POST" action = "/poststatus")
+                                    .row
+                                        .col
+                                            .panel-heading.font-weight-bold
+                                                | Update Your Family
 
-                                    .col
-                                        button.btn.btn-info(type='submit' value = 'Submit') Post
+
+                                                textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                            br
+                                        .col-3.text-left
+                                            img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
+                                    .row
+                                        .col-8.text-left
+                                            input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                            label.custom-file-label(for='customFile') Upload Image (Optional)
+
+                                        .col
+                                            button.btn.btn-info(type='submit' value = 'Submit') Post
 
                                 br
                                 hr.my-4
