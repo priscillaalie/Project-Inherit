@@ -99,7 +99,7 @@ block content
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
                                                             button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
-                                                        button.btn.btn-primary(type='submit') Update
+                                                        button.btn.btn-outline-secondary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
 
@@ -145,7 +145,7 @@ block content
                                             label.custom-file-label(for='customFile') Upload Image (Optional)
 
                                         .col
-                                            button.btn.btn-info(type='submit' value = 'Submit') Post
+                                            button.btn.btn-outline-secondary(type='submit' value = 'Submit') Post
 
                                 br
                                 hr.my-4
