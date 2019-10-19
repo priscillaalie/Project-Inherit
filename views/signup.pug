@@ -48,6 +48,13 @@ block content
 
                         div.form-group
                             .row
+                                .col.col-lg-12.col-xl-12
+                                    label(for='location').font-weight-bold Location
+                                    input.form-control#location(type='text', placeholder='Search..' name='location')
+                        br
+
+                        div.form-group
+                            .row
                                 .col
                                     label(for='pw').font-weight-bold Password
                                     input#pw.form-control(type='password', onkeyup="checkPasswords();",
@@ -99,4 +106,8 @@ block content
                         .text-center
                             button.btn.btn-primary.page-button#submit(type='submit') Sign Up
 
-
+    script.
+        function activatePlacesSearch() {
+            var input = document.getElementById('location');
+            var searchbox = new google.maps.places.SearchBox(input);
+        }

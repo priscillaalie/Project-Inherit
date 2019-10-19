@@ -39,11 +39,11 @@ block content
 
                         .row
                             .col
-                                a.active(href = `/view/${group._id}/info` style = "font-weight: bolder; text-decoration: none;") About
+                                a.tabstyle(href = `/view/${group._id}/info`) About
                         br
                         .row
                             .col
-                                a.tabstyle(href=`/view/${group._id}/post/`) Posts
+                                a.active(href=`/view/${group._id}/post/` style = "font-weight: bolder; text-decoration: none;") Posts
 
                         br
                         .row
@@ -54,10 +54,8 @@ block content
                         .row
                             .col
                                 a.tabstyle(href = `/view/${group._id}/members`) Add Members
-                        br
-                        .row
-                            .col
 
+                    hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row

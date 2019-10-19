@@ -12,7 +12,7 @@ block content
             .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
                 if(session)
                     h2.text-center My Artifacts
-            .col
+            .col.text-center
                 if  (user.artifacts.length > 0)
                     a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
                         i.fas.fa-add
@@ -82,9 +82,7 @@ block content
                             hr.my-4
                         a.tabstyle(href='/events') Events
                         br
-                        br
-
-
+                    hr.my-4
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 if (artifacts.length > 0)
 

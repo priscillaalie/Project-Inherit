@@ -91,9 +91,9 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
+                        hr.my-4
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
-                .row
+                .row(style ="padding-bottom: 2rem;")
                     .col.text-center.justify-content-center
                         br
                         input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
@@ -104,8 +104,8 @@ block content
                         if (Object.keys(members).length > 0)
                             ul#myUL
                                 each member in members
-                                    br
-                                    li(style = "list-style-type: none;")
+                                    hr.my-4
+                                    li.profilerow
                                         a(href = `/addmember/${member._id}`)
                                             .row
                                                 .col
