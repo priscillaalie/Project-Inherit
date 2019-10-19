@@ -63,6 +63,19 @@ block content
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
 
+                        ul#myTab.nav.nav-tabs(role='tablist')
+                            li.nav-item
+                                a#status-tab.nav-link.active(data-toggle='tab', href='#status', role='tab', aria-controls='home', aria-selected='true') Status
+                            li.nav-item
+                                a#picture-tab.nav-link(data-toggle='tab', href='#picture', role='tab', aria-controls='profile', aria-selected='false') Pictures
+                            li.nav-item
+                                a#contact-tab.nav-link(data-toggle='tab', href='#contact', role='tab', aria-controls='contact', aria-selected='false') Contact
+                        #myTabContent.tab-content
+                            #status.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='status-tab') ...
+                            #picture.tab-pane.fade(role='tabpanel', aria-labelledby='picture-tab') ...
+                            #contact.tab-pane.fade(role='tabpanel', aria-labelledby='contact-tab') ...
+
+
                         .comment-wrapper
                             .panel.panel-info(style="margin: 3px black;")
                                 form(method = "POST" action = "/poststatus")
