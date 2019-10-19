@@ -138,7 +138,6 @@ var fetchGroupInfo = function(req, res) {
                             if (!err) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
-<<<<<<< HEAD
 
                                         var toWrite = 'families:\n';
                                         for (var i=0;i<members.length;i++) {
@@ -165,9 +164,6 @@ var fetchGroupInfo = function(req, res) {
                                         })
 
                                         res.render('familyInfo.pug', { group:group, members:members, 
-=======
-                                        res.render('familyInfo.pug', { group:group, members:members,
->>>>>>> 667efdad5fb33d43fd30ac47e2e6faa877a35d69
                                             session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
                                         res.sendStatus(500);
