@@ -21,3 +21,8 @@
     background-size: cover;
     border-radius: 5px;
 }
+
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
