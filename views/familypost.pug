@@ -81,37 +81,32 @@ block content
                                         label.custom-file-label(for='customFile') Upload Image (Optional)
 
                                     .col
-                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                        button.btn.btn-info(type='submit' value = 'Submit') Post
 
-                                    br
-                                    hr.my-4
+                                br
+                                hr.my-4
 
+                                ul.media-list
 
+                                each post in posts
 
-                                    br
+                                    li.media
+                                        a.pull-left(href='#')
+                                            img.img-circle(src=post.photo)
+                                        .media-body
 
-                                    ul.media-list
+                                            strong.text-success #{post.ownername}
+                                            span.text-muted.pull-right
+                                                small.text-muted #{post.created}
+                                                if (user._id == post.owner)
+                                                    a(href = `/deletepost/${post._id}`)
+                                                        button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                            i.fa.fa-trash
 
-                                    each post in posts
+                                            p
+                                                | #{post.content}
 
-                                        li.media
-                                            a.pull-left(href='#')
-                                                img.img-circle(src=post.photo)
-                                            .media-body
-
-                                                strong.text-success #{post.ownername}
-                                                span.text-muted.pull-right
-                                                    small.text-muted #{post.created}
-                                                    if (user._id == post.owner)
-                                                        a(href = `/deletepost/${post._id}`)
-                                                            button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                i.fa.fa-trash
-                                                strong.text-success #{post.ownername}
-
-                                                p
-                                                    | #{post.content}
-
-                                                hr.my-4
+                                            hr.my-4
 
             // upload image for create group
     script.
