@@ -13,6 +13,7 @@ const Post = require('../models/post');
 
 var express = require('express');
 var app = express();
+let {PythonShell} = require('python-shell');
 
 
 var upload = require('../services/file-uploader');
@@ -124,6 +125,8 @@ var editGroup = function(req, res){
     })
 };
 
+const fs = require('fs');
+
 var fetchGroupInfo = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
@@ -135,6 +138,31 @@ var fetchGroupInfo = function(req, res) {
                             if (!err) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
+
+                                        var toWrite = 'families:\n';
+                                        for (var i=0;i<members.length;i++) {
+                                            toWrite += '    - parents: ';
+                                            toWrite += members[i].parents + '\n';
+                                            toWrite += '        children: ';
+                                            toWrite += members[i].siblings + '\n';
+                                        }
+                                        toWrite += '\npeople:\n'
+                                        for (var i=0;i<members.length;i++) {
+                                            toWrite += '    ' + members[i]._id.toString() + ':\n';
+                                            toWrite += '        name: ' + members[i].fname + '\n';
+                                            toWrite += '        fullname: ' + members[i].name + '\n';
+                                        }
+                                        console.log(toWrite);
+
+                                        fs.writeFile('family.yml', toWrite, (err) => {
+                                            if (err) throw err;
+                                        })
+
+                                        const {exec} = require('child_process');
+                                        exec('kingraph simpsons.yml -F png > family.png', (err) => {
+                                            if (err) console.log(err);
+                                        })
+
                                         res.render('familyInfo.pug', { group:group, members:members, 
                                             session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
@@ -448,9 +476,6 @@ var removeMember = function(req, res) {
         }
     })
 }
-
-
-
 
 module.exports = {
     createGroup,
