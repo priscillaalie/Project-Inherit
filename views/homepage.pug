@@ -72,17 +72,14 @@ block content
                         if (familygroups)
                             hr.my-4
                         a.tabstyle(href='/events') Events
-                        br
-                        br
-
-
+                        hr.my-4
 
             .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.cardzone
 
                 if (familygroups.length>0)
                     .row
                         each family in familygroups
-                            .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4
+                            .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4.fade-in
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
 
                                     a(href = `/view/${family._id}`)

@@ -54,4 +54,7 @@ img {
 .profilerow{
     list-style-type: none;
     background-color: white;
+    border-style:solid;
+    border-width: 1px;
+    border-color: lightgrey;
 }
