@@ -219,7 +219,7 @@ var createUser = function(req,res){
         var message = "Password must be more than 7 characters";
         var results = {title: 'Inherit', error: message,
             email: req.body.email, fname: req.body.fname, phone: req.body.phone,
-            lname: req.body.lname, birthday: req.body.birthday, location: req.body.location};
+            lname: req.body.lname, birthday: req.body.birthday};
         res.render('signup', results);
     } else {
         singleUpload(req, res, function(err) {
@@ -231,8 +231,7 @@ var createUser = function(req,res){
                     "birthday":req.body.birthday,
                     "phone":req.body.phone,
                     "password":hash,
-                    "name": req.body.fname + ' ' + req.body.lname,
-                    "location": req.body.location
+                    "name": req.body.fname + ' ' + req.body.lname
                 });
                 // Check if the email already exists
                 User.find({email: req.body.email}, function(err, users){
@@ -241,7 +240,7 @@ var createUser = function(req,res){
                             var message = "Email address already in use. Please log in.";
                             var results = {title: 'Inherit', error: message,
                                 email: req.body.email, fname: req.body.fname,
-                                lname: req.body.lname, phone: req.body.phone, location: req.body.location};
+                                lname: req.body.lname, phone: req.body.phone};
                             res.render('signup',results);
                         }
                         else{

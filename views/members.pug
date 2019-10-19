@@ -105,7 +105,7 @@ block content
                             ul#myUL
                                 each member in members
                                     li.profilerow
-                                        form(method = 'POST' action = `/addmember/${member._id}`)
+                                        form(method = 'POST' action =`/addmember/${member._id}`)
                                             .row
                                                 .col(style = "margin: 5px 0 5px 0")
                                                     if(member.photo)
@@ -117,15 +117,16 @@ block content
                                                         .col
                                                             h6.text-left.font-weight-bold(style = "padding-top: 10%;") #{member.name}
                                                     if(!group.members.includes(member._id))
-                                                        .row
-                                                            .col
-                                                                select#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
-                                                                    option(value = "none") None
-                                                                    option(value="mother") Mother
-                                                                    option(value="father") Father
-                                                                    option(value="sister") Sister
-                                                                    option(value="brother") Brother
-                                                                    option(value = "other") Other
+                                                        div.form-group
+                                                            .row
+                                                                .col
+                                                                    select#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
+                                                                        option(value = "none") None
+                                                                        option(value="mother") Mother
+                                                                        option(value="father") Father
+                                                                        option(value="sister") Sister
+                                                                        option(value="brother") Brother
+                                                                        option(value = "other") Other
                                                     else
                                                         //.row
                                                             .col
@@ -136,7 +137,7 @@ block content
                                                             button.btn.btn-primary.btn-sm(type='submit')
                                                                 i.material-icons person_add
                                                     else
-                                                        button.btn.btn-success.btn-sm(type='button')
+                                                        button.btn.btn-success.btn-sm(type='submit')
                                                             i.material-icons check_circle
     script.
         function getusers() {

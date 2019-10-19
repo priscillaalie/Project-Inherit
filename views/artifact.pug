@@ -114,7 +114,7 @@ block content
                         .comment-wrapper
                             .panel.panel-info
                                 .panel-heading.font-weight-bold
-                                    | Comments
+                                    | Leave a Comment
 
                                 .panel-body
                                     form(method = "POST" action = "/post")
@@ -124,6 +124,7 @@ block content
                                         button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
                                     br
                                     br
+                                    hr.my-4
                                     ul.media-list
                                     each comment in comments
 

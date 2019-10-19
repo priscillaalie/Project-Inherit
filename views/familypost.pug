@@ -34,23 +34,26 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a(href='/home') Back
+                                a.tabstyle(href='/home') Back
 
                         hr.my-4
 
                         .row
                             .col
-                                a(href = `/view/${group._id}/info/`) About
+                                a.tabstyle(href = `/view/${group._id}/info/`) About
+                        br
+                        .row
+                            .col
+                                a.active(href=`/view/${group._id}/post/` style = "font-weight: bolder; text-decoration: none;") Posts
+                        br
+                        .row
+                            .col
+                                a.active(href=`/view/${group._id}`) Artifacts
 
                         br
                         .row
                             .col
-                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
-
-                        br
-                        .row
-                            .col
-                                a(href = `/view/${group._id}/members`) Members
+                                a.tabstyle(href = `/view/${group._id}/members`) Add Members
                         br
                         .row
                             .col
@@ -102,52 +105,72 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
-
-
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
 
+                        ul#myTab.nav.nav-tabs(role='tablist')
+                            li.nav-item
+                                a#status-tab.nav-link.active(data-toggle='tab', href='#status', role='tab', aria-controls='home', aria-selected='true') Status
+                            li.nav-item
+                                a#picture-tab.nav-link(data-toggle='tab', href='#picture', role='tab', aria-controls='profile', aria-selected='false') Pictures
+                            li.nav-item
+                                a#contact-tab.nav-link(data-toggle='tab', href='#contact', role='tab', aria-controls='contact', aria-selected='false') Contact
+                        #myTabContent.tab-content
+                            #status.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='status-tab') ...
+                            #picture.tab-pane.fade(role='tabpanel', aria-labelledby='picture-tab') ...
+                            #contact.tab-pane.fade(role='tabpanel', aria-labelledby='contact-tab') ...
+
+
                         .comment-wrapper
-                            .panel.panel-info
-                                .panel-heading.font-weight-bold
-                                    | Update Your Family
 
-                                .panel-body
-                                    form(method = "POST" action = "/poststatus")
-
-                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'poststatus')
-                                        br
-                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
-                                    br
+                            .panel.panel-info(style="margin: 3px black;")
+                                form(method = "POST" action = "/poststatus")
+                                    .row
+                                        .col
+                                            .panel-heading.font-weight-bold
+                                                | Update Your Family
 
 
 
-                                    br
+                                                textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                            br
+                                        .col-3.text-left
+                                            img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
+                                    .row
+                                        .col-8.text-left
+                                            input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                            label.custom-file-label(for='customFile') Upload Image (Optional)
 
-                                    ul.media-list
+                                        .col
+                                            button.btn.btn-info(type='submit' value = 'Submit') Post
 
-                                    each post in posts
-                                        li.media
-                                            a.pull-left(href='#')
-                                                img.img-circle(src=post.photo)
-                                            .media-body
-                                                span.text-muted.pull-right
-                                                    small.text-muted #{post.created}
-                                                    if (user._id == post.owner)
-                                                        a(href = `/deletepost/${post._id}`)
-                                                            button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                i.fa.fa-trash
+                                br
+                                hr.my-4
 
-                                                strong.text-success #{post.ownername}
+                                ul.media-list
 
-                                                p
-                                                    | #{post.content}
+                                each post in posts
 
-                                                hr.my-4
+                                    li.media
+                                        a.pull-left(href='#')
+                                            img.img-circle(src=post.photo)
+                                        .media-body
+
+                                            strong.text-success #{post.ownername}
+                                            span.text-muted.pull-right
+                                                small.text-muted #{post.created}
+                                                if (user._id == post.owner)
+                                                    a(href = `/deletepost/${post._id}`)
+                                                        button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                            i.fa.fa-trash
+
+                                            p
+                                                | #{post.content}
+
+                                            hr.my-4
 
             // upload image for create group
             script.
