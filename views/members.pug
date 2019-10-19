@@ -91,9 +91,9 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
+                        hr.my-4
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
-                .row
+                .row(style ="padding-bottom: 2rem;")
                     .col.text-center.justify-content-center
                         br
                         input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
@@ -104,19 +104,36 @@ block content
                         if (Object.keys(members).length > 0)
                             ul#myUL
                                 each member in members
-                                    br
-                                    hr.my-6
-                                    li(style = "list-style-type: none;")
-                                        a(href = `/addmember/${member._id}`)
+
+                                    li.profilerow
+                                        form(method = 'POST' action = `/addmember/${member._id}`)
+
                                             .row
-                                                .col
+                                                .col(style = "margin: 5px 0 5px 0")
                                                     if(member.photo)
                                                         img(src = member.photo style = "height: 8rem; width: 8rem;")
                                                     else
                                                         img(src = src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg" style = "height: 8rem; width: 8rem")
                                                 .col
-                                                    h6.text-left.font-weight-bold #{member.name}
-                                                .col
+                                                    .row
+                                                        .col
+                                                            h6.text-left.font-weight-bold(style = "padding-top: 10%;") #{member.name}
+                                                    if(!group.members.includes(member._id))
+                                                        .row
+                                                            .col
+                                                                select#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
+                                                                    option(value = "none") None
+                                                                    option(value="mother") Mother
+                                                                    option(value="father") Father
+                                                                    option(value="sister") Sister
+                                                                    option(value="brother") Brother
+                                                                    option(value = "other") Other
+                                                    else
+                                                        //.row
+                                                            .col
+                                                                p #{member.relation}
+
+                                                .col(style = "padding-top: 5%;")
                                                     if (!group.members.includes(member._id))
                                                             button.btn.btn-primary.btn-sm(type='button')
                                                                 i.material-icons person_add
@@ -163,8 +180,9 @@ block content
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
+
             for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
+                a = li[i].getElementsByTagName("form")[0];
                 txtValue = a.textContent || a.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";

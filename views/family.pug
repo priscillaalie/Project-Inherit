@@ -18,7 +18,7 @@ block content
 
                         if(session)
                             h2.text-center #{group.title}
-                    .col
+                    .col.text-center
                         if  (user.artifacts.length > 0)
                             a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
                                 i.fas.fa-add
@@ -99,7 +99,7 @@ block content
                         br
                         .row
                             .col
-                                if (user._id.equals(owner._id))
+                                if (user._id.equals(group.owner))
                                     a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
@@ -147,14 +147,13 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
+                        hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
-
                 if (artifacts.length > 0)
                     .row
                         each artifact in artifacts
-                            .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center
+                            .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.fade-in(style = "margin-right: 5%;")
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
 
                                     a(href = `/artifact/view/${artifact._id}`)

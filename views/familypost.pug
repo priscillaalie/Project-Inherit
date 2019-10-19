@@ -4,7 +4,6 @@ block css
     style
         include ../public/stylesheets/homepage.css
         include ../public/stylesheets/family.css
-    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 
 block content
     .container-fluid.fill-height.fade-in
@@ -29,35 +28,84 @@ block content
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
+
                         br
                         .row
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a.tabstyle(href='/home') Back
+                                a(href='/home') Back
+
                         hr.my-4
 
                         .row
                             .col
-                                a.active(href = `/view/${group._id}/info` style = "font-weight: bolder; text-decoration: none;") About
-                        br
-                        .row
-                            .col
-                                a.tabstyle(href=`/view/${group._id}/post/`) Posts
+                                a(href = `/view/${group._id}/info/`) About
 
                         br
                         .row
                             .col
-                                a.tabstyle(href=`/view/${group._id}`) Artifacts
+                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
 
                         br
                         .row
                             .col
-                                a.tabstyle(href = `/view/${group._id}/members`) Add Members
+                                a(href = `/view/${group._id}/members`) Members
                         br
                         .row
                             .col
+                                if (user._id.equals(group.owner))
+                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
+                                                .modal-content
+                                                    .modal-header.text-center
+                                                        h4.modal-title.w-100.font-weight-bold Update #{group.title}
+                                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                            span(aria-hidden='true') &times;
+                                                    .modal-body.mx-3
+                                                        .md-form
+                                                            label.font-weight-bold(for='title') Title
+                                                            input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
+                                                            br
+                                                        .md-form
+                                                            label.font-weight-bold(for='desc') Description
+                                                            .input-group
+                                                                textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
+                                                            br
+                                                            label.font-weight-bold(for='owner') Admin:
+                                                            select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
+                                                                for member in members
+                                                                    option(value=`${member._id}`) #{member.fname}
+                                                            br
+                                                        .md-form.text-center
+                                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center
+                                                                    img.text-center#preview(src=group.photo)
 
+                                                                .col
+                                                            br
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center.text-left
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    label.custom-file-label(for='customFile') Choose file
+                                                                .col
+
+
+                                                    .modal-footer.justify-content-center
+                                                        a(href = `/deletegroup/${group._id}`)
+                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
+                                                        button.btn.btn-primary(type='submit') Update
+                                else
+                                    a.tabstyle(href = `/leaveGroup`) Leave group
+
+
+
+                        hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
@@ -77,12 +125,14 @@ block content
 
 
                         .comment-wrapper
+
                             .panel.panel-info(style="margin: 3px black;")
                                 form(method = "POST" action = "/poststatus")
                                     .row
                                         .col
                                             .panel-heading.font-weight-bold
                                                 | Update Your Family
+
 
 
                                                 textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
@@ -123,20 +173,20 @@ block content
                                             hr.my-4
 
             // upload image for create group
-    script.
-        function previewFile() {
-            var previewpost = document.querySelector('img');
-            var file = document.querySelector('input[type=file]').files[0];
-            var reader = new FileReader();
+            script.
+                function previewFile() {
+                    var preview = document.querySelector('img');
+                    var file = document.querySelector('input[type=file]').files[0];
+                    var reader = new FileReader();
 
-            reader.addEventListener("load", function (e) {
-                //document.getElementById("b64").innerHTML = e.target.result;
-                previewpost.src = reader.result.toString();
-                document.getElementById('b64').value = e.target.result;
-            }, false);
+                    reader.addEventListener("load", function (e) {
+                        //document.getElementById("b64").innerHTML = e.target.result;
+                        preview.src = reader.result.toString();
+                        document.getElementById('b64').value = e.target.result;
+                    }, false);
 
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    }
+                }
 

@@ -10,7 +10,9 @@ block content
         .row
             .col-xs-12.col-sm-12.text-center
                 h2.font-weight-bold Signup
-                br
+                p
+                    | Already have an account?
+                    a(href='/login')  Log In
         .row
             .col-md-6.col-lg-6.col-xl-6.signupimg.fade-in
 
@@ -21,25 +23,25 @@ block content
                         div.form-group
                             .row
                                 .col.col-lg-6.col-xl-6
-                                    label.font-weight-bold(for='fname') First Name
-                                    input#fname.form-control(type='text', placeholder='First Name*' name='fname', required)
+                                    label.font-weight-bold(for='fname') First Name*
+                                    input#fname.form-control(type='text', placeholder='First Name' name='fname', required)
                                 .col-lg-6.col-xl-6
-                                    label(for = 'lname').font-weight-bold Surname
-                                    input#lname.form-control(type='text', placeholder='Surname*' name='lname', required)
+                                    label(for = 'lname').font-weight-bold Surname*
+                                    input#lname.form-control(type='text', placeholder='Surname' name='lname', required)
 
                         br
                         div.form-group
                             .row
                                 .col
-                                    label(for='email').font-weight-bold Email
-                                    input#email.form-control(type='email', placeholder='Email Address*' name='email', required)
+                                    label(for='email').font-weight-bold Email*
+                                    input#email.form-control(type='email', placeholder='Email Address' name='email', required)
 
                         br
 
                         div.form-group
                             .row
                                 .col.col-lg-6.col-xl-6
-                                    label(for='email').font-weight-bold Date of Birth
+                                    label(for='email').font-weight-bold Date of Birth*
                                     input.form-control#dob(type='date', placeholder='22/07/2018' name='dob', max='2001-01-01', min='1930-01-01', required)
                                 .col-lg-6.col-xl-6
                                     label(for = 'phone').font-weight-bold Phone Number
@@ -49,15 +51,15 @@ block content
                         div.form-group
                             .row
                                 .col
-                                    label(for='pw').font-weight-bold Password
+                                    label(for='pw').font-weight-bold Password*
                                     input#pw.form-control(type='password', onkeyup="checkPasswords();",
-                                        placeholder='Password*' name='password', required)
+                                        placeholder='Password' name='password', required)
                         br
                         div.form-group
                             .row
                                 .col
-                                    label(for='pw2').font-weight-bold Confirm Password
-                                    input#pw2.form-control(type='password', onkeyup="checkPasswords();",placeholder='Retype Password*' name='confirmPassword',
+                                    label(for='pw2').font-weight-bold Confirm Password*
+                                    input#pw2.form-control(type='password', onkeyup="checkPasswords();",placeholder='Retype Password' name='confirmPassword',
                                         autocomplete='new-password', required)
 
                         br
@@ -97,6 +99,10 @@ block content
                                             | You must agree before submitting.
                         br
                         .text-center
-                            button.btn.btn-primary.page-button#submit(type='submit') Sign Up
+                            button.btn.btn-outline-secondary.page-button#submit(type='submit') Sign Up
 
-
+    script.
+        function activatePlacesSearch() {
+            var input = document.getElementById('location');
+            var searchbox = new google.maps.places.SearchBox(input);
+        }

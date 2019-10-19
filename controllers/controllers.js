@@ -248,7 +248,6 @@ var createUser = function(req,res){
                                 if(!err){
                                     //if there are no errors, show the new user
                                     getStarted(req,res);
-                                    console.log("user added to database");
                                 }else{
                                     res.sendStatus(400);
                                 }
@@ -410,10 +409,13 @@ var createArtifact = function(req,res){
                 }
 
                 var groupId;
+                var toGo;
                 if (req.body.familygroup) {
                     groupId = req.body.familygroup;
+                    toGo = '/myartifacts';
                 } else {
                     groupId = req.headers.referer.split('/')[4];
+                    toGo = '/view/' + groupId;
                 }
                 artifact.familygroup = groupId;
                 artifact.created = today;
@@ -422,23 +424,18 @@ var createArtifact = function(req,res){
                     if (!err) {
                         user.artifacts.push(artifact._id);
                         user.save();
-                        if (req.body.familygroup) {
-                            if (groupId != "None") {
-                                Group.findById(groupId, function(err, group) {
-                                    if (!err) {
-                                        group.artifacts.push(artifact._id);
-                                        group.save();
-                                    } else {
-                                        console.log(err);
-                                        res.sendStatus(500);
-                                    }
-                                });
-                            }
-                            res.redirect('/myartifacts');
-                        } else {
-                            res.redirect('/view/' + groupId);
+                        if (groupId != "None") {
+                            Group.findById(groupId, function(err, group) {
+                                if (!err) {
+                                    group.artifacts.push(artifact._id);
+                                    group.save();
+                                } else {
+                                    console.log(err);
+                                    res.sendStatus(500);
+                                }
+                            });
                         }
-                        
+                        res.redirect(toGo);
                     } else {
                         console.log(err);
                         res.sendStatus(500);
