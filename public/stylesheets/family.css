@@ -12,12 +12,9 @@
     position: relative;
 }
 
-
-
 img {
     object-fit: cover;
     position: relative;
-
 }
 
 
@@ -52,4 +49,9 @@ img {
     text-decoration: none;
     transition: all 100ms;
     font-weight: bold;
+}
+
+.profilerow{
+    list-style-type: none;
+    background-color: white;
 }
