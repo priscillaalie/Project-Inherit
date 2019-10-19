@@ -12,7 +12,6 @@ block content
                     h2.text-center Welcome #{name}
             br
             .col.text-center
-                //if (admin)
                 a.btn.btn-outline-secondary.btn-md.mr-3(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
                     | + Create Family
                 #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
@@ -25,18 +24,30 @@ block content
                                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                                         span(aria-hidden='true') &times;
                                 .modal-body.mx-3.text-left
-                                    .md-form.mb-5
+                                    .md-form
                                         label.font-weight-bold(for='familyname') Family Name*
                                         input#familyname.form-control(type='text', placeholder='Family Name' name='title', required)
-                                    .md-form.mb-5
+                                        br
+                                    .md-form
                                         label.font-weight-bold(for='description') Description*
                                         .input-group
                                             textarea#description.form-control(type='text', placeholder='Description', name='description',required)
-                                    .md-form.mb-5.text-center
-                                        p.font-weight-bold Upload Image (optional)
-                                        img#preview(src=file)
                                         br
-                                        input.text-center( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                    .md-form.text-center
+                                        label.font-weight-bold(for='preview') Upload Image (Optional)
+                                        .row
+                                            .col
+                                            .col-8.justify-content-center
+                                                img.text-center#preview(src=file)
+
+                                            .col
+                                        br
+                                        .row
+                                            .col
+                                            .col-8.justify-content-center.text-left
+                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                label.custom-file-label(for='customFile') Choose file
+                                            .col
 
                                 .modal-footer.d-flex.justify-content-center
                                     button.btn.btn-primary(href='/home' type='submit') Create Family
@@ -61,22 +72,24 @@ block content
                         if (familygroups)
                             hr.my-4
                         a.tabstyle(href='/events') Events
-                        br
-                        br
-
-
+                        hr.my-4
 
             .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.cardzone
 
                 if (familygroups.length>0)
                     .row
                         each family in familygroups
-                            .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4
+                            .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4.fade-in
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
 
                                     a(href = `/view/${family._id}`)
+                                        if(family.photo)
+                                            img.d-block.w-full(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        else
 
-                                        img.d-block.w-full(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                            img.d-block.w-full(src="https://www.softwarearge.com/wp-content/uploads/2018/09/no-image-icon-6.png", style="width:15rem;height:15rem; min-width: 15rem;" alt = family.name)
+
+
                                         .px-2.py-2
                                             h4.mt-0.mb-1(style='line-height: 1.25;')
                                                 | #{family.title}
@@ -101,17 +114,30 @@ block content
                                                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                         span(aria-hidden='true') &times;
                                                 .modal-body.mx-3.text-left
-                                                    .md-form.mb-5
+                                                    .md-form
                                                         label.font-weight-bold(for='familyname') Family Name*
                                                         input#familyname.form-control(type='text', placeholder='Family Name' name='title', required)
-                                                    .md-form.mb-5
+                                                        br
+                                                    .md-form
                                                         label.font-weight-bold(for='description') Description*
                                                         .input-group
                                                             textarea#description.form-control(type='text', placeholder='Description', name='description',required)
-                                                    .md-form.mb-5.text-center
-                                                        p.font-weight-bold Upload Image (optional)
-                                                        img#preview(src=file)
-                                                        input.text-center( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                        br
+                                                    .md-form.text-center
+                                                        label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center
+                                                                img.text-center#preview(src=file)
+
+                                                            .col
+                                                        br
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center.text-left
+                                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                label.custom-file-label(for='customFile') Choose file
+                                                            .col
                                                 .modal-footer.d-flex.justify-content-center
                                                     button.btn.btn-primary(href='/home' type='submit') Create Family
 

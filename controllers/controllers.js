@@ -56,6 +56,7 @@ var fetchSignup = function (req,res) {
 
 var fetchPost = function(req,res) {
     res.render('familypost.pug');
+
 };
 
 // if it is a current user, find the user's information such as name and groups they are in
@@ -247,7 +248,6 @@ var createUser = function(req,res){
                                 if(!err){
                                     //if there are no errors, show the new user
                                     getStarted(req,res);
-                                    console.log("user added to database");
                                 }else{
                                     res.sendStatus(400);
                                 }
@@ -417,7 +417,6 @@ var createArtifact = function(req,res){
                     groupId = req.headers.referer.split('/')[4];
                     toGo = '/view/' + groupId;
                 }
-
                 artifact.familygroup = groupId;
                 artifact.created = today;
                 console.log(artifact);
@@ -425,20 +424,25 @@ var createArtifact = function(req,res){
                     if (!err) {
                         user.artifacts.push(artifact._id);
                         user.save();
-                        Group.findById(groupId, function(err, group) {
-                            if (!err) {
-                                group.artifacts.push(artifact._id);
-                                group.save();
-                                res.redirect(toGo);
-                            } else {
-                                res.sendStatus(500);
-                            }
-                        });
+                        if (groupId != "None") {
+                            Group.findById(groupId, function(err, group) {
+                                if (!err) {
+                                    group.artifacts.push(artifact._id);
+                                    group.save();
+                                } else {
+                                    console.log(err);
+                                    res.sendStatus(500);
+                                }
+                            });
+                        }
+                        res.redirect(toGo);
                     } else {
+                        console.log(err);
                         res.sendStatus(500);
                     }
                 })
     		} else {
+                console.log(err);
                 res.sendStatus(500);
             }
     	});
@@ -516,7 +520,7 @@ var fetchArtifactByID = function(req, res) {
                                                     if (!err) {
                                                         res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
                                                         comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                        familyname:belongsTo.title, user:user});
+                                                        familyname:belongsTo.title, user:user, title: artifact.title});
                                                     } else {
                                                         console.log(err);
                                                         res.sendStatus(500);

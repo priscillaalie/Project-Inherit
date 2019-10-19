@@ -36,24 +36,20 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/login', function(req, res){
-  // if (req.cookies.sessionId) {
-  //   res.redirect('/');
-  // } else {
-  //   controllers.fetchLogin(req, res);
-  // }
   controllers.fetchLogin(req, res);
 });
 
 router.get('/signup', function(req, res){
-  // if (req.cookies.sessionId) {
-  //   res.redirect('/');
-  // } else {
-  //   controllers.fetchSignup(req, res);
-  // }
   controllers.fetchSignup(req, res);
 });
 
-router.get('/home', controllers.fetchHomepage);
+router.get('/home', function(req,res) {
+  if(req.cookies.sessionId){
+    controllers.fetchHomepage(req,res);
+  } else {
+    res.redirect('/login');
+  }
+});
 
 router.get('/myartifacts', function(req, res){
   if (req.cookies.sessionId) {
@@ -88,7 +84,7 @@ router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
 router.post('/post', controllers.addComment);
-router.get('/addmember/:id', famcontrollers.addMember);
+router.post('/addmember/:id', famcontrollers.addMember);
 router.get('/deletecomment/:id', controllers.deleteComment);
 router.get('/deleteartifact/:id', controllers.deleteArtifact);
 router.get('/deletegroup/:id', famcontrollers.deleteGroup);

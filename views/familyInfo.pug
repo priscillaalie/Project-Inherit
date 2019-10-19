@@ -44,9 +44,8 @@ block content
                                 a.tabstyle(href = `/view/${group._id}/members`) Add Members
                         br
                         .row
-
+                            .col
                                 if (user._id.equals(owner._id))
-
                                     a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
@@ -64,11 +63,11 @@ block content
                                                             label.font-weight-bold(for='desc') Description
                                                             .input-group
                                                                 textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
-
+                                                            br
                                                             label.font-weight-bold(for='owner') Admin:
-                                                            select#owner(type='text', placeholder=group.owner name='owner', value = group.owner)
-                                                                for member in members
-                                                                    option(value=`${member._id}`) #{member.fname}
+                                                                select#owner(type='text', placeholder=group.owner name='owner', value = group.owner)
+                                                                    for member in members
+                                                                        option(value=`${member._id}`) #{member.fname}
 
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
@@ -76,37 +75,57 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
+                    hr.my-4
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
-                .row
-                    .col
-                        .jumbotron
-                            .row
-                                .col
-                                    h2 About #{group.title}
-                                    hr.my-4
+                br
+                .jumbotron
+                    .row
+                        .col
+                            h2 About #{group.title}
+                            hr.my-4
 
-                            .row
-                                .col
-                                    p #{group.description}
-                            .row
-                                .col
-                                    p Members: #{group.members.length}
-                            .row
-                                .col.text-center.justify-content-center
-                                    br
-                                    input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
-                                    input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
-                                    datalist#datalist
+                    .row
+                        .col
+                            p #{group.description}
+                    .row
+                        .col
+                            p Admin: #{owner.name}
+                    .row
+                        .col
+                            p Artifacts: #{group.artifacts.length}
+                    .row
+                        .col
+                            p Members: #{group.members.length}
+                    .row
+                        .col.text-center.justify-content-center
                             br
-                            .row
-                                if (Object.keys(members).length > 0)
-                                    ul#myUL
-                                        .row
-                                            each member in members
-                                                .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
-                                                    li(style = "list-style-type: none;")
-                                                        a.card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                            input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
+                            input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
+                            datalist#datalist
+                    br
+                    .row
+                        if (Object.keys(members).length > 0)
+                            ul#myUL
+                                .row.justify-content-center
+                                    .col-xs-12.col-sm-6.col-md-6.col-lg-4.col-xl-4.d-flex.justify-content-center(style = "margin-right: 5%;")
+                                        li(style = "list-style-type: none;")
+                                            a
+                                                .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                                    if(owner.photo)
+                                                        img.card-img-top.image-custom.fade-in(src=owner.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                                    else
+                                                        img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
+                                                    .card-body.flex-fill
+                                                        .row.text-center
+                                                            .col.align-middle
+                                                                h6
+                                                                    strong.card-title #{owner.name}
+                                    each member in members
+                                        if (group.owner != member._id)
+                                            .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.fade-in(style = "margin-right: 5%;")
+                                                li(style = "list-style-type: none;")
+                                                    a
+                                                        .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
                                                             if(member.photo)
                                                                 img.card-img-top.image-custom.fade-in(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
                                                             else
@@ -118,22 +137,22 @@ block content
                                                                             strong.card-title #{member.name}
                                                                 .row
                                                                     .col.d-flex.justify-content-center
-                                                                        if (group.owner != member._id)
-                                                                            a(href = `/removeMember/${member._id}`)
+                                                                        if(user._id == group.owner)
+                                                                            a(href =`/removeMember/${member._id}`)
                                                                                 button.btn.btn-danger.btn-sm(type='button')
                                                                                     | Remove
 
-                                else
-                                    .col
-                                        .row.d-flex.justify-content-center
-                                            p.font-weight-light It's a bit lonely here, let's invite a few members!
-                                        .row.d-flex.justify-content-center
-                                            a.btn.btn-lg.btn-light.btn-sm(href = `/view/${group._id}/members`) + Add Members
+                        else
+                            .col
+                                .row.d-flex.justify-content-center
+                                    p.font-weight-light It's a bit lonely here, let's invite a few members!
+                                .row.d-flex.justify-content-center
+                                    a.btn.btn-lg.btn-light.btn-sm(href = `/view/${group._id}/members`) + Add Members
 
 
     script.
         function getusers() {
-            members.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
+            group.members.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
             })
 
         }

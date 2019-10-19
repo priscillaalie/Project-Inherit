@@ -138,6 +138,7 @@ var fetchGroupInfo = function(req, res) {
                             if (!err) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
+<<<<<<< HEAD
 
                                         var toWrite = 'families:\n';
                                         for (var i=0;i<members.length;i++) {
@@ -164,6 +165,9 @@ var fetchGroupInfo = function(req, res) {
                                         })
 
                                         res.render('familyInfo.pug', { group:group, members:members, 
+=======
+                                        res.render('familyInfo.pug', { group:group, members:members,
+>>>>>>> 667efdad5fb33d43fd30ac47e2e6faa877a35d69
                                             session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
                                         res.sendStatus(500);
@@ -198,8 +202,14 @@ var fetchGroupPost = function(req, res) {
                             if (!err) {
                                 User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
                                     if (!err) {
-                                        res.render('familypost.pug', {group:group, members:members,
-                                        posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
+                                        User.findById(group.owner, function(err, owner) {
+                                            if (!err) {
+                                                res.render('familypost.pug', {group:group, members:members, owner: owner,
+                                                posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
+                                            } else {
+                                                res.sendStatus(500);
+                                            }
+                                        })
                                     } else {
                                         res.sendStatus(500);
                                     }
@@ -259,19 +269,34 @@ var fetchGroupMembers = function(req, res) {
 }
 
 var addMember = function(req, res) {
-    var userId = req.url.split('/')[2]; // ????
+    console.log(req.body);
+    var userId = req.url.split('/')[2]; 
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
             group.members.push(userId);
-            User.findById(userId, function(err, user) {
+            User.findById(userId, function(err, member) {
                 if (!err) {
-                    user.groups.push(groupId);
-                    user.save();
-                    group.save();
-                    console.log(group);
-                    console.log(user);
-                    res.redirect('/view/' + groupId + '/members');
+                    User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+                        if (!err) {
+                            if (req.body.relation == 'brother' || req.body.relation == 'sister') {
+                                user.siblings.push(member._id);
+                                member.siblings.push(user._id);
+                                console.log('added a sibling')
+                            } else if (req.body.relation == 'mother' || req.body.relation == 'father') {
+                                user.parents.push(member._id);
+                            }
+                            user.save();
+                            member.groups.push(groupId);
+                            member.save();
+                            group.save();
+                            console.log(group);
+                            console.log(user);
+                            res.redirect('/view/' + groupId + '/members');
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    })
                 } else {
                     res.sendStatus(500);
                 }
@@ -391,7 +416,7 @@ var addPost = function(req, res) {
                     } else {
                         res.sendStatus(400);
                     }
-                }) 
+                })
             } else {
                 res.sendStatus(500);
             }

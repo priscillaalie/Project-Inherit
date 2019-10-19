@@ -6,13 +6,13 @@ block css
         include ../public/stylesheets/myartifacts.css
 
 block content
-    .container-fluid.fill-height.fade-in
+    .container-fluid.fill-height
         .row
             .col
             .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
                 if(session)
                     h2.text-center My Artifacts
-            .col.text-right
+            .col.text-center
                 if  (user.artifacts.length > 0)
                     a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
                         i.fas.fa-add
@@ -26,23 +26,37 @@ block content
                                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                                             span(aria-hidden='true') &times;
                                     .modal-body.mx-3
-                                        .md-form.mb-5
+                                        .md-form
                                             label.font-weight-bold(for='familyname') Title*
                                             input#familyname.form-control(type='text', placeholder='Title' name='title', required)
-                                        .md-form.mb-5
+                                            br
+                                        .md-form
                                             label.font-weight-bold(for='description') Description*
                                             .input-group
                                                 textarea#description.form-control(type='text', placeholder='Description', name='description',required)
-                                        .md-form.mb-5.text-center
-                                            p.font-weight-bold Upload Image (optional)
-                                            img#preview(src=file)
-                                            input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
-                                        .md-form.mb-5
+                                            br
+                                        .md-form.text-center
+                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                            .row
+                                                .col
+                                                .col-8.justify-content-center
+                                                    img.text-center#preview(src=file)
+
+                                                .col
+                                            br
+                                            .row
+                                                .col
+                                                .col-8.justify-content-center.text-left
+                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                    label.custom-file-label(for='customFile') Choose file
+                                                .col
+                                        .md-form
                                             label.font-weight-bold(for='familyname') Which family does this antique belong to?
                                             select#state(type='text', placeholder='Family Group' name='familygroup', required)
                                                 option(value = "None") None
                                                 for family in familygroups
                                                     option(value=`${family._id}`) #{family.title}
+                                            br
 
                                     .modal-footer.justify-content-center
                                         button.btn.btn-primary(type='submit') Add
@@ -67,20 +81,23 @@ block content
                         if (familygroups)
                             hr.my-4
                         a.tabstyle(href='/events') Events
-                        br
-                        br
-
-
+                        hr.my-4
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 if (artifacts.length > 0)
 
                     .row
                         each artifact in artifacts
-                            .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-4.justify-content-center.d-flex
+                            .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-4.justify-content-center.d-flex.fade-in
 
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
                                     a(href = `/artifact/view/${artifact._id}`)
-                                        img.d-block.w-full(src=artifact.photo, style="width:15rem;height:15rem; overflow: hidden;")
+                                        if(artifact.photo)
+                                            img.d-block.w-full(src=artifact.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        else
+
+                                            img.d-block.w-full(src="https://www.softwarearge.com/wp-content/uploads/2018/09/no-image-icon-6.png", style="width:15rem;height:15rem; min-width: 15rem; opacity: 0.5;" alt = artifact.name)
+
+
                                         .px-2.py-2
                                             p.mb-0.small.font-weight-medium.text-uppercase.mb-1.text-muted.lts-2px
                                                 if (artifact.familygroup === "None")
@@ -111,17 +128,39 @@ block content
                                                     button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                         span(aria-hidden='true') &times;
                                                 .modal-body.mx-3
-                                                    .md-form.mb-5
+                                                    .md-form
                                                         label.font-weight-bold(for='familyname') Title
                                                         input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
-                                                    .md-form.mb-5
+                                                        br
+                                                    .md-form
                                                         label.font-weight-bold(for='description') Description
                                                         .input-group
                                                             textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                                    .md-form.mb-5
-                                                        p.font-weight-bold Upload Image (optional)
-                                                        img#preview(src=file)
-                                                        input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                        br
+                                                    .md-form.text-center
+                                                        label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center
+                                                                img.text-center#preview(src=artifact.photo)
+
+                                                            .col
+                                                        br
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center.text-left
+                                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                label.custom-file-label(for='customFile') Choose file
+                                                            .col
+                                                        br
+
+                                                    .md-form
+                                                        label.font-weight-bold(for='familyname') Which family does this antique belong to?
+                                                        select#state(type='text', placeholder='Family Group' name='familygroup', required)
+                                                            option(value = "None") None
+                                                            for family in familygroups
+                                                                option(value=`${family._id}`) #{family.title}
+                                                        br
 
                                                 .modal-footer.justify-content-center
                                                     button.btn.btn-primary(type='submit') Add

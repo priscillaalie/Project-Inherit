@@ -18,7 +18,7 @@ block content
 
                         if(session)
                             h2.text-center #{group.title}
-                    .col.text-right
+                    .col.text-center
                         if  (user.artifacts.length > 0)
                             a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
                                 i.fas.fa-add
@@ -32,23 +32,32 @@ block content
                                                 button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                     span(aria-hidden='true') &times;
                                             .modal-body.mx-3
-                                                .md-form.mb-5
+                                                .md-form
                                                     label.font-weight-bold(for='familyname') Title*
                                                     input#familyname.form-control(type='text', placeholder='Title' name='title', required)
-                                                .md-form.mb-5
+                                                    br
+                                                .md-form
                                                     label.font-weight-bold(for='description') Description*
                                                     .input-group
                                                         textarea#description.form-control(type='text', placeholder='Description', name='description',required)
-                                                .md-form.mb-5.text-center
-                                                    p.font-weight-bold Upload Image (optional)
-                                                    img#preview(src=file)
-                                                    input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
-                                                .md-form.mb-5
-                                                    label.font-weight-bold(for='familyname') Which family does this antique belong to?
-                                                    select#state(type='text', placeholder='Family Group' name='familygroup', required)
-                                                        option(value = "None") None
-                                                        for family in familygroups
-                                                            option(value=`${family._id}`) #{family.title}
+                                                    br
+                                                .md-form.text-center
+                                                    label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                    .row
+                                                        .col
+                                                        .col-8.justify-content-center
+                                                            img.text-center#preview(src=file)
+
+                                                        .col
+                                                    br
+                                                    .row
+                                                        .col
+                                                        .col-8.justify-content-center.text-left
+                                                            input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                            label.custom-file-label(for='customFile') Choose file
+                                                        .col
+                                                    br
+
 
                                             .modal-footer.justify-content-center
                                                 button.btn.btn-primary(type='submit') Add
@@ -90,7 +99,7 @@ block content
                         br
                         .row
                             .col
-                                if (user._id.equals(owner._id))
+                                if (user._id.equals(group.owner))
                                     a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
@@ -101,10 +110,11 @@ block content
                                                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                             span(aria-hidden='true') &times;
                                                     .modal-body.mx-3
-                                                        .md-form.mb-5
+                                                        .md-form
                                                             label.font-weight-bold(for='title') Title
                                                             input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
-                                                        .md-form.mb-5
+                                                            br
+                                                        .md-form
                                                             label.font-weight-bold(for='desc') Description
                                                             .input-group
                                                                 textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
@@ -113,10 +123,22 @@ block content
                                                             select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
                                                                 for member in members
                                                                     option(value=`${member._id}`) #{member.fname}
-                                                        .md-form.mb-5
-                                                            p.font-weight-bold Upload Image (optional)
-                                                            img#preview(src=group.photo)
-                                                            input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                            br
+                                                        .md-form.text-center
+                                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center
+                                                                    img.text-center#preview(src=group.photo)
+
+                                                                .col
+                                                            br
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center.text-left
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    label.custom-file-label(for='customFile') Choose file
+                                                                .col
 
 
                                                     .modal-footer.justify-content-center
@@ -125,22 +147,30 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
+                        hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
-
                 if (artifacts.length > 0)
-                    .row.text-center
+                    .row
                         each artifact in artifacts
-                            .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center
-                                .card.mb-4.mr-5.mx-auto.d-flex(style='width: 15rem; min-width: 15rem; height: fit-content;')
+                            .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.fade-in(style = "margin-right: 5%;")
+                                .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
+
                                     a(href = `/artifact/view/${artifact._id}`)
-                                        img.card-img-top.image-custom.fade-in(src=artifact.photo, style="width:15rem;height:15rem;min-width: 15rem;")
-                                        .card-body.flex-fill
-                                            .row
-                                                h5.card-title #{artifact.title}
-                                            .row
-                                                p.listingdescription #{artifact.description}
+                                        if (artifact.photo)
+                                            img.d-block.w-full(src=artifact.photo, style="width:15rem;height:15rem;min-width: 15rem;")
+                                        else
+                                            img.d-block.w-full(src="https://www.softwarearge.com/wp-content/uploads/2018/09/no-image-icon-6.png", style="width:15rem;height:15rem; min-width: 15rem;" alt = artifact.name)
+
+
+                                        .px-2.py-2
+                                            h4.mt-0.mb-1.font-weight-bold(style='line-height: 1.25;')
+                                                | #{artifact.title}
+                                            p.mb-1
+                                                | #{artifact.description}
+
+
+
                 else
                     .row
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
@@ -166,31 +196,42 @@ block content
                                                         label.font-weight-bold(for='description') Description
                                                         .input-group
                                                             textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                                    .md-form.mb-5
-                                                        p.font-weight-bold Upload Image (optional)
-                                                        img#preview(src=file)
-                                                        input#pad( type='file' onchange='previewFile()' name = 'image' accept="image/*")
+                                                    .md-form.text-center
+                                                        label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center
+                                                                img.text-center#preview(src=file)
+
+                                                            .col
+                                                        br
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center.text-left
+                                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                label.custom-file-label(for='customFile') Choose file
+                                                            .col
 
                                                 .modal-footer.justify-content-center
                                                     button.btn.btn-primary(type='submit') Add
 
 
 
-            // upload image for create group
-            script.
-                function previewFile() {
-                    var preview = document.querySelector('img');
-                    var file = document.querySelector('input[type=file]').files[0];
-                    var reader = new FileReader();
+    // upload image for create group
+    script.
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
 
-                    reader.addEventListener("load", function (e) {
-                        //document.getElementById("b64").innerHTML = e.target.result;
-                        preview.src = reader.result.toString();
-                        document.getElementById('b64').value = e.target.result;
-                    }, false);
+            reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
 
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    }
-                }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
 

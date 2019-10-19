@@ -91,43 +91,54 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
-
+                        hr.my-4
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
-                .row
+                .row(style ="padding-bottom: 2rem;")
                     .col.text-center.justify-content-center
                         br
                         input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
                         input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
                         datalist#datalist
                 .row
-                    if (Object.keys(members).length > 0)
-                        ul#myUL
-                            .row(style = "justify-content: flex-start;")
+                    .col.justify-content-center.text-center
+                        if (Object.keys(members).length > 0)
+                            ul#myUL
                                 each member in members
-                                    .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
-                                        li(style = "list-style-type: none;")
-                                            a.card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
-                                                if(member.photo)
-                                                    img.card-img-top.image-custom.fade-in(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
-                                                else
-                                                    img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
-                                                .card-body.flex-fill
-                                                    .row.text-center.justify-content-center
-                                                        .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8.align-middle
-                                                            h6
-                                                                strong.card-title #{member.name}
+                                    li.profilerow
+                                        form(method = 'POST' action =`/addmember/${member._id}`)
+                                            .row
+                                                .col(style = "margin: 5px 0 5px 0")
+                                                    if(member.photo)
+                                                        img(src = member.photo style = "height: 8rem; width: 8rem;")
+                                                    else
+                                                        img(src = src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg" style = "height: 8rem; width: 8rem")
+                                                .col
+                                                    .row
+                                                        .col
+                                                            h6.text-left.font-weight-bold(style = "padding-top: 10%;") #{member.name}
+                                                    if(!group.members.includes(member._id))
+                                                        div.form-group
+                                                            .row
+                                                                .col
+                                                                    select#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
+                                                                        option(value = "none") None
+                                                                        option(value="mother") Mother
+                                                                        option(value="father") Father
+                                                                        option(value="sister") Sister
+                                                                        option(value="brother") Brother
+                                                                        option(value = "other") Other
+                                                    else
+                                                        //.row
+                                                            .col
+                                                                p #{member.relation}
 
-                                                        .col-xs-12.col-sm-12.col-md-4.col-lg-4.col-xl-4
-                                                            if (!group.members.includes(member._id))
-                                                                    button.btn.btn-primary.btn-sm(type='button' href = `/addmember/${member._id}`)
-                                                                        i.material-icons person_add
-                                                            else
-                                                                button.btn.btn-success.btn-sm(type='button')
-                                                                    i.material-icons check_circle
-                    else
-                        .card
-                            .card-body.text  No Users found here!
+                                                .col(style = "padding-top: 5%;")
+                                                    if (!group.members.includes(member._id))
+                                                            button.btn.btn-primary.btn-sm(type='submit')
+                                                                i.material-icons person_add
+                                                    else
+                                                        button.btn.btn-success.btn-sm(type='submit')
+                                                            i.material-icons check_circle
     script.
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
@@ -168,8 +179,9 @@ block content
             filter = input.value.toUpperCase();
             ul = document.getElementById("myUL");
             li = ul.getElementsByTagName("li");
+
             for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
+                a = li[i].getElementsByTagName("form")[0];
                 txtValue = a.textContent || a.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display = "";
