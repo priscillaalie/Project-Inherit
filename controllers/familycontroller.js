@@ -237,19 +237,34 @@ var fetchGroupMembers = function(req, res) {
 }
 
 var addMember = function(req, res) {
-    var userId = req.url.split('/')[2]; // ????
+    console.log(req.body);
+    var userId = req.url.split('/')[2]; 
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
             group.members.push(userId);
-            User.findById(userId, function(err, user) {
+            User.findById(userId, function(err, member) {
                 if (!err) {
-                    user.groups.push(groupId);
-                    user.save();
-                    group.save();
-                    console.log(group);
-                    console.log(user);
-                    res.redirect('/view/' + groupId + '/members');
+                    User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+                        if (!err) {
+                            if (req.body.relation == 'brother' || req.body.relation == 'sister') {
+                                user.siblings.push(member._id);
+                                member.siblings.push(user._id);
+                                console.log('added a sibling')
+                            } else if (req.body.relation == 'mother' || req.body.relation == 'father') {
+                                user.parents.push(member._id);
+                            }
+                            user.save();
+                            member.groups.push(groupId);
+                            member.save();
+                            group.save();
+                            console.log(group);
+                            console.log(user);
+                            res.redirect('/view/' + groupId + '/members');
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    })
                 } else {
                     res.sendStatus(500);
                 }
