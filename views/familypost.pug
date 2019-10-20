@@ -34,23 +34,26 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a(href='/home') Back
+                                a.tabstyle(href='/home') Back
 
                         hr.my-4
 
                         .row
                             .col
-                                a(href = `/view/${group._id}/info/`) About
+                                a.tabstyle(href = `/view/${group._id}/info/`) About
+                        br
+                        .row
+                            .col
+                                a.active(href=`/view/${group._id}/post/` style = "font-weight: bolder; text-decoration: none;") Posts
+                        br
+                        .row
+                            .col
+                                a.active(href=`/view/${group._id}`) Artifacts
 
                         br
                         .row
                             .col
-                                a.active(href=`/view/${group._id}` style = "font-weight: bolder;") Artifacts
-
-                        br
-                        .row
-                            .col
-                                a(href = `/view/${group._id}/members`) Members
+                                a.tabstyle(href = `/view/${group._id}/members`) Add Members
                         br
                         .row
                             .col
@@ -102,9 +105,6 @@ block content
                                                         button.btn.btn-outline-secondary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
-
-
-
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone

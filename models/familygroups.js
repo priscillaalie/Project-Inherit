@@ -12,7 +12,8 @@ var groupSchema = mongoose.Schema(
         "owner": String,
         "members":Array,
         "posts": Array,
-        "artifacts": Array
+        "artifacts": Array,
+        "familytree": String
     }
 );
 module.exports = mongoose.model('Group', groupSchema);

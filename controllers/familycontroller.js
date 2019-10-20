@@ -11,8 +11,10 @@ const User = require('../models/user');
 const Group = require('../models/familygroups');
 const Post = require('../models/post');
 
+var AWS = require('aws-sdk');
 var express = require('express');
 var app = express();
+let {PythonShell} = require('python-shell');
 
 
 var upload = require('../services/file-uploader');
@@ -124,6 +126,8 @@ var editGroup = function(req, res){
     })
 };
 
+const fs = require('fs');
+
 var fetchGroupInfo = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     if (req.cookies.sessionId) {
@@ -135,7 +139,65 @@ var fetchGroupInfo = function(req, res) {
                             if (!err) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
-                                        res.render('familyInfo.pug', { group:group, members:members,
+
+                                        var toWrite = 'families:\n';
+                                        for (var i=0;i<members.length;i++) {
+                                            if ((members[i].parents && members[i].parents.length) || (members[i].siblings && members[i].siblings.length)) {
+                                                toWrite += '  - parents: [';
+                                                if (members[i].parents && members[i].parents.length) {
+                                                    for (var j=0;j<members[i].parents.length;j++) {
+                                                        if (group.members.includes(members[i].parents[j])) {
+                                                            toWrite += members[i].parents[j] + ',';
+                                                        }
+                                                    }
+                                                }
+                                                toWrite += ']\n';
+
+                                                toWrite += '    children: [' + members[i]._id +',';
+                                                if (members[i].siblings && members[i].siblings.length) {
+                                                    for (var k=0;k<members[i].siblings.length;k++) {
+                                                        if (group.members.includes(members[i].siblings[k])) {
+                                                            toWrite += members[i].siblings[k] + ',';
+                                                        }
+                                                    }
+                                                }
+                                                toWrite += ']\n';
+                                            }
+                                        }
+                                        toWrite += '\npeople:\n'
+                                        for (var i=0;i<members.length;i++) {
+                                            toWrite += '  ' + members[i]._id.toString() + ':\n';
+                                            toWrite += '    name: ' + members[i].fname + '\n';
+                                            toWrite += '    fullname: ' + members[i].name + '\n';
+                                        }
+                                        console.log(toWrite);
+
+                                        fs.writeFile('family.yml', toWrite, (err) => {
+                                            if (err) throw err;
+                                            const {exec} = require('child_process');
+                                            exec('kingraph family.yml -F png > family.png', (err) => {
+                                                if (err) console.log(err);
+                                                fs.readFile('family.png', function(err, data){
+                                                    if (err) throw (err);
+                                                    var base64data = new Buffer(data, 'binary');
+                                                    var s3 = new AWS.S3();
+                                                    s3.putObject({
+                                                        Bucket: 'project-inherit',
+                                                        Key: group._id.toString(),
+                                                        Body: base64data,
+                                                        ACL: 'public-read'
+                                                    }, function(resp) {
+                                                        group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + group._id.toString();
+                                                        group.save();
+                                                        console.log(group);
+                                                    })
+                                                })
+                                            })
+                                        })
+
+                                        
+
+                                        res.render('familyInfo.pug', { group:group, members:members, 
                                             session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
                                         res.sendStatus(500);
@@ -237,19 +299,33 @@ var fetchGroupMembers = function(req, res) {
 }
 
 var addMember = function(req, res) {
-    var userId = req.url.split('/')[2]; // ????
+    console.log(req.body);
+    var userId = req.url.split('/')[2]; 
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
             group.members.push(userId);
-            User.findById(userId, function(err, user) {
+            User.findById(userId, function(err, member) {
                 if (!err) {
-                    user.groups.push(groupId);
-                    user.save();
-                    group.save();
-                    console.log(group);
-                    console.log(user);
-                    res.redirect('/view/' + groupId + '/members');
+                    User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+                        if (!err) {
+                            if (req.body.relation == 'brother' || req.body.relation == 'sister') {
+                                user.siblings.push(member._id);
+                                console.log('added a sibling')
+                            } else if (req.body.relation == 'mother' || req.body.relation == 'father') {
+                                user.parents.push(member._id);
+                            }
+                            user.save();
+                            member.groups.push(groupId);
+                            member.save();
+                            group.save();
+                            console.log(group);
+                            console.log(user);
+                            res.redirect('/view/' + groupId + '/members');
+                        } else {
+                            res.sendStatus(500);
+                        }
+                    })
                 } else {
                     res.sendStatus(500);
                 }
@@ -454,9 +530,6 @@ var removeMember = function(req, res) {
         }
     })
 }
-
-
-
 
 module.exports = {
     createGroup,

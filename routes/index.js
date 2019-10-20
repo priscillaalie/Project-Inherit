@@ -84,7 +84,7 @@ router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
 router.post('/post', controllers.addComment);
-router.get('/addmember/:id', famcontrollers.addMember);
+router.post('/addmember/:id', famcontrollers.addMember);
 router.get('/deletecomment/:id', controllers.deleteComment);
 router.get('/deleteartifact/:id', controllers.deleteArtifact);
 router.get('/deletegroup/:id', famcontrollers.deleteGroup);
