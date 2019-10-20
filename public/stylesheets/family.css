@@ -58,3 +58,11 @@ img {
     border-width: 1px;
     border-color: lightgrey;
 }
+
+.descriptionstyle {
+    background-color: white;
+    padding-top: 2%;
+    margin:0 3% 3% 3%;
+    border-radius: 6px;
+
+}
