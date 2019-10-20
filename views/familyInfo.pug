@@ -118,7 +118,7 @@ block content
                                                                             strong.card-title #{member.name}
                                                                 .row
                                                                     .col.d-flex.justify-content-center
-                                                                        if (group.owner != member._id)
+                                                                        if (group.owner != member._id && user._id.equals(owner._id))
                                                                             a(href = `/removeMember/${member._id}`)
                                                                                 button.btn.btn-danger.btn-sm(type='button')
                                                                                     | Remove
