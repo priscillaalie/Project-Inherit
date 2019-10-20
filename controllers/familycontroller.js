@@ -141,27 +141,51 @@ var fetchGroupInfo = function(req, res) {
 
                                         var toWrite = 'families:\n';
                                         for (var i=0;i<members.length;i++) {
-                                            toWrite += '    - parents: ';
-                                            toWrite += members[i].parents + '\n';
-                                            toWrite += '        children: ';
-                                            toWrite += members[i].siblings + '\n';
+                                            if ((members[i].parents && members[i].parents.length) || (members[i].siblings && members[i].siblings.length)) {
+                                                toWrite += '  - parents: [';
+                                                if (members[i].parents && members[i].parents.length) {
+                                                    for (var j=0;j<members[i].parents.length;j++) {
+                                                        if (group.members.includes(members[i].parents[j])) {
+                                                            toWrite += members[i].parents[j] + ',';
+                                                        }
+                                                    }
+                                                }
+                                                toWrite += ']\n';
+
+                                                toWrite += '    children: [' + members[i]._id +',';
+                                                if (members[i].siblings && members[i].siblings.length) {
+                                                    for (var k=0;k<members[i].siblings.length;k++) {
+                                                        if (group.members.includes(members[i].siblings[k])) {
+                                                            toWrite += members[i].siblings[k] + ',';
+                                                        }
+                                                    }
+                                                }
+                                                toWrite += ']\n';
+                                            }
                                         }
                                         toWrite += '\npeople:\n'
                                         for (var i=0;i<members.length;i++) {
-                                            toWrite += '    ' + members[i]._id.toString() + ':\n';
-                                            toWrite += '        name: ' + members[i].fname + '\n';
-                                            toWrite += '        fullname: ' + members[i].name + '\n';
+                                            toWrite += '  ' + members[i]._id.toString() + ':\n';
+                                            toWrite += '    name: ' + members[i].fname + '\n';
+                                            toWrite += '    fullname: ' + members[i].name + '\n';
                                         }
                                         console.log(toWrite);
 
                                         fs.writeFile('family.yml', toWrite, (err) => {
                                             if (err) throw err;
+                                            const {exec} = require('child_process');
+                                            exec('kingraph family.yml -F png > family.png', (err) => {
+                                                if (err) console.log(err);
+                                                fs.readFile('family.png', (err, data) => {
+                                                    if (err) throw err;
+                                                    singleUpload(data, function(err, result) {
+                                                        console.log(result);
+                                                    })
+                                                })
+                                            })
                                         })
 
-                                        const {exec} = require('child_process');
-                                        exec('kingraph simpsons.yml -F png > family.png', (err) => {
-                                            if (err) console.log(err);
-                                        })
+                                        
 
                                         res.render('familyInfo.pug', { group:group, members:members, 
                                             session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
@@ -277,7 +301,6 @@ var addMember = function(req, res) {
                         if (!err) {
                             if (req.body.relation == 'brother' || req.body.relation == 'sister') {
                                 user.siblings.push(member._id);
-                                member.siblings.push(user._id);
                                 console.log('added a sibling')
                             } else if (req.body.relation == 'mother' || req.body.relation == 'father') {
                                 user.parents.push(member._id);
