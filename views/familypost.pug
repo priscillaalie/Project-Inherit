@@ -115,8 +115,6 @@ block content
                                 a#status-tab.nav-link.active(data-toggle='tab', href='#status', role='tab', aria-controls='home', aria-selected='true') Status
                             li.nav-item
                                 a#picture-tab.nav-link(data-toggle='tab', href='#picture', role='tab', aria-controls='profile', aria-selected='false') Pictures
-                            li.nav-item
-                                a#contact-tab.nav-link(data-toggle='tab', href='#contact', role='tab', aria-controls='contact', aria-selected='false') Contact
                         #myTabContent.tab-content(style="background-color: white;")
                             #status.tab-pane.fade.show.active.m-3(role='tabpanel', aria-labelledby='status-tab')
                                 |
@@ -153,20 +151,25 @@ block content
                                                 .panel-heading.font-weight-bold
                                                     | Update Your Family
 
+                                                    br
+
+                                                    img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
+                                                    br
+                                                    br
 
 
                                                     textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
                                                 br
-                                            .col-3.text-left
-                                                img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
+
+
                                         .row
                                             .col-1
 
                                             .col-8.text-left
-                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;" multiple)
                                                 label.custom-file-label(for='customFile') Upload Image (Optional)
 
-                                            .col
+                                            .col.text-right
                                                 a(href="/poststatus")
                                                     button.btn.btn-info(type='submit' value = 'Submit') Post
 
@@ -193,27 +196,28 @@ block content
                                         p
                                             | #{post.content}
                                         br
-                                        img(src=post.photo, style="height: 15rem; width: 15rem;")
+                                        if (post.photo)
+                                            img(src=post.photo, style="height: 15rem; width: 15rem;")
 
                                         hr.my-4
 
-            // upload image for create group
-            script.
-                function previewFile() {
-                    var preview = document.querySelector('img');
-                    var file = document.querySelector('input[type=file]').files[0];
-                    var reader = new FileReader();
+    // upload image for create group
+    script.
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
 
-                    reader.addEventListener("load", function (e) {
-                        //document.getElementById("b64").innerHTML = e.target.result;
-                        preview.src = reader.result.toString();
-                        document.getElementById('b64').value = e.target.result;
-                    }, false);
+            reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
 
-                    if (file) {
-                        reader.readAsDataURL(file);
-                    }
-                }
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
 
 
 
