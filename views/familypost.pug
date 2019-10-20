@@ -102,7 +102,7 @@ block content
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
                                                             button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
-                                                        button.btn.btn-primary(type='submit') Update
+                                                        button.btn.btn-outline-secondary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4
@@ -110,7 +110,6 @@ block content
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
                 .row
                     .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
-
                         ul#myTab.nav.nav-tabs(role='tablist')
                             li.nav-item
                                 a#status-tab.nav-link.active(data-toggle='tab', href='#status', role='tab', aria-controls='home', aria-selected='true') Status
@@ -118,59 +117,85 @@ block content
                                 a#picture-tab.nav-link(data-toggle='tab', href='#picture', role='tab', aria-controls='profile', aria-selected='false') Pictures
                             li.nav-item
                                 a#contact-tab.nav-link(data-toggle='tab', href='#contact', role='tab', aria-controls='contact', aria-selected='false') Contact
-                        #myTabContent.tab-content
-                            #status.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='status-tab') ...
-                            #picture.tab-pane.fade(role='tabpanel', aria-labelledby='picture-tab') ...
-                            #contact.tab-pane.fade(role='tabpanel', aria-labelledby='contact-tab') ...
-
-
-                        .comment-wrapper
-
-                            .panel.panel-info(style="margin: 3px black;")
-                                form(method = "POST" action = "/poststatus")
-                                    .row
-                                        .col
-                                            .panel-heading.font-weight-bold
-                                                | Update Your Family
-
-
-
-                                                textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
-                                            br
-                                        .col-3.text-left
-                                            img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
-                                    .row
-                                        .col-8.text-left
-                                            input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
-                                            label.custom-file-label(for='customFile') Upload Image (Optional)
-
-                                        .col
-                                            button.btn.btn-info(type='submit' value = 'Submit') Post
-
+                        #myTabContent.tab-content(style="background-color: white;")
+                            #status.tab-pane.fade.show.active.m-3(role='tabpanel', aria-labelledby='status-tab')
+                                |
                                 br
-                                hr.my-4
 
-                                ul.media-list
 
-                                each post in posts
+                                .panel.panel-info(style="margin: 3px black;")
+                                    form(method = "POST" action = "/poststatus", enctype = "multipart/form-data")
+                                        .row
+                                            .col
+                                                .panel-heading.font-weight-bold
+                                                    | Update Your Family
 
-                                    li.media
-                                        a.pull-left(href='#')
-                                            img.img-circle(src=post.photo)
-                                        .media-body
+                                                .panel-body
+                                                    form(method = "POST" action = "/post")
 
-                                            strong.text-success #{post.ownername}
-                                            span.text-muted.pull-right
-                                                small.text-muted #{post.created}
-                                                if (user._id == post.owner)
-                                                    a(href = `/deletepost/${post._id}`)
-                                                        button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                            i.fa.fa-trash
+                                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                                        br
+                                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                br
 
-                                            p
-                                                | #{post.content}
 
-                                            hr.my-4
+
+                            #picture.tab-pane.fade.m-3(role='tabpanel', aria-labelledby='picture-tab', style="background-color: white;")
+                                |
+                                |
+                                br
+
+
+                                .panel.panel-info(style="margin: 3px black;")
+                                    form(method = "POST" action = "/poststatus", enctype = "multipart/form-data")
+                                        .row
+                                            .col
+                                                .panel-heading.font-weight-bold
+                                                    | Update Your Family
+
+
+
+                                                    textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                                br
+                                            .col-3.text-left
+                                                img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
+                                        .row
+                                            .col-1
+
+                                            .col-8.text-left
+                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                label.custom-file-label(for='customFile') Upload Image (Optional)
+
+                                            .col
+                                                a(href="/poststatus")
+                                                    button.btn.btn-info(type='submit' value = 'Submit') Post
+
+
+                            hr.my-4
+
+                            ul.media-list
+
+                            each post in posts
+
+                                li.media
+                                    a.pull-left(href='#')
+                                        img.img-circle(src=post.photo)
+                                    .media-body
+
+                                        strong.text-success #{post.ownername}
+                                        span.text-muted.pull-right
+                                            small.text-muted #{post.created}
+                                            if (user._id == post.owner)
+                                                a(href = `/deletepost/${post._id}`)
+                                                    button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                        i.fa.fa-trash
+
+                                        p
+                                            | #{post.content}
+                                        br
+                                        img(src=post.photo, style="height: 15rem; width: 15rem;")
+
+                                        hr.my-4
 
             // upload image for create group
             script.
@@ -189,4 +214,11 @@ block content
                         reader.readAsDataURL(file);
                     }
                 }
+
+
+
+
+
+
+
 
