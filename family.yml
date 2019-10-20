@@ -3,9 +3,6 @@ families:
     children: [5d9e6803a255f9031a594ea2,]
 
 people:
-  5d9d7d8d2a160e000491ca81:
-    name: Brown 
-    fullname: Brown  nworB
   5d9e6803a255f9031a594ea2:
     name: Kaylene
     fullname: Kaylene Sivanandam

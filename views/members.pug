@@ -79,11 +79,11 @@ block content
                                                             label.font-weight-bold(for='desc') Description
                                                             .input-group
                                                                 textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
-
+                                                            br
                                                             label.font-weight-bold(for='owner') Admin:
                                                             select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
                                                                 for member in members
-                                                                    option(value=`${member._id}`) #{member.fname}
+                                                                    option(value=`${member._id}`)  #{member.fname}
 
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
@@ -94,17 +94,21 @@ block content
                         hr.my-4
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
                 .row(style ="padding-bottom: 2rem;")
-                    .col.text-center.justify-content-center
+                    .col
                         br
                         input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
                         input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
                         datalist#datalist
                 .row
                     .col.justify-content-center.text-center
+                        if(group.members)
+                            p.font-weight-light Search relatives, add them to your family!
+                        else
+                            p.font-weight-light#msg It's a bit lonely here, let's invite a few members!
                         if (Object.keys(members).length > 0)
                             ul#myUL
                                 each member in members
-                                    li.profilerow
+                                    li.profilerow(style = "display:none;")
                                         form(method = 'POST' action =`/addmember/${member._id}`)
                                             .row
                                                 .col(style = "margin: 5px 0 5px 0")
@@ -120,8 +124,8 @@ block content
                                                         div.form-group
                                                             .row
                                                                 .col
-                                                                    select#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
-                                                                        option(value = "none") None
+                                                                    select.browser-default#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
+                                                                        option(value = "" disabled selected) Relationship
                                                                         option(value="mother") Mother
                                                                         option(value="father") Father
                                                                         option(value="sister") Sister
