@@ -11,6 +11,7 @@ const User = require('../models/user');
 const Group = require('../models/familygroups');
 const Post = require('../models/post');
 
+var AWS = require('aws-sdk');
 var express = require('express');
 var app = express();
 let {PythonShell} = require('python-shell');
@@ -176,10 +177,19 @@ var fetchGroupInfo = function(req, res) {
                                             const {exec} = require('child_process');
                                             exec('kingraph family.yml -F png > family.png', (err) => {
                                                 if (err) console.log(err);
-                                                fs.readFile('family.png', (err, data) => {
-                                                    if (err) throw err;
-                                                    singleUpload(data, function(err, result) {
-                                                        console.log(result);
+                                                fs.readFile('family.png', function(err, data){
+                                                    if (err) throw (err);
+                                                    var base64data = new Buffer(data, 'binary');
+                                                    var s3 = new AWS.S3();
+                                                    s3.putObject({
+                                                        Bucket: 'project-inherit',
+                                                        Key: group._id.toString(),
+                                                        Body: base64data,
+                                                        ACL: 'public-read'
+                                                    }, function(resp) {
+                                                        group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + group._id.toString();
+                                                        group.save();
+                                                        console.log(group);
                                                     })
                                                 })
                                             })
