@@ -339,6 +339,8 @@ var fetchArtifactsByUser = function(req, res) {
     }
 };
 
+
+
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
 
