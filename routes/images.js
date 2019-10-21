@@ -12,14 +12,4 @@ router.post('/image-upload', function(req, res) {
 });
 
 
-router.post('/multi-upload', multiupload.array('uploadedImages', 10), function(req, res, err) {
-	if (err) {
-		console.log('error');
-		console.log(err);
-	}
-	var file = req.files;
-	res.end();
-	console.log(req.files);
-});
-
 module.exports = router;

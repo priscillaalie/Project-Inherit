@@ -339,6 +339,7 @@ var fetchArtifactsByUser = function(req, res) {
     }
 };
 
+
 var fetchUserByID = function(req, res) {
     var memberId = req.url.split('/')[2]
     if (req.cookies.sessionId) {
@@ -375,6 +376,7 @@ var fetchUserByID = function(req, res) {
         })
     }
 };
+
 
 
 
@@ -757,7 +759,6 @@ module.exports = {
     deleteArtifact,
     deleteComment,
     fetchPost,
-    editArtifact,
-    fetchUserByID
+    editArtifact
 }
 
