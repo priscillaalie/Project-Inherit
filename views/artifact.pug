@@ -127,27 +127,28 @@ block content
                                     hr.my-4
                                     ul.media-list
                                     each comment in comments
-
-                                        li.media
-                                            .col-xs-12.col-sm-1.col-md-1.col-1
-                                                a.pull-left(href='#')
-                                                    img.img-circle(src=artifact.photo, style="width: 3rem; height: 3rem;")
-                                            .col
-                                                .row
+                                        each commenter in commenters
+                                            if (comment.owner == commenter._id.toString())
+                                                li.media
+                                                    .col-xs-12.col-sm-1.col-md-1.col-1
+                                                        a.pull-left(href='#')
+                                                            img.img-circle(src=commenter.photo, style="width: 3rem; height: 3rem;")
                                                     .col
-                                                        strong.text-info #{comment.ownername}
-                                                    .col-8.text-right
-                                                        small.text-muted #{comment.created}
-                                                            if (user._id == comment.owner || user._id == artifact.owner)
-                                                                a(href = `/deletecomment/${comment._id}`)
-                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                        i.fa.fa-trash
-                                                .row
-                                                    .col
-                                                        p
-                                                            | #{comment.content}
+                                                        .row
+                                                            .col
+                                                                strong.text-info #{commenter.name}
+                                                            .col-8.text-right
+                                                                small.text-muted #{comment.created}
+                                                                    if (user._id == comment.owner || user._id == artifact.owner)
+                                                                        a(href = `/deletecomment/${comment._id}`)
+                                                                            button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                                i.fa.fa-trash
+                                                        .row
+                                                            .col
+                                                                p
+                                                                    | #{comment.content}
 
-                                        hr.my-4
+                                                hr.my-4
 
 
 
