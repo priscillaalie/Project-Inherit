@@ -64,8 +64,8 @@ block content
 
                                         .modal-footer.justify-content-center
                                             a(href = `/deleteartifact/${artifact._id}`)
-                                                button.btn-danger.btn-sm(type = "button" onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
-                                            button.btn.btn-primary(type='submit') Update
+                                                button.btn.btn-outline-danger(type = "button" onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            button.btn.btn-outline-success(type='submit') Update
 
 
         .row
@@ -121,7 +121,7 @@ block content
 
                                         textarea.form-control(placeholder='Write a comment...', rows='3', name = 'comment')
                                         br
-                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                        button.btn.btn-outline-info.pull-right(type='submit' value = 'Submit') Post
                                     br
                                     br
                                     hr.my-4
@@ -129,22 +129,25 @@ block content
                                     each comment in comments
 
                                         li.media
-                                            a.pull-left(href='#')
-                                                img.img-circle(src=comment.photo)
-                                            .media-body
-                                                span.text-muted.pull-right
-                                                    small.text-muted #{comment.created}
-                                                    if (user._id == comment.owner || user._id == artifact.owner)
-                                                        a(href = `/deletecomment/${comment._id}`)
-                                                            button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                              i.fa.fa-trash
+                                            .col-xs-12.col-sm-1.col-md-1.col-1
+                                                a.pull-left(href='#')
+                                                    img.img-circle(src=artifact.photo, style="width: 3rem; height: 3rem;")
+                                            .col
+                                                .row
+                                                    .col
+                                                        strong.text-info #{comment.ownername}
+                                                    .col-8.text-right
+                                                        small.text-muted #{comment.created}
+                                                            if (user._id == comment.owner || user._id == artifact.owner)
+                                                                a(href = `/deletecomment/${comment._id}`)
+                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                        i.fa.fa-trash
+                                                .row
+                                                    .col
+                                                        p
+                                                            | #{comment.content}
 
-                                                strong.text-success #{comment.ownername}
-
-                                                p
-                                                    | #{comment.content}
-
-                                                hr.my-4
+                                        hr.my-4
 
 
 

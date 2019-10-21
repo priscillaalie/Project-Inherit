@@ -149,11 +149,12 @@ block content
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4
 
-            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
+                br
                 if (artifacts.length > 0)
                     .row
                         each artifact in artifacts
-                            .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.fade-in(style = "margin-right: 5%;")
+                            .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4.fade-in
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
 
                                     a(href = `/artifact/view/${artifact._id}`)
