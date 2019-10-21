@@ -171,7 +171,7 @@ block content
 
                                             .col.text-right
                                                 a(href="/poststatus")
-                                                    button.btn.btn-info(type='submit' value = 'Submit') Post
+                                                    button.btn.btn-outline-info(type='submit' value = 'Submit') Post
 
 
                             hr.my-4
@@ -180,24 +180,31 @@ block content
 
                             each post in posts
 
+
                                 li.media
-                                    a.pull-left(href='#')
-                                        img.img-circle(src=post.photo)
-                                    .media-body
+                                    .col-xs-12.col-sm-1.col-md-1.col-1
+                                        a.pull-left(href='#')
+                                            img.img-circle(src=artifact.photo, style="width: 3rem; height: 3rem;")
+                                    .col
+                                        .row
+                                            .col
+                                                strong.text-info #{post.ownername}
+                                            .col-8.text-right
+                                                small.text-muted #{post.created}
+                                                    if (user._id == post.owner || user._id == group.owner)
+                                                        a(href = `/deletepost/${post._id}`)
+                                                            button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                i.fa.fa-trash
+                                        .row
+                                            .col
+                                                p
+                                                    | #{post.content}
 
-                                        strong.text-success #{post.ownername}
-                                        span.text-muted.pull-right
-                                            small.text-muted #{post.created}
-                                            if (user._id == post.owner)
-                                                a(href = `/deletepost/${post._id}`)
-                                                    button.btn(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                        i.fa.fa-trash
-
-                                        p
-                                            | #{post.content}
-                                        br
-                                        if (post.photo)
-                                            img(src=post.photo, style="height: 15rem; width: 15rem;")
+                                                br
+                                                if (post.photo)
+                                                    img(src=post.photo, style="height: 15rem; width: 15rem;")
+                                                else
+                                                    br
 
                                         hr.my-4
 
