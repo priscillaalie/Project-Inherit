@@ -98,9 +98,15 @@ block content
                                     .justify-content.center
                                         h4.font-weight-bold Info
                                         p #{group.description}
-                                        p Admin: #{owner.name}
-                                        p Artifacts: #{group.artifacts.length}
-                                        p Members: #{group.members.length}
+                                        p
+                                            b Admin:
+                                            |  #{owner.name}
+                                        p
+                                            b Artifacts:
+                                            |  #{group.artifacts.length}
+                                        p
+                                            b Members:
+                                            |  #{group.members.length}
                                 if (group.photo)
                                     .col-5
                                         .justify-content.center
@@ -114,7 +120,9 @@ block content
                                         h4.font-weight-bold My Family Tree
                                 .row
                                     .col
+
                                         img.img-fluid(src = group.familytree style = "width: auto; height: auto;")
+
 
 
 
@@ -152,10 +160,25 @@ block content
                                                                         | #{member.name}
 
 
+                                                                    div.form-group.text-center
+                                                                        .row
+                                                                            .col
+                                                                                select.browser-default#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
+                                                                                    option(value = "" disabled selected) Relationship
+                                                                                    option(value="mother") Mother
+                                                                                    option(value="father") Father
+                                                                                    option(value="sister") Sister
+                                                                                    option(value="brother") Brother
+                                                                                    option(value = "other") Other
+
+
+                                                                    button.btn-sm.btn-outline-info Update
+
                                                                     if(user._id == group.owner)
+                                                                        hr.my-7
                                                                         a(href =`/removeMember/${member._id}`)
-                                                                            button.btn.btn-outline-danger.btn-sm(type='button')
-                                                                                | Remove
+                                                                            button.btn.btn-outline-danger.btn-sm(type='button', onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                                | Remove Member
 
                             else
                                 .col
