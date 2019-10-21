@@ -339,44 +339,6 @@ var fetchArtifactsByUser = function(req, res) {
     }
 };
 
-var fetchUserByID = function(req, res) {
-    var memberId = req.url.split('/')[2]
-    if (req.cookies.sessionId) {
-        User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
-            if (!err) {
-                Group.find({'_id':{$in: user.groups}}, function(err, familygroups) {
-                    if (!err) {
-                        User.findById(memberId, function(err, member) {
-                            if (!err) {
-                                Artifact.find({'_id': {$in: member.artifacts}}, function(err, artifacts) {
-                                    if (!err) {
-                                        var results = {
-                                            title: 'Inherit', 'artifacts': artifacts, 'user': user,
-                                            session: req.cookies.sessionId, 'familygroups': familygroups
-                                        };
-                                        res.render('profile.pug', results);
-                                    } else {
-                                        res.sendStatus(500);
-                                    }
-                                })
-                            } else {
-                                res.sendStatus(500);
-                            }
-                        })
-                    } else {
-                        res.sendStatus(500);
-                    }
-
-                });
-            } else {
-                res.sendStatus(500);
-            }
-        })
-    }
-};
-
-
-
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
 
@@ -754,7 +716,6 @@ module.exports = {
     deleteArtifact,
     deleteComment,
     fetchPost,
-    editArtifact,
-    fetchUserByID
+    editArtifact
 }
 
