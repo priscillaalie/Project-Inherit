@@ -180,30 +180,39 @@ block content
 
                             each post in posts
 
+                                each poster in posters
+                                    if (post.owner == poster._id.toString())
 
-                                li.media
-                                    //.col-xs-12.col-sm-1.col-md-1.col-1
-                                        a.pull-left(href='#')
-                                            img.img-circle(src="" style="width: 3rem; height: 3rem;")
-                                    .col
-                                        .row
+                                        li.media
+                                            .col-xs-12.col-sm-1.col-md-1.col-1
+                                                if(poster.photo)
+                                                    a.pull-left(href='/profile/:id')
+                                                        img.img-circle(src=poster.photo, style="width: 3rem; height: 3rem;")
+
                                             .col
-                                                strong.text-info #{post.ownername}
-                                            .col-8.text-right
-                                                small.text-muted #{post.created}
-                                                    if (user._id == post.owner || user._id == group.owner)
-                                                        a(href = `/deletepost/${post._id}`)
-                                                            button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                i.fa.fa-trash
-                                        .row
-                                            .col
-                                                p
-                                                    | #{post.content}
+                                                .row
+                                                    .col
+                                                        a(href=`/profile/#{user._id}`)
+                                                            strong.text-info #{poster.name}
+                                                    .col-8.text-right
+                                                        small.text-muted #{post.created}
+                                                            if (user._id == post.owner || user._id == group.owner)
+                                                                a(href = `/deletepost/${post._id}`)
+                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                        i.fa.fa-trash
+                                                .row
+                                                    .col
+                                                        p
+                                                            | #{post.content}
 
-                                                br
+                                                        br
+                                                        if (post.photo)
+                                                            img(src=post.photo, style="height: 15rem; width: 15rem;")
+                                                        else
+                                                            br
 
 
-                                        hr.my-4
+                                                hr.my-4
 
     // upload image for create group
     script.

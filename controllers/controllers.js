@@ -339,6 +339,47 @@ var fetchArtifactsByUser = function(req, res) {
     }
 };
 
+
+var fetchUserByID = function(req, res) {
+    var memberId = req.url.split('/')[2]
+    if (req.cookies.sessionId) {
+        User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
+            if (!err) {
+                Group.find({'_id':{$in: user.groups}}, function(err, familygroups) {
+                    if (!err) {
+                        User.findById(memberId, function(err, member) {
+                            if (!err) {
+                                Artifact.find({'_id': {$in: member.artifacts}}, function(err, artifacts) {
+                                    if (!err) {
+                                        var results = {
+                                            title: 'Inherit', 'artifacts': artifacts, 'user': user,
+                                            session: req.cookies.sessionId, 'familygroups': familygroups,
+                                            member: member
+                                        };
+                                        res.render('profile.pug', results);
+                                    } else {
+                                        res.sendStatus(500);
+                                    }
+                                })
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
+                    } else {
+                        res.sendStatus(500);
+                    }
+
+                });
+            } else {
+                res.sendStatus(500);
+            }
+        })
+    }
+};
+
+
+
+
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
 
@@ -518,9 +559,11 @@ var fetchArtifactByID = function(req, res) {
                                             if (artifact.familygroup != "None") {
                                                 Group.findById(artifact.familygroup, function(err, belongsTo) {
                                                     if (!err) {
-                                                        res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
-                                                        comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                        familyname:belongsTo.title, user:user, title: artifact.title});
+                                                        User.find({}, function(err, commenters) {
+                                                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                                            comments:comments, session: req.cookies.sessionId, owner:owner.name,
+                                                            familyname:belongsTo.title, user:user, title: artifact.title, commenters:commenters});
+                                                        })
                                                     } else {
                                                         console.log(err);
                                                         res.sendStatus(500);
@@ -607,9 +650,9 @@ var addComment = function(req, res) {
                 "owner": user._id,
                 "content": req.body.comment,
                 "artifact": artifactId,
-                "ownername": user.name
             })
             comment.created = Date.now();
+            console.log(comment);
             comment.save(function(err, newComment) {
                 if (!err) {
                     artifact.comments.push(comment._id);
