@@ -133,7 +133,7 @@ block content
 
                                                         textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
                                                         br
-                                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
+                                                        button.btn.btn-outline-info.pull-right(type='submit' value = 'Submit') Post
                                 br
 
 
@@ -179,6 +179,7 @@ block content
                             ul.media-list
 
                             each post in posts
+
                                 each poster in posters
                                     if (post.owner == poster._id.toString())
 
@@ -187,6 +188,7 @@ block content
                                                 if(poster.photo)
                                                     a.pull-left(href='/profile/:id')
                                                         img.img-circle(src=poster.photo, style="width: 3rem; height: 3rem;")
+
                                             .col
                                                 .row
                                                     .col
@@ -209,6 +211,7 @@ block content
                                                         else
                                                             br
 
+
                                                 hr.my-4
 
     // upload image for create group
@@ -228,6 +231,39 @@ block content
                 reader.readAsDataURL(file);
             }
         }
+
+        .window.onload = function () {
+            var fileUpload = document.getElementById("customFile");
+            fileUpload.onchange = function () {
+                if (typeof (FileReader) != "undefined") {
+                    var dvPreview = document.getElementById("dvPreview");
+                    dvPreview.innerHTML = "";
+                    var regex = /^([a-zA-Z0-9\\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                    for (var i = 0; i < fileUpload.files.length; i++) {
+                        var file = fileUpload.files[i];
+                        if (regex.test(file.name.toLowerCase())) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = document.createElement("IMG");
+                                img.height = "100";
+                                img.width = "100";
+                                img.src = e.target.result;
+                                dvPreview.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        } else {
+                            alert(file.name + " is not a valid image file.");
+                            dvPreview.innerHTML = "";
+                            return false;
+                        }
+                    }
+                } else {
+                    alert("This browser does not support HTML5 FileReader.");
+                }
+            }
+        }
+
+
 
 
 
