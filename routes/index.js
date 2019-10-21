@@ -83,7 +83,7 @@ router.post('/artifact/view/:id', controllers.editArtifact);
 router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
-router.get('/profile/:id', controllers.fetchArtifactById);
+router.get('/profile/:id', controllers.fetchUserByID);
 router.post('/post', controllers.addComment);
 router.post('/addmember/:id', famcontrollers.addMember);
 router.get('/deletecomment/:id', controllers.deleteComment);

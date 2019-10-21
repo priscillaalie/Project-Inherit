@@ -339,7 +339,7 @@ var fetchArtifactsByUser = function(req, res) {
     }
 };
 
-var fetchArtifactsById = function(req, res) {
+var fetchUserByID = function(req, res) {
     var memberId = req.url.split('/')[2]
     if (req.cookies.sessionId) {
         User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
@@ -755,6 +755,6 @@ module.exports = {
     deleteComment,
     fetchPost,
     editArtifact,
-    fetchArtifactByID
+    fetchUserByID
 }
 
