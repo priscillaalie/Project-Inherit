@@ -352,7 +352,7 @@ var fetchUserByID = function(req, res) {
                                     if (!err) {
                                         var results = {
                                             title: 'Inherit', 'artifacts': artifacts, 'user': user,
-                                            session: req.cookies.sessionId, 'familygroups': familygroups
+                                            session: req.cookies.sessionId, 'familygroups': familygroups, 'member': member
                                         };
                                         res.render('profile.pug', results);
                                     } else {
