@@ -114,14 +114,15 @@ block content
                                     br
 
                             .row.justify-content-center.descriptionstyle
-                                .row
+                                .col
+                                    .row
 
-                                    .col
-                                        h4.font-weight-bold My Family Tree
-                                .row
-                                    .col
+                                        .col
+                                            h4.font-weight-bold My Family Tree
+                                    .row
+                                        .col.justify-content-center
 
-                                        img.img-fluid(src = group.familytree style = "width: auto; height: auto;")
+                                            img.img-fluid(src = group.familytree style = "width: auto; height: auto;")
 
 
 
@@ -139,8 +140,12 @@ block content
                                                         else
                                                             img.d-block.w-full(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = owner.name)
                                                         .px-2.py-2
+
+
                                                             h4.mt-0.mb-1(style='line-height: 1.25;')
                                                                 | #{owner.name}
+                                                            p.mb-0.small.font-weight-medium.text-uppercase.mb-1.text-muted.lts-2px
+                                                                | GROUP ADMIN
 
 
 
@@ -149,12 +154,13 @@ block content
                                                 .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4.fade-in.text-center
 
                                                     li(style = "list-style-type: none;")
-                                                        .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 13rem; overflow: hidden; border-radius: 1px;')
+                                                        .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0#hover-display(style='width: 13rem; overflow: hidden; border-radius: 1px;')
                                                             a
                                                                 if(member.photo)
                                                                     img.d-block.w-full(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
                                                                 else
                                                                     img.d-block.w-full(src="https://www.softwarearge.com/wp-content/uploads/2018/09/no-image-icon-6.png", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
+
                                                                 .px-2.py-2
                                                                     h4.mt-0.mb-1.text-left(style='line-height: 1.25;')
                                                                         | #{member.name}
@@ -174,11 +180,13 @@ block content
 
                                                                     button.btn-sm.btn-outline-info Update
 
+                                                                    hr.my-6
+
                                                                     if(user._id == group.owner)
-                                                                        hr.my-7
                                                                         a(href =`/removeMember/${member._id}`)
-                                                                            button.btn.btn-outline-danger.btn-sm(type='button', onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                            button.btn.btn-outline-danger.btn-sm#remove-btn(type='button', onclick="return confirm('Are you sure? This action cannot be undone')")
                                                                                 | Remove Member
+
 
                             else
                                 .col
