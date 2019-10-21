@@ -118,3 +118,8 @@ block content
                         .text-center
                             button.btn.btn-outline-secondary.page-button#submit(type='submit') Sign Up
 
+    script.
+        function activatePlacesSearch() {
+            var input = document.getElementById('location');
+            var searchbox = new google.maps.places.SearchBox(input);
+        }
