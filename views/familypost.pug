@@ -179,46 +179,43 @@ block content
                             ul.media-list
 
                             each post in posts
-
-
-                                li.media
-                                    .col-xs-12.col-sm-1.col-md-1.col-1
-                                        if(user.photo)
-                                            a.pull-left(href='/profile/:id')
-                                                img.img-circle(src=user.photo, style="width: 3rem; height: 3rem;")
+                                .row
+                                    li.media
+                                        .col-2
+                                            if(user.photo)
+                                                a.pull-left(href='/profile/:id')
+                                                    img.img-circle(src=user.photo, style="width: 3rem; height: 3rem;")
+                                        .col
+                                            a(href=`/profile/#{user._id}`)
+                                                strong.text-info #{post.ownername}
+                                        .col-4.text-right
+                                            small.text-muted.d-none.d-md-block.d-lg-block.d-xl-block #{post.created}
+                                        .col
+                                            if (user._id == post.owner || user._id == group.owner)
+                                                a(href = `/deletepost/${post._id}`)
+                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                        i.fa.fa-trash
+                                .row
                                     .col
-                                        .row
-                                            .col
-                                                a(href=`/profile/#{user._id}`)
-                                                    strong.text-info #{post.ownername}
-                                            .col-8.text-right
-                                                small.text-muted #{post.created}
-                                                    if (user._id == post.owner || user._id == group.owner)
-                                                        a(href = `/deletepost/${post._id}`)
-                                                            button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                i.fa.fa-trash
-                                        .row
-                                            .col
-                                                p
-                                                    | #{post.content}
+                                        p
+                                            | #{post.content}
 
-                                                br
-                                                if (post.photo)
-                                                    img(src=post.photo, style="height: 15rem; width: 15rem;")
-                                                else
-                                                    br
+                                        br
+                                        if (post.photo)
+                                            img(src=post.photo, style="height: 15rem; width: 15rem;")
+                                        else
+                                            br
 
-                                        hr.my-4
+                                    hr.my-4
 
     // upload image for create group
     script.
         function previewFile() {
-            var preview = document.querySelector('img');
+            var preview = document.getElementById('previewpost');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 
             reader.addEventListener("load", function (e) {
-                //document.getElementById("b64").innerHTML = e.target.result;
                 preview.src = reader.result.toString();
                 document.getElementById('b64').value = e.target.result;
             }, false);
