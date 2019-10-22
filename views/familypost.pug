@@ -132,9 +132,9 @@ block content
                                                     form(method = "POST" action = "/post")
                                                         br
 
-                                                        textarea.form-control#textsend(placeholder='Create a Post...', rows='3', name = 'post')
+                                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
                                                         br
-                                                        button.btn.btn-outline-info.pull-right#Button(type='submit' value = 'Submit' onkeyup="success()") Post
+                                                        button.btn.btn-outline-info.pull-right(type='submit' value = 'Submit') Post
 
                             #picture.tab-pane.fade.m-3(role='tabpanel', aria-labelledby='picture-tab', style="background-color: white;")
                                 |
@@ -176,7 +176,7 @@ block content
                                             .col.text-right
                                                 br
                                                 a(href="/poststatus")
-                                                    button.btn.btn-outline-info#Button(type='submit' value = 'Submit' onkeyup='success()') Post
+                                                    button.btn.btn-outline-info(type='submit' value = 'Submit') Post
 
 
                             hr.my-4
@@ -206,7 +206,7 @@ block content
                                                         small.text-muted #{post.created}
                                                             if (user._id == post.owner || user._id == group.owner)
                                                                 a(href = `/deletepost/${post._id}`)
-                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')" onchange="success()")
+                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
                                                                         i.fa.fa-trash
                                                 .row
                                                     .col
@@ -251,14 +251,5 @@ block content
 
             if (file) {
                 reader.readAsDataURL(file);
-            }
-        }
-
-        function success() {
-            if (document.getElementById("textsend").input === "") {
-                document.getElementById("Button").disabled = true;
-
-            } else {
-                document.getElementById('Button').disabled = false;
             }
         }
