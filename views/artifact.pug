@@ -131,8 +131,13 @@ block content
                                             if (comment.owner == commenter._id.toString())
                                                 li.media
                                                     .col-xs-12.col-sm-1.col-md-1.col-1
-                                                        a.pull-left(href='#')
-                                                            img.img-circle(src=commenter.photo, style="width: 3rem; height: 3rem;")
+                                                        if (commenter.photo)
+                                                            a.pull-left(href='#')
+                                                                img.img-circle(src=commenter.photo, style="width: 3rem; height: 3rem;")
+                                                        else
+                                                            a.pull-left
+                                                                img.img-circle(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
+
                                                     .col
                                                         .row
                                                             .col

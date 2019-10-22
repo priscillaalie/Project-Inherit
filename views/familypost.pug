@@ -188,6 +188,9 @@ block content
                                                 if(poster.photo)
                                                     a.pull-left(href='/profile/:id')
                                                         img.img-circle(src=poster.photo, style="width: 3rem; height: 3rem;")
+                                                else
+                                                    a.pull-left
+                                                        img.img-circle(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
 
                                             .col
                                                 .row
@@ -212,7 +215,7 @@ block content
                                                             br
 
 
-                                                hr.my-4
+                                        hr.my-4
 
     // upload image for create group
     script.
