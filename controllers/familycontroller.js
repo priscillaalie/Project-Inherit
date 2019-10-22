@@ -474,7 +474,7 @@ var deletePost = function(req, res) {
                     group.posts.splice(position, 1);
                     console.log(group);
                     group.save();
-                    Post.deleteOne({'_id': commentId}, function(err, result) {
+                    Post.deleteOne({'_id': postId}, function(err, result) {
                         if (!err) {
                             console.log('post deleted');
                             res.redirect('/view/' + groupId + '/post');
