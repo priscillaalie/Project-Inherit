@@ -30,7 +30,7 @@ html
 
     nav.navbar.navbar-expand-md.navbar-light.fixed-top.white-bg#navtop
       if (session)
-        a.navbar-brand#handwrite(href = '/home') INHERIT
+        a.navbar-brand#handwrite(href = '/') INHERIT
       else
         a.navbar-brand#handwrite(href = '/') INHERIT
 
@@ -48,6 +48,7 @@ html
 
             li.nav-item
               a(href=`/profile/${user._id}`).nav-link.text-uppercase #{user.fname}
+
             li.nav-item
               a.nav-link(href = "/") HOME
             li.nav-item.dropdown.pull-right
@@ -73,9 +74,7 @@ html
 
 
   footer
-      br
-      hr.my-4
-      p.text-center
-        small Copyright (c) Project Inherit
-
-
+    br
+    hr.my-4
+    p.text-center
+      small Copyright (c) Project Inheri

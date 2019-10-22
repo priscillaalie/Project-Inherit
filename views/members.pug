@@ -59,23 +59,22 @@ block content
                         br
                         .row
                             .col
-
-                                if (user._id.equals(owner._id))
-
-                                    a.tabstyle(href='/' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                if (user._id.equals(group.owner))
+                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
-                                            form(method='POST' action='/family/update')
+                                            form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
                                                 .modal-content
                                                     .modal-header.text-center
                                                         h4.modal-title.w-100.font-weight-bold Update #{group.title}
                                                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                             span(aria-hidden='true') &times;
                                                     .modal-body.mx-3
-                                                        .md-form.mb-5
+                                                        .md-form
                                                             label.font-weight-bold(for='title') Title
-                                                            input#title.form-control(type='text', placeholder=group.title name='title', value = group.title)
-                                                        .md-form.mb-5
+                                                            input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
+                                                            br
+                                                        .md-form
                                                             label.font-weight-bold(for='desc') Description
                                                             .input-group
                                                                 textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
@@ -83,12 +82,29 @@ block content
                                                             label.font-weight-bold(for='owner') Admin:
                                                             select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
                                                                 for member in members
-                                                                    option(value=`${member._id}`)  #{member.fname}
+                                                                    option(value=`${member._id}`) #{member.fname}
+                                                            br
+                                                        .md-form.text-center
+                                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center
+                                                                    img.text-center#preview(src=group.photo)
+
+                                                                .col
+                                                            br
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center.text-left
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    label.custom-file-label(for='customFile') Choose file
+                                                                .col
+
 
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
-                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
-                                                        button.btn.btn-primary(type='submit') Update
+                                                            button.btn-outline-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
+                                                        button.btn-sm.btn-outline-secondary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4

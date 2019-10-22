@@ -309,16 +309,17 @@ var addMember = function(req, res) {
                                                 if (err) throw (err);
                                                 var base64data = new Buffer(data, 'binary');
                                                 var s3 = new AWS.S3();
+                                                var randomUrl = new Date().getTime().toString();
                                                 s3.putObject({
                                                     Bucket: 'project-inherit',
-                                                    Key: group._id.toString(),
+                                                    Key: randomUrl,
                                                     Body: base64data,
                                                     ACL: 'public-read'
                                                 }, function(resp) {
-                                                    group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + group._id.toString();
+                                                    group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + randomUrl;
                                                     group.save();
-                                                    console.log('new tree created');
-                                                    res.redirect('/view/' + groupId + '/members');
+                                                    console.log(group.familytree);
+                                                    res.redirect('/view/' + groupId + '/info');
                                                 })
                                             })
                                         })
@@ -570,16 +571,17 @@ var removeMember = function(req, res) {
                                     if (err) throw (err);
                                     var base64data = new Buffer(data, 'binary');
                                     var s3 = new AWS.S3();
+                                    var randomUrl = new Date().getTime().toString();
                                     s3.putObject({
                                         Bucket: 'project-inherit',
-                                        Key: group._id.toString(),
+                                        Key: randomUrl,
                                         Body: base64data,
                                         ACL: 'public-read'
                                     }, function(resp) {
-                                        group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + group._id.toString();
+                                        group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + randomUrl;
                                         group.save();
-                                        console.log('new tree created');
-                                        res.redirect('/view/' + groupId + '/info');
+                                        console.log(group.familytree);
+                                        res.redirect('/view/' + groupId + '/members');
                                     })
                                 })
                             }) 
