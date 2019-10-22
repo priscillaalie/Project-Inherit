@@ -104,14 +104,24 @@ var fetchSettings = function(req, res) {
 
 // renders the delete account page
 var fetchDeleteAccount = function(req, res) {
-    var results = {title: 'Inherit', session: req.cookies.sessionId, error: ''};
-    res.render('deleteAccount.pug', results)
-}
+    var sid = req.cookies.sessionId;
+    User.findOne({sessionId: sid}, function(err, user){
+        if (!err){
+            var results = {title: 'Inherit', session: sid, user: user};
+            res.render('deleteAccount.pug', results);
+        }
+    });
+};
 
 // renders the privacy page
 var fetchPrivacy = function(req, res) {
-    var results = {title: 'Inherit', session: req.cookies.sessionId};
-    res.render('privacy.pug', results);
+    var sid = req.cookies.sessionId;
+    User.findOne({sessionId: sid}, function(err, user){
+        if (!err){
+            var results = {title: 'Inherit', session: sid, user: user};
+            res.render('privacy.pug', results);
+        }
+    });
 };
 
 // changes the data of a user
