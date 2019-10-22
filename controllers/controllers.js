@@ -809,5 +809,5 @@ module.exports = {
     deleteComment,
     fetchPost,
     editArtifact,
-    fetchUserByID
+    fetchUserByID,
 }
