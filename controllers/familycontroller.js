@@ -434,7 +434,10 @@ var addPost = function(req, res) {
                     "content": req.body.post,
                     "familygroup": groupId,
                     "ownername": user.name
-                })
+                });
+                if (req.file) {
+                    post.photo = req.file.location;
+                }
                 post.created = Date.now();
                 console.log(post);
                 post.save(function(err, newPost) {
