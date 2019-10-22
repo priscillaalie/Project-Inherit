@@ -130,11 +130,12 @@ block content
 
                                                 .panel-body
                                                     form(method = "POST" action = "/post")
-
-                                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
                                                         br
-                                                        button.btn.btn-outline-info.pull-right(type='submit' value = 'Submit') Post
-                                br
+
+                                                        textarea.form-control#textsend(placeholder='Create a Post...', rows='3', name = 'post')
+                                                        br
+                                                        button.btn.btn-outline-info.pull-right#Button(type='submit' value = 'Submit' onkeyup="success()") Post
+
 
 
 
@@ -151,27 +152,35 @@ block content
                                                 .panel-heading.font-weight-bold
                                                     | Update Your Family
 
-                                                    br
 
-                                                    img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
                                                     br
-                                                    br
+                                                    .row
+                                                        .col
+                                                            br
 
+                                                            textarea.form-control#textsend(placeholder='Create a Post...', rows='3', name = 'post')
 
-                                                    textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                                        br
+                                                        .col-3.text-right
+                                                            img.text-right#previewpost(src=file, style="height:20px; width: 20px;")
+
                                                 br
 
 
                                         .row
-                                            .col-1
 
-                                            .col-8.text-left
+
+                                            .col.text-left.ml-3.mr-3
                                                 input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;" multiple)
-                                                label.custom-file-label(for='customFile') Upload Image (Optional)
+                                                label.custom-file-label(for='customFile')
+                                                    | Upload Image (Optional)
+                                        .row
+
 
                                             .col.text-right
+                                                br
                                                 a(href="/poststatus")
-                                                    button.btn.btn-outline-info(type='submit' value = 'Submit') Post
+                                                    button.btn.btn-outline-info#Button(type='submit' value = 'Submit' onkeyup='success()') Post
 
 
                             hr.my-4
@@ -201,7 +210,7 @@ block content
                                                         small.text-muted #{post.created}
                                                             if (user._id == post.owner || user._id == group.owner)
                                                                 a(href = `/deletepost/${post._id}`)
-                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')" onchange="success()")
                                                                         i.fa.fa-trash
                                                 .row
                                                     .col
@@ -263,6 +272,15 @@ block content
                 } else {
                     alert("This browser does not support HTML5 FileReader.");
                 }
+            }
+        }
+
+        function success() {
+            if (document.getElementById("textsend").input === "") {
+                document.getElementById("Button").disabled = true;
+
+            } else {
+                document.getElementById('Button').disabled = false;
             }
         }
 
