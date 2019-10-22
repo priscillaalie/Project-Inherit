@@ -17,7 +17,8 @@ html
     block css
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/font.css')
-    link(rel='icon', type='image/jpg', href="https://i.ibb.co/qC5dVYx/I.jpg" alt = "Inherit Logo")
+    link(rel='icon', type='image/jpg', href="https://i.ibb.co/xXLBS8S/I-1.png" alt = "Inherit Logo")
+
 
     style.
       @import url('https://fonts.googleapis.com/css?family=Merriweather&display=swap');
@@ -42,6 +43,11 @@ html
         ul.navbar-nav.ml-auto(style='color: white;')
 
           if (session)
+            li.nav-item.d-none.d-lg-block.d-xl-block
+              img(src = user.photo style = "width: 2rem; height: 2rem; border-radius:50%;")
+
+            li.nav-item
+              a(href=`/profile/${user._id}`).nav-link.text-uppercase #{user.fname}
             li.nav-item
               a.nav-link(href = "/home") HOME
             li.nav-item.dropdown.pull-right

@@ -71,7 +71,8 @@ var fetchHomepage = function(req, res) {
                             if (!err) {
                                 var results = {
                                     title: 'Inherit', 'familygroups': familygroups,
-                                    'session': req.cookies.sessionId, 'name': user.fname, 'users':users
+                                    'session': req.cookies.sessionId, 'user': user, 'users':users
+
                                 };
                                 res.render('homepage.pug', results);
                             } else {
@@ -190,9 +191,9 @@ var deleteUser = function(req, res){
             } else {
                 bcrypt.compare(pw, user[0].password, function (err, same){
                     if (same) {
-                        user[0].listings.forEach(function(element){
-                            Listing.findById(element, function(err, listing){
-                                listing.remove();
+                        user[0].artifacts.forEach(function(element){
+                            Artifact.findById(element, function(err, artifact){
+                                artifact.remove();
                             });
                         });
                         user[0].remove();
@@ -211,6 +212,7 @@ var deleteUser = function(req, res){
         }
     });
 }
+
 
 // creates a user and adds all their information to the database
 // also sends the user a verification
@@ -231,7 +233,8 @@ var createUser = function(req,res){
                     "birthday":req.body.birthday,
                     "phone":req.body.phone,
                     "password":hash,
-                    "name": req.body.fname + ' ' + req.body.lname
+                    "name": req.body.fname + ' ' + req.body.lname,
+                    "photo": "https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg"
 
                 });
                 // Check if the email already exists

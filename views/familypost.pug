@@ -153,7 +153,7 @@ block content
 
                                                     br
 
-                                                    img.text-left#previewpost(src=file, style="height:20px; width: 20px;")
+                                                    img.text-left#previewpic(src=file, style="height:13rem; width: 13rem;")
                                                     br
                                                     br
 
@@ -172,7 +172,6 @@ block content
                                             .col.text-right
                                                 a(href="/poststatus")
                                                     button.btn.btn-outline-info(type='submit' value = 'Submit') Post
-
 
                             hr.my-4
 
@@ -213,7 +212,7 @@ block content
     // upload image for create group
     script.
         function previewFile() {
-            var preview = document.querySelector('img');
+            var preview = document.getElementById('previewpic');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 
