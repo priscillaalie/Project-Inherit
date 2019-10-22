@@ -71,7 +71,7 @@ var fetchHomepage = function(req, res) {
                             if (!err) {
                                 var results = {
                                     title: 'Inherit', 'familygroups': familygroups,
-                                    'session': req.cookies.sessionId, 'name': user.fname, 'users':users
+                                    'session': req.cookies.sessionId, 'user': user, 'users':users
                                 };
                                 res.render('homepage.pug', results);
                             } else {
@@ -231,7 +231,8 @@ var createUser = function(req,res){
                     "birthday":req.body.birthday,
                     "phone":req.body.phone,
                     "password":hash,
-                    "name": req.body.fname + ' ' + req.body.lname
+                    "name": req.body.fname + ' ' + req.body.lname,
+                    "photo": "https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg"
                 });
                 // Check if the email already exists
                 User.find({email: req.body.email}, function(err, users){
@@ -351,12 +352,17 @@ var fetchUserByID = function(req, res) {
                             if (!err) {
                                 Artifact.find({'_id': {$in: member.artifacts}}, function(err, artifacts) {
                                     if (!err) {
-                                        var results = {
-                                            title: 'Inherit', 'artifacts': artifacts, 'user': user,
-                                            session: req.cookies.sessionId, 'familygroups': familygroups,
-                                            member: member
-                                        };
-                                        res.render('profile.pug', results);
+                                        Group.find({'_id':{$in: member.groups}}, function(err, membergroups) {
+                                            if (!err) {
+                                                var results = {
+                                                    title: 'Inherit', 'artifacts': artifacts, 'user': user, membergroups:membergroups,
+                                                    session: req.cookies.sessionId, 'familygroups': familygroups, 'member': member
+                                                };
+                                                res.render('profile.pug', results);
+                                            } else {
+                                                res.sendStatus(500);
+                                            }
+                                        })
                                     } else {
                                         res.sendStatus(500);
                                     }
@@ -376,7 +382,6 @@ var fetchUserByID = function(req, res) {
         })
     }
 };
-
 
 
 
@@ -759,6 +764,7 @@ module.exports = {
     deleteArtifact,
     deleteComment,
     fetchPost,
-    editArtifact
+    editArtifact,
+    fetchUserByID
 }
 

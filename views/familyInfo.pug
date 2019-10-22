@@ -134,7 +134,7 @@ block content
                                     .row
                                         .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4.fade-in
                                             li(style = "list-style-type: none;")
-                                                a
+                                                a(href = `/profile/${owner._id}`)
                                                     .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 13rem; overflow: hidden; border-radius: 1px;')
                                                         if(owner.photo)
                                                             img.d-block.w-full(src=owner.photo, style="width:13rem;height:13rem; min-width: 13rem;")

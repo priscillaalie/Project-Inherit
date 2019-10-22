@@ -31,7 +31,11 @@ const famcontrollers = require('../controllers/familycontroller.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Project Inherit' });
+  if (req.cookies.sessionId) {
+    controllers.fetchHomepage(req,res);
+  } else {
+    res.render('index', { title: 'Project Inherit' });
+  }
 });
 
 
