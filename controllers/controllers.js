@@ -64,7 +64,7 @@ var fetchPost = function(req,res) {
 var fetchHomepage = function(req, res) {
     User.find({}, function(err,users) {
         if (!err) {
-	        if (req.cookies.sessionId) {
+            if (req.cookies.sessionId) {
                 User.findOne({sessionId: req.cookies.sessionId}, function (err, user) {
                     if (user) {
                         Group.find({'_id': {$in: user.groups}}, function (err, familygroups) {
@@ -72,7 +72,6 @@ var fetchHomepage = function(req, res) {
                                 var results = {
                                     title: 'Inherit', 'familygroups': familygroups,
                                     'session': req.cookies.sessionId, 'user': user, 'users':users
-
                                 };
                                 res.render('homepage.pug', results);
                             } else {
@@ -103,16 +102,60 @@ var fetchSettings = function(req, res) {
     });
 };
 
+
+
 // renders the delete account page
 var fetchDeleteAccount = function(req, res) {
-    var results = {title: 'Inherit', session: req.cookies.sessionId, error: ''};
-    res.render('deleteAccount.pug', results)
-}
+    var sid = req.cookies.sessionId;
+    User.findOne({sessionId: sid}, function(err, user){
+        if (!err){
+            var results = {title: 'Inherit', session: sid, user: user};
+            res.render('deleteAccount.pug', results);
+        }
+    });
+};
 
 // renders the privacy page
 var fetchPrivacy = function(req, res) {
-    var results = {title: 'Inherit', session: req.cookies.sessionId};
-    res.render('privacy.pug', results);
+    var sid = req.cookies.sessionId;
+    User.findOne({sessionId: sid}, function(err, user){
+        if (!err){
+            var results = {title: 'Inherit', session: sid, user: user};
+            res.render('privacy.pug', results);
+        }
+    });
+};
+
+
+// changes the data of a user
+var editUser = function(req, res){
+    singleUpload(req, res, function(err) {
+        User.findOne({sessionId:req.cookies.sessionId}, function(err, user) {
+            if (!err && user) {
+                user.fname = req.body.fname;
+                user.lname = req.body.lname;
+                user.email = req.body.email;
+                user.phone = req.body.phone;
+                user.name = req.body.fname + ' ' + req.body.lname;
+                if (req.file) {
+                    user.photo = req.file.location;
+                }
+                user.save(function(err, updatedUser) {
+                    if (updatedUser) {
+                        let message = "Your account has been updated.";
+                        let results = {title: 'Inherit', error: message,
+                            user: updatedUser, session: req.cookies.sessionId};
+                        res.render('settings', results);
+                    } else {
+                        res.sendStatus(500);
+                    }
+                });
+            } else {
+                res.cookie('sessionId', '');
+                res.redirect('/login')
+            }
+        });
+    })
 };
 
 // changes the data of a user
@@ -191,9 +234,9 @@ var deleteUser = function(req, res){
             } else {
                 bcrypt.compare(pw, user[0].password, function (err, same){
                     if (same) {
-                        user[0].artifacts.forEach(function(element){
-                            Artifact.findById(element, function(err, artifact){
-                                artifact.remove();
+                        user[0].listings.forEach(function(element){
+                            Listing.findById(element, function(err, listing){
+                                listing.remove();
                             });
                         });
                         user[0].remove();
@@ -212,7 +255,6 @@ var deleteUser = function(req, res){
         }
     });
 }
-
 
 // creates a user and adds all their information to the database
 // also sends the user a verification
@@ -235,7 +277,6 @@ var createUser = function(req,res){
                     "password":hash,
                     "name": req.body.fname + ' ' + req.body.lname,
                     "photo": "https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg"
-
                 });
                 // Check if the email already exists
                 User.find({email: req.body.email}, function(err, users){
@@ -278,37 +319,33 @@ var checkUser = function(req, res) {
                 var results = {title: 'Inherit', error: message}
                 res.render('login.pug', results);
             } else {
-                if (user.verified) {
-                    // encrypt password and compare encrypted data against stored encrypted password
-                    bcrypt.compare(password, user.password, function (err, same){
-                        if (same) {
-                            let sidrequest = utils.generate_unique_sid();
-                            sidrequest.then(function (sid) {
-                                user.sessionId = sid;
-                                user.markModified('sessionId');
-                                user.save();
-                                res.cookie("sessionId", sid);
-                                Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
-                                    if (!err) {
-                                        var results = {
-                                            title: 'Inherit', 'familygroups': familygroups,
-                                            'session': sid, 'name': user.fname
-                                        };
-                                        res.render('homepage.pug', results);
-                                    } else {
-                                        res.sendStatus(500);
-                                    }
-                                })
-                            });
-                        } else {
-                            var message = "Incorrect email or password. Please try again.";
-                            var results = {title: 'Inherit', error: message}
-                            res.render('login.pug', results);
-                        }
-                    });
-                } else {
-                    fetchSend(req,res);
-                }
+                // encrypt password and compare encrypted data against stored encrypted password
+                bcrypt.compare(password, user.password, function (err, same){
+                    if (same) {
+                        let sidrequest = utils.generate_unique_sid();
+                        sidrequest.then(function (sid) {
+                            user.sessionId = sid;
+                            user.markModified('sessionId');
+                            user.save();
+                            res.cookie("sessionId", sid);
+                            Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
+                                if (!err) {
+                                    var results = {
+                                        title: 'Inherit', 'familygroups': familygroups,
+                                        'session': sid, 'name': user.fname
+                                    };
+                                    res.render('homepage.pug', results);
+                                } else {
+                                    res.sendStatus(500);
+                                }
+                            })
+                        });
+                    } else {
+                        var message = "Incorrect email or password. Please try again.";
+                        var results = {title: 'Inherit', error: message}
+                        res.render('login.pug', results);
+                    }
+                });
             }
         }else{
             // Redirect back to login with server error bubble
@@ -320,32 +357,33 @@ var checkUser = function(req, res) {
 // renders the myartifacts page by passing in data about user's artifacts and families
 var fetchArtifactsByUser = function(req, res) {
     if (req.cookies.sessionId) {
-    	User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
-    		if (!err) {
-    			Group.find({'_id':{$in: user.groups}}, function(err, familygroups) {
-    				if (!err) {
-    					Artifact.find({'_id': {$in: user.artifacts}}, function(err, artifacts) {
-    						if (!err) {
-	    						var results = {
-	                                title: 'Inherit', 'artifacts': artifacts, 'user': user,
-	                                session: req.cookies.sessionId, 'familygroups': familygroups
-	                            };
-	                            res.render('myartifacts.pug', results);
-	                        } else {
-	                        	res.sendStatus(500);
-	                        }
-    					})
-    				} else {
-    					res.sendStatus(500);
-    				}
+        User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
+            if (!err) {
+                Group.find({'_id':{$in: user.groups}}, function(err, familygroups) {
+                    if (!err) {
+                        Artifact.find({'_id': {$in: user.artifacts}}, function(err, artifacts) {
+                            if (!err) {
+                                var results = {
+                                    title: 'Inherit', 'artifacts': artifacts, 'user': user,
+                                    session: req.cookies.sessionId, 'familygroups': familygroups
+                                };
+                                res.render('myartifacts.pug', results);
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
+                    } else {
+                        res.sendStatus(500);
+                    }
 
-              	});
-    		} else {
-    			res.sendStatus(500);
-    		}
-    	})
+                });
+            } else {
+                res.sendStatus(500);
+            }
+        })
     }
 };
+
 
 var fetchUserByID = function(req, res) {
     var memberId = req.url.split('/')[2]
@@ -449,15 +487,15 @@ var createArtifact = function(req,res){
     // Get current date and time
     var today = new Date();
     singleUpload(req, res, function(err) {
-    	User.findOne({sessionId: sid}, function(err,user) {
-    		if (!err) {
+        User.findOne({sessionId: sid}, function(err,user) {
+            if (!err) {
                 var artifact = new Artifact({
                     "title": req.body.title,
                     "description": req.body.description,
                     "owner": user._id
                 });
                 if (req.file) {
-        			artifact.photo = req.file.location;
+                    artifact.photo = req.file.location;
                 }
 
                 var groupId;
@@ -493,11 +531,11 @@ var createArtifact = function(req,res){
                         res.sendStatus(500);
                     }
                 })
-    		} else {
+            } else {
                 console.log(err);
                 res.sendStatus(500);
             }
-    	});
+        });
     })
 };
 
@@ -570,9 +608,11 @@ var fetchArtifactByID = function(req, res) {
                                             if (artifact.familygroup != "None") {
                                                 Group.findById(artifact.familygroup, function(err, belongsTo) {
                                                     if (!err) {
-                                                        res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
-                                                        comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                        familyname:belongsTo.title, user:user, title: artifact.title});
+                                                        User.find({}, function(err, commenters) {
+                                                            res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
+                                                                comments:comments, session: req.cookies.sessionId, owner:owner.name,
+                                                                familyname:belongsTo.title, user:user, title: artifact.title, commenters:commenters});
+                                                        })
                                                     } else {
                                                         console.log(err);
                                                         res.sendStatus(500);
@@ -580,8 +620,8 @@ var fetchArtifactByID = function(req, res) {
                                                 })
                                             } else {
                                                 res.render('artifact.pug', {artifact: artifact, familygroups:familygroups,
-                                                comments:comments, session: req.cookies.sessionId, owner:owner.name,
-                                                familyname:"None", user:user});
+                                                    comments:comments, session: req.cookies.sessionId, owner:owner.name,
+                                                    familyname:"None", user:user});
                                             }
                                         } else {
                                             console.log(err);
@@ -659,9 +699,9 @@ var addComment = function(req, res) {
                 "owner": user._id,
                 "content": req.body.comment,
                 "artifact": artifactId,
-                "ownername": user.name
             })
             comment.created = Date.now();
+            console.log(comment);
             comment.save(function(err, newComment) {
                 if (!err) {
                     artifact.comments.push(comment._id);
@@ -771,4 +811,3 @@ module.exports = {
     editArtifact,
     fetchUserByID
 }
-

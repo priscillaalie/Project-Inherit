@@ -6,13 +6,13 @@ var mongoose = require('mongoose');
 
 var postSchema = mongoose.Schema(
     {
-        "id": String,
-        "owner":String,
-        "photo": Array,
-        "content":String,
-        "familygroup": String,
-        "created": Date,
-        //timestamps: true
+            "id": String,
+            "owner":String,
+            "photo": String,
+            "content":String,
+            "familygroup": String,
+            "created": Date,
+            //timestamps: true
     }
 );
 module.exports = mongoose.model('Post', postSchema);

@@ -158,7 +158,7 @@ block content
 
                                                         br
                                                         .col-3.text-right
-                                                            img.text-right#previewpost(src=file, style="height:20px; width: 20px;")
+                                                            img.text-right#preview(src=file, style="height:20px; width: 20px;")
 
                                                 br
 
@@ -219,16 +219,18 @@ block content
                                                         else
                                                             br
 
-                                    hr.my-4
+
+                                        hr.my-4
 
     // upload image for create group
     script.
         function previewFile() {
-            var preview = document.getElementById('previewpost');
+            var preview = document.getElementById('preview');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 
             reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
                 preview.src = reader.result.toString();
                 document.getElementById('b64').value = e.target.result;
             }, false);
@@ -277,13 +279,3 @@ block content
                 document.getElementById('Button').disabled = false;
             }
         }
-
-
-
-
-
-
-
-
-
-
