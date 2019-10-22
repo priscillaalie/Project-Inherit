@@ -22,7 +22,7 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a.tabstyle(href='/home') Back
+                                a.tabstyle(href='/') Back
                         hr.my-4
 
                         .row
@@ -48,7 +48,7 @@ block content
 
                                 if (user._id.equals(owner._id))
 
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    a.tabstyle(href='/' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")

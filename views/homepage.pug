@@ -12,7 +12,7 @@ block content
                     h2.text-center Welcome #{user.fname}
             br
             .col.text-center
-                a.btn.btn-outline-secondary.btn-md.mr-3(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
+                a.btn.btn-outline-secondary.btn-md.mr-3(href='/' data-toggle='modal' data-target='#modalFamilyForm')
                     | + Create Family
                 #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                     .modal-dialog(role='document')
@@ -99,7 +99,7 @@ block content
                             .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
                                 // Button trigger modal
                                 //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
-                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
+                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/' data-toggle='modal' data-target='#modalFamilyForm')
                                     | Create Family Group
                                 #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                     .modal-dialog(role='document')
@@ -136,7 +136,7 @@ block content
                                                                 label.custom-file-label(for='customFile') Choose file
                                                             .col
                                                 .modal-footer.d-flex.justify-content-center
-                                                    button.btn.btn-outline-secondary(href='/home' type='submit') Create Family
+                                                    button.btn.btn-outline-secondary(href='/' type='submit') Create Family
 
 
 
