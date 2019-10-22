@@ -1,0 +1,28 @@
+extends layout
+
+block css
+    style
+        include ../public/stylesheets/verify.css
+
+
+block content
+
+    .container
+        .row
+            .col-xs-12.col-sm-12.text-center
+
+                .jumbotron
+                    img.bounceIn(src='https://image.flaticon.com/icons/svg/190/190411.svg', style="height: 8rem;")
+
+                    br
+                    br
+
+                    h1.display-5 Account Verified!
+                    br
+                    p.lead
+                        | Thanks for Verifying Your Account
+                    br
+
+                    p.lead
+                        a.btn.btn-outline-dark.btn-lg(href='/login', role='button') Login Here
+

@@ -1,0 +1,203 @@
+extends layout
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+block content
+    .container-fluid.fill-height
+        .row
+            .col
+            .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+                if(session)
+                    h2.text-center Welcome #{name}
+            br
+            .col.text-center
+                a.btn.btn-outline-secondary.btn-md.mr-3(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
+                    | + Create Family
+                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                    .modal-dialog(role='document')
+                        form(method='POST' action='/create', enctype = "multipart/form-data")
+                            .modal-content
+                                .modal-header.text-center
+                                    h4.modal-title.w-100.font-weight-bold Create a Family
+
+                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                        span(aria-hidden='true') &times;
+                                .modal-body.mx-3.text-left
+                                    .md-form
+                                        label.font-weight-bold(for='familyname') Family Name*
+                                        input#familyname.form-control(type='text', placeholder='Family Name' name='title', required)
+                                        br
+                                    .md-form
+                                        label.font-weight-bold(for='description') Description*
+                                        .input-group
+                                            textarea#description.form-control(type='text', placeholder='Description', name='description',required)
+                                        br
+                                    .md-form.text-center
+                                        label.font-weight-bold(for='preview') Upload Image (Optional)
+                                        .row
+                                            .col
+                                            .col-8.justify-content-center
+                                                img.text-center#preview(src=file)
+
+                                            .col
+                                        br
+                                        .row
+                                            .col
+                                            .col-8.justify-content-center.text-left
+                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                label.custom-file-label(for='customFile') Choose file
+                                            .col
+
+                                .modal-footer.d-flex.justify-content-center
+                                    button.btn.btn-outline-secondary(href='/home' type='submit') Create Family
+
+
+        .row
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
+                nav-collapse.fixed-left.dropdown-menu-left
+
+                    .vertical-menu.mr-4
+                        h2.my-4(style = "color: dimgrey;") Groups
+                        each family in familygroups
+                            .row
+                                .col-2
+                                    i.material-icons group
+                                .col-10
+                                    a.tabstyle(href = `/view/${family._id}`) #{family.title}
+                        hr.my-4
+
+                        a.tabstyle(href='/myartifacts') My Artifacts
+
+                        if (familygroups)
+                            hr.my-4
+                        a.tabstyle(href='/events') Events
+                        hr.my-4
+
+            .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.cardzone
+
+                if (familygroups.length>0)
+                    .row
+                        each family in familygroups
+                            .col-xs-12.col-sm-6.col-md-8.col-lg-6.col-xl-4.fade-in
+                                .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
+
+                                    a(href = `/view/${family._id}`)
+                                        if(family.photo)
+                                            img.d-block.w-full(src=family.photo, style="width:15rem;height:15rem; min-width: 15rem;")
+                                        else
+
+                                            img.d-block.w-full(src="https://www.softwarearge.com/wp-content/uploads/2018/09/no-image-icon-6.png", style="width:15rem;height:15rem; min-width: 15rem;" alt = family.name)
+
+
+                                        .px-2.py-2
+                                            h4.mt-0.mb-1(style='line-height: 1.25;')
+                                                | #{family.title}
+                                            p.mb-1
+                                                | #{family.description}
+
+                else
+                    .row
+                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4
+                            .card.mb-4.mr-5(style='width: 15rem; height: 15rem; min-width: 15rem;')
+                                // Button trigger modal
+                                //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
+                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalFamilyForm')
+                                    | Create Family Group
+                                #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                    .modal-dialog(role='document')
+                                        form(method='POST' action='/create', enctype = "multipart/form-data")
+                                            .modal-content
+                                                .modal-header.text-center
+                                                    h4.modal-title.w-100.font-weight-bold Create a Family
+
+                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                        span(aria-hidden='true') &times;
+                                                .modal-body.mx-3.text-left
+                                                    .md-form
+                                                        label.font-weight-bold(for='familyname') Family Name*
+                                                        input#familyname.form-control(type='text', placeholder='Family Name' name='title', required)
+                                                        br
+                                                    .md-form
+                                                        label.font-weight-bold(for='description') Description*
+                                                        .input-group
+                                                            textarea#description.form-control(type='text', placeholder='Description', name='description',required)
+                                                        br
+                                                    .md-form.text-center
+                                                        label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center
+                                                                img.text-center#preview(src=file)
+
+                                                            .col
+                                                        br
+                                                        .row
+                                                            .col
+                                                            .col-8.justify-content-center.text-left
+                                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                label.custom-file-label(for='customFile') Choose file
+                                                            .col
+                                                .modal-footer.d-flex.justify-content-center
+                                                    button.btn.btn-outline-secondary(href='/home' type='submit') Create Family
+
+
+
+    // upload image for create group
+    script.
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+
+        function getusers() {
+            users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
+            })
+
+        }
+        document.getElementById("searchbar").addEventListener('keyup', () => {
+            autocomplete(document.getElementById("searchbar").value);
+        });
+
+        function autocomplete(value) {
+            if (value == "") {
+                document.getElementById("datalist").innerHTML = "";
+                return;
+            }
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var result = JSON.parse(xhttp.responseText);
+                    document.getElementById("datalist").innerHTML = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var node = document.createElement("option");
+                        var val = document.createTextNode(result[i].name);
+                        node.appendChild(val);
+                        document.getElementById("datalist").appendChild(node);
+                    }
+                }
+            };
+
+            xhttp.open("GET", "/search/list/" + value, true);
+            xhttp.send();
+
+
+        }
+
+
+
+
+

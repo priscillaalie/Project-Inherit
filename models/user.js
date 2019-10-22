@@ -4,8 +4,7 @@ var crypto = require('crypto');
 
 // defining user schema
 var userSchema = new mongoose.Schema({
-
-    email: {
+    "email": {
         type: String,
         lowercase: true,
         unique: true,
@@ -13,20 +12,26 @@ var userSchema = new mongoose.Schema({
         match: [/\S+@\S+\.\S+/, 'is invalid'],
         index: true
     },
-
-    name: {
+    "fname": {
         type: String,
         required: true,
-        trim: true,
     },
-    password: {
+    "lname": {
         type: String,
         required: true,
-        hash: String,
-    }
-
-
-}, {timestamps: true});
+    },
+    "photo": String,
+    "birthday": Date,
+    "phone": String,
+    "password": String,
+    "name": String,
+    "sessionId": String,
+    "artifacts": Array,
+    "groups": Array,
+    "verified": false,
+    "parents": Array,
+    "siblings": Array
+});
 
 userSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 
@@ -44,4 +49,6 @@ userSchema.methods.validPassword = function(password) {
 
 
 const User = mongoose.model('User', userSchema);
+
+
 module.exports = User;

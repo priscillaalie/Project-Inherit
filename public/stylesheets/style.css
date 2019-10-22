@@ -1,34 +1,140 @@
 body {
-  padding-right: 30px;
-  padding-left: 30px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-h2 {
-  color: #000046;
+  margin: 30px 30px 0px 30px;
+  padding: 70px 30px 0px 30px;
+  background-color: #FBFCFC ;
+  overflow-wrap: break-word;
   font-family: 'Open Sans', sans-serif;
 }
 
-.white-bg {
-  background-color: white;
+h2 {
+  font-family: 'Big Shoulders Display', cursive;
+  font-weight: bolder;
 }
 
-.Noto {
-  font-family: 'Noto Sans JP', sans-serif;
+p{
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
-
-@font-face {
-  font-family: "handwrite";
-  src: url("../webfontkit-20190819-002319");
-  src: url("../webfontkit-20190819-002319/atmosphere-regular-webfont.woff") format("woff");
-
-}
-
-.handwrite {
-  font-family: 'handwrite', Arial, sans-serif;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 50px;
+a{
   color: #666666;
 }
+
+a:hover{
+  color: dimgrey;
+  transition: all 100ms;
+  text-decoration: none;
+
+}
+
+#navtop {
+  background-color: rgb(247,158,96);
+  padding: 0px 30px 0px 30px;
+}
+
+#navbarResponsive{
+  color: white !important;
+  font-size: 12px;
+}
+
+#handwrite {
+  font-family: 'Big Shoulders Display', cursive;
+  font-weight: bolder;
+  font-style: normal;
+  font-size: 25px;
+  color: white;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+
+/** ANIMATIONS **/
+.hvr-grow {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  transition-duration: 0.3s;
+  transition-property: transform;
+}
+
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+  transform: scale(1.1);
+}
+
+
+.fade-in {
+  animation: fadeIn ease 1.5s;
+  -webkit-animation: fadeIn ease 1.5s;
+  -moz-animation: fadeIn ease 1.5s;
+  -o-animation: fadeIn ease 1.5s;
+  -ms-animation: fadeIn ease 1.5s;
+}
+
+.dropdown-left-manual {
+  right: 0;
+  left: auto;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+
+@keyframes fadeIn{
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+
+
+
+.small {
+  font-size: 0.75rem;
+}
+.card-heading {
+  font-size: 2.25rem;
+}
+.styled-link {
+  text-decoration: none;
+  outline: none;
+  color: #2196fe;
+  transition: all 0.25s ease-in;
+}
+.styled-link:hover,
+.styled-link:focus,
+.styled-link:active {
+  color: #536dfe;
+}
+.shadow-1 {
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.15);
+}
+.blue-hover {
+  transition: all 0.25s ease-in;
+  border-bottom: 5px solid transparent;
+}
+.blue-hover:hover {
+  transform: translateY(-5px);
+  border: none;
+  border-bottom: 5px solid #ffd194;
+}
+
+

@@ -1,0 +1,171 @@
+extends homepage.pug
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/myartifacts.css
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+
+
+block content
+    .container-fluid.fill-height.fade-in
+        .row
+            .col-xs-12.col-sm-12
+                .row
+                    .col
+                    .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+                        h2.text-center.white-transparent.font-weight-bold #{artifact.title}
+                        br
+                    .col
+                        if (user._id.equals(artifact.owner))
+                            a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modalUpdateArtifact')
+                                | Edit artifact
+
+
+
+                        #modalUpdateArtifact.modal.fade.text-left(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+
+                            .modal-dialog(role='document')
+                                form(method='POST' action=`/artifact/view/${artifact._id}`, enctype = "multipart/form-data").general
+                                    .modal-content
+                                        .modal-header.text-center
+                                            h4.modal-title.w-100.font-weight-bold Edit #{artifact.title}
+                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                span(aria-hidden='true') &times;
+
+
+                                        .modal-body.mx-3
+                                            .md-form
+                                                label.font-weight-bold(for='artifactname') Artifact Name*
+                                                input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
+                                                br
+
+                                            .md-form
+                                                label.font-weight-bold(for='description') Description*
+                                                .input-group
+                                                    textarea.form-control#description(type='text',name='description', value=artifact.description, placeholder=artifact.description)
+                                                br
+                                            .md-form.text-center
+                                                label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                .row
+                                                    .col
+                                                    .col-8.justify-content-center
+                                                        img.text-center#preview(src=artifact.photo)
+
+                                                    .col
+                                                br
+                                                .row
+                                                    .col
+                                                    .col-8.justify-content-center.text-left
+                                                        input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                        label.custom-file-label(for='customFile') Choose file
+                                                    .col
+
+
+                                        .modal-footer.justify-content-center
+                                            a(href = `/deleteartifact/${artifact._id}`)
+                                                button.btn.btn-outline-danger(type = "button" onclick="return confirm('Are you sure? This action cannot be undone')") Delete Artifact
+                                            button.btn.btn-outline-success(type='submit') Update
+
+
+        .row
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
+                        h2.my-4(style = "color: dimgrey;") Groups
+                        each family in familygroups
+                            .row
+                                .col-2
+                                    i.material-icons group
+                                .col-10
+                                    a.tabstyle(href = `/view/${family._id}`) #{family.title}
+                        hr.my-4
+
+                        a.tabstyle(href='/myartifacts') My Artifacts
+
+                        if (familygroups)
+                            hr.my-4
+                        a.tabstyle(href='/events') Events
+
+
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
+
+
+                .row
+                    if(artifact.photo)
+                        .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
+                            h5 Family: #{familyname}
+                            small Uploaded by #{owner}
+                            small.
+                                |   on #{artifact.created}
+                            hr.my-4
+                            p #{artifact.description}
+                        .col-xs-12.col-sm-12.col-md-12.col-lg-6.col-xl-6
+                                img.responsive(src=artifact.photo, alt=artifact.name)
+                    else
+                        .col-xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+
+                            h3 Family: #{familyname}
+                            small#smallsize Uploaded by #{owner}
+                            small
+                                |   on #{artifact.created}
+                            hr.my-4
+                            p #{artifact.description}
+
+
+                hr.my-4
+                .row.bootstrap.snippets
+                    .col-md-12.col-sm-12.col-lg-12.col-xl-12
+                        .comment-wrapper
+                            .panel.panel-info
+                                .panel-heading.font-weight-bold
+                                    | Leave a Comment
+
+                                .panel-body
+                                    form(method = "POST" action = "/post")
+
+                                        textarea.form-control(placeholder='Write a comment...', rows='3', name = 'comment')
+                                        br
+                                        button.btn.btn-outline-info.pull-right(type='submit' value = 'Submit') Post
+                                    br
+                                    br
+                                    ul.media-list
+                                    if(comments.length > 1)
+                                        each comment in comments
+
+                                            li.media
+                                                .col-xs-12.col-2
+                                                    a.pull-left(href='#')
+                                                        img.img-circle(src=artifact.photo, style="width: 3rem; height: 3rem;")
+                                                .col
+                                                    .row
+                                                        .col-4
+                                                            a(href = `/profile/${comment.owner}`)
+                                                                strong.text-info #{comment.ownername}
+                                                        .col-7.text-right
+                                                            small.text-muted #{comment.created}
+                                                        .col-1
+                                                            if (user._id == comment.owner || user._id == artifact.owner)
+                                                                a(href = `/deletecomment/${comment._id}`)
+                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                        i.fa.fa-trash
+                                                    .row
+                                                        .col
+                                                            p
+                                                                | #{comment.content}
+                                    else
+                                        .row
+                                            .col.text-center
+                                                i.material-icons trip_origin
+
+
+
+    script.
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+        }
+
+
+

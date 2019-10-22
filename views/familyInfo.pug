@@ -1,0 +1,215 @@
+extends family.pug
+
+block css
+    style
+        include ../public/stylesheets/family.css
+block content
+    .container-fluid.fill-height.fade-in
+        .row.mb-4
+
+            .col-xs-12.col-sm-12
+                .row
+                    .col
+                        if(session)
+                            h2.text-center #{group.title}
+
+        .row
+            .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
+                nav-collapse.fixed-left.dropdown-menu-left
+                    .vertical-menu.mr-4
+                        br
+                        .row
+                            .col-2
+                                i.material-icons keyboard_arrow_left
+                            .col-10
+                                a.tabstyle(href='/home') Back
+                        hr.my-4
+
+                        .row
+                            .col
+                                a.active(href = `/view/${group._id}/info` style = "font-weight: bolder; text-decoration: none;") About
+                        br
+                        .row
+                            .col
+                                a.tabstyle(href=`/view/${group._id}/post/`) Posts
+
+                        br
+                        .row
+                            .col
+                                a.tabstyle(href=`/view/${group._id}`) Artifacts
+
+                        br
+                        .row
+                            .col
+                                a.tabstyle(href = `/view/${group._id}/members`) Add Members
+                        br
+                        .row
+                            .col
+
+                                if (user._id.equals(owner._id))
+
+                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            form(method='POST' action='')
+                                                .modal-content
+                                                    .modal-header.text-center
+                                                        h4.modal-title.w-100.font-weight-bold Update My Family
+                                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                            span(aria-hidden='true') &times;
+                                                    .modal-body.mx-3
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='title') Title
+                                                            input#title.form-control(type='text', placeholder=group.title name='title', value = group.title)
+                                                        .md-form.mb-5
+                                                            label.font-weight-bold(for='desc') Description
+                                                            .input-group
+                                                                textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
+
+                                                            label.font-weight-bold(for='owner') Admin:
+                                                            select#owner(type='text', placeholder=group.owner name='owner', value = group.owner)
+                                                                for member in members
+                                                                    option(value=`${member._id}`) #{member.fname}
+
+                                                    .modal-footer.justify-content-center
+                                                        a(href = `/deletegroup/${group._id}`)
+                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
+                                                        button.btn.btn-primary(type='submit') Update
+                                else
+                                    a.tabstyle(href = `/leaveGroup`) Leave group
+                                hr.my-4
+
+
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
+                .container.jumbotron
+                    .row
+                        .col
+                            h2 About #{group.title}
+                            ul.nav.nav-tabs.mb-4
+                                li.nav-item.active
+                                    a.nav-link.active(data-toggle='tab', href='#about', role='tab', aria-controls='home', aria-selected='true') About
+                                li.nav-item
+                                    a.nav-link(data-toggle='tab', href='#members', role='tab', aria-controls='home', aria-selected='true') Members
+
+                    div.tab-content
+                        .tab-pane.active.in#about
+                            .row.mb-4.descriptionstyle
+                                .col
+                                    .justify-content.center
+                                        h4.font-weight-bold Info
+                                        p #{group.description}
+                                        p Admin: #{owner.name}
+                                        p Artifacts: #{group.artifacts.length}
+                                        p Members: #{group.members.length}
+                            .row.justify-content-center.descriptionstyle
+                                .row
+
+                                    .col
+                                        h4.font-weight-bold My Family Tree
+                                .row
+                                    .col
+                                        img.img-fluid(src = group.familytree style = "width: auto; height: auto;")
+
+
+
+                        .tab-pane.fade#members
+                            if (Object.keys(members).length > 0)
+                                ul#myUL
+                                    .row
+                                        .col-xs-12.col-sm-6.col-md-12.col-lg-4.col-xl-4.fade-in.justify-content-center(style = "margin-right: 5%;")
+                                            li(style = "list-style-type: none;")
+                                                a
+                                                    .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                                        a(href = `/profile/${owner._id}`)
+                                                            if(owner.photo)
+                                                                img.card-img-top.image-custom.fade-in(src=owner.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                                            else
+                                                                img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
+                                                            .card-body.flex-fill
+                                                                .row.text-center
+                                                                    .col.align-middle
+                                                                        h6
+                                                                            strong.card-title #{owner.name}
+                                        each member in members
+                                            if (group.owner != member._id)
+                                                .col-xs-12.col-sm-12.col-md-12.col-lg-4.col-xl-4.fade-in.justify-content-center(style = "margin-right: 5%;")
+                                                    li(style = "list-style-type: none;")
+                                                        a
+                                                            .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                                                a(href = `/profile/${member._id}`)
+                                                                    if(member.photo)
+                                                                        img.card-img-top.image-custom.fade-in(src=member.photo alt = member.name style="width:13rem;height:13rem; min-width: 13rem;")
+                                                                    else
+                                                                        img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name )
+                                                                .card-body.flex-fill
+                                                                    .row.text-center
+                                                                        .col.align-middle
+                                                                            h6
+                                                                                strong.card-title #{member.name}
+                                                                    .row
+                                                                        .col.d-flex.justify-content-center
+                                                                            if(user._id == group.owner)
+                                                                                a(href =`/removeMember/${member._id}`)
+                                                                                    button.btn.btn-danger.btn-sm(type='button')
+                                                                                        | Remove
+
+                            else
+                                .col
+                                    .row.d-flex.justify-content-center
+                                        p.font-weight-light It's a bit lonely here, let's invite a few members!
+                                    .row.d-flex.justify-content-center
+                                        a.btn.btn-lg.btn-light.btn-sm(href = `/view/${group._id}/members`) + Add Members
+
+
+    script.
+        function getusers() {
+            members.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
+            })
+
+        }
+        document.getElementById("searchbar").addEventListener('keyup', () => {
+            autocomplete(document.getElementById("searchbar").value);
+        });
+
+        function autocomplete(value) {
+            if (value == "") {
+                document.getElementById("datalist").innerHTML = "";
+                return;
+            }
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var result = JSON.parse(xhttp.responseText);
+                    document.getElementById("datalist").innerHTML = "";
+                    for (var i = 0; i < result.length; i++) {
+                        var node = document.createElement("option");
+                        var val = document.createTextNode(result[i].name);
+                        node.appendChild(val);
+                        document.getElementById("datalist").appendChild(node);
+                    }
+                }
+            };
+
+            xhttp.open("GET", "/search/list/" + value, true);
+            xhttp.send();
+        }
+
+        function filterList() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById("searchbar");
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("myUL");
+            li = ul.getElementsByTagName("li");
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+

@@ -1,48 +1,75 @@
 doctype html
 html
   head
-    meta(charset='utf-8')
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+
+
+    script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous")
+    script(type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZg6MfFazIzoXFBuQ5InJDj3590geYw-o&libraries=places=activatePlacesSearch" async = '' defer = '')
     title= title
+
     block css
-    link(href="https://fonts.googleapis.com/css?family=Open+Sans:800&display=swap" rel="stylesheet")
-    link(rel="stylesheet",href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css')
-
-    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
-    link(rel='icon', type='image/png', href='https://i.ibb.co/bHJdZX2/output-onlinepngtools-3.png')
-    // https://i.ibb.co/dGxmkRz/output-onlinepngtools-2.png
-    //<a href="https://imgbb.com/"><img src="https://i.ibb.co/bHJdZX2/output-onlinepngtools-3.png" alt="output-onlinepngtools-3" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'>upload picture site</a><br />
-
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js")
-    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js")
-
-    script(src='https://unpkg.com/react@16.4.1/umd/react.production.min.js')
-    script(src='https://unpkg.com/react-dom@16.4.1/umd/react-dom.production.min.js')
-
+    link(rel='stylesheet', href='/stylesheets/font.css')
+    link(rel='icon', type='image/jpg', href="https://i.ibb.co/qC5dVYx/I.jpg" alt = "Inherit Logo")
 
     style.
-      @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP:700&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Merriweather&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Biryani:900&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Big+Shoulders+Display&display=swap');
 
+  header
+
+    nav.navbar.navbar-expand-md.navbar-light.fixed-top.white-bg#navtop
+      if (session)
+        a.navbar-brand#handwrite(href = '/home') INHERIT
+      else
+        a.navbar-brand#handwrite(href = '/') INHERIT
+
+
+
+      button.navbar-toggler(type = "button" data-toggle = "collapse" data-target = "#navbarResponsive")
+        span.navbar-toggler-icon
+
+      div.collapse.navbar-collapse#navbarResponsive
+        ul.navbar-nav.ml-auto(style='color: white;')
+
+          if (session)
+            li.nav-item
+              a.nav-link(href = "/home") HOME
+            li.nav-item.dropdown.pull-right
+              a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') PROFILE
+              .dropdown-menu.dropdown-left-manual(aria-labelledby='navbarDropdown')
+                a.dropdown-item(href='/settings') Settings
+                .dropdown-divider
+                a.dropdown-item(href='/logout') Logout
+
+
+          else
+            li.nav-item
+              a.nav-link(href = "/signup") SIGN UP
+            li.nav-item
+              a.nav-link(href = "/login") LOGIN
+    script(data-ad-client='ca-pub-3112071443703358' async='' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
 
 
   body
-    block navbar
-      nav.navbar.navbar-expand-lg.navbar-light.white-bg
-        a.navbar-brand(href="/")
-          img(src='https://i.ibb.co/cLht1v4/logo.png', width='200')
-        button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarTogglerDemo03' aria-controls='navbarTogglerDemo03' aria-expanded='false' aria-label='Toggle navigation')
-          span.navbar-toggler-icon
-        #navbarTogglerDemo03.collapse.navbar-collapse
-          ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-            li.nav-item.active
-              a.nav-brand(href='#')
-
-          ul.nav.navbar-nav.navbar-right
-            li.nav-item
-              a.nav-link(href='#') About us
-            li.nav-item
-              a.nav-link(href = '/login') Log in
-
 
     block content
+
+
+
+  footer
+      br
+      hr.my-4
+      p.text-center
+        small Copyright (c) Project Inherit
+
+

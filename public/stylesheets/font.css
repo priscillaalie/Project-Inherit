@@ -1,0 +1,146 @@
+
+
+/* Mobile Phone Devices (portrait and landscape) ----------- */
+@media only screen
+and (max-device-width : 480px) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    h4 {
+        font-size: 1vmax;
+    }
+
+    h5 {
+        font-size: 4vmin;
+    }
+
+    p {
+        font-size: 3vw;
+    }
+
+}
+
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (max-device-width : 768px) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    h4 {
+        font-size: 1vmax;
+    }
+
+    p {
+        font-size: 1vmax;
+    }
+
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+    h4 {
+        font-size: 1.3vmax;
+    }
+
+    p {
+        font-size: 1.3vmax;
+    }
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    h4 {
+        font-size: 1.3vmax;
+    }
+
+    p {
+        font-size: 1.3vmax;
+    }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+    /* Styles */
+    h1 {
+        font-size: 4vmax;
+
+    }
+
+    h2 {
+        font-size: 2vmax;
+
+    }
+
+    h3 {
+        font-size: 2.2vmax;
+    }
+
+    h4 {
+        font-size: 1.5vmax;
+    }
+
+    p {
+        font-size: 1vmax;
+    }
+}

@@ -1,51 +1,28 @@
-/* .leaves {
-    background-image: url("https://images.unsplash.com/photo-1496776574435-bf184935f729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), , no-repeat center center fixed;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
- */
-
 .vertical-line {
     border-right: 2px solid grey;
 
 }
 
-
-.leaves {
-    background-image: url("https://images.unsplash.com/photo-1496776574435-bf184935f729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), , no-repeat center center fixed;
+.loginimg {
+    background-image:url(https://images.unsplash.com/photo-1495887633121-f1156ca7f6a0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80);
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    border-radius: 5px;
 }
-#leaves {
-    background-image: url("https://images.unsplash.com/photo-1496776574435-bf184935f729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"), , no-repeat center center fixed;
-    background-size: cover;
+
+.signupimg{
+    background-image:url(https://images.unsplash.com/photo-1518893883800-45cd0954574b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=60);
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    border-radius: 5px;
 }
 
-.white {
-    background-color: white;
-    opacity: 1;
-    word-wrap: break-word;
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
 }
-
-
-.form-elegant .font-small {
-    font-size: 0.8rem; }
-
-.form-elegant .z-depth-1a {
-    -webkit-box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25);
-    box-shadow: 0 2px 5px 0 rgba(55, 161, 255, 0.26), 0 4px 12px 0 rgba(121, 155, 254, 0.25); }
-
-.form-elegant .z-depth-1-half,
-.form-elegant .btn:hover {
-    -webkit-box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15);
-    box-shadow: 0 5px 11px 0 rgba(85, 182, 255, 0.28), 0 4px 15px 0 rgba(36, 133, 255, 0.15); }

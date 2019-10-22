@@ -1,0 +1,102 @@
+
+
+#preview {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:15vw;
+    min-width: 16vw;
+    min-height: 18vw;
+    border-radius: 5px;
+    border: 3px solid dimgrey;
+    object-fit: cover;
+    position: relative;
+}
+
+img {
+    object-fit: cover;
+    position: relative;
+}
+
+
+/** MEMBERS **/
+#searchbar{
+    width: 100%;
+    height: 40px;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: none;
+    padding: 10px;
+}
+
+
+.responsive {
+    width: 100%;
+
+    height: auto;
+}
+
+.cardzone{
+    padding-top: 2.4vw;
+}
+
+
+.tabstyle{
+    text-decoration: none;
+    color: #666666;
+}
+
+.tabstyle:hover{
+    text-decoration: none;
+    transition: all 100ms;
+    font-weight: bold;
+}
+
+.profilerow{
+    list-style-type: none;
+    background-color: white;
+    border-style:solid;
+    border-width: 1px;
+    border-color: lightgrey;
+    padding-left: 10px;
+}
+
+.descriptionstyle {
+    background-color: white;
+    padding-top: 2%;
+    margin:0 3% 3% 3%;
+    border-radius: 6px;
+}
+
+/* Custom dropdown */
+.custom-dropdown {
+    margin-top: 10px;
+}
+
+.custom-dropdown select {
+    font-size: inherit;
+    padding: 0.5em 3em 0.5em 0.5em;
+    border: 0;
+    margin: 0;
+    border-radius: 3px;
+    text-indent: 0.01px;
+    text-overflow: '';
+    -webkit-appearance: button; /* hide default arrow in chrome OSX */
+}
+
+
+#myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: tan;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+}
+

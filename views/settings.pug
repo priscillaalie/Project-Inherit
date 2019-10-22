@@ -1,0 +1,104 @@
+extends layout
+
+block css
+    style
+        include ../public/stylesheets/homepage.css
+        include ../public/stylesheets/settings.css
+
+block content
+    .container-fluid.fill-height
+        .row
+            .col
+                .header
+                    if(session)
+                        br
+                        br
+                        h2.text-center Settings
+                        br
+                        br
+        br
+        .row
+            .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2
+                nav.fixed-left
+                    .vertical-menu
+                        br
+                        a.active(href='#',style="color:#666666;") General
+                        hr.my-3
+                        a(href='/settings/security',style="color:#666666;") Security and Login
+                        hr.my-3
+                        a(href='/settings/delete',style="color:#666666;") Delete Account
+
+
+            .col-md-9.col-lg-10.col-xl-10.fade-in
+                .jumbotron
+                    .row
+                        .col.col-md-6.col-lg-6.col-xl-6
+                            h3 Personal Details
+
+                    hr.my-4
+
+                    form(method='POST' action='/settings/general', enctype = "multipart/form-data").general
+                        .row
+                            .form-group.col.col-md-6.col-lg-6.col-xl-6
+                                p.font-weight-bold FIRST NAME
+                                input.fullrow(type='text', name='fname', value=user.fname)
+                                .row.form-group
+                                    .col
+                                        br
+                                        p.font-weight-bold LAST NAME
+                                        input.fullrow(type='text', name='lname', value=user.lname)
+
+                                .row.form-group
+                                    .col
+                                        p.font-weight-bold EMAIL
+                                        input.fullrow(type='email', name='email', value=user.email)
+                                .row.form-group
+                                    .col
+                                        p.font-weight-bold PHONE NUMBER
+                                        input.fullrow(type='text', name='phone', value=user.phone)
+
+                            .form-group.col.col-md-6.col-lg-6.col-xl-6.text-center.imgzone
+
+                                label.font-weight-bold(for='preview') Upload Image (Optional)
+                                .row
+                                    .col
+                                    .col-8.justify-content-center
+                                        img.text-center#preview(src=user.photo)
+
+                                    .col
+                                br
+                                .row
+                                    .col
+                                    .col-8.justify-content-center.text-left
+                                        input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                        label.custom-file-label(for='customFile') Choose file
+                                    .col
+
+
+                        .row
+                            .col.d-flex.justify-content-center
+                                button.btn.btn-success(type='submit', onClick = "successMsg()" ) Update
+
+    script.
+        function successMsg() {
+            alert("Update Successful");
+        }
+
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+                document.getElementById('message').style.display = 'block';
+                document.getElementById('nextbtn').style.display = 'block';
+
+
+            }
+        }

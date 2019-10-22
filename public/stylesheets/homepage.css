@@ -1,0 +1,98 @@
+#backgroundwelcome {
+    background-image: url(https://images.pexels.com/photos/2832045/pexels-photo-2832045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260) no-repeat center center fixed;
+    background-size: cover;
+    padding: 0px 0px 2vw 0px;
+    border-color: white;
+    font-family: "Lato", sans-serif;
+}
+
+.vertical-menu{
+    min-height: 40vw;
+    color: grey
+}
+
+.cardzone{
+    padding-top: 2.4vw;
+}
+
+.addfamily {
+    padding-top: 30%;
+    width: 15rem;
+    height: 15rem;
+}
+
+.modal{
+    margin: 15px 15px 15px 15px;
+}
+
+
+/** ANIMATIONS **/
+
+.fade-in {
+    animation: fadeIn ease 1.5s;
+    -webkit-animation: fadeIn ease 1.5s;
+    -moz-animation: fadeIn ease 1.5s;
+    -o-animation: fadeIn ease 1.5s;
+    -ms-animation: fadeIn ease 1.5s;
+}
+
+
+@keyframes fadeIn{
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+img {
+    object-fit: cover;
+    position: relative;
+
+}
+
+#preview {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:15vw;
+    min-width: 16vw;
+    min-height: 18vw;
+    border-radius: 5px;
+    border: 3px solid dimgrey;
+    object-fit: cover;
+    position: relative;
+}
+
+.tabstyle{
+    text-decoration: none;
+    color: #666666;
+}
+
+.tabstyle:hover{
+    text-decoration: none;
+    transition: all 100ms;
+    font-weight: bold;
+}
+
+
+#previewpost {
+    background-color: whitesmoke;
+    max-width: 10vw;
+    max-height:10vw;
+    min-width: 10vw;
+    min-height: 10vw;
+    border-radius: 5px;
+    border: 3px solid dimgrey;
+    object-fit: cover;
+    position: relative;
+}
