@@ -166,20 +166,7 @@ block content
                                                                     h4.mt-0.mb-1.text-left(style='line-height: 1.25;')
                                                                         | #{member.name}
 
-
-                                                                    div.form-group.text-center
-                                                                        .row
-                                                                            .col
-                                                                                select.browser-default#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
-                                                                                    option(value = "" disabled selected) Relationship
-                                                                                    option(value="mother") Mother
-                                                                                    option(value="father") Father
-                                                                                    option(value="sister") Sister
-                                                                                    option(value="brother") Brother
-                                                                                    option(value = "other") Other
-
-
-                                                                    button.btn-sm.btn-outline-info Update
+                                                                    
 
                                                                     if(user._id == group.owner)
                                                                         hr.my-6
