@@ -46,7 +46,7 @@ block content
                         .row
                             .col
                                 if (user._id.equals(group.owner))
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    a.tabstyle(href='#' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
@@ -194,56 +194,5 @@ block content
                                     .row.d-flex.justify-content-center
                                         a.btn.btn-lg.btn-light.btn-sm(href = `/view/${group._id}/members`) + Add Members
 
-
-    script.
-        function getusers() {
-            members.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
-            })
-
-        }
-        document.getElementById("searchbar").addEventListener('keyup', () => {
-            autocomplete(document.getElementById("searchbar").value);
-        });
-
-        function autocomplete(value) {
-            if (value == "") {
-                document.getElementById("datalist").innerHTML = "";
-                return;
-            }
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    var result = JSON.parse(xhttp.responseText);
-                    document.getElementById("datalist").innerHTML = "";
-                    for (var i = 0; i < result.length; i++) {
-                        var node = document.createElement("option");
-                        var val = document.createTextNode(result[i].name);
-                        node.appendChild(val);
-                        document.getElementById("datalist").appendChild(node);
-                    }
-                }
-            };
-
-            xhttp.open("GET", "/search/list/" + value, true);
-            xhttp.send();
-        }
-
-        function filterList() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById("searchbar");
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("myUL");
-            li = ul.getElementsByTagName("li");
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
 
 

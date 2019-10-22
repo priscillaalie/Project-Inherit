@@ -160,35 +160,6 @@ block content
                                                                     | #{comment.content}
 
                                                 hr.my-4
-                                    if(comments.length > 1)
-                                        each comment in comments
-
-                                            li.media
-                                                .col-xs-12.col-2
-                                                    a.pull-left(href='#')
-                                                        img.img-circle(src=user.photo, style="width: 3rem; height: 3rem; border-radius: 50%;")
-                                                .col
-                                                    .row
-                                                        .col-4
-                                                            a(href = `/profile/${comment.owner}`)
-                                                                strong.text-info #{comment.ownername}
-                                                        .col-7.text-right
-                                                            small.text-muted #{comment.created}
-                                                        .col-1
-                                                            if (user._id == comment.owner || user._id == artifact.owner)
-                                                                a(href = `/deletecomment/${comment._id}`)
-                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                        i.fa.fa-trash
-                                                    .row
-                                                        .col
-                                                            p
-                                                                | #{comment.content}
-                                    else
-                                        .row
-                                            .col.text-center
-                                                i.material-icons trip_origin
-
-
 
     script.
         function previewFile() {

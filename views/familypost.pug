@@ -58,7 +58,8 @@ block content
                         .row
                             .col
                                 if (user._id.equals(group.owner))
-                                    a.tabstyle(href='/' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    a.tabstyle(href='#' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
@@ -83,11 +84,11 @@ block content
                                                                     option(value=`${member._id}`) #{member.fname}
                                                             br
                                                         .md-form.text-center
-                                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                            label.font-weight-bold(for='previewgroup') Upload Image (Optional)
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center
-                                                                    img.text-center#grouppic(src=group.photo)
+                                                                    img.text-center#previewgroup(src=group.photo)
 
                                                                 .col
                                                             br
@@ -240,7 +241,7 @@ block content
             }
         }
         function previewModal() {
-            var preview = document.getElementById('grouppic');
+            var preview = document.getElementById('previewgroup');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 

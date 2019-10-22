@@ -60,7 +60,7 @@ block content
                         .row
                             .col
                                 if (user._id.equals(group.owner))
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    a.tabstyle(href='#' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
@@ -85,18 +85,18 @@ block content
                                                                     option(value=`${member._id}`) #{member.fname}
                                                             br
                                                         .md-form.text-center
-                                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                            label.font-weight-bold(for='previewgroup') Upload Image (Optional)
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center
-                                                                    img.text-center#preview(src=group.photo)
+                                                                    img.text-center#previewgroup(src=group.photo)
 
                                                                 .col
                                                             br
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center.text-left
-                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewModal()' name = 'image' accept="image/*" style="width:50%;")
                                                                     label.custom-file-label(for='customFile') Choose file
                                                                 .col
 
@@ -108,6 +108,7 @@ block content
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4
+
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
                 .row(style ="padding-bottom: 2rem;")
                     .col
@@ -160,6 +161,22 @@ block content
                                                         button.btn.btn-success.btn-sm(type='submit')
                                                             i.material-icons check_circle
     script.
+
+        function previewFile() {
+            var preview = document.getElementById('preview');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
             })
