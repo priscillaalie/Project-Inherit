@@ -309,7 +309,7 @@ var createUser = function(req,res){
 };
 
 // checks a user's entered credentials
-var checkUser = function(req, res) {
+var loginUser = function(req, res) {
     password = req.body.password
     User.findOne({'email': req.body.email},function(err,user){
         if(!err){
@@ -327,7 +327,7 @@ var checkUser = function(req, res) {
                             user.sessionId = sid;
                             user.markModified('sessionId');
                             user.save();
-                            res.cookie("sessionId", sid);
+                            res.cookie("sessionId", sid).redirect("/");
                             Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
                                 if (!err) {
                                     var results = {
@@ -353,6 +353,40 @@ var checkUser = function(req, res) {
         }
     });
 };
+
+//new login function
+var checkUser = function(req, res) {
+    var username = req.body.email;
+    var password = req.body.password;
+    User.find({email:username},function(err,user){
+        if(!err){
+            if (user.length != 1) {
+                var message = "Wrong email or password. Please try again.";
+                var results = {title: 'Inherit', error: message}
+                res.render('login.pug', results);
+            } else {
+                bcrypt.compare(password, user[0].password, function (err, same){
+                    if (same) {
+                        let sidrequest = utils.generate_unique_sid();
+                        sidrequest.then(function (sid) {
+                            user[0].sessionId = sid;
+                            user[0].save();
+                            res.cookie("sessionId", sid).redirect("/");
+                        });
+                    } else {
+                        var message = "Wrong email or password. Please try again.";
+                        var results = {title: 'Inherit', error: message}
+                        res.render('login.pug', results);
+                    }
+                });
+            }
+        }else{
+            // Redirect back to login with server error bubble
+            res.sendStatus(500);
+        }
+    });
+};
+
 
 // renders the myartifacts page by passing in data about user's artifacts and families
 var fetchArtifactsByUser = function(req, res) {
