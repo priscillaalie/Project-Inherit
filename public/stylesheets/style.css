@@ -121,7 +121,7 @@ a:hover{
 .blue-hover:hover {
   transform: translateY(-5px);
   border: none;
-  border-bottom: 5px solid  #FFC954;
+  border-bottom: 5px solid  #fda085;
 }
 
 
