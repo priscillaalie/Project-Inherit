@@ -71,7 +71,7 @@ var fetchHomepage = function(req, res) {
                             if (!err) {
                                 var results = {
                                     title: 'Inherit', 'familygroups': familygroups,
-                                    'session': req.cookies.sessionId, 'name': user.fname, 'users':users
+                                    'session': req.cookies.sessionId, 'user': user, 'users':users
                                 };
                                 res.render('homepage.pug', results);
                             } else {
@@ -231,7 +231,8 @@ var createUser = function(req,res){
                     "birthday":req.body.birthday,
                     "phone":req.body.phone,
                     "password":hash,
-                    "name": req.body.fname + ' ' + req.body.lname
+                    "name": req.body.fname + ' ' + req.body.lname,
+                    "photo": "https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg"
                 });
                 // Check if the email already exists
                 User.find({email: req.body.email}, function(err, users){
