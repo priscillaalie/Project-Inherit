@@ -232,6 +232,7 @@ var createUser = function(req,res){
                     "phone":req.body.phone,
                     "password":hash,
                     "name": req.body.fname + ' ' + req.body.lname
+
                 });
                 // Check if the email already exists
                 User.find({email: req.body.email}, function(err, users){
@@ -274,33 +275,37 @@ var checkUser = function(req, res) {
                 var results = {title: 'Inherit', error: message}
                 res.render('login.pug', results);
             } else {
-                // encrypt password and compare encrypted data against stored encrypted password
-                bcrypt.compare(password, user.password, function (err, same){
-                    if (same) {
-                        let sidrequest = utils.generate_unique_sid();
-                        sidrequest.then(function (sid) {
-                            user.sessionId = sid;
-                            user.markModified('sessionId');
-                            user.save();
-                            res.cookie("sessionId", sid);
-                            Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
-                                if (!err) {
-                                    var results = {
-                                        title: 'Inherit', 'familygroups': familygroups,
-                                        'session': sid, 'name': user.fname
-                                    };
-                                    res.render('homepage.pug', results);
-                                } else {
-                                    res.sendStatus(500);
-                                }
-                            })
-                        });
-                    } else {
-                        var message = "Incorrect email or password. Please try again.";
-                        var results = {title: 'Inherit', error: message}
-                        res.render('login.pug', results);
-                    }
-                });
+                if (user.verified) {
+                    // encrypt password and compare encrypted data against stored encrypted password
+                    bcrypt.compare(password, user.password, function (err, same){
+                        if (same) {
+                            let sidrequest = utils.generate_unique_sid();
+                            sidrequest.then(function (sid) {
+                                user.sessionId = sid;
+                                user.markModified('sessionId');
+                                user.save();
+                                res.cookie("sessionId", sid);
+                                Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
+                                    if (!err) {
+                                        var results = {
+                                            title: 'Inherit', 'familygroups': familygroups,
+                                            'session': sid, 'name': user.fname
+                                        };
+                                        res.render('homepage.pug', results);
+                                    } else {
+                                        res.sendStatus(500);
+                                    }
+                                })
+                            });
+                        } else {
+                            var message = "Incorrect email or password. Please try again.";
+                            var results = {title: 'Inherit', error: message}
+                            res.render('login.pug', results);
+                        }
+                    });
+                } else {
+                    fetchSend(req,res);
+                }
             }
         }else{
             // Redirect back to login with server error bubble
@@ -338,6 +343,50 @@ var fetchArtifactsByUser = function(req, res) {
     	})
     }
 };
+
+var fetchUserByID = function(req, res) {
+    var memberId = req.url.split('/')[2]
+    if (req.cookies.sessionId) {
+        User.findOne({sessionId: req.cookies.sessionId}, function(err,user) {
+            if (!err) {
+                Group.find({'_id':{$in: user.groups}}, function(err, familygroups) {
+                    if (!err) {
+                        User.findById(memberId, function(err, member) {
+                            if (!err) {
+                                Artifact.find({'_id': {$in: member.artifacts}}, function(err, artifacts) {
+                                    if (!err) {
+                                        Group.find({'_id':{$in: member.groups}}, function(err, membergroups) {
+                                            if (!err) {
+                                                var results = {
+                                                    title: 'Inherit', 'artifacts': artifacts, 'user': user, membergroups:membergroups,
+                                                    session: req.cookies.sessionId, 'familygroups': familygroups, 'member': member
+                                                };
+                                                res.render('profile.pug', results);
+                                            } else {
+                                                res.sendStatus(500);
+                                            }
+                                        })
+                                    } else {
+                                        res.sendStatus(500);
+                                    }
+                                })
+                            } else {
+                                res.sendStatus(500);
+                            }
+                        })
+                    } else {
+                        res.sendStatus(500);
+                    }
+
+                });
+            } else {
+                res.sendStatus(500);
+            }
+        })
+    }
+};
+
+
 
 var upload = require('../services/file-uploader');
 var singleUpload = upload.single('image');
@@ -716,6 +765,7 @@ module.exports = {
     deleteArtifact,
     deleteComment,
     fetchPost,
-    editArtifact
+    editArtifact,
+    fetchUserByID
 }
 

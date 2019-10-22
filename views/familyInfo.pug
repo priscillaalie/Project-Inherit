@@ -5,7 +5,7 @@ block css
         include ../public/stylesheets/family.css
 block content
     .container-fluid.fill-height.fade-in
-        .row
+        .row.mb-4
 
             .col-xs-12.col-sm-12
                 .row
@@ -44,6 +44,7 @@ block content
                                 a.tabstyle(href = `/view/${group._id}/members`) Add Members
                         br
                         .row
+                            .col
 
                                 if (user._id.equals(owner._id))
 
@@ -76,59 +77,88 @@ block content
                                                         button.btn.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
+                                hr.my-4
+
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
-                .row
-                    .col
-                        .jumbotron
-                            .row
-                                .col
-                                    h2 About #{group.title}
-                                    hr.my-4
+                .container.jumbotron
+                    .row
+                        .col
+                            h2 About #{group.title}
+                            ul.nav.nav-tabs.mb-4
+                                li.nav-item.active
+                                    a.nav-link.active(data-toggle='tab', href='#about', role='tab', aria-controls='home', aria-selected='true') About
+                                li.nav-item
+                                    a.nav-link(data-toggle='tab', href='#members', role='tab', aria-controls='home', aria-selected='true') Members
 
-                            .row
+                    div.tab-content
+                        .tab-pane.active.in#about
+                            .row.mb-4.descriptionstyle
                                 .col
-                                    p #{group.description}
-                            .row
-                                .col
-                                    p Members: #{group.members.length}
-                            .row
-                                .col.text-center.justify-content-center
-                                    br
-                                    input(type = 'hidden', name = 'users', value = user, autocomplete = "off")
-                                    input#searchbar(type = 'text', name = 'input', placeholder = "Search", list = 'datalist', autocomplete = "off" onkeyup = "filterList()")
-                                    datalist#datalist
-                            br
-                            .row
-                                if (Object.keys(members).length > 0)
-                                    ul#myUL
-                                        .row
-                                            each member in members
-                                                .col-xs-12.col-sm-6.col-md-6.col-lg-6.col-xl-4.d-flex.justify-content-center
-                                                    li(style = "list-style-type: none;")
-                                                        a.card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
-                                                            if(member.photo)
-                                                                img.card-img-top.image-custom.fade-in(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                    .justify-content.center
+                                        h4.font-weight-bold Info
+                                        p #{group.description}
+                                        p Admin: #{owner.name}
+                                        p Artifacts: #{group.artifacts.length}
+                                        p Members: #{group.members.length}
+                            .row.justify-content-center.descriptionstyle
+                                .row
+
+                                    .col
+                                        h4.font-weight-bold My Family Tree
+                                .row
+                                    .col
+                                        img.img-fluid(src = group.familytree style = "width: auto; height: auto;")
+
+
+
+                        .tab-pane.fade#members
+                            if (Object.keys(members).length > 0)
+                                ul#myUL
+                                    .row
+                                        .col-xs-12.col-sm-6.col-md-12.col-lg-4.col-xl-4.fade-in.justify-content-center(style = "margin-right: 5%;")
+                                            li(style = "list-style-type: none;")
+                                                a
+                                                    .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                                        a(href = `/profile/${owner._id}`)
+                                                            if(owner.photo)
+                                                                img.card-img-top.image-custom.fade-in(src=owner.photo, style="width:13rem;height:13rem; min-width: 13rem;")
                                                             else
                                                                 img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
                                                             .card-body.flex-fill
                                                                 .row.text-center
                                                                     .col.align-middle
                                                                         h6
-                                                                            strong.card-title #{member.name}
-                                                                .row
-                                                                    .col.d-flex.justify-content-center
-                                                                        if (group.owner != member._id)
-                                                                            a(href = `/removeMember/${member._id}`)
-                                                                                button.btn.btn-danger.btn-sm(type='button')
-                                                                                    | Remove
+                                                                            strong.card-title #{owner.name}
+                                        each member in members
+                                            if (group.owner != member._id)
+                                                .col-xs-12.col-sm-12.col-md-12.col-lg-4.col-xl-4.fade-in.justify-content-center(style = "margin-right: 5%;")
+                                                    li(style = "list-style-type: none;")
+                                                        a
+                                                            .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
+                                                                a(href = `/profile/${member._id}`)
+                                                                    if(member.photo)
+                                                                        img.card-img-top.image-custom.fade-in(src=member.photo alt = member.name style="width:13rem;height:13rem; min-width: 13rem;")
+                                                                    else
+                                                                        img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name )
+                                                                .card-body.flex-fill
+                                                                    .row.text-center
+                                                                        .col.align-middle
+                                                                            h6
+                                                                                strong.card-title #{member.name}
+                                                                    .row
+                                                                        .col.d-flex.justify-content-center
+                                                                            if(user._id == group.owner)
+                                                                                a(href =`/removeMember/${member._id}`)
+                                                                                    button.btn.btn-danger.btn-sm(type='button')
+                                                                                        | Remove
 
-                                else
-                                    .col
-                                        .row.d-flex.justify-content-center
-                                            p.font-weight-light It's a bit lonely here, let's invite a few members!
-                                        .row.d-flex.justify-content-center
-                                            a.btn.btn-lg.btn-light.btn-sm(href = `/view/${group._id}/members`) + Add Members
+                            else
+                                .col
+                                    .row.d-flex.justify-content-center
+                                        p.font-weight-light It's a bit lonely here, let's invite a few members!
+                                    .row.d-flex.justify-content-center
+                                        a.btn.btn-lg.btn-light.btn-sm(href = `/view/${group._id}/members`) + Add Members
 
 
     script.

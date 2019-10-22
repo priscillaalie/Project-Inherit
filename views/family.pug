@@ -19,48 +19,48 @@ block content
                         if(session)
                             h2.text-center #{group.title}
                     .col.text-center
+                        if  (user.artifacts.length > 0)
+                            a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
+                                i.fas.fa-add
+                                | + Add Artifact
+                            #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                                .modal-dialog(role='document')
+                                    form(method='POST' action='/addartifact', enctype = "multipart/form-data")
+                                        .modal-content.text-left
+                                            .modal-header.text-center
+                                                h4.modal-title.w-100.font-weight-bold Add an artifact
+                                                button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                    span(aria-hidden='true') &times;
+                                            .modal-body.mx-3
+                                                .md-form
+                                                    label.font-weight-bold(for='familyname') Title*
+                                                    input#familyname.form-control(type='text', placeholder='Title' name='title', required)
+                                                    br
+                                                .md-form
+                                                    label.font-weight-bold(for='description') Description*
+                                                    .input-group
+                                                        textarea#description.form-control(type='text', placeholder='Description', name='description',required)
+                                                    br
+                                                .md-form.text-center
+                                                    label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                    .row
+                                                        .col
+                                                        .col-8.justify-content-center
+                                                            img.text-center#preview(src=file)
 
-                        a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
-                            i.fas.fa-add
-                            | + Add Artifact
-                        #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                            .modal-dialog(role='document')
-                                form(method='POST' action='/addartifact', enctype = "multipart/form-data")
-                                    .modal-content.text-left
-                                        .modal-header.text-center
-                                            h4.modal-title.w-100.font-weight-bold Add an artifact
-                                            button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                span(aria-hidden='true') &times;
-                                        .modal-body.mx-3
-                                            .md-form
-                                                label.font-weight-bold(for='familyname') Title*
-                                                input#familyname.form-control(type='text', placeholder='Title' name='title', required)
-                                                br
-                                            .md-form
-                                                label.font-weight-bold(for='description') Description*
-                                                .input-group
-                                                    textarea#description.form-control(type='text', placeholder='Description', name='description',required)
-                                                br
-                                            .md-form.text-center
-                                                label.font-weight-bold(for='preview') Upload Image (Optional)
-                                                .row
-                                                    .col
-                                                    .col-8.justify-content-center
-                                                        img.text-center#preview(src=file)
-
-                                                    .col
-                                                br
-                                                .row
-                                                    .col
-                                                    .col-8.justify-content-center.text-left
-                                                        input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
-                                                        label.custom-file-label(for='customFile') Choose file
-                                                    .col
-                                                br
+                                                        .col
+                                                    br
+                                                    .row
+                                                        .col
+                                                        .col-8.justify-content-center.text-left
+                                                            input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                            label.custom-file-label(for='customFile') Choose file
+                                                        .col
+                                                    br
 
 
-                                        .modal-footer.justify-content-center
-                                            button.btn.btn-primary(type='submit') Add
+                                            .modal-footer.justify-content-center
+                                                button.btn.btn-outline-secondary(type='submit') Add Artifact
 
 
 
@@ -144,16 +144,17 @@ block content
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
                                                             button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
-                                                        button.btn.btn-primary(type='submit') Update
+                                                        button.btn.btn-outline-secondary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4
 
-            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9.cardzone
+            .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
+                br
                 if (artifacts.length > 0)
                     .row
                         each artifact in artifacts
-                            .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.fade-in(style = "margin-right: 5%;")
+                            .col-xs-12.col-sm-6.col-md-8.col-lg-6.col-xl-4.fade-in
                                 .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 15rem; overflow: hidden; border-radius: 1px;')
 
                                     a(href = `/artifact/view/${artifact._id}`)
@@ -213,7 +214,7 @@ block content
                                                             .col
 
                                                 .modal-footer.justify-content-center
-                                                    button.btn.btn-primary(type='submit') Add
+                                                    button.btn.btn-outline-secondary(type='submit') Add Artifact
 
 
 

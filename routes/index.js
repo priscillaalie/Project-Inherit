@@ -31,7 +31,11 @@ const famcontrollers = require('../controllers/familycontroller.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Project Inherit' });
+  if (req.cookies.sessionId) {
+    controllers.fetchHomepage(req,res);
+  } else {
+    res.render('index', { title: 'Project Inherit' });
+  }
 });
 
 
@@ -83,6 +87,7 @@ router.post('/artifact/view/:id', controllers.editArtifact);
 router.post('/view/:id', function(req, res) {
   famcontrollers.editGroup(req,res);
 });
+router.get('/profile/:id', controllers.fetchUserByID);
 router.post('/post', controllers.addComment);
 router.post('/addmember/:id', famcontrollers.addMember);
 router.get('/deletecomment/:id', controllers.deleteComment);
