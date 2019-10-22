@@ -1,0 +1,10 @@
+
+body {
+    background-image: linear-gradient(120deg, #fda085 0%, #FFC954 100%);
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+

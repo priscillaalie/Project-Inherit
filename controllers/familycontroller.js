@@ -139,7 +139,7 @@ var fetchGroupInfo = function(req, res) {
                             if (!err) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
-                                        res.render('familyInfo.pug', { group:group, members:members, 
+                                        res.render('familyInfo.pug', { group:group, members:members,
                                         session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
                                         res.sendStatus(500);
@@ -244,8 +244,7 @@ var fetchGroupMembers = function(req, res) {
 }
 
 var addMember = function(req, res) {
-    console.log(req.body);
-    var userId = req.url.split('/')[2]; 
+    var userId = req.url.split('/')[2];
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
@@ -319,12 +318,12 @@ var addMember = function(req, res) {
                                                     group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + randomUrl;
                                                     group.save();
                                                     console.log(group.familytree);
-                                                    res.redirect('/view/' + groupId + '/info');
+                                                    res.redirect('/view/' + groupId + '/members');
                                                 })
                                             })
                                         })
                                     })
-                                });  
+                                });
                             })
                         } else {
                             res.sendStatus(500);
@@ -584,10 +583,10 @@ var removeMember = function(req, res) {
                                         res.redirect('/view/' + groupId + '/members');
                                     })
                                 })
-                            }) 
+                            })
                         })
                     });
-                                        
+
                 } else {
                     res.sendStatus(500);
                 }
