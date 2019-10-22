@@ -64,6 +64,14 @@ block content
 
 
                                                 .px-2.py-2
+                                                    p.mb-0.small.font-weight-medium.text-uppercase.mb-1.text-muted.lts-2px
+                                                        if (artifact.familygroup === "None")
+                                                            | Group: #{artifact.familygroup}
+                                                        else
+                                                            each family in membergroups
+                                                                if (family._id.equals(artifact.familygroup))
+                                                                    | Group: #{family.title}
+                                                                
                                                     h4.mt-0.mb-1.font-weight-bold(style='line-height: 1.25;')
                                                         | #{artifact.title}
                                                     p.mb-1
