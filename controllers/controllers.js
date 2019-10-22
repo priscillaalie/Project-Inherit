@@ -353,7 +353,7 @@ var fetchUserByID = function(req, res) {
                                         Group.find({'_id':{$in: member.groups}}, function(err, membergroups) {
                                             if (!err) {
                                                 var results = {
-                                                    title: 'Inherit', 'artifacts': artifacts, 'user': user,
+                                                    title: 'Inherit', 'artifacts': artifacts, 'user': user, membergroups:membergroups,
                                                     session: req.cookies.sessionId, 'familygroups': familygroups, 'member': member
                                                 };
                                                 res.render('profile.pug', results);
