@@ -6,13 +6,13 @@ var mongoose = require('mongoose');
 
 var commentSchema = mongoose.Schema(
     {
-        "id": String,
-        "owner":String,
-        "ownername": String,
-        "content":String,
-        "artifact": String,
-        "created": Date,
-        //timestamps: true
+            "id": String,
+            "owner":String,
+            "ownername": String,
+            "content":String,
+            "artifact": String,
+            "created": Date,
+            //timestamps: true
     }
 );
 module.exports = mongoose.model('Comment', commentSchema);

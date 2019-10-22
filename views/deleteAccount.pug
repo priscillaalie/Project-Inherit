@@ -45,17 +45,17 @@ block content
                     form(method='POST' action='/settings/delete')
                         .row
                             .col
-                                h5 Please enter your username and password to confirm
+                                h5 Please enter your email and password to confirm
                         .row
                             .col
-                                p(style='color: red;') NOTE: All account information will be permanently erased.
+                                p(style='color: red;') NOTE: All account information, including artifacts and groups (where you are the admin) will be permanently erased.
                         .row
                             .col
                                 div.form-group
                                     .row
                                         .col
-                                            p USERNAME
-                                            input.halfrow#username(type='text', name='username', autocomplete='new-text', placeholder='Username' required)
+                                            p EMAIL
+                                            input.halfrow#username(type='text', name='email', autocomplete='new-text', placeholder='Email' required)
                                     br
                                     .row
                                         .col
