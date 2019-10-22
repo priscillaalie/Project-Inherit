@@ -51,7 +51,7 @@ block content
                                     a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
-                                            form(method='POST' action='')
+                                            form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
                                                 .modal-content
                                                     .modal-header.text-center
                                                         h4.modal-title.w-100.font-weight-bold Update My Family
@@ -67,14 +67,14 @@ block content
                                                                 textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
 
                                                             label.font-weight-bold(for='owner') Admin:
-                                                            select#owner(type='text', placeholder=group.owner name='owner', value = group.owner)
+                                                            select#owner(type='text', placeholder=owner.name name='owner', value = owner.name)
                                                                 for member in members
                                                                     option(value=`${member._id}`) #{member.fname}
 
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
-                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
-                                                        button.btn.btn-primary(type='submit') Update
+                                                            button.btn-outline-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
+                                                        button.btn-sm.btn-primary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                                 hr.my-4
@@ -98,17 +98,33 @@ block content
                                     .justify-content.center
                                         h4.font-weight-bold Info
                                         p #{group.description}
-                                        p Admin: #{owner.name}
-                                        p Artifacts: #{group.artifacts.length}
-                                        p Members: #{group.members.length}
-                            .row.justify-content-center.descriptionstyle
-                                .row
+                                        p
+                                            b Admin:
+                                            |  #{owner.name}
+                                        p
+                                            b Artifacts:
+                                            |  #{group.artifacts.length}
+                                        p
+                                            b Members:
+                                            |  #{group.members.length}
+                                if (group.photo)
+                                    .col-5
+                                        .justify-content.center.mb-4
+                                            img.img-responsive(src=group.photo, style="height: 15rem; width: 15rem;")
 
-                                    .col
-                                        h4.font-weight-bold My Family Tree
-                                .row
-                                    .col
-                                        img.img-fluid(src = group.familytree style = "width: auto; height: auto;")
+                                    br
+
+                            .row.justify-content-center.descriptionstyle
+                                .col
+                                    .row
+
+                                        .col
+                                            h4.font-weight-bold My Family Tree
+                                    .row
+                                        .col.justify-content-center.text-center.center-align
+
+                                            img.img-fluid(src = group.familytree style = "width: auto; height: auto;")
+
 
 
 
@@ -116,42 +132,48 @@ block content
                             if (Object.keys(members).length > 0)
                                 ul#myUL
                                     .row
-                                        .col-xs-12.col-sm-6.col-md-12.col-lg-4.col-xl-4.fade-in.justify-content-center(style = "margin-right: 5%;")
+                                        .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4.fade-in
                                             li(style = "list-style-type: none;")
-                                                a
-                                                    .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
-                                                        a(href = `/profile/${owner._id}`)
-                                                            if(owner.photo)
-                                                                img.card-img-top.image-custom.fade-in(src=owner.photo, style="width:13rem;height:13rem; min-width: 13rem;")
-                                                            else
-                                                                img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
-                                                            .card-body.flex-fill
-                                                                .row.text-center
-                                                                    .col.align-middle
-                                                                        h6
-                                                                            strong.card-title #{owner.name}
+                                                a(href = `/profile/${owner._id}`)
+                                                    .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0(style='width: 13rem; overflow: hidden; border-radius: 1px;')
+                                                        if(owner.photo)
+                                                            img.d-block.w-full(src=owner.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                                        else
+                                                            img.d-block.w-full(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = owner.name)
+                                                        .px-2.py-2
+
+
+                                                            h4.mt-0.mb-1(style='line-height: 1.25;')
+                                                                | #{owner.name}
+                                                            p.mb-0.small.font-weight-medium.text-uppercase.mb-1.text-muted.lts-2px
+                                                                | GROUP ADMIN
+
+
+
                                         each member in members
                                             if (group.owner != member._id)
-                                                .col-xs-12.col-sm-12.col-md-12.col-lg-4.col-xl-4.fade-in.justify-content-center(style = "margin-right: 5%;")
+                                                .col-xs-12.col-sm-12.col-md-8.col-lg-6.col-xl-4.fade-in.text-center
+
                                                     li(style = "list-style-type: none;")
-                                                        a
-                                                            .card.mr-2.ml-2.mt-4.pb-0(style='width: 13.1rem; height: fit-content; min-width: 13.1rem;')
-                                                                a(href = `/profile/${member._id}`)
-                                                                    if(member.photo)
-                                                                        img.card-img-top.image-custom.fade-in(src=member.photo alt = member.name style="width:13rem;height:13rem; min-width: 13rem;")
-                                                                    else
-                                                                        img.card-img-top.image-custom.fade-in(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name )
-                                                                .card-body.flex-fill
-                                                                    .row.text-center
-                                                                        .col.align-middle
-                                                                            h6
-                                                                                strong.card-title #{member.name}
-                                                                    .row
-                                                                        .col.d-flex.justify-content-center
-                                                                            if(user._id == group.owner)
-                                                                                a(href =`/removeMember/${member._id}`)
-                                                                                    button.btn.btn-danger.btn-sm(type='button')
-                                                                                        | Remove
+                                                        .my-2.mx-auto.p-relative.bg-white.shadow-1.blue-hover.pb-0#hover-display(style='width: 13rem; overflow: hidden; border-radius: 1px;')
+                                                            a
+                                                                if(member.photo)
+                                                                    img.d-block.w-full(src=member.photo, style="width:13rem;height:13rem; min-width: 13rem;")
+                                                                else
+                                                                    img.d-block.w-full(src="https://www.softwarearge.com/wp-content/uploads/2018/09/no-image-icon-6.png", style="width:13rem;height:13rem; min-width: 13rem;" alt = member.name)
+
+                                                                .px-2.py-2
+                                                                    h4.mt-0.mb-1.text-left(style='line-height: 1.25;')
+                                                                        | #{member.name}
+
+
+
+                                                                    if(user._id == group.owner)
+                                                                        hr.my-6
+                                                                        a(href =`/removeMember/${member._id}`)
+                                                                            button.btn.btn-outline-danger.btn-sm#remove-btn(type='button', onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                                | Remove Member
+
 
                             else
                                 .col

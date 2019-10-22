@@ -234,8 +234,11 @@ var fetchGroupPost = function(req, res) {
                                     if (!err) {
                                         User.findById(group.owner, function(err, owner) {
                                             if (!err) {
-                                                res.render('familypost.pug', {group:group, members:members, owner: owner,
-                                                posts:posts, session:req.cookies.sessionId, user:user, title: group.title});
+                                                User.find({}, function(err, posters) {
+                                                    res.render('familypost.pug', {group:group, members:members, owner: owner,
+                                                    posts:posts, session:req.cookies.sessionId, user:user, title: group.title,
+                                                    posters:posters});
+                                                })
                                             } else {
                                                 res.sendStatus(500);
                                             }
@@ -426,34 +429,35 @@ var leaveGroup = function(req, res) {
 var addPost = function(req, res) {
     var groupId = req.headers.referer.split('/')[4];
     console.log(groupId);
-    User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
-        Group.findById(groupId, function(err, group) {
-            if (!err) {
-                var post = new Post({
-                    "owner": user._id,
-                    "content": req.body.post,
-                    "familygroup": groupId,
-                    "ownername": user.name
-                });
-                if (req.file) {
-                    post.photo = req.file.location;
-                }
-                post.created = Date.now();
-                console.log(post);
-                post.save(function(err, newPost) {
-                    if (!err) {
-                        group.posts.push(post._id);
-                        group.save();
-                        res.redirect('/view/' + groupId + '/post');
-                    } else {
-                        res.sendStatus(400);
+    singleUpload(req, res, function(err) {
+        User.findOne({sessionId: req.cookies.sessionId}, function(err, user) {
+            Group.findById(groupId, function(err, group) {
+                if (!err) {
+                    var post = new Post({
+                        "owner": user._id,
+                        "content": req.body.post,
+                        "familygroup": groupId,
+                    })
+                    if (req.file) {
+                        post.photo = req.file.location;
                     }
-                })
-            } else {
-                res.sendStatus(500);
-            }
-        })
-    });
+                    post.created = Date.now();
+                    console.log(post);
+                    post.save(function(err, newPost) {
+                        if (!err) {
+                            group.posts.push(post._id);
+                            group.save();
+                            res.redirect('/view/' + groupId + '/post');
+                        } else {
+                            res.sendStatus(400);
+                        }
+                    })
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        });
+    })
 }
 
 var deletePost = function(req, res) {

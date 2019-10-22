@@ -8,8 +8,7 @@ var postSchema = mongoose.Schema(
     {
         "id": String,
         "owner":String,
-        "ownername": String,
-        "photo": String,
+        "photo": Array,
         "content":String,
         "familygroup": String,
         "created": Date,
