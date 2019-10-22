@@ -87,14 +87,14 @@ block content
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center
-                                                                    img.text-center#preview(src=group.photo)
+                                                                    img.text-center#grouppic(src=group.photo)
 
                                                                 .col
                                                             br
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center.text-left
-                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewModal()' name = 'image' accept="image/*" style="width:50%;")
                                                                     label.custom-file-label(for='customFile') Choose file
                                                                 .col
 
@@ -212,6 +212,21 @@ block content
     script.
         function previewFile() {
             var preview = document.getElementById('previewpost');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewModal() {
+            var preview = document.getElementById('grouppic');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 

@@ -42,6 +42,11 @@ html
         ul.navbar-nav.ml-auto(style='color: white;')
 
           if (session)
+            li.nav-item.d-none.d-lg-block.d-xl-block
+              img(src = user.photo style = "width: 2rem; height: 2rem; border-radius:50%;")
+
+            li.nav-item
+              a(href=`/profile/${user._id}`).nav-link.text-uppercase #{user.fname}
             li.nav-item
               a.nav-link(href = "/home") HOME
 
@@ -68,9 +73,7 @@ html
 
 
   footer
-      br
-      hr.my-4
-      p.text-center
-        small Copyright (c) Project Inherit
-
-
+    br
+    hr.my-4
+    p.text-center
+      small Copyright (c) Project Inheri
