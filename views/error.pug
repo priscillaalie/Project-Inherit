@@ -4,3 +4,8 @@ block content
   h1= message
   h2= error.status
   pre #{error.stack}
+
+  script.
+    var timer = setTimeout(function () {
+      window.location.href = '/'
+    }, 3000);
