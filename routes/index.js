@@ -40,20 +40,18 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/login', function(req, res){
-  controllers.fetchLogin(req, res);
+  if (req.cookies.sessionId) {
+    res.redirect('/');
+  } else {
+    controllers.fetchLogin(req, res);
+  }
 });
 
 router.get('/signup', function(req, res){
   controllers.fetchSignup(req, res);
 });
 
-router.get('/home', function(req,res) {
-  if(req.cookies.sessionId){
-    controllers.fetchHomepage(req,res);
-  } else {
-    res.redirect('/login');
-  }
-});
+router.get("/", controllers.fetchHomepage);
 
 router.get('/myartifacts', function(req, res){
   if (req.cookies.sessionId) {
