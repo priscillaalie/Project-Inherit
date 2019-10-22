@@ -44,7 +44,8 @@ block content
                         strong Artifacts:
                         p #{member.artifacts.length}
                         strong Groups:
-                        p #{member.groups}
+                        each group in membergroups
+                            li #{group.title}
                 .row
                     .col
                         h2 #{member.fname}'s Collection
