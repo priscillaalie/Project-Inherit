@@ -46,7 +46,7 @@ var createGroup = function(req,res){
                     if (!err){
                         user.groups.push(group._id);
                         user.save();
-                        res.redirect('/home');
+                        res.redirect('/');
                     } else {
                         res.sendStatus(400);
                     }
