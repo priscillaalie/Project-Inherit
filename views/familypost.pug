@@ -130,16 +130,13 @@ block content
 
                                                 .panel-body
                                                     form(method = "POST" action = "/post")
-
-                                                        textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
                                                         br
-                                                        button.btn.btn-info.pull-right(type='submit' value = 'Submit') Post
-                                br
 
-
+                                                        textarea.form-control#textsend(placeholder='Create a Post...', rows='3', name = 'post')
+                                                        br
+                                                        button.btn.btn-outline-info.pull-right#Button(type='submit' value = 'Submit' onkeyup="success()") Post
 
                             #picture.tab-pane.fade.m-3(role='tabpanel', aria-labelledby='picture-tab', style="background-color: white;")
-                                |
                                 |
                                 br
 
@@ -151,27 +148,36 @@ block content
                                                 .panel-heading.font-weight-bold
                                                     | Update Your Family
 
-                                                    br
 
-                                                    img.text-left#previewpic(src=file, style="height:13rem; width: 13rem;")
                                                     br
-                                                    br
+                                                    .row
+                                                        .col
+                                                            br
 
+                                                            textarea.form-control#textsend(placeholder='Create a Post...', rows='3', name = 'post')
 
-                                                    textarea.form-control(placeholder='Create a Post...', rows='3', name = 'post')
+                                                        br
+                                                        .col-3.text-right
+                                                            img.text-right#previewpost(src=file, style="height:20px; width: 20px;")
+
                                                 br
 
 
                                         .row
-                                            .col-1
 
-                                            .col-8.text-left
+
+                                            .col.text-left.ml-3.mr-3
                                                 input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;" multiple)
-                                                label.custom-file-label(for='customFile') Upload Image (Optional)
+                                                label.custom-file-label(for='customFile')
+                                                    | Upload Image (Optional)
+                                        .row
+
 
                                             .col.text-right
+                                                br
                                                 a(href="/poststatus")
-                                                    button.btn.btn-outline-info(type='submit' value = 'Submit') Post
+                                                    button.btn.btn-outline-info#Button(type='submit' value = 'Submit' onkeyup='success()') Post
+
 
                             hr.my-4
 
@@ -179,45 +185,50 @@ block content
 
                             each post in posts
 
+                                each poster in posters
+                                    if (post.owner == poster._id.toString())
 
-                                li.media
-                                    .col-xs-12.col-sm-1.col-md-1.col-1
-                                        if(user.photo)
-                                            a.pull-left(href='/profile/:id')
-                                                img.img-circle(src=user.photo, style="width: 3rem; height: 3rem;")
-                                    .col
-                                        .row
-                                            .col
-                                                a(href=`/profile/#{user._id}`)
-                                                    strong.text-info #{post.ownername}
-                                            .col-8.text-right
-                                                small.text-muted #{post.created}
-                                                    if (user._id == post.owner || user._id == group.owner)
-                                                        a(href = `/deletepost/${post._id}`)
-                                                            button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                i.fa.fa-trash
-                                        .row
-                                            .col
-                                                p
-                                                    | #{post.content}
-
-                                                br
-                                                if (post.photo)
-                                                    img(src=post.photo, style="height: 15rem; width: 15rem;")
+                                        li.media
+                                            .col-xs-12.col-sm-1.col-md-1.col-1
+                                                if(poster.photo)
+                                                    a.pull-left(href='/profile/:id')
+                                                        img.img-circle(src=poster.photo, style="width: 3rem; height: 3rem;")
                                                 else
-                                                    br
+                                                    a.pull-left
+                                                        img.img-circle(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
 
-                                        hr.my-4
+                                            .col
+                                                .row
+                                                    .col
+                                                        a(href=`/profile/#{user._id}`)
+                                                            strong.text-info #{poster.name}
+                                                    .col-8.text-right
+                                                        small.text-muted #{post.created}
+                                                            if (user._id == post.owner || user._id == group.owner)
+                                                                a(href = `/deletepost/${post._id}`)
+                                                                    button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')" onchange="success()")
+                                                                        i.fa.fa-trash
+                                                .row
+                                                    .col
+                                                        p
+                                                            | #{post.content}
+
+                                                        br
+                                                        if (post.photo)
+                                                            img(src=post.photo, style="height: 15rem; width: 15rem;")
+                                                        else
+                                                            br
+
+                                    hr.my-4
 
     // upload image for create group
     script.
         function previewFile() {
-            var preview = document.getElementById('previewpic');
+            var preview = document.getElementById('previewpost');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 
             reader.addEventListener("load", function (e) {
-                //document.getElementById("b64").innerHTML = e.target.result;
                 preview.src = reader.result.toString();
                 document.getElementById('b64').value = e.target.result;
             }, false);
@@ -226,6 +237,48 @@ block content
                 reader.readAsDataURL(file);
             }
         }
+
+        .window.onload = function () {
+            var fileUpload = document.getElementById("customFile");
+            fileUpload.onchange = function () {
+                if (typeof (FileReader) != "undefined") {
+                    var dvPreview = document.getElementById("dvPreview");
+                    dvPreview.innerHTML = "";
+                    var regex = /^([a-zA-Z0-9\\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                    for (var i = 0; i < fileUpload.files.length; i++) {
+                        var file = fileUpload.files[i];
+                        if (regex.test(file.name.toLowerCase())) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = document.createElement("IMG");
+                                img.height = "100";
+                                img.width = "100";
+                                img.src = e.target.result;
+                                dvPreview.appendChild(img);
+                            }
+                            reader.readAsDataURL(file);
+                        } else {
+                            alert(file.name + " is not a valid image file.");
+                            dvPreview.innerHTML = "";
+                            return false;
+                        }
+                    }
+                } else {
+                    alert("This browser does not support HTML5 FileReader.");
+                }
+            }
+        }
+
+        function success() {
+            if (document.getElementById("textsend").input === "") {
+                document.getElementById("Button").disabled = true;
+
+            } else {
+                document.getElementById('Button').disabled = false;
+            }
+        }
+
+
 
 
 

@@ -37,7 +37,7 @@ block content
                                         .modal-body.mx-3
                                             .md-form
                                                 label.font-weight-bold(for='artifactname') Artifact Name*
-                                                input.form-control.fullrow#artifactname(type='text', name='artifactname', value=artifact.title)
+                                                input.form-control.fullrow#artifactname(type='text', name='title', value=artifact.title)
                                                 br
 
                                             .md-form
@@ -130,14 +130,43 @@ block content
 
                                     br
                                     br
+                                    hr.my-4
                                     ul.media-list
+                                    each comment in comments
+                                        each commenter in commenters
+                                            if (comment.owner == commenter._id.toString())
+                                                li.media
+                                                    .col-xs-12.col-sm-1.col-md-1.col-1
+                                                        if (commenter.photo)
+                                                            a.pull-left(href='#')
+                                                                img.img-circle(src=commenter.photo, style="width: 3rem; height: 3rem;")
+                                                        else
+                                                            a.pull-left
+                                                                img.img-circle(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
+
+                                                    .col
+                                                        .row
+                                                            .col
+                                                                strong.text-info #{commenter.name}
+                                                            .col-8.text-right
+                                                                small.text-muted #{comment.created}
+                                                                    if (user._id == comment.owner || user._id == artifact.owner)
+                                                                        a(href = `/deletecomment/${comment._id}`)
+                                                                            button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                                i.fa.fa-trash
+                                                        .row
+                                                            .col
+                                                                p
+                                                                    | #{comment.content}
+
+                                                hr.my-4
                                     if(comments.length > 1)
                                         each comment in comments
 
                                             li.media
                                                 .col-xs-12.col-2
                                                     a.pull-left(href='#')
-                                                        img.img-circle(src=artifact.photo, style="width: 3rem; height: 3rem;")
+                                                        img.img-circle(src=user.photo, style="width: 3rem; height: 3rem; border-radius: 50%;")
                                                 .col
                                                     .row
                                                         .col-4
@@ -166,7 +195,16 @@ block content
             var preview = document.querySelector('img');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
-        }
 
+            reader.addEventListener("load", function (e) {
+                //document.getElementById("b64").innerHTML = e.target.result;
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
 
 
