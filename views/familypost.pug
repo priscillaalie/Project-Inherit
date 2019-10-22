@@ -191,7 +191,7 @@ block content
                                         li.media
                                             .col-xs-12.col-sm-1.col-md-1.col-1
                                                 if(poster.photo)
-                                                    a.pull-left(href='/profile/:id')
+                                                    a.pull-left(href=`/profile/${owner._id}`)
                                                         img.img-circle(src=poster.photo, style="width: 3rem; height: 3rem;")
                                                 else
                                                     a.pull-left
@@ -200,7 +200,7 @@ block content
                                             .col
                                                 .row
                                                     .col
-                                                        a(href=`/profile/#{user._id}`)
+                                                        a(href=`/profile/${owner._id}`)
                                                             strong.text-info #{poster.name}
                                                     .col-8.text-right
                                                         small.text-muted #{post.created}
