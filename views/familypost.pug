@@ -159,7 +159,7 @@ block content
 
                                                         br
                                                         .col-3.text-right
-                                                            img.text-right#preview(src=file, style="height:20px; width: 20px;")
+                                                            img.text-right#previewpost(src=file, style="height:20px; width: 20px;")
 
                                                 br
 
@@ -168,7 +168,7 @@ block content
 
 
                                             .col.text-left.ml-3.mr-3
-                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;" multiple)
+                                                input.custom-file-input#customFile(type='file' onchange='previewPost()' name = 'image' accept="image/*" style="width:50%;" multiple)
                                                 label.custom-file-label(for='customFile')
                                                     | Upload Image (Optional)
                                         .row
@@ -243,6 +243,21 @@ block content
         }
         function previewModal() {
             var preview = document.getElementById('previewgroup');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewPost() {
+            var preview = document.getElementById('previewpost');
             var file = document.querySelector('input[type=file]').files[0];
             var reader = new FileReader();
 
