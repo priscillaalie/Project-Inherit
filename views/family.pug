@@ -20,7 +20,7 @@ block content
                             h2.text-center #{group.title}
                     .col.text-center
 
-                        a.btn.btn-outline-secondary.btn-sm.mr-3(href='/home' data-toggle='modal' data-target='#modaladdartifact')
+                        a.btn.btn-outline-secondary.btn-sm.mr-3(href='#' data-toggle='modal' data-target='#modaladdartifact')
                             i.fas.fa-add
                             | + Add Artifact
                         #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
@@ -72,7 +72,7 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a.tabstyle(href='/home') Back
+                                a.tabstyle(href='/') Back
 
                         hr.my-4
 
@@ -96,7 +96,7 @@ block content
                         .row
                             .col
                                 if (user._id.equals(group.owner))
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                    a.tabstyle(href='#' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
@@ -121,18 +121,18 @@ block content
                                                                     option(value=`${member._id}`) #{member.fname}
                                                             br
                                                         .md-form.text-center
-                                                            label.font-weight-bold(for='preview') Upload Image (Optional)
+                                                            label.font-weight-bold(for='previewgroup') Upload Image (Optional)
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center
-                                                                    img.text-center#preview(src=group.photo)
+                                                                    img.text-center#previewgroup(src=group.photo)
 
                                                                 .col
                                                             br
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center.text-left
-                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewModal()' name = 'image' accept="image/*" style="width:50%;")
                                                                     label.custom-file-label(for='customFile') Choose file
                                                                 .col
 
@@ -174,7 +174,7 @@ block content
                             .card.mb-4.mr-5.mx-auto.d-flex(style=' width: 15rem; min-width: 15rem; height: 15rem;')
                                 // Button trigger modal
                                 //button.btn.btn-primary(type='button' data-toggle='modal' data-target='#exampleModal')
-                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='/home' data-toggle='modal' data-target='#modalArtifactForm')
+                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='#' data-toggle='modal' data-target='#modalArtifactForm')
                                     | + Add Artifact
 
                                 #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
@@ -222,7 +222,21 @@ block content
             var reader = new FileReader();
 
             reader.addEventListener("load", function (e) {
-                //document.getElementById("b64").innerHTML = e.target.result;
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewModal() {
+            var preview = document.getElementById('previewgroup');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
                 preview.src = reader.result.toString();
                 document.getElementById('b64').value = e.target.result;
             }, false);
