@@ -190,9 +190,9 @@ var deleteUser = function(req, res){
             } else {
                 bcrypt.compare(pw, user[0].password, function (err, same){
                     if (same) {
-                        user[0].listings.forEach(function(element){
-                            Listing.findById(element, function(err, listing){
-                                listing.remove();
+                        user[0].artifacts.forEach(function(element){
+                            Artifact.findById(element, function(err, artifact){
+                                artifact.remove();
                             });
                         });
                         user[0].remove();
@@ -283,7 +283,7 @@ var checkUser = function(req, res) {
                             user.sessionId = sid;
                             user.markModified('sessionId');
                             user.save();
-                            res.cookie("sessionId", sid);
+                            res.cookie("sessionId", sid).redirect("/");
                             Group.find({'_id': {$in: user.groups}}, function(err, familygroups) {
                                 if (!err) {
                                     var results = {
