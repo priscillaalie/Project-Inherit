@@ -46,7 +46,7 @@ var createGroup = function(req,res){
                     if (!err){
                         user.groups.push(group._id);
                         user.save();
-                        res.redirect('/home');
+                        res.redirect('/');
                     } else {
                         res.sendStatus(400);
                     }
@@ -363,7 +363,7 @@ var deleteGroup = function(req, res) {
                             Group.deleteOne({'_id':groupId}, function(err) {
                                 if (!err) {
                                     console.log('group successfully deleted');
-                                    res.redirect('/home');
+                                    res.redirect('/');
                                 } else {
                                     console.log('group failed to delete' + err.message);
                                     res.sendStatus(500);
@@ -415,7 +415,7 @@ var leaveGroup = function(req, res) {
                     position = user.groups.indexOf(group._id);
                     user.groups.splice(position, 1);
                     user.save();
-                    res.redirect('/home');
+                    res.redirect('/');
                 } else {
                     res.sendStatus(500);
                 }
