@@ -190,30 +190,32 @@ block content
 
                                     each poster in posters
                                         if (post.owner == poster._id.toString())
-                                            .row
+                                            .row.d-flex.justify-content-center
                                                 li.media
                                                     .col-2
                                                         if(poster.photo)
                                                             a.pull-left(href=`/profile/${owner._id}`)
-                                                                img.img-circle(src=poster.photo, style="width: 3rem; height: 3rem;")
+                                                                img.img-circle(src=poster.photo, style="width: 4rem; height: 4rem;")
                                                         else
                                                             a.pull-left
                                                                 img.img-circle(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
+                                                    .col-10
+                                                        .row
 
-                                                    .col
-                                                        a(href=`/profile/${owner._id}`)
-                                                            strong.text-info #{poster.name}
-                                                    .col-4.text-right
-                                                        small.text-muted.d-none.d-md-block.d-lg-block.d-xl-block #{post.created}
-                                                    .col
-                                                        if (user._id == post.owner || user._id == group.owner)
-                                                            a(href = `/deletepost/${post._id}`)
-                                                                button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                    i.fa.fa-trash
-                                            .row
-                                                .col
-                                                    p
-                                                        | #{post.content}
+                                                            .col-6
+                                                                a(href=`/profile/${owner._id}`)
+                                                                    strong.text-info #{poster.name}
+                                                            .col-4.text-right
+                                                                small.text-muted.d-none.d-md-block.d-lg-block.d-xl-block #{post.created}
+                                                            .col-2
+                                                                if (user._id == post.owner || user._id == group.owner)
+                                                                    a(href = `/deletepost/${post._id}`)
+                                                                        button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                            i.fa.fa-trash
+                                                        .row
+                                                            .col-12
+                                                                p
+                                                                    | #{post.content}
 
                                                     br
                                                     if (post.photo)
