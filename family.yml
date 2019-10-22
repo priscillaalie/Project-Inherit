@@ -1,13 +1,10 @@
 families:
-  - parents: []
+  - parents: [5d9eed1425a138a3a4e37b87,]
     children: [5d9e6803a255f9031a594ea2,5d9eed1425a138a3a4e37b87,]
-  - parents: [5d9e6803a255f9031a594ea2,5d9d97a48d22343b3aaa2693,]
-    children: [5d9eed1425a138a3a4e37b87,5d9fdff0b0cf73c98bfc7b54,]
+  - parents: [5d9e6803a255f9031a594ea2,]
+    children: [5d9eed1425a138a3a4e37b87,]
 
 people:
-  5d9d97a48d22343b3aaa2693:
-    name: Pris
-    fullname: Pris L
   5d9e6803a255f9031a594ea2:
     name: Kaylene
     fullname: Kaylene Sivanandam
@@ -17,6 +14,3 @@ people:
   5d9f0184ea4b3b088db4aaf8:
     name: Soth
     fullname: Soth Bak
-  5d9fdff0b0cf73c98bfc7b54:
-    name: p
-    fullname: p l

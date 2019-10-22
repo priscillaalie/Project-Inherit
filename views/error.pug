@@ -7,40 +7,15 @@ block css
 
 block content
 
-  .container(style = "height:100%px;")
+  .container
     .row
-      .col-xs-12.col-sm-12.text-center
-        br
-        br
-        br
-
-        .jumbotron
-          br
-          br
-          br
+      .col.text-center(style = "padding-top: 15%; padding-bottom: 13%;")
+        .jumbotron(style = "background-color: white;")
           h1.display-5 Oh No!
 
           h3 Nothing's Here - Click Back to go Back to where you left off!
 
-          br
-          br
-          br
-
-
-      br
-      br
-      br
-      br
-      br
-      br
-      br
-      br
-      br
-  h1= message
-  h2= error.status
-  pre #{error.stack}
-
   script.
     var timer = setTimeout(function () {
       window.location.href = '/'
-    }, 3000);
+    }, 10000);

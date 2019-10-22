@@ -138,6 +138,7 @@ block content
                                                         .col
                                                             h6.text-left.font-weight-bold(style = "padding-top: 10%;") #{member.name}
                                                     if(!group.members.includes(member._id))
+                                                        if !((user.siblings.includes(member._id)) || (user.parents.includes(member._id)))
                                                         div.form-group
                                                             .row
                                                                 .col
