@@ -87,14 +87,14 @@ block content
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center
-                                                                    img.text-center#preview(src=group.photo)
+                                                                    img.text-center#grouppic(src=group.photo)
 
                                                                 .col
                                                             br
                                                             .row
                                                                 .col
                                                                 .col-8.justify-content-center.text-left
-                                                                    input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewModal()' name = 'image' accept="image/*" style="width:50%;")
                                                                     label.custom-file-label(for='customFile') Choose file
                                                                 .col
 
@@ -239,35 +239,18 @@ block content
                 reader.readAsDataURL(file);
             }
         }
+        function previewModal() {
+            var preview = document.getElementById('grouppic');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
 
-        .window.onload = function () {
-            var fileUpload = document.getElementById("customFile");
-            fileUpload.onchange = function () {
-                if (typeof (FileReader) != "undefined") {
-                    var dvPreview = document.getElementById("dvPreview");
-                    dvPreview.innerHTML = "";
-                    var regex = /^([a-zA-Z0-9\\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-                    for (var i = 0; i < fileUpload.files.length; i++) {
-                        var file = fileUpload.files[i];
-                        if (regex.test(file.name.toLowerCase())) {
-                            var reader = new FileReader();
-                            reader.onload = function (e) {
-                                var img = document.createElement("IMG");
-                                img.height = "100";
-                                img.width = "100";
-                                img.src = e.target.result;
-                                dvPreview.appendChild(img);
-                            }
-                            reader.readAsDataURL(file);
-                        } else {
-                            alert(file.name + " is not a valid image file.");
-                            dvPreview.innerHTML = "";
-                            return false;
-                        }
-                    }
-                } else {
-                    alert("This browser does not support HTML5 FileReader.");
-                }
+            reader.addEventListener("load", function (e) {
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
             }
         }
 

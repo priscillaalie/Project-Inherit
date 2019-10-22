@@ -49,6 +49,11 @@ html
             li.nav-item
               a(href=`/profile/${user._id}`).nav-link.text-uppercase #{user.fname}
             li.nav-item
+              a.nav-link(href = "/home") HOME
+
+            li.nav-item
+              a(href=`/profile/${user._id}`).nav-link.text-uppercase #{user.fname}
+            li.nav-item
               a.nav-link(href = "/") HOME
             li.nav-item.dropdown.pull-right
               a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') PROFILE
@@ -73,9 +78,7 @@ html
 
 
   footer
-      br
-      hr.my-4
-      p.text-center
-        small Copyright (c) Project Inherit
-
-
+    br
+    hr.my-4
+    p.text-center
+      small Copyright (c) Project Inheri
