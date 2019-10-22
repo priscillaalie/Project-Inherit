@@ -7,7 +7,7 @@ const mongoose =  require('mongoose');
 
 //copy from CONNECT (MongoDB Atlas)
 const dbURI =
-    "mongodb+srv://priscilla:A9qiVFZSiqjFhfgm@cluster0-guonz.mongodb.net/test?retryWrites=true";
+    "mongodb+srv://priscilla:GAinKjsdGiKoS3rW@cluster0-guonz.mongodb.net/test?retryWrites=true&w=majority";
 
 const options = {
     useNewUrlParser: true,

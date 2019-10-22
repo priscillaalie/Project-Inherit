@@ -79,7 +79,7 @@ var fetchHomepage = function(req, res) {
                             }
                         });
                     } else {
-                        res.sendStatus(500);
+                        showIndex(req,res);
                     }
                 });
             } else {

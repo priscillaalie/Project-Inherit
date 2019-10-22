@@ -30,7 +30,7 @@ const controllers = require('../controllers/controllers.js');
 const famcontrollers = require('../controllers/familycontroller.js');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   if (req.cookies.sessionId) {
     controllers.fetchHomepage(req,res);
   } else {
@@ -40,18 +40,12 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/login', function(req, res){
-  if (req.cookies.sessionId) {
-    res.redirect('/');
-  } else {
-    controllers.fetchLogin(req, res);
-  }
-});
+  controllers.fetchLogin(req, res);
+})
 
 router.get('/signup', function(req, res){
   controllers.fetchSignup(req, res);
 });
-
-router.get("/", controllers.fetchHomepage);
 
 router.get('/myartifacts', function(req, res){
   if (req.cookies.sessionId) {
