@@ -59,6 +59,7 @@ block content
                             .col
                                 if (user._id.equals(group.owner))
                                     a.tabstyle(href='#' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
                                             form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
