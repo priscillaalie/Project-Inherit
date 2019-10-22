@@ -33,7 +33,7 @@ block content
                             .col-2
                                 i.material-icons keyboard_arrow_left
                             .col-10
-                                a.tabstyle(href='/home') Back
+                                a.tabstyle(href='/') Back
 
                         hr.my-4
 
@@ -59,23 +59,22 @@ block content
                         br
                         .row
                             .col
-
-                                if (user._id.equals(owner._id))
-
-                                    a.tabstyle(href='/home' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
+                                if (user._id.equals(group.owner))
+                                    a.tabstyle(href='#' data-toggle='modal' data-target='#modalFamilyForm',style="color:#666666;") Edit
                                     #modalFamilyForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                                         .modal-dialog(role='document')
-                                            form(method='POST' action='/family/update')
+                                            form(method='POST' action=`/view/${group._id}`, enctype = "multipart/form-data")
                                                 .modal-content
                                                     .modal-header.text-center
                                                         h4.modal-title.w-100.font-weight-bold Update #{group.title}
                                                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                             span(aria-hidden='true') &times;
                                                     .modal-body.mx-3
-                                                        .md-form.mb-5
+                                                        .md-form
                                                             label.font-weight-bold(for='title') Title
-                                                            input#title.form-control(type='text', placeholder=group.title name='title', value = group.title)
-                                                        .md-form.mb-5
+                                                            input#title.form-control(type='text', placeholder='Title*' name='title', value = group.title)
+                                                            br
+                                                        .md-form
                                                             label.font-weight-bold(for='desc') Description
                                                             .input-group
                                                                 textarea#desc.form-control(type='text', placeholder=group.description, name='description',value = group.description)
@@ -83,15 +82,33 @@ block content
                                                             label.font-weight-bold(for='owner') Admin:
                                                             select#owner(type='text', placeholder= group.owner name='owner', value = group.owner)
                                                                 for member in members
-                                                                    option(value=`${member._id}`)  #{member.fname}
+                                                                    option(value=`${member._id}`) #{member.fname}
+                                                            br
+                                                        .md-form.text-center
+                                                            label.font-weight-bold(for='previewgroup') Upload Image (Optional)
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center
+                                                                    img.text-center#previewgroup(src=group.photo)
+
+                                                                .col
+                                                            br
+                                                            .row
+                                                                .col
+                                                                .col-8.justify-content-center.text-left
+                                                                    input.custom-file-input#customFile(type='file' onchange='previewModal()' name = 'image' accept="image/*" style="width:50%;")
+                                                                    label.custom-file-label(for='customFile') Choose file
+                                                                .col
+
 
                                                     .modal-footer.justify-content-center
                                                         a(href = `/deletegroup/${group._id}`)
-                                                            button.btn-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
-                                                        button.btn.btn-primary(type='submit') Update
+                                                            button.btn-outline-danger.btn-sm(type="button" onclick="return confirm('Are you sure? This action cannot be undone and will delete all artifacts from this group.')") Delete Group
+                                                        button.btn-sm.btn-outline-secondary(type='submit') Update
                                 else
                                     a.tabstyle(href = `/leaveGroup`) Leave group
                         hr.my-4
+
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
                 .row(style ="padding-bottom: 2rem;")
                     .col
@@ -121,6 +138,7 @@ block content
                                                         .col
                                                             h6.text-left.font-weight-bold(style = "padding-top: 10%;") #{member.name}
                                                     if(!group.members.includes(member._id))
+                                                        if !((user.siblings.includes(member._id)) || (user.parents.includes(member._id)))
                                                         div.form-group
                                                             .row
                                                                 .col
@@ -144,6 +162,22 @@ block content
                                                         button.btn.btn-success.btn-sm(type='submit')
                                                             i.material-icons check_circle
     script.
+
+        function previewFile() {
+            var preview = document.getElementById('preview');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function (e) {
+                preview.src = reader.result.toString();
+                document.getElementById('b64').value = e.target.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
         function getusers() {
             users.collection.find({'_id': 10}).sort({_id: -1}).limit(10, function (e, d) {
             })

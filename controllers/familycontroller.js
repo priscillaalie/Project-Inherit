@@ -139,7 +139,7 @@ var fetchGroupInfo = function(req, res) {
                             if (!err) {
                                 User.findById(group.owner, function(err, owner) {
                                     if (!err) {
-                                        res.render('familyInfo.pug', { group:group, members:members, 
+                                        res.render('familyInfo.pug', { group:group, members:members,
                                         session:req.cookies.sessionId, user:user, owner:owner, title: group.title});
                                     } else {
                                         res.sendStatus(500);
@@ -244,8 +244,7 @@ var fetchGroupMembers = function(req, res) {
 }
 
 var addMember = function(req, res) {
-    console.log(req.body);
-    var userId = req.url.split('/')[2]; 
+    var userId = req.url.split('/')[2];
     var groupId = req.headers.referer.split('/')[4];
     Group.findById(groupId, function(err, group) {
         if (!err) {
@@ -309,21 +308,22 @@ var addMember = function(req, res) {
                                                 if (err) throw (err);
                                                 var base64data = new Buffer(data, 'binary');
                                                 var s3 = new AWS.S3();
+                                                var randomUrl = new Date().getTime().toString();
                                                 s3.putObject({
                                                     Bucket: 'project-inherit',
-                                                    Key: group._id.toString(),
+                                                    Key: randomUrl,
                                                     Body: base64data,
                                                     ACL: 'public-read'
                                                 }, function(resp) {
-                                                    group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + group._id.toString();
+                                                    group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + randomUrl;
                                                     group.save();
-                                                    console.log('new tree created');
+                                                    console.log(group.familytree);
                                                     res.redirect('/view/' + groupId + '/members');
                                                 })
                                             })
                                         })
                                     })
-                                });  
+                                });
                             })
                         } else {
                             res.sendStatus(500);
@@ -473,7 +473,7 @@ var deletePost = function(req, res) {
                     group.posts.splice(position, 1);
                     console.log(group);
                     group.save();
-                    Post.deleteOne({'_id': commentId}, function(err, result) {
+                    Post.deleteOne({'_id': postId}, function(err, result) {
                         if (!err) {
                             console.log('post deleted');
                             res.redirect('/view/' + groupId + '/post');
@@ -570,22 +570,23 @@ var removeMember = function(req, res) {
                                     if (err) throw (err);
                                     var base64data = new Buffer(data, 'binary');
                                     var s3 = new AWS.S3();
+                                    var randomUrl = new Date().getTime().toString();
                                     s3.putObject({
                                         Bucket: 'project-inherit',
-                                        Key: group._id.toString(),
+                                        Key: randomUrl,
                                         Body: base64data,
                                         ACL: 'public-read'
                                     }, function(resp) {
-                                        group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + group._id.toString();
+                                        group.familytree = "https://project-inherit.s3.us-east-2.amazonaws.com/" + randomUrl;
                                         group.save();
-                                        console.log('new tree created');
-                                        res.redirect('/view/' + groupId + '/info');
+                                        console.log(group.familytree);
+                                        res.redirect('/view/' + groupId + '/members');
                                     })
                                 })
-                            }) 
+                            })
                         })
                     });
-                                        
+
                 } else {
                     res.sendStatus(500);
                 }
