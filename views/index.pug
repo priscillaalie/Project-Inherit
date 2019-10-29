@@ -5,36 +5,34 @@ block css
     include ../public/stylesheets/index.css
     include ../public/stylesheets/font.css
 
-
-
 block content
-
     section.first
-        .fade-in.text-center
-            .row
-                .col.my-auto
-                    #title.title
-            .row.text-center
-                .col.white-transparent
-                    h3 The easiest way to keep up with the family
-                    p(style="font-size:1.rem;") Track relatives and family artifacts. Get back to your roots.
-                    a.btn.btn-light(href = "/signup") Get Started
+        .vertical-center
+            .row.h-100
+                .col-1.my-auto
+
+                .col-11.my-auto
+                    .row
+                        .col.text-center
+                            #title.title
+                    .row.text-center
+                        .col(style = "color: white;")
+                            h3 The easiest way to keep up with the family
+                            p(style="font-size:1.rem;") Track relatives and family artifacts. Get back to your roots.
+                    .row.text-center.d-flex.justify-content-center
+                        .col-sm-1.col-md-3.col-lg-4.col-xl-4
+                        .col-xs-6.col-sm-5.col-md-3.col-lg-2.col-xl-2
+                            br
+                            a.btn.btn-outline-light.btn-lg(href = `/signup`) Sign Up
+                        .col-xs-6.col-sm-5.col-md-3.col-lg-2.col-xl-2
+                            br
+                            a.btn.btn-outline-light.btn-lg(href = `/login`) Login
+                        .col-sm-1.col-md-3.col-lg-4.col-xl-4
+
 
     section.second
         .row.title
-            .col
-                #header.title
-        br
-        .row
-            .col-xs-12.col-sm-8.col-md-6.col-lg-6.col-xl-6
-                h3 Our goal is to provide a platform that will allow families to stay better connected over long distances, as well as reinforce the importance of one's own family history.
-            .col-xs-12.col-sm-4.col-md-6.col-lg-6.col-xl-6
-                h5 The project will aim to address the issue presented to the team regarding handing down family artifacts over the years and in different cultures and countries, specifically how we can build a website or application to overcome the problem given.
-
-
-    section.third
-        .row.title
-            .col
+            .col.ml-3
                 h2.title Manage artifacts
 
         .row
@@ -42,26 +40,31 @@ block content
                 h5 Inherit is for all families. Turns out when you make it easy to keep track of family artifacts, history doesn't disappear.
                 h5 Create your family and track who owns what in our easy artifact managing system.
                 h5 You already know how this works so get started on your personal family artifact manager.
+        .row
+            .col.ml-3
+                br
+                a.btn.btn-light.btn-lg(href = `/signup`) Get Started →
+
 
     script.
-        window.onload = typeWriter;
-        var i = 0;
-        var j = 0;
-        function typeWriter() {
+            window.onload = typeWriter;
+            var i = 0;
+            var j = 0;
+            function typeWriter() {
 
-            var txt = 'Inherit';
-            var hdr = 'What drives us';
-            var speed = 100;
-            if (i < txt.length) {
-                document.getElementById("title").innerHTML += txt.charAt(i);
-                i++;
-                setTimeout(typeWriter, speed);
-            }
-            if(i < hdr.length){
-                document.getElementById("header").innerHTML += hdr.charAt(j);
-                j++;
-                setTimeout(typeWriter, 250);
+                var txt = 'Inherit';
+                var hdr = 'What drives us';
+                var speed = 100;
+                if (i < txt.length) {
+                    document.getElementById("title").innerHTML += txt.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+                if(i < hdr.length){
+                    document.getElementById("header").innerHTML += hdr.charAt(j);
+                    j++;
+                    setTimeout(typeWriter, 250);
 
-            }
-        };
+                }
+            };
 
