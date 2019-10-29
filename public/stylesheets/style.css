@@ -50,6 +50,13 @@ a:hover{
 }
 
 
+.dropdown-left-manual {
+  right: 0;
+  left: auto;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
 /** ANIMATIONS **/
 .hvr-grow {
   display: inline-block;
@@ -77,14 +84,6 @@ a:hover{
   -ms-animation: fadeIn ease 1.5s;
 }
 
-.dropdown-left-manual {
-  right: 0;
-  left: auto;
-  padding-left: 1px;
-  padding-right: 1px;
-}
-
-
 @keyframes fadeIn{
   0% {
     opacity:0;
@@ -107,9 +106,6 @@ a:hover{
   background-color: #fff;
 }
 
-
-
-
 .small {
   font-size: 0.75rem;
 }
@@ -125,6 +121,32 @@ a:hover{
   transform: translateY(-5px);
   border: none;
   border-bottom: 5px solid #fda085;
+}
+
+.fade-out {
+  animation: fadeOut ease 1.5s;
+  -webkit-animation: fadeOut ease 1.5s;
+  -moz-animation: fadeOut ease 1.5s;
+  -o-animation: fadeOut ease 1.5s;
+  -ms-animation: fadeOut ease 1.5s;
+}
+
+@keyframes fadeOut{
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
 }
 
 

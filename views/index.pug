@@ -6,12 +6,10 @@ block css
     include ../public/stylesheets/font.css
 
 block content
-    section.first
+    section.first.display-none.end
         .vertical-center
             .row.h-100
-                .col-1.my-auto
-
-                .col-11.my-auto
+                .col.my-auto
                     .row
                         .col.text-center
                             #title.title
@@ -47,24 +45,26 @@ block content
 
 
     script.
-            window.onload = typeWriter;
-            var i = 0;
-            var j = 0;
-            function typeWriter() {
+        window.onload = typeWriter;
+        var i = 0;
+        var j = 0;
+        function typeWriter() {
 
-                var txt = 'Inherit';
-                var hdr = 'What drives us';
-                var speed = 100;
-                if (i < txt.length) {
-                    document.getElementById("title").innerHTML += txt.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, speed);
-                }
-                if(i < hdr.length){
-                    document.getElementById("header").innerHTML += hdr.charAt(j);
-                    j++;
-                    setTimeout(typeWriter, 250);
+            var txt = 'Inherit';
+            var hdr = 'What drives us';
+            var speed = 100;
+            if (i < txt.length) {
+                document.getElementById("title").innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+            if (i < hdr.length) {
+                document.getElementById("header").innerHTML += hdr.charAt(j);
+                j++;
+                setTimeout(typeWriter, 250);
 
-                }
-            };
+            }
+        };
+
+
 
