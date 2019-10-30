@@ -96,3 +96,8 @@ img {
     object-fit: cover;
     position: relative;
 }
+
+.notif{
+    background-color: white;
+    height: 30%;
+}
