@@ -8,27 +8,17 @@ block css
 block content
     .container-fluid.fill-height
         .row
-            .col
-                .header
-                    if(session)
-                        br
-                        br
-                        h2.text-center Settings
-                        br
-                        br
-        br
-        .row
             .col-xs-12.col-sm-12.col-md-3.col-lg-2.col-xl-2(style={
                 'background-color': 'white;'
             })
                 nav.fixed-left
                     .vertical-menu
                         br
-                        a(href='/settings/general',style="color:#666666;") General
+                        a.active(href='/settings/general',style="color:#666666;") General
                         hr.my-4
-                        a.active(href='#',style="color:#666666;") Security and Login
+                        a(href='/settings/security',style="color:#666666;") Security and Login
                         hr.my-4
-                        a(href='/settings/delete',style="color:#666666;") Delete Account
+                        a(href='#',style="color:#666666;") Delete Account
 
                         br
                         br
