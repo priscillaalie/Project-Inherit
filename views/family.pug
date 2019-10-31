@@ -8,18 +8,14 @@ block css
 block content
     .container-fluid.fill-height
         .row
-
             .col-xs-12.col-sm-12
                 .row
-
-
                     .col
                     .col-xs-12.col-sm-12.col-md-8.col-lg-8.col-xl-8
 
                         if(session)
                             h2.text-center #{group.title}
                     .col.text-center
-
                         a.btn.btn-outline-secondary.btn-sm.mr-3(href='#' data-toggle='modal' data-target='#modaladdartifact')
                             i.fas.fa-add
                             | + Add Artifact
@@ -62,7 +58,6 @@ block content
                                             button.btn.btn-outline-secondary(type='submit') Add Artifact
 
         .row
-
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
                     .vertical-menu.mr-4
@@ -146,7 +141,6 @@ block content
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-8.col-lg-9.col-xl-9
-                br
                 if (artifacts.length > 0)
                     .row
                         each artifact in artifacts
@@ -173,44 +167,7 @@ block content
                         .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
                             .card.mb-4.mr-5.mx-auto.d-flex(style=' width: 15rem; min-width: 15rem; height: 15rem;')
                                 a.btn.btn-default.btn-rounded.mb-4.addfamily(href='#' data-toggle='modal' data-target='#modalArtifactForm')
-                                    | + Add Artifact
-
-                                #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-                                    .modal-dialog(role='document')
-                                        form(method='POST' action='/addartifact', enctype = "multipart/form-data")
-                                            .modal-content
-                                                .modal-header.text-center
-                                                    h4.modal-title.w-100.font-weight-bold Add an artifact
-                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                        span(aria-hidden='true') &times;
-                                                .modal-body.mx-3
-                                                    .md-form.mb-5
-                                                        label.font-weight-bold(for='familyname') Title
-                                                        input#familyname.form-control(type='text', placeholder='Title*' name='title', required)
-                                                    .md-form.mb-5
-                                                        label.font-weight-bold(for='description') Description
-                                                        .input-group
-                                                            textarea#description.form-control(type='text', placeholder='Description*', name='description',required)
-                                                    .md-form.text-center
-                                                        label.font-weight-bold(for='preview') Upload Image (Optional)
-                                                        .row
-                                                            .col
-                                                            .col-8.justify-content-center
-                                                                img.text-center#preview(src=file)
-
-                                                            .col
-                                                        br
-                                                        .row
-                                                            .col
-                                                            .col-8.justify-content-center.text-left
-                                                                input.custom-file-input#customFile(type='file' onchange='previewFile()' name = 'image' accept="image/*" style="width:50%;")
-                                                                label.custom-file-label(for='customFile') Choose file
-                                                            .col
-
-                                                .modal-footer.justify-content-center
-                                                    button.btn.btn-outline-secondary(type='submit') Add Artifact
-
-
+                                    | Looks like there's no artifacts at the moment. Let's make a start!
 
     // upload image for create group
     script.
