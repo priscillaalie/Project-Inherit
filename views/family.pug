@@ -16,10 +16,10 @@ block content
                         if(session)
                             h2.text-center #{group.title}
                     .col.text-center
-                        a.btn.btn-outline-secondary.btn-sm.mr-3(href='#' data-toggle='modal' data-target='#modaladdartifact')
+                        a.btn.btn-outline-secondary.btn-sm.mr-3(href='#' data-toggle='modal' data-target='#modalArtifactForm')
                             i.fas.fa-add
                             | + Add Artifact
-                        #modaladdartifact.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+                        #modalArtifactForm.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
                             .modal-dialog(role='document')
                                 form(method='POST' action='/addartifact', enctype = "multipart/form-data")
                                     .modal-content.text-left
@@ -160,14 +160,14 @@ block content
                                             p.mb-1
                                                 | #{artifact.description}
 
-
-
                 else
                     .row
-                        .col-xs-12.col-sm-12.col-md-6.col-lg-4.col-xl-4.justify-content-center.d-flex
-                            .card.mb-4.mr-5.mx-auto.d-flex(style=' width: 15rem; min-width: 15rem; height: 15rem;')
-                                a.btn.btn-default.btn-rounded.mb-4.addfamily(href='#' data-toggle='modal' data-target='#modalArtifactForm')
-                                    | Looks like there's no artifacts at the moment. Let's make a start!
+                        .col(style = "padding-top: 20%;")
+                            .row.d-flex.justify-content-center.pb-3
+                                h4 Looks like there's no artifacts at the moment. Let's make a start!
+                            .row.d-flex.justify-content-center
+                                a.btn.btn-default.btn-xl.border.border-secondary.rounded-circle(href='#' data-toggle='modal' data-target='#modalArtifactForm')
+                                    .font-weight-bold +
 
     // upload image for create group
     script.
