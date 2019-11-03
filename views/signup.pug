@@ -12,8 +12,10 @@ block content
                 h2.font-weight-bold Signup
                 p
                     | Already have an account?
-                    a(href='/login')  Log In
-        .row
+                    br
+                    a(href='/login')
+                        u Log In
+        .row.pb-4
             .col-md-6.col-lg-6.col-xl-6.signupimg.fade-in
 
             .col-xs-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
@@ -86,8 +88,6 @@ block content
                                             document.getElementById('lname').value = "#{lname}";
                                             document.getElementById('phone').value = "#{phone}";
                                         }
-
-                        br
                         .form-group
                             .row
                                 .col
@@ -111,15 +111,6 @@ block content
                                                             button.btn.btn-secondary(type='button' data-dismiss='modal') Close
                                         .invalid-feedback
                                             | You must agree before submitting.
-                                        // Button trigger modal
 
-
-                        br
                         .text-center
                             button.btn.btn-outline-secondary.page-button#submit(type='submit') Sign Up
-
-    script.
-        function activatePlacesSearch() {
-            var input = document.getElementById('location');
-            var searchbox = new google.maps.places.SearchBox(input);
-        }

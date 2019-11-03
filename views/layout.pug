@@ -31,18 +31,11 @@ html
     nav.navbar.navbar-expand-md.navbar-light.fixed-top.white-bg#navtop
       if (session)
         a.navbar-brand#handwrite(href = '/') INHERIT
-      else
-        a.navbar-brand#handwrite(href = '/') INHERIT
+        button.navbar-toggler(type = "button" data-toggle = "collapse" data-target = "#navbarResponsive")
+          span.navbar-toggler-icon
 
-
-
-      button.navbar-toggler(type = "button" data-toggle = "collapse" data-target = "#navbarResponsive")
-        span.navbar-toggler-icon
-
-      div.collapse.navbar-collapse#navbarResponsive
-        ul.navbar-nav.ml-auto(style='color: white;')
-
-          if (session)
+        div.collapse.navbar-collapse#navbarResponsive
+          ul.navbar-nav.ml-auto(style='color: white;')
             li.nav-item.d-none.d-lg-block.d-xl-block
               img(src = user.photo style = "width: 2rem; height: 2rem; border-radius:50%;")
 
@@ -57,6 +50,9 @@ html
                 a.dropdown-item(href='/settings') Settings
                 .dropdown-divider
                 a.dropdown-item(href='/logout') Logout
+      else
+        a.navbar-brand#handwrite(href = '/') INHERIT
+
     script(data-ad-client='ca-pub-3112071443703358' async='' src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
 
 
