@@ -52,7 +52,6 @@ block content
                                 .modal-footer.d-flex.justify-content-center
                                     button.btn.btn-outline-secondary(href='/' type='submit') Create Family
 
-
         .row
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
@@ -72,7 +71,15 @@ block content
                         hr.my-4
 
             .col-xs-12.col-sm-12.col-md-6.col-lg-9.col-xl-9.cardzone
-
+                if (user.photo)
+                    .row.pt-4.pl-4.pr-4.mb-4.notif.rounded.border
+                        .col-7
+                            h5.font-weight-bold Looks like you need a profile picture
+                            p We're here to make sure you stay in the family loop! Help your family connect with you quicker by adding a picture to your profile
+                            a.btn.btn-light(href = `/settings`)
+                                small Add a Profile Picture →
+                        .col-5.d-flex.justify-content-center
+                            img(src="https://i.ibb.co/7j1F0XP/multiracial-group-happy-people-smiling-23-2148236038-1.png" alt="group of smiling people" style  = "height:60%; width:60%;")
                 if (familygroups.length>0)
                     .row
                         each family in familygroups

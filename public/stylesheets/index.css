@@ -9,6 +9,7 @@ body {
     animation: gradient 10s linear infinite;
     animation-direction: alternate;
     scroll-snap-type: y mandatory;
+    overflow-y: scroll;
 }
 
 @keyframes gradient {
@@ -19,6 +20,7 @@ body {
         background-position: 100%
     }
 }
+
 
 #navtop {
     background-color: rgba(255, 255, 255, 0); !important;
