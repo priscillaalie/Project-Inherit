@@ -1,6 +1,25 @@
 extends layout
 
+block css
+  style
+    include ../public/stylesheets/error.css
+
+
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .container
+    .row
+      .col.text-center(style = "padding-top: 15%; padding-bottom: 13%;")
+        .jumbotron(style = "background-color: white;")
+          h1.display-5.font-weight-bold HMM...
+
+          h3.font-weight-light NOTHING SEEMS TO BE HERE
+          br
+          h4(style = "font-size: 20px;") Maybe you'd like to go
+          a.font-underlined(href = `/`)
+            u back home
+
+
+  script.
+    var timer = setTimeout(function () {
+      window.location.href = '/'
+    }, 15000);
