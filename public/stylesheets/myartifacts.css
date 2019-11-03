@@ -1,18 +1,3 @@
-.addbutton{
-    width: 70%;
-    height: 5vw;
-    display: table-cell;
-    vertical-align: middle;
-}
-
-
-.responsive {
-    width: 100%;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-}
 
 #preview {
     background-color: whitesmoke;
@@ -32,28 +17,19 @@ img {
     object-fit: cover;
 }
 
-
-.bg-white {
-    background-color: #fff;
+.btn-xl {
+    width: 80px;
+    height: 80px;
+    font-size: 35px;
+    line-height: 50%;
+    padding-bottom: 10px;
+    padding-top: 3%;
 }
 
-.small {
-    font-size: 0.75rem;
+.btn-xl:hover{
+    background-color: #F0F0F0;
+    width: 75px;
+    height: 75px;
+    transition: 200ms;
 }
-
-.shadow-1 {
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.15);
-}
-.blue-hover {
-    transition: all 0.25s ease-in;
-    border-bottom: 5px solid transparent;
-}
-.blue-hover:hover {
-    transform: translateY(-5px);
-    mar
-    border: none;
-    border-bottom: 5px solid #fda085;
-}
-
-
 
