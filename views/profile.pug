@@ -13,9 +13,10 @@ block content
         .row
             .col-3
 
-            .col-9.text-center
+            .col-9
                 if(session)
-                    h2 #{member.name}
+                    h2.font-weight-bold #{member.name}
+                    hr(style = "background-color: #FFC954; height: 3px;")
         .row
             .col-xs-12.col-sm-12.col-md-4.col-lg-3.col-xl-3
                 nav-collapse.fixed-left.dropdown-menu-left
@@ -34,7 +35,7 @@ block content
 
                         hr.my-4
             .col-xs.col-sm-12.col-md-8.col-lg-9.col-xl-9
-                .jumbotron.row
+                .row.mb-4
                     .col-5.text-center.d-none.d-lg-block.d-xl-block
                         img(src = member.photo style = "width: 15rem; height: 15rem;" )
                     .col-7
@@ -46,11 +47,11 @@ block content
                 .row
                     .col
                         h2 #{member.fname}'s Collection
-                        hr(style = "background-color: tan; height: 3px;")
+                        hr(style = "background-color: #FFC954; height: 3px;")
                 .row
                     .col
                         br
-                        if (user.artifacts.length > 0)
+                        if (member.artifacts.length > 0)
                             .row
                                 each artifact in artifacts
                                     .col-xs-12.col-sm-6.col-md-8.col-lg-6.col-xl-4.fade-in
@@ -68,6 +69,12 @@ block content
                                                         | #{artifact.title}
                                                     p.mb-1
                                                         | #{artifact.description}
+                        else
+                            .row.text-center
+                                .col
+                                    img.mb-3(src = "https://image.flaticon.com/icons/svg/1380/1380641.svg" style = "height: 8rem; width: 8rem;")
+                                    h4.font-weight-light No Artifacts Yet
+
 
 
     script.
