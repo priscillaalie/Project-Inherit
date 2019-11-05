@@ -182,7 +182,7 @@ block content
 
                             hr.my-4
 
-                            div(style="overflow:scroll; height:400px;").d-block
+                            div(style="overflow:scroll; height:400px;")
 
                                 ul.media-list
 
@@ -193,8 +193,7 @@ block content
 
                                             .row.justify-content-center
                                                 li.media
-                                                    .col-md-2.col-lg-2.col-xl-2.text-center.pl-4.d-none.d-block-md.d-block-lg.d-block-xl
-
+                                                    .col-md-2.col-lg-2.col-xl-2.text-center.pl-4
                                                         if (poster.photo)
                                                             a.pull-left(href=`/profile/${poster._id}`)
                                                                 img.postpic(src=poster.photo)
