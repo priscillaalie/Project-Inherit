@@ -130,20 +130,23 @@ block content
                                             .row
                                                 .col(style = "margin: 5px 0 5px 0")
                                                     if(member.photo)
-                                                        img(src = member.photo style = "height: 8rem; width: 8rem;")
+                                                        a(href=`/profile/${member._id}`)
+                                                            img(src = member.photo style = "height: 8rem; width: 8rem;")
                                                     else
-                                                        img(src = src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg" style = "height: 8rem; width: 8rem")
+                                                        a(href=`/profile/${member._id}`)
+                                                            img(src = src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg" style = "height: 8rem; width: 8rem")
                                                 .col
                                                     .row
-                                                        .col
-                                                            h6.text-left.font-weight-bold(style = "padding-top: 10%;") #{member.name}
+                                                        .col.pull-left
+                                                            a(href=`/profile/${member._id}`)
+                                                                h6.text-left.font-weight-bold(style = "padding-top: 10%; color: #242424") #{member.name}
                                                     if(!group.members.includes(member._id))
                                                         if !((user.siblings.includes(member._id)) || (user.parents.includes(member._id)))
                                                         div.form-group
                                                             .row
                                                                 .col
                                                                     select.browser-default#relation(type='text', placeholder= "None" name='relation', value = '').justify-content-left.d-flex
-                                                                        option(value = "" disabled selected) Relationship
+                                                                        option(value = "" disabled selected) Choose Relationship
                                                                         option(value="mother") Mother
                                                                         option(value="father") Father
                                                                         option(value="sister") Sister
