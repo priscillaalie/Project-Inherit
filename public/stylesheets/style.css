@@ -123,4 +123,11 @@ a:hover{
   border-bottom: 5px solid #fda085;
 }
 
+.responsive {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
 

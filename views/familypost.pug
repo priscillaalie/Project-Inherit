@@ -190,38 +190,37 @@ block content
 
                                     each poster in posters
                                         if (post.owner == poster._id.toString())
-                                            .row.d-flex.justify-content-center
+
+                                            .row.justify-content-center
                                                 li.media
-                                                    .col-2
-                                                        if(poster.photo)
-                                                            a.pull-left(href=`/profile/${owner._id}`)
-                                                                img.img-circle(src=poster.photo, style="width: 4rem; height: 4rem;")
+                                                    .col-md-2.col-lg-2.col-xl-2.text-center.pl-4
+                                                        if (poster.photo)
+                                                            a.pull-left(href=`/profile/${poster._id}`)
+                                                                img.postpic(src=poster.photo)
                                                         else
                                                             a.pull-left
-                                                                img.img-circle(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
-                                                    .col-10
-                                                        .row
+                                                                img.postpic(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
 
-                                                            .col-6
-                                                                a(href=`/profile/${owner._id}`)
-                                                                    strong.text-info #{poster.name}
-                                                            .col-4.text-right
-                                                                small.text-muted.d-none.d-md-block.d-lg-block.d-xl-block #{post.created}
-                                                            .col-2
-                                                                if (user._id == post.owner || user._id == group.owner)
-                                                                    a(href = `/deletepost/${post._id}`)
-                                                                        button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
-                                                                            i.fa.fa-trash
+                                                    .col-xs-12.col-sm-12.col-md-12.col-lg-10.col-xl-10.pr-4.pl-4
                                                         .row
-                                                            .col-12
+                                                            .col.xs-12.col-sm-12.col-md-12.col-lg-4.col-xl-4
+                                                                a(href=`/profile/${poster._id}`)
+                                                                    strong.text-info #{poster.name}
+                                                            .col-xs-12.col-sm-12.col-md-12.col-lg-8.col-xl-8.text-right
+                                                                small.text-muted #{post.created}
+                                                                    if (user._id == post.owner || user._id == group.owner)
+                                                                        a(href = `/deletepost/${post._id}`)
+                                                                            button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
+                                                                                i.fa.fa-trash
+                                                        .row
+                                                            .col
                                                                 p
                                                                     | #{post.content}
+                                                        if (post.photo)
+                                                            .row
+                                                                .col.text-center
 
-                                                    br
-                                                    if (post.photo)
-                                                        img(src=post.photo, style="height: 15rem; width: 15rem;")
-                                                    else
-                                                        br
+                                                                    img.responsive(src=post.photo, style="max-width: 25rem;")
 
 
                                             hr.my-4
