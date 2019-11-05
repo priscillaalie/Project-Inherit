@@ -182,7 +182,7 @@ block content
 
                             hr.my-4
 
-                            div(style="overflow:scroll; height:400px;")
+                            div(style="overflow:scroll; height:400px;").d-block
 
                                 ul.media-list
 
@@ -190,38 +190,38 @@ block content
 
                                     each poster in posters
                                         if (post.owner == poster._id.toString())
+
                                             .row.justify-content-center
                                                 li.media
-                                                    .col-xs-2.col-sm-2.col-md-2.col-lg-2.col-xl-2.text-center.pl-4
+                                                    .col-md-2.col-lg-2.col-xl-2.text-center.pl-4.d-none.d-block-md.d-block-lg.d-block-xl
+
                                                         if (poster.photo)
                                                             a.pull-left(href=`/profile/${poster._id}`)
                                                                 img.postpic(src=poster.photo)
                                                         else
                                                             a.pull-left
-                                                                img.img-circle(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
+                                                                img.postpic(src="https://icon-library.net/images/no-profile-picture-icon/no-profile-picture-icon-13.jpg", style="width: 3rem; height: 3rem;")
 
-                                                    .col.xs-10.col-sm-10.col-md-10.col-lg-10.col-xl-10.pr-4
+                                                    .col-xs-12.col-sm-12.col-md-12.col-lg-10.col-xl-10.pr-4.pl-4
                                                         .row
                                                             .col.xs-12.col-sm-12.col-md-12.col-lg-4.col-xl-4
                                                                 a(href=`/profile/${poster._id}`)
                                                                     strong.text-info #{poster.name}
-                                                            .col-xs-12.col-sm-12.col-mg-12.col-lg-8.col-xl-8.text-right
+                                                            .col-xs-12.col-sm-12.col-md-12.col-lg-8.col-xl-8.text-right
                                                                 small.text-muted #{post.created}
                                                                     if (user._id == post.owner || user._id == group.owner)
                                                                         a(href = `/deletepost/${post._id}`)
                                                                             button.btn.btn-sm.btn-outline-secondary(onclick="return confirm('Are you sure? This action cannot be undone')")
                                                                                 i.fa.fa-trash
                                                         .row
-                                                            .col.xs-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+                                                            .col
                                                                 p
                                                                     | #{post.content}
-
                                                         if (post.photo)
                                                             .row
-                                                                .col-xs-12.col-sm-12.col-md-12.col-lg-10.col-xl-10
+                                                                .col.text-center
 
-                                                                    img.responsive(src=post.photo, style="width: 25rem;")
-
+                                                                    img.responsive(src=post.photo, style="max-width: 25rem;")
 
 
                                             hr.my-4
